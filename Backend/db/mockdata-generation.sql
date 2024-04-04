@@ -60,6 +60,7 @@ INSERT INTO Questions (question, answer) VALUES ('Do you have any chronic diseas
 SET @question_id = LAST_INSERT_ID();
 INSERT INTO SQ (q_id, s_id) VALUES (@question_id, @survey_id_2);
 
+
 -- Diary entries for user_id = 1
 INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
 VALUES (1, '2024-04-01', 'Green', 'Feeling good today.');
