@@ -39,4 +39,25 @@ const validationErrorHandler = (req, res, next) => {
   next();
 };
 
-export {customError, notFoundHandler, errorHandler, validationErrorHandler};
+const onlyForPatientHandler = (req, res, next) => {
+  const userLevel = req.user.user_level;
+  if (userLevel === 'patient') {
+    console.log('Request came from a patient user');
+    next();
+  } else {
+    console.log('a non-patient user was intercepted');
+    const error = customError(
+      'This endpoint is only for StressLess patient users',
+      401,
+    );
+    return next(error);
+  }
+};
+
+export {
+  customError,
+  notFoundHandler,
+  errorHandler,
+  validationErrorHandler,
+  onlyForPatientHandler,
+};

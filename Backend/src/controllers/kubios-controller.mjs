@@ -35,22 +35,47 @@ const getAllUserData = async (req, res, next) => {
     next(customError('Kubios data could not be retrieved at this time', 500));
   }
 };
+const getSpecificData = async (req, res, next) => {
+  try {
+    // Derive date from the URL
+    const desiredDate = req.params.date;
+    console.log('Fetching kubios data for a specific date...');
+    // Establish headers
+    const headers = new Headers();
+    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
+    headers.append('Authorization', req.user.token);
 
-const getToday = async (req, res, next) => {
-  const currentDate = getTodaysDate;
-  console.log('User fetching for todays kubios data...', currentDate);
+    // Constructing from and to timestamps for the specific date
+    const fromDate = new Date(desiredDate);
+    fromDate.setUTCHours(0, 0, 0, 0); // Set to 00:00:00 UTC
+    const toDate = new Date(desiredDate);
+    toDate.setUTCHours(23, 59, 59, 999); // Set to 23:59:59.999 UTC
+
+    const formattedFromDate = fromDate.toISOString();
+    const formattedToDate = toDate.toISOString();
+
+    const response = await fetch(
+      baseUrl +
+        `/result/self?types=readiness&daily=yes&from=${formattedFromDate}&to=${formattedToDate}`,
+      {
+        method: 'GET',
+        headers: headers,
+      },
+    );
+    const responseData = await response.json();
+    // Check the length of the results list in the dictionary
+    const resultsLength = Object.keys(responseData.results).length;
+    if (!resultsLength) {
+      console.log('No measurement was found');
+      next(customError(`No kubios data found for ${desiredDate}`, 404));
+    } else {
+      console.log(`Daily measurement was found for ${desiredDate}!`);
+      return res.json(responseData);
+    }
+  } catch (error) {
+    console.log('getSpecificData', error);
+    next(customError('Kubios data could not be retrieved at this time', 500));
+  }
 };
 
-/**
- * Get current date
- * @return {string} Current date in yyyy-mm-dd format
- */
-function getTodaysDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-export {getAllUserData, getToday};
+export {getAllUserData, getSpecificData};
