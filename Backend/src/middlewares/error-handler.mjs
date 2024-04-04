@@ -54,10 +54,27 @@ const onlyForPatientHandler = (req, res, next) => {
   }
 };
 
+const onlyForDoctorHandler = (req, res, next) => {
+  const userLevel = req.user.user_level;
+  if (userLevel === 'doctor') {
+    console.log('Request came from a doctor user');
+    next();
+  } else {
+    console.log('a non-doctor user was intercepted');
+    const error = customError(
+      'This endpoint is only for StressLess doctor users',
+      401,
+    );
+    return next(error);
+  }
+};
+
+
 export {
   customError,
   notFoundHandler,
   errorHandler,
   validationErrorHandler,
   onlyForPatientHandler,
+  onlyForDoctorHandler,
 };
