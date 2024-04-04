@@ -2,11 +2,11 @@ import 'dotenv/config';
 import fetch from 'node-fetch';
 import {customError} from '../middlewares/error-handler.mjs';
 
-// Kubios API base URL should be set in .env
+// Kubios API base URL
 const baseUrl = process.env.KUBIOS_API_URI;
 
 /**
- * Get user data from Kubios API example1
+ * Get all user data from kubios API - mostly for testing connection
  * TODO: Implement error handling
  * @async
  * @param {Request} req Request object including Kubios id token
@@ -35,7 +35,14 @@ const getAllUserData = async (req, res, next) => {
     next(customError('Kubios data could not be retrieved at this time', 500));
   }
 };
-const getSpecificData = async (req, res, next) => {
+
+/**
+ * Retrieve Kubios data for a specific date
+ * @async
+ * @param {Request} req - Request object including Kubios id token
+ * @return {Object} - Object containing Kubios data or error information
+ */
+const retrieveDataForDate = async (req) => {
   try {
     // Derive date from the URL
     const desiredDate = req.params.date;
@@ -47,9 +54,9 @@ const getSpecificData = async (req, res, next) => {
 
     // Constructing from and to timestamps for the specific date
     const fromDate = new Date(desiredDate);
-    fromDate.setUTCHours(0, 0, 0, 0); // Set to 00:00:00 UTC
+    fromDate.setUTCHours(0, 0, 0, 0);
     const toDate = new Date(desiredDate);
-    toDate.setUTCHours(23, 59, 59, 999); // Set to 23:59:59.999 UTC
+    toDate.setUTCHours(23, 59, 59, 999);
 
     const formattedFromDate = fromDate.toISOString();
     const formattedToDate = toDate.toISOString();
@@ -62,20 +69,45 @@ const getSpecificData = async (req, res, next) => {
         headers: headers,
       },
     );
-    const responseData = await response.json();
-    // Check the length of the results list in the dictionary
-    const resultsLength = Object.keys(responseData.results).length;
-    if (!resultsLength) {
-      console.log('No measurement was found');
-      next(customError(`No kubios data found for ${desiredDate}`, 404));
+    // Check for successful response status
+    if (!response.ok) {
+      // If response status is not ok, throw an error
+      throw new Error(`Error: ${response.status}`);
     } else {
-      console.log(`Daily measurement was found for ${desiredDate}!`);
-      return res.json(responseData);
+      const data = await response.json();
+      return data;
     }
   } catch (error) {
-    console.log('getSpecificData', error);
-    next(customError('Kubios data could not be retrieved at this time', 500));
+    // Return the error object instead of throwing
+    return {error};
   }
 };
 
-export {getAllUserData, getSpecificData};
+
+/**
+ * Check if there is a existing measurement on a specific date
+ * @async
+ * @param {Request} req Request object including Kubios id token
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {boolean} kubiosDataFound
+ */
+const checkDate = async (req, res, next) => {
+  // Get data from Kubios API
+  const result = await retrieveDataForDate(req);
+  // Check for error in result
+  if (result.error) {
+    next(customError('Kubios data could not be retrieved at this time', 500));
+  } else {
+    // console.log('Measurement found', result)
+    // Check how many measurements were fetched from Kubios
+    const resultsLength = Object.keys(result.results).length;
+    if (resultsLength === 0) {
+      return res.json({kubiosDataFound: false});
+    } else {
+      return res.json({kubiosDataFound: true});
+    }
+  }
+};
+
+export {getAllUserData, checkDate};

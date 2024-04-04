@@ -2,7 +2,7 @@ import express from 'express';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {
   getAllUserData,
-  getSpecificData,
+  checkDate,
 } from '../controllers/kubios-controller.mjs';
 import {param} from 'express-validator';
 import {
@@ -16,12 +16,12 @@ const kubiosRouter = express.Router();
 kubiosRouter
   .get('/user-data', authenticateToken, onlyForPatientHandler, getAllUserData)
   .get(
-    '/data-for/:date',
+    '/check/:date',
     param('date', 'Date should be in yyyy-mm-dd format').isDate(),
     validationErrorHandler,
     authenticateToken,
     onlyForPatientHandler,
-    getSpecificData,
+    checkDate,
   );
 
 export default kubiosRouter;
