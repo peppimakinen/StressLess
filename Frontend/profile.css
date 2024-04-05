@@ -79,7 +79,32 @@ li a {
     border-radius: 30px;
 }
 
+
 h1 {
     padding: 30px;
-    padding-left: 160px;
+    padding-left: 30px;
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 50px;
 }
+
+.profile {
+    list-style-type: none; /* Remove default list styles */
+    padding-left: 90px;
+    align-items: center;
+}
+
+.profile li {
+    display: flex; 
+    align-items: center; 
+}
+
+.profile img {
+    width: auto; 
+    height: 4em; 
+    margin-right: 10px; 
+}
+
+
