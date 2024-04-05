@@ -17,7 +17,11 @@ import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 import {v4} from 'uuid';
 import {customError} from '../middlewares/error-handler.mjs';
-import {insertUser, selectUserByEmail, checkSurveyExistance} from '../models/user-model.mjs';
+import {
+  insertUser,
+  selectUserByEmail,
+  checkSurveyExistance,
+} from '../models/user-model.mjs';
 
 // Kubios API base URL should be set in .env
 const baseUrl = process.env.KUBIOS_API_URI;
@@ -81,14 +85,17 @@ const kubiosLogin = async (username, password) => {
  * @return {object} user User info
  */
 const kubiosUserInfo = async (idToken) => {
+  // Establish headers
   const headers = new Headers();
   headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
   headers.append('Authorization', idToken);
+  // Send request
   const response = await fetch(baseUrl + '/user/self', {
     method: 'GET',
     headers: headers,
   });
   const responseJson = await response.json();
+  // Check response status
   if (responseJson.status === 'ok') {
     console.log('Kubios user info found');
     return responseJson.user;
@@ -100,12 +107,12 @@ const kubiosUserInfo = async (idToken) => {
 /**
  * Attempt login to a localuser
  * @async
- * @param {string} username username/email that is used to log in to kubios
+ * @param {string} email username == email and is used to log in to kubios
  * @return {object} result existing localuser info
  */
-const attemptLocalLogin = async (username) => {
+const attemptLocalLogin = async (email) => {
   try {
-    const result = await selectUserByEmail(username);
+    const result = await selectUserByEmail(email);
     return result;
   } catch (error) {
     console.log('Error in attemptLocalLogin', error);
@@ -157,15 +164,15 @@ const syncWithLocalUser = async (kubiosUser) => {
   let user = await attemptLocalLogin(kubiosUser.email);
   // User exists in db if no error occurred in attempted login
   if (!user.error) {
-    console.log('Existing local user found');
-    // add a key to state that not a new user for the client
-    // TODO check if survey
     console.log(`Checking if user_id=${user.user_id} has completed the survey`);
     const surveyStatus = await checkSurveyExistance(user.user_id);
+    // Check if user has compleated survey
     if (!surveyStatus.error) {
+      // if there is no error, survey has been compleated
       console.log(user.username, 'has compleated the survey');
       user['surveyCompleted'] = true;
     } else {
+      // If there was a error, survey has not been compleated
       console.log(user.username, 'has not compleated the survey');
       user['surveyCompleted'] = false;
     }

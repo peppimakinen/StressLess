@@ -172,7 +172,7 @@ const checkSurveyExistance = async (id) => {
     if (rows.length === 0) {
       return {error: 404, message: 'user not found'};
     }
-    console.log('Survey query result: ', rows[0]);
+    // console.log('Survey query result: ', rows[0]);
     return rows[0];
   } catch (error) {
     console.error('selectUserByEmail', error);
