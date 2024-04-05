@@ -6,7 +6,7 @@ import {customError} from '../middlewares/error-handler.mjs';
 const baseUrl = process.env.KUBIOS_API_URI;
 
 /**
- * Get user data from Kubios API example
+ * Get user data from Kubios API example1
  * TODO: Implement error handling
  * @async
  * @param {Request} req Request object including Kubios id token
@@ -21,12 +21,13 @@ const getAllUserData = async (req, res, next) => {
     headers.append('Authorization', req.user.token);
 
     const response = await fetch(
-        // TODO: set the from date in request parameters
-        baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
-        {
-          method: 'GET',
-          headers: headers,
-        });
+      // TODO: set the from date in request parameters
+      baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
+      {
+        method: 'GET',
+        headers: headers,
+      },
+    );
     const results = await response.json();
     return res.json(results);
   } catch (error) {
@@ -37,7 +38,7 @@ const getAllUserData = async (req, res, next) => {
 
 const getToday = async (req, res, next) => {
   const currentDate = getTodaysDate;
-  console.log('User fetching for todays kubios data...');
+  console.log('User fetching for todays kubios data...', currentDate);
 };
 
 /**

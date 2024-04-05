@@ -11,10 +11,12 @@ const doctorPostLogin = async (req, res, next) => {
   if (existingUser.error) {
     console.log('No matching doctor user found in db');
     return next(
-        customError(
-            // eslint-disable-next-line max-len
-            'User not found - Contact StressLess Admins if you think you should have access to this account',
-            404));
+      customError(
+        // eslint-disable-next-line max-len
+        'User not found - Contact StressLess Admins if you think you should have access to this account',
+        404,
+      ),
+    );
   }
   console.log('Found doctor user: ', existingUser.username);
   // compare password and hash, if match, login successful

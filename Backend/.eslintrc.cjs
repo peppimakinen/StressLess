@@ -1,14 +1,16 @@
 module.exports = {
-  env: {
-    es2021: true,
-    node: true,
+  'env': {
+    'es2021': true,
+    'node': true,
   },
-  extends: 'google',
-  overrides: [],
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
+  'extends': 'google',
+  'overrides': [],
+  'parserOptions': {
+    'ecmaVersion': 'latest',
+    'sourceType': 'module',
   },
-  rules: {
+  'rules': {
+    'indent': ['warn', 2],
+    'new-cap': ['error', {capIsNewExceptions: ['Router']}],
   },
 };
