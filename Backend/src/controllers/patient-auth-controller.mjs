@@ -17,7 +17,7 @@ import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 import {v4} from 'uuid';
 import {customError} from '../middlewares/error-handler.mjs';
-import {insertUser, selectUserByEmail} from '../models/user-model.mjs';
+import {insertUser, selectUserByEmail, checkSurveyExistance} from '../models/user-model.mjs';
 
 // Kubios API base URL should be set in .env
 const baseUrl = process.env.KUBIOS_API_URI;
@@ -159,7 +159,16 @@ const syncWithLocalUser = async (kubiosUser) => {
   if (!user.error) {
     console.log('Existing local user found');
     // add a key to state that not a new user for the client
-    user['firstSignIn'] = false;
+    // TODO check if survey
+    console.log(`Checking if user_id=${user.user_id} has completed the survey`);
+    const surveyStatus = await checkSurveyExistance(user.user_id);
+    if (!surveyStatus.error) {
+      console.log(user.username, 'has compleated the survey');
+      user['surveyCompleted'] = true;
+    } else {
+      console.log(user.username, 'has not compleated the survey');
+      user['surveyCompleted'] = false;
+    }
     // Return existing and logged in localuser
     return user;
   }
@@ -171,7 +180,7 @@ const syncWithLocalUser = async (kubiosUser) => {
     user = await attemptLocalLogin(kubiosUser.email);
     console.log('Signed in with this new localuser');
     // add a key to state that this is a new user for the client
-    user['firstSignIn'] = true;
+    user['surveyCompleted'] = false;
     // Return new and logged in localuser
     return user;
     // Handle errors that occurred during new localuser sync

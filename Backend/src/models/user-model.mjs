@@ -163,6 +163,23 @@ const selectUserByEmail = async (email) => {
   }
 };
 
+const checkSurveyExistance = async (id) => {
+  try {
+    const sql = 'SELECT * FROM Surveys WHERE u_id=?';
+    const params = [id];
+    const [rows] = await promisePool.query(sql, params);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: 'user not found'};
+    }
+    console.log('Survey query result: ', rows[0]);
+    return rows[0];
+  } catch (error) {
+    console.error('selectUserByEmail', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
 const selectDoctorByEmail = async (email) => {
   try {
     const sql = 'SELECT * FROM Users WHERE username=? and user_level="doctor"';
@@ -184,6 +201,7 @@ export {
   selectUserByUsername,
   listAllUsers,
   selectUserById,
+  checkSurveyExistance,
   insertUser,
   updateUserById,
   deleteUserById,
