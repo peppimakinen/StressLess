@@ -20,5 +20,46 @@ const getSurveyWithUserId = async (userId) => {
     return {error: 500, message: 'db error'};
   }
 };
+const createSurvey = async (userId) => {
+  try {
+    const sql = 'INSERT INTO Surveys (u_id) VALUES (?)';
+    const [rows] = await promisePool.query(sql, userId);
+    return rows;
+  } catch (error) {
+    console.log('createSurvey', error);
+    return {error: 500, message: 'db error'};
+  }
+};
 
-export {getSurveyWithUserId};
+const addSurveyRow = async (question, answer) => {
+  try {
+    const sql = `INSERT INTO Questions (question, answer) VALUES (?,?)`;
+    const params = [question, answer];
+    const [rows] = await promisePool.query(sql, params);
+    return rows;
+  } catch (error) {
+    console.error('getSurveyWithUserId', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
+const connectQuestionToSurvey = async (questionId, surveyId) => {
+  try {
+    const sql = `INSERT INTO SQ (q_id, s_id) VALUES (?,?)`;
+    const params = [questionId, surveyId];
+    const [rows] = await promisePool.query(sql, params);
+    return rows;
+  } catch (error) {
+    console.error('getSurveyWithUserId', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
+
+
+export {
+  getSurveyWithUserId,
+  addSurveyRow,
+  createSurvey,
+  connectQuestionToSurvey,
+};
