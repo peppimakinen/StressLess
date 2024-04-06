@@ -42,48 +42,69 @@ function extractActivities(survey) {
 }
 
 const postSurvey = async (req, res, next) => {
-  const userId = req.user.user_id;
-  const existingSurvey = await getSurveyWithUserId(userId);
-  if (existingSurvey) {
-    return next(customError('This user has already filled the survey', 403));
-  }
-  console.log('No previous survey was found');
-  // Create a new survey and save survey ID
-  const survey = await createSurvey(userId);
-  const surveyId = survey.insertId;
-  // Variable to save new question ID to link questions to the new survey
-  let newRowId;
-  // Iterate over every key:value pair
-  for (const [question, answer] of Object.entries(req.body)) {
-    // Check for array in value (Activities are stored in a array)
-    if (Array.isArray(answer)) {
-      // iterate over every list item
-      for (const activity of answer) {
-        // Insert each list item as a sole activity
-        const newRow = await addSurveyRow('Activity', activity);
-        newRowId = newRow.insertId;
-        // Link the activities to the survey
-        const result = await connectQuestionToSurvey(newRowId, surveyId);
-        // Check for errors
-        if (result.error) {
-          next(customError(result.message, result.error));
+  try {
+    const userId = req.user.user_id;
+    // Check if user has already filled the survey
+    const existingSurvey = await getSurveyWithUserId(userId);
+    // Return an error if a survey is found
+    if (existingSurvey) {
+      return next(customError('This user has already filled the survey', 403));
+    }
+    // No survey was found
+    console.log('No previous survey was found');
+    // Create a new survey and save its ID
+    const survey = await handleDatabaseOperation(createSurvey, userId);
+    const surveyId = survey.insertId;
+    let newRowId;
+    // Iterate over every key:value pair from the request body
+    for (const [question, answer] of Object.entries(req.body)) {
+      // Check for array in value (Activities are stored in an array)
+      if (Array.isArray(answer)) {
+        // Iterate over every list item/activity
+        for (const activity of answer) {
+          // Insert each list item as a sole activity and save its id
+          const newRow = await handleDatabaseOperation(
+            addSurveyRow,
+            'Activity',
+            activity,
+          );
+          newRowId = newRow.insertId;
+          // Link the activities to the survey
+          await handleDatabaseOperation(
+            connectQuestionToSurvey,
+            newRowId,
+            surveyId,
+          );
         }
-      }
-      // If the value is not a array
-    } else {
-      // Insert a new question - answer row
-      const newRow = await addSurveyRow(question, answer);
-      newRowId = newRow.insertId;
-      // Link the question and answer to the survey
-      const result = await connectQuestionToSurvey(newRowId, surveyId);
-      // Check for errors
-      if (result.error) {
-        next(customError(result.message, result.error));
+      } else {
+        // Insert a new question - answer row
+        const newRow = await handleDatabaseOperation(
+          addSurveyRow,
+          question,
+          answer,
+        );
+        newRowId = newRow.insertId;
+        // Link the question and answer to the survey
+        await handleDatabaseOperation(
+          connectQuestionToSurvey,
+          newRowId,
+          surveyId,
+        );
       }
     }
+    console.log('New survey posted successfully, survey_id=', surveyId);
+    return res.json({message: 'Survey posted successfully!'});
+  } catch (error) {
+    console.error('Error posting survey:', error);
+    return next(error); // Pass the error to the error handling middleware
   }
-  console.log('New survey poster succesfully survey_id=', surveyId);
-  return res.json({message: 'Survey posted succesfully!'});
 };
 
+const handleDatabaseOperation = async (operation, ...args) => {
+  const result = await operation(...args);
+  if (result.error) {
+    throw new Error(result.message);
+  }
+  return result;
+};
 export {getOwnSurvey, postSurvey};
