@@ -97,10 +97,10 @@ const postDoctor = async (req, res, next) => {
   // Apply salt and hash
   const hashedPassword = await bcrypt.hash(password, salt);
   const result = await insertDoctor(
-      username,
-      hashedPassword,
-      full_name,
-      'doctor',
+    username,
+    hashedPassword,
+    full_name,
+    'doctor',
   );
   // Check for error in result
   if (result.error) {

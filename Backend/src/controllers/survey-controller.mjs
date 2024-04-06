@@ -3,6 +3,7 @@ import {
   getSurveyWithUserId,
   connectQuestionToSurvey,
   createSurvey,
+  getOnlyActivities,
   addSurveyRow,
 } from '../models/survey-model.mjs';
 
@@ -22,32 +23,36 @@ const getOwnSurvey = async (req, res, next) => {
   }
 };
 
-/**
- * Retrieve Kubios data for a specific date
- * @async
- * @param {Object} survey - Request object including Kubios id token
- * @return {Object} - Object containing Kubios data or error information
- */
-function extractActivities(survey) {
+
+const extractActivities = (survey) => {
   const activities = [];
   const questions = survey.filter((item) => item.question !== 'Activity');
-
   survey.forEach((item) => {
     if (item.question === 'Activity') {
       activities.push(item.answer);
     }
   });
-
   return {questions, activities};
-}
+};
+
+const getActivities = async (req, res, next) => {
+  const userId = req.user.user_id;
+  const activities = await getOnlyActivities(userId);
+  if (!activities.error) {
+    return res.json({activities: activities});
+  } else {
+    next(customError('Could not get activities', 404));
+  }
+};
 
 const postSurvey = async (req, res, next) => {
   try {
     const userId = req.user.user_id;
     // Check if user has already filled the survey
     const existingSurvey = await getSurveyWithUserId(userId);
+    console.log(existingSurvey);
     // Return an error if a survey is found
-    if (existingSurvey) {
+    if (!existingSurvey.error) {
       return next(customError('This user has already filled the survey', 403));
     }
     // No survey was found
@@ -107,4 +112,4 @@ const handleDatabaseOperation = async (operation, ...args) => {
   }
   return result;
 };
-export {getOwnSurvey, postSurvey};
+export {getOwnSurvey, postSurvey, getActivities};
