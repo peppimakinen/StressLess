@@ -16,4 +16,8 @@ const getOwnSurvey = async (req, res, next) => {
   }
 };
 
-export {getOwnSurvey};
+const postSurvey = async (req, res, next) => {
+  console.log('entered post surve');
+};
+
+export {getOwnSurvey, postSurvey};

@@ -21,7 +21,6 @@ import {getSurveyWithUserId} from '../models/survey-model.mjs';
 import {
   insertUser,
   selectUserByEmail,
-  checkSurveyExistance,
 } from '../models/user-model.mjs';
 
 // Kubios API base URL should be set in .env
@@ -166,7 +165,7 @@ const syncWithLocalUser = async (kubiosUser) => {
   // User exists in db if no error occurred in attempted login
   if (!user.error) {
     console.log(`Checking if user_id=${user.user_id} has completed the survey`);
-    const surveyStatus = await checkSurveyExistance(user.user_id);
+    const surveyStatus = await getSurveyWithUserId(user.user_id);
     // Check if user has compleated survey
     if (!surveyStatus.error) {
       // if there is no error, survey has been compleated
