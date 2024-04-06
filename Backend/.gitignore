@@ -5,6 +5,7 @@ db/create-db-user.sql
 .docs
 create-db-doctor.json
 keywords.robot
-log.html
-output.xml
-report.html
+tests/log.html
+tests/output.xml
+tests/report.html
+
