@@ -17,6 +17,7 @@ import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 import {v4} from 'uuid';
 import {customError} from '../middlewares/error-handler.mjs';
+import {getSurveyWithUserId} from '../models/survey-model.mjs';
 import {
   insertUser,
   selectUserByEmail,

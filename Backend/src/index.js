@@ -1,5 +1,6 @@
 import {errorHandler, notFoundHandler} from './middlewares/error-handler.mjs';
 import kubiosRouter from './routes/kubios-router.mjs';
+import surveyRouter from './routes/survey-router.mjs';
 import entryRouter from './routes/entry-router.mjs';
 import userRouter from './routes/user-router.mjs';
 import authRouter from './routes/auth-router.mjs';
@@ -31,6 +32,7 @@ app.use('/api/users', userRouter);
 app.use('/api/entries', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/kubios', kubiosRouter);
+app.use('/api/survey', surveyRouter);
 // Middleware for handling 404 errors
 app.use(notFoundHandler);
 // Middleware for handling other errors
