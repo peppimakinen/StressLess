@@ -212,6 +212,35 @@ const selectDoctorByName = async (fullName) => {
   }
 };
 
+const insertNewPair = async (patientId, doctorId) => {
+  try {
+    const sql = 'INSERT INTO DoctorPatient (patient_id, doctor_id) VALUES (?,?)';
+    const params = [patientId, doctorId];
+    const [rows] = await promisePool.query(sql, params);
+    return rows;
+  } catch (error) {
+    return {error: 500, message: 'db error'};
+  }
+};
+
+
+const pairExistsAlready = async (patientId, doctorId) => {
+  try {
+    const sql = 'SELECT pair_id FROM DoctorPatient WHERE patient_id=? and doctor_id=?';
+    const params = [patientId, doctorId];
+    const [rows] = await promisePool.query(sql, params);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    console.error('pairExistsAlready', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
 
 export {
   selectUserByUsername,
@@ -225,4 +254,6 @@ export {
   insertDoctor,
   selectDoctorByName,
   selectDoctorByEmail,
+  pairExistsAlready,
+  insertNewPair,
 };

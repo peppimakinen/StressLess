@@ -10,6 +10,8 @@ import {
   updateUserById,
   selectDoctorByEmail,
   selectDoctorByName,
+  pairExistsAlready,
+  insertNewPair,
 } from '../models/user-model.mjs';
 /* eslint-disable camelcase */
 
@@ -144,7 +146,7 @@ const deleteUser = async (req, res, next) => {
     const result = await deleteUserById(req.params.id);
     // Check for error in db
     if (result.error) {
-      next(customError(result.message, result.error));
+      return next(customError(result.message, result.error));
     } else {
       // Respond with a ok status - User deleted successfully
       return res.json(result);
@@ -163,8 +165,6 @@ const getDoctor = async (req, res, next) => {
   // selectDoctorByEmail returns 404 error if doctor not found
   if (!doctorFoundWithEmail.error) {
     // There was no errors, so a matching doctor was found
-    console.log('Found doctor using their username', doctorFoundWithEmail);
-    // Attach a message
     doctorFoundWithEmail['message'] = 'Doctor found using email address';
     // Return selected doctor user data
     return res.json({found_doctor: doctorFoundWithEmail});
@@ -175,19 +175,60 @@ const getDoctor = async (req, res, next) => {
   // selectDoctorByName returns 404 error if doctor not found
   if (!doctorFoundWithName.error) {
     // There was no errors, so a matching doctor was found
-    console.log('Found doctor with full name');
-    // Attach a message
     doctorFoundWithName['message'] = 'Doctor found using full name';
     // Return selected doctor user data
     return res.json({found_doctor: doctorFoundWithName});
-  // If there was a error, no doctor was found
+    // If there was a error, no doctor was found
   } else {
+    console.log('Doctor was not found with full name');
     // Return a error message to the client
-    next(
+    return next(
       customError(
         `Could not find doctor using: '${nameOrEmail}' as search input`,
+        404,
+      ),
+    );
+  }
+};
+
+const formPair = async (req, res, next) => {
+  const doctorEmail = req.body.doctor_username;
+  // Check if there is a existing doctor user with provided username
+  console.log('Looking up a doctor user...');
+  const doctor = await selectDoctorByEmail(doctorEmail);
+  // selectDoctorByEmail returns 404 error if no doctor was found
+  if (doctor.error) {
+    return next(
+      customError(
+        `Could not find doctor with the username:'${doctorEmail}'`,
         400,
       ),
+    );
+  }
+  // Doctor was found
+  console.log(`Doctor '${doctor.full_name}' found`);
+  const patientId = req.user.user_id;
+  const patientName = req.user.username;
+  const doctorId = doctor.user_id;
+  const doctorName = doctor.username;
+  const existingPair = await pairExistsAlready(patientId, doctorId);
+  if (existingPair) {
+    const errorMessage = `${patientName} and ${doctorName} are already a pair`;
+    return next(customError(errorMessage, 409));
+  }
+  const result = await insertNewPair(patientId, doctorId);
+  // Check for errors
+  if (!result.error) {
+    // Return OK response if there was no error in the db
+    const resultMessage = `${req.user.username} is now sharing their data with
+     ${doctor.full_name}`;
+    const pairId = resultMessage.insertId;
+    console.log('A pair was found');
+    return res.json({message: resultMessage, pair_id: pairId});
+    // Tell client that it was a server issue if pair creation failed
+  } else {
+    return next(
+      customError('Doctor was found but a pair could not be established', 500),
     );
   }
 };
@@ -196,6 +237,7 @@ export {
   getUsers,
   getUserById,
   postUser,
+  formPair,
   putUser,
   deleteUser,
   postDoctor,

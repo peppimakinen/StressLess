@@ -11,6 +11,7 @@ import {
   getUsers,
   postDoctor,
   putUser,
+  formPair,
   deleteUser,
   getDoctor,
 } from '../controllers/user-controller.mjs';
@@ -47,6 +48,15 @@ userRouter
     getDoctor,
   );
 
+userRouter
+  .route('/create-pair')
+  .post(
+    authenticateToken,
+    onlyForPatientHandler,
+    body('doctor_username', 'Doctor username should be their email').isEmail(),
+    validationErrorHandler,
+    formPair,
+  );
 // Only for application admin - authentication done with a enviorment variable
 userRouter
   .route('/create-doctor')
