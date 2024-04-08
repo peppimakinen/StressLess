@@ -23,7 +23,6 @@ const getOwnSurvey = async (req, res, next) => {
   }
 };
 
-
 const extractActivities = (survey) => {
   const activities = [];
   const questions = survey.filter((item) => item.question !== 'Activity');
@@ -50,7 +49,6 @@ const postSurvey = async (req, res, next) => {
     const userId = req.user.user_id;
     // Check if user has already filled the survey
     const existingSurvey = await getSurveyWithUserId(userId);
-    console.log(existingSurvey);
     // Return an error if a survey is found
     if (!existingSurvey.error) {
       return next(customError('This user has already filled the survey', 403));
@@ -65,22 +63,8 @@ const postSurvey = async (req, res, next) => {
     for (const [question, answer] of Object.entries(req.body)) {
       // Check for array in value (Activities are stored in an array)
       if (Array.isArray(answer)) {
-        // Iterate over every list item/activity
-        for (const activity of answer) {
-          // Insert each list item as a sole activity and save its id
-          const newRow = await handleDatabaseOperation(
-            addSurveyRow,
-            'Activity',
-            activity,
-          );
-          newRowId = newRow.insertId;
-          // Link the activities to the survey
-          await handleDatabaseOperation(
-            connectQuestionToSurvey,
-            newRowId,
-            surveyId,
-          );
-        }
+        // Send activities list to a seperate function to be handled
+        addActivities(answer, surveyId);
       } else {
         // Insert a new question - answer row
         const newRow = await handleDatabaseOperation(
@@ -101,7 +85,24 @@ const postSurvey = async (req, res, next) => {
     return res.json({message: 'Survey posted successfully!'});
   } catch (error) {
     console.error('Error posting survey:', error);
-    return next(error); // Pass the error to the error handling middleware
+    // Pass the error to the error handling middleware
+    return next(error);
+  }
+};
+
+const addActivities = async (activityList, surveyId) => {
+  let newRowId;
+  // Iterate over every list item/activity
+  for (const activity of activityList) {
+    // Insert each list item as a sole activity and save its id
+    const newRow = await handleDatabaseOperation(
+      addSurveyRow,
+      'Activity',
+      activity,
+    );
+    newRowId = newRow.insertId;
+    // Link the activities to the survey
+    await handleDatabaseOperation(connectQuestionToSurvey, newRowId, surveyId);
   }
 };
 
