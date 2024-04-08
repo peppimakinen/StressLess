@@ -92,6 +92,18 @@ const validateSurvey = (req, res, next) => {
       checkActivities(answer);
       // There was no validation errors in the list
       foundActivityLists += 1;
+    // If the anwer is not a list, its a regular question:answer pair
+    } else {
+      // Check that answer text isnt too long
+      const validAnswer = checkStringLenght(answer, 250);
+      // Throw a error if answer lenght over 250 characters
+      if (!validAnswer) {
+        throw customError(
+          `The asnwer for '${question}' is too long`,
+          400,
+          'Character limit is 250',
+        );
+      }
     }
   }
   // After all key:value pairs have been iterated over
@@ -100,10 +112,10 @@ const validateSurvey = (req, res, next) => {
     // Survey data is valid
     console.log('Survey data has been validated');
     next();
-  // The request is missing a list for the activities
+    // The request is missing a list for the activities
   } else if (foundActivityLists === 0) {
     throw customError('Missing a list for activities', 400);
-  // There can be exactly one list in the request and its for activities
+    // There can be exactly one list in the request and its for activities
   } else {
     throw customError('There should be only one list in the request', 400);
   }
@@ -117,7 +129,7 @@ const checkActivities = (activitiesList) => {
   // Iterate over every list item
   for (const activity of activitiesList) {
     // Check if list item syntax is valid
-    const validActivity = checkActivityStringValidity(activity);
+    const validActivity = checkStringLenght(activity, 75);
     // Throw a error if there is a list item with invalid syntax
     if (!validActivity) {
       console.log('Invalid activity list item detected');
@@ -130,8 +142,8 @@ const checkActivities = (activitiesList) => {
   }
 };
 
-const checkActivityStringValidity = (str) => {
-  if (str.length > 75) {
+const checkStringLenght = (str, strLenght) => {
+  if (str.length > strLenght) {
     return false;
   } else {
     return true;
