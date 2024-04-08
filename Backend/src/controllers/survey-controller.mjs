@@ -51,7 +51,7 @@ const postSurvey = async (req, res, next) => {
     const existingSurvey = await getSurveyWithUserId(userId);
     // Return an error if a survey is found
     if (!existingSurvey.error) {
-      return next(customError('This user has already filled the survey', 403));
+      return next(customError('This user has already filled the survey', 409));
     }
     // No survey was found
     console.log('No previous survey was found');
