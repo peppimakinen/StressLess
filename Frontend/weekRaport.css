@@ -113,8 +113,44 @@ li {
 .diagrams {
     padding: 50px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
+
+/* pie-chart mood */
+
+.pie-chart {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  .slice {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+    transform-origin: center;
+  }
+  
+  .slice:nth-child(1) {
+    transform: rotate(0deg) scaleY(var(--size));
+    background-color: #ff5733; /* Adjust color as needed */
+  }
+  
+  .slice:nth-child(2) {
+    transform: rotate(calc(30deg + (360deg * var(--size) / 100))) scaleY(var(--size));
+    background-color: #f0c40e; /* Adjust color as needed */
+  }
+  
+  .slice:nth-child(3) {
+    transform: rotate(calc(75deg + (360deg * var(--size) / 100))) scaleY(var(--size));
+    background-color: #33ff57; /* Adjust color as needed */
+  }
+
+/* chart hrv */
+
 
 
 .chart {
@@ -169,3 +205,5 @@ li {
     left: 180px; 
   }
 
+
+  
