@@ -153,4 +153,18 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-export {getUsers, getUserById, postUser, putUser, deleteUser, postDoctor};
+const getDoctor = async (req, res, next) => {
+  // Get by email
+  // If no result Get by full name
+  // If no result return false
+};
+
+export {
+  getUsers,
+  getUserById,
+  postUser,
+  putUser,
+  deleteUser,
+  postDoctor,
+  getDoctor,
+};

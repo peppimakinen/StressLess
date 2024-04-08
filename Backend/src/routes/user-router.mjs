@@ -1,5 +1,8 @@
 /* eslint-disable max-len */
-import {validationErrorHandler} from '../middlewares/error-handler.mjs';
+import {
+  onlyForPatientHandler,
+  validationErrorHandler,
+} from '../middlewares/error-handler.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {body} from 'express-validator';
 import express from 'express';
@@ -9,6 +12,7 @@ import {
   postDoctor,
   putUser,
   deleteUser,
+  getDoctor,
 } from '../controllers/user-controller.mjs';
 
 // eslint-disable-next-line new-cap
@@ -33,6 +37,22 @@ userRouter
     putUser,
   );
 
+userRouter
+  .route('/find-doctor')
+  .get(
+    authenticateToken,
+    onlyForPatientHandler,
+    body('doctor_name_or_email', 'Invalid name or email for doctor').isLength({min: 3, max: 60}),
+    onlyForPatientHandler,
+    validationErrorHandler,
+    getDoctor,
+  );
+
+// Only for application admin - authentication done with a enviorment variable
+userRouter
+  .route('/create-doctor')
+  .post(body('username', 'Invalid email address').trim().isEmail(), postDoctor);
+
 // "/user/:id" endpoint
 userRouter
   .route('/:id')
@@ -40,10 +60,5 @@ userRouter
   .get(authenticateToken, getUserById)
   // delete user based on id
   .delete(authenticateToken, deleteUser);
-
-// Only for application admin - authentication done with a enviorment variable
-userRouter
-  .route('/create-doctor')
-  .post(body('username', 'Invalid email address').trim().isEmail(), postDoctor);
 
 export default userRouter;
