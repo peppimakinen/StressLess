@@ -79,12 +79,93 @@ li a {
     border-radius: 30px;
 }
 
-h1 {
+.class {
     padding: 30px;
     padding-left: 30px;
     color: #1e1b18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
-    font-weight: 700; /* 400-700 */
+    font-weight: 700; 
     font-size: 50px;
 }
+
+.box {
+    text-align: center;
+}
+
+h1 {
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 50px;
+    padding: 50px;
+}
+
+#stressSummary {
+    font-weight: lighter;
+}
+
+li {
+    list-style: none;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.diagrams {
+    padding: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+.chart {
+    width: 300px;
+    height: 200px;
+    border: 1px solid #000;
+    background-color: #fffaff;
+    position: relative;
+    /* display: flex;
+    justify-content: space-between; */
+  }
+  
+  .bar {
+    /* width: 20px; */
+    background-color: #007bff;
+    position: absolute;
+    bottom: 0;
+  }
+
+  .bar:nth-child(1) {
+    width: 20px;
+    left: 0;
+  }
+  
+  .bar:nth-child(2) {
+    width: 20px;
+    left: 30px; 
+  }
+  
+  .bar:nth-child(3) {
+    width: 20px;
+    left: 60px; 
+  }
+
+  .bar:nth-child(4) {
+    width: 20px;
+    left: 90px; 
+  }
+
+  .bar:nth-child(5) {
+    width: 20px;
+    left: 120px; 
+  }
+
+  .bar:nth-child(6) {
+    width: 20px;
+    left: 150px; 
+  }
+
+  .bar:nth-child(7) {
+    width: 20px;
+    left: 180px; 
+  }
+
