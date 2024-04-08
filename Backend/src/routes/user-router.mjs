@@ -42,8 +42,7 @@ userRouter
   .get(
     authenticateToken,
     onlyForPatientHandler,
-    body('doctor_name_or_email', 'Invalid name or email for doctor').isLength({min: 3, max: 60}),
-    onlyForPatientHandler,
+    body('doctor_name_or_email', 'Invalid name or email for doctor').isLength({min: 3, max: 60}).trim(),
     validationErrorHandler,
     getDoctor,
   );

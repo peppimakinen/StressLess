@@ -8,6 +8,8 @@ import {
   listAllUsers,
   selectUserById,
   updateUserById,
+  selectDoctorByEmail,
+  selectDoctorByName,
 } from '../models/user-model.mjs';
 /* eslint-disable camelcase */
 
@@ -154,9 +156,40 @@ const deleteUser = async (req, res, next) => {
 };
 
 const getDoctor = async (req, res, next) => {
-  // Get by email
-  // If no result Get by full name
-  // If no result return false
+  console.log('Patient user trying to find a doctor via usename or name');
+  const nameOrEmail = req.body.doctor_name_or_email;
+  // Check if there is a doctor with the same email/username address
+  const doctorFoundWithEmail = await selectDoctorByEmail(nameOrEmail);
+  // selectDoctorByEmail returns 404 error if doctor not found
+  if (!doctorFoundWithEmail.error) {
+    // There was no errors, so a matching doctor was found
+    console.log('Found doctor using their username', doctorFoundWithEmail);
+    // Attach a message
+    doctorFoundWithEmail['message'] = 'Doctor found using email address';
+    // Return selected doctor user data
+    return res.json({found_doctor: doctorFoundWithEmail});
+  }
+  // Doctor was not found using email, try searching with full name
+  console.log('No results with email adress, searching again with name...');
+  const doctorFoundWithName = await selectDoctorByName(nameOrEmail);
+  // selectDoctorByName returns 404 error if doctor not found
+  if (!doctorFoundWithName.error) {
+    // There was no errors, so a matching doctor was found
+    console.log('Found doctor with full name');
+    // Attach a message
+    doctorFoundWithEmail['message'] = 'Doctor found using full name';
+    // Return selected doctor user data
+    return res.json({found_doctor: doctorFoundWithName});
+  // If there was a error, no doctor was found
+  } else {
+    // Return a error message to the client
+    next(
+      customError(
+        `Could not find doctor using: '${nameOrEmail}' as search input`,
+        400,
+      ),
+    );
+  }
 };
 
 export {
