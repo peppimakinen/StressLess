@@ -177,7 +177,7 @@ const getDoctor = async (req, res, next) => {
     // There was no errors, so a matching doctor was found
     console.log('Found doctor with full name');
     // Attach a message
-    doctorFoundWithEmail['message'] = 'Doctor found using full name';
+    doctorFoundWithName['message'] = 'Doctor found using full name';
     // Return selected doctor user data
     return res.json({found_doctor: doctorFoundWithName});
   // If there was a error, no doctor was found
