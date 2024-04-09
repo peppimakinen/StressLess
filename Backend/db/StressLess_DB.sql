@@ -79,6 +79,13 @@ CREATE table Measurements (
     result_type VARCHAR(50)
 );
 
+CREATE TABLE CompletedActivities (
+    activity_id INT AUTO_INCREMENT PRIMARY KEY,
+    e_id INT NOT NULL,
+    activity_name VARCHAR(75),
+    FOREIGN KEY (e_id) REFERENCES DiaryEntries(entry_id)
+);
+
 CREATE table DM (
     hrv_entry_id INT AUTO_INCREMENT PRIMARY KEY,
     m_id INT NOT NULL,
