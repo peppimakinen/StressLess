@@ -40,7 +40,7 @@ const getActivities = async (req, res, next) => {
   if (!activities.error) {
     return res.json({activities: activities});
   } else {
-    next(customError('Could not get activities', 404));
+    next(customError('No activities found', 404));
   }
 };
 

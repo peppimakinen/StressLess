@@ -73,25 +73,30 @@ const onlyForDoctorHandler = (req, res, next) => {
 const validateSurvey = (req, res, next) => {
   console.log('Validating survey key:value pairs...');
   // The request needs to have exactly one list for activities
-  // The presence of activities is essential for future functionality
   let foundActivityLists = 0;
   // Check for empty dictionary
   if (Object.keys(req.body).length === 0) {
-    throw customError('Empty survey cant be submitted', 400);
+    return next(customError('Empty survey cant be submitted', 400));
   }
   // Iterate over every key:value pair
   for (const [question, answer] of Object.entries(req.body)) {
     // Check if question key is empty
     if (!question) {
       // Throw a error if a empty question key is detected
-      throw customError('Provide question text for every key:value pair', 400);
+      return next(customError('Provide text for every question', 400));
     }
     // Check if dictionary value is a list (list is used for activities)
     if (Array.isArray(answer)) {
-      // Pass the activities list to different function to check validity
-      checkActivities(answer);
-      // There was no validation errors in the list
       foundActivityLists += 1;
+      // Make sure a empty list isnt submitted
+      if (answer.lenght === 0) {
+        return next(customError('Empty activity list cant be submitted', 400));
+      }
+      // Pass the activities list to different function to check validity
+      const invalidActivities = checkActivities(answer);
+      if (invalidActivities.status === 400) {
+        return next(invalidActivities);
+      }
     // If the anwer is not a list, its a regular question:answer pair
     } else {
       // Check that answer text isnt too long
@@ -122,10 +127,6 @@ const validateSurvey = (req, res, next) => {
 };
 
 const checkActivities = (activitiesList) => {
-  // Make sure a empty list isnt submitted
-  if (activitiesList.length === 0) {
-    throw customError('Cant submit a empty list for activities', 400);
-  }
   // Iterate over every list item
   for (const activity of activitiesList) {
     // Check if list item syntax is valid
@@ -133,13 +134,14 @@ const checkActivities = (activitiesList) => {
     // Throw a error if there is a list item with invalid syntax
     if (!validActivity) {
       console.log('Invalid activity list item detected');
-      throw customError(
+      return customError(
         `Invalid activity:'${activity}'`,
         400,
         'Character limit for each activity is 75',
       );
     }
   }
+  return activitiesList;
 };
 
 const checkStringLenght = (str, strLenght) => {
@@ -158,4 +160,5 @@ export {
   onlyForPatientHandler,
   onlyForDoctorHandler,
   validateSurvey,
+  checkActivities,
 };

@@ -8,7 +8,7 @@ import {
   deleteEntryByIdAdmin,
   listAllEntriesByUserId,
 } from '../models/entry-models.mjs';
-import {customError} from '../middlewares/error-handler.mjs';
+import {customError, checkActivities} from '../middlewares/error-handler.mjs';
 import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 
 // Get all entries
@@ -54,21 +54,55 @@ const getEntryById = async (req, res, next) => {
 
 // Hande POST request for new diary entry
 const postEntry = async (req, res, next) => {
-  const entryDate = req.body.entry_date;
-  console.log(`Creating a new diary entry for ${entryDate}`);
-  const hrvData = await retrieveDataForDate(req, entryDate);
-  const resultsLength = Object.keys(hrvData.results).length;
-  if (hrvData.error) {
-    console.log(hrvData);
-    return next(customError('Could not retrieve kubios data', 500));
+  try {
+    console.log('Entered postEntry...');
+    const {entry_date, mood_color, notes} = req.body;
+    console.log(entry_date, mood_color, notes);
+    const activitiesList = validateyActivitiesList(req);
+
+    // Activities list is formatted correctly
+    console.log(`Creating a new diary entry for ${entryDate}`);
+    const hrvData = await retrieveDataForDate(req, entryDate);
+    const resultsLength = Object.keys(hrvData.results).length;
+    if (hrvData.error) {
+      console.log(hrvData);
+      return next(customError('Could not retrieve kubios data', 500));
+    }
+    if (resultsLength === 0) {
+      return next(customError('No kubios data found', 400));
+    }
+    const hrvList = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
+
+    console.log(hrvList);
+  } catch (error) {
+    console.log('postEntry catch error');
+    next(customError(error.message, error.status, error.errors));
+    console.log();
   }
-  if (resultsLength === 0) {
-    return next(customError('No kubios data found', 400));
-  }
-  const hrvList = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
-  console.log(hrvList);
 };
 
+const reformatEntryBody = (req) => {};
+
+const validateyActivitiesList = (req) => {
+  const activitiesList = req.body.activities;
+  // Make sure activity list exists in the request
+  if (!Array.isArray(activitiesList)) {
+    throw customError('Activities list missing', 400);
+  } else {
+    // Check that each activity item is valid
+    const invalidListItems = checkActivities(activitiesList);
+    if (invalidListItems.status === 400) {
+      console.log('Error found in activities list, throwing new error...');
+      throw customError(
+        invalidListItems.message,
+        invalidListItems.status,
+        invalidListItems.errors,
+      );
+    } else {
+      return activitiesList;
+    }
+  }
+};
 
 /**
  * Pick and choose wanted HRV values from the plethera of data
@@ -77,9 +111,11 @@ const postEntry = async (req, res, next) => {
  */
 const chooseWantedHrvValuesAndReformat = (kubiosResult) => {
   console.log('Started to sort kubios hrv data');
+  // Simplify the paths to frequency and calculated values
   const freqValues = kubiosResult.result.freq_domain;
   const hrvValues = kubiosResult.result;
   const hrvList = [];
+  // Pick and choose the values that match Measurement table columns
   hrvList.push(kubiosResult.result_id);
   hrvList.push(kubiosResult.daily_result);
   hrvList.push(kubiosResult.result.artefact_level);
@@ -102,6 +138,7 @@ const chooseWantedHrvValuesAndReformat = (kubiosResult) => {
   hrvList.push(hrvValues.recovery);
   hrvList.push(kubiosResult.user_happiness);
   hrvList.push(kubiosResult.result_type);
+  // Return the list
   console.log('Hrv data selected returning to postEntry...');
   return hrvList;
 };
