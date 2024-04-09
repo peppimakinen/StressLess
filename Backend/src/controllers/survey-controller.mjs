@@ -113,4 +113,5 @@ const handleDatabaseOperation = async (operation, ...args) => {
   }
   return result;
 };
+
 export {getOwnSurvey, postSurvey, getActivities};

@@ -1,4 +1,7 @@
-import {validationErrorHandler} from '../middlewares/error-handler.mjs';
+import {
+  onlyForPatientHandler,
+  validationErrorHandler,
+} from '../middlewares/error-handler.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {body, param} from 'express-validator';
 import express from 'express';
@@ -15,33 +18,46 @@ const entryRouter = express.Router();
 
 entryRouter.route('/').get(authenticateToken, getEntries);
 
-entryRouter.route('/').post(authenticateToken,
+entryRouter
+  .route('/')
+  .post(
+    authenticateToken,
+    onlyForPatientHandler,
     body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     body('mood_color').isString(),
     body('notes').isString(),
     validationErrorHandler,
-    postEntry);
-
-entryRouter.route('/').put(authenticateToken,
-    body('entry_id').isInt(),
-    body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
-    body('mood_color').isString(),
-    body('notes').isString(),
-    validationErrorHandler,
-    putEntry);
-
-entryRouter.route('/').delete(authenticateToken,
-    body('entry_id').isInt(),
-    validationErrorHandler,
-    deleteEntry);
+    postEntry,
+  );
 
 entryRouter
-    .route('/:id')
-    .get(
-        authenticateToken,
-        param('id', 'must be integer').isInt(),
-        validationErrorHandler,
-        getEntryById,
-    );
+  .route('/')
+  .put(
+    authenticateToken,
+    body('entry_id').isInt(),
+    body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
+    body('mood_color').isString(),
+    body('notes').isString(),
+    validationErrorHandler,
+    putEntry,
+  );
+
+entryRouter
+  .route('/')
+  .delete(
+    authenticateToken,
+    body('entry_id').isInt(),
+    validationErrorHandler,
+    deleteEntry,
+  );
+
+entryRouter
+  .route('/:id')
+  .get(
+    authenticateToken,
+    param('id', 'must be integer').isInt(),
+    validationErrorHandler,
+    getEntryById,
+  );
 
 export default entryRouter;

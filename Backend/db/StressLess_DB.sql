@@ -75,7 +75,7 @@ CREATE table Measurements (
     respiratory_rate DECIMAL(6, 2),
     user_readiness DECIMAL(6, 2),
     user_recovery DECIMAL(6, 2),
-    user_happines INT,
+    user_happiness INT,
     result_type VARCHAR(50)
 );
 

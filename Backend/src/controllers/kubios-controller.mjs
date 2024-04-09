@@ -40,13 +40,12 @@ const getAllUserData = async (req, res, next) => {
  * Retrieve Kubios data for a specific date
  * @async
  * @param {Request} req - Request object including Kubios id token
+ * @param {date} desiredDate Date that should be retrieved
  * @return {Object} - Object containing Kubios data or error information
  */
-const retrieveDataForDate = async (req) => {
+const retrieveDataForDate = async (req, desiredDate) => {
   try {
-    // Derive date from the URL
-    const desiredDate = req.params.date;
-    console.log('Fetching kubios data for a specific date...');
+    console.log('Fetching kubios data for', desiredDate);
     // Establish headers
     const headers = new Headers();
     headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
@@ -94,7 +93,8 @@ const retrieveDataForDate = async (req) => {
  */
 const checkDate = async (req, res, next) => {
   // Get data from Kubios API
-  const result = await retrieveDataForDate(req);
+  const desiredDate = req.params.date;
+  const result = await retrieveDataForDate(req, desiredDate);
   // Check for error in result
   if (result.error) {
     next(customError('Kubios data could not be retrieved at this time', 500));
@@ -110,4 +110,4 @@ const checkDate = async (req, res, next) => {
   }
 };
 
-export {getAllUserData, checkDate};
+export {getAllUserData, checkDate, retrieveDataForDate};

@@ -9,7 +9,7 @@ import {
   listAllEntriesByUserId,
 } from '../models/entry-models.mjs';
 import {customError} from '../middlewares/error-handler.mjs';
-
+import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 
 // Get all entries
 const getEntries = async (req, res, next) => {
@@ -54,17 +54,56 @@ const getEntryById = async (req, res, next) => {
 
 // Hande POST request for new diary entry
 const postEntry = async (req, res, next) => {
-  // Insert a new entry in the model
-  const result = await addEntry(req.user, req.body);
-  if (result.error) {
-    // Forward to errorhandler if result contains a error
-    next(customError(result.message, result.error));
-  } else {
-    // Respond with OK-status, if there was no errors
-    res
-        .status(201)
-        .json({message: 'Entry added', entry_id: result[0].insertId});
+  const entryDate = req.body.entry_date;
+  console.log(`Creating a new diary entry for ${entryDate}`);
+  const hrvData = await retrieveDataForDate(req, entryDate);
+  const resultsLength = Object.keys(hrvData.results).length;
+  if (hrvData.error) {
+    console.log(hrvData);
+    return next(customError('Could not retrieve kubios data', 500));
   }
+  if (resultsLength === 0) {
+    return next(customError('No kubios data found', 400));
+  }
+  const hrvList = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
+  console.log(hrvList);
+};
+
+
+/**
+ * Pick and choose wanted HRV values from the plethera of data
+ * @param {dictionary} kubiosResult All data for a specific date from kubios API
+ * @return {list} All of the values that match Measurement table columns
+ */
+const chooseWantedHrvValuesAndReformat = (kubiosResult) => {
+  console.log('Started to sort kubios hrv data');
+  const freqValues = kubiosResult.result.freq_domain;
+  const hrvValues = kubiosResult.result;
+  const hrvList = [];
+  hrvList.push(kubiosResult.result_id);
+  hrvList.push(kubiosResult.daily_result);
+  hrvList.push(kubiosResult.result.artefact_level);
+  hrvList.push(freqValues.LF_power);
+  hrvList.push(freqValues.LF_power_nu);
+  hrvList.push(freqValues.HF_power);
+  hrvList.push(freqValues.HF_power_nu);
+  hrvList.push(freqValues.tot_power);
+  hrvList.push(hrvValues.mean_hr_bpm);
+  hrvList.push(hrvValues.mean_rr_ms);
+  hrvList.push(hrvValues.rmssd_ms);
+  hrvList.push(hrvValues.sd1_ms);
+  hrvList.push(hrvValues.sd2_ms);
+  hrvList.push(hrvValues.sdnn_ms);
+  hrvList.push(hrvValues.sns_index);
+  hrvList.push(hrvValues.pns_index);
+  hrvList.push(hrvValues.stress_index);
+  hrvList.push(hrvValues.respiratory_rate);
+  hrvList.push(hrvValues.readiness);
+  hrvList.push(hrvValues.recovery);
+  hrvList.push(kubiosResult.user_happiness);
+  hrvList.push(kubiosResult.result_type);
+  console.log('Hrv data selected returning to postEntry...');
+  return hrvList;
 };
 
 // Update existing diary entry using entry_id from request
@@ -102,11 +141,4 @@ const deleteEntry = async (req, res, next) => {
   }
 };
 
-
-export {
-  getEntries,
-  getEntryById,
-  putEntry,
-  deleteEntry,
-  postEntry,
-};
+export {getEntries, getEntryById, putEntry, deleteEntry, postEntry};
