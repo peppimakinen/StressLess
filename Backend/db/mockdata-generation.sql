@@ -66,7 +66,7 @@ VALUES (1, '2024-04-01', 'Green', 'Feeling good today.');
 SET @entry_id = LAST_INSERT_ID();
 
 -- Create a measurement for user_id = 1
-INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happines, result_type)
+INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happiness, result_type)
 VALUES ('result1-aaa', '2024-04-01', 'user1_GOOD', 111, 112, 113, 114, 115, 116, 117, 118, 119, 1011, 1012, 1013, 1014, 1015, 1016, 1017, 1018, 1019, 'user-1 readiness_1');
 SET @measurement_id = LAST_INSERT_ID();
 
@@ -84,7 +84,7 @@ INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
 VALUES (1, '2024-04-02', 'Red', 'Not feeling well today.');
 SET @entry_id = LAST_INSERT_ID();
 
-INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happines, result_type)
+INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happiness, result_type)
 VALUES ('result1-bbb', '2024-04-02', 'user1_BAD', 211, 212, 213, 214, 215, 216, 217, 218, 219, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 'user-1 readiness_2');
 SET @measurement_id = LAST_INSERT_ID();
 
@@ -97,7 +97,7 @@ INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
 VALUES (2, '2024-04-03', 'Green', 'Feeling great today.');
 SET @entry_id = LAST_INSERT_ID();
 
-INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happines, result_type)
+INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happiness, result_type)
 VALUES ('result2-aaa', '2024-04-03', 'user2_GOOD', 311, 312, 313, 314, 315, 316, 317, 318, 319, 3011, 3012, 3013, 3014, 3015, 3016, 3017, 3018, 3019, 'user-2 readiness_1');
 SET @measurement_id = LAST_INSERT_ID();
 
@@ -110,7 +110,7 @@ INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
 VALUES (2, '2024-04-04', 'Red', 'Feeling down today.');
 SET @entry_id = LAST_INSERT_ID();
 
-INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happines, result_type)
+INSERT INTO Measurements (kubios_result_id, measurement_date, artefact_level, lf_power, lf_power_nu, hf_power, hf_power_nu, tot_power, mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms, sd2_ms, sdnn_ms, sns_index, pns_index, stress_index, respiratory_rate, user_readiness, user_recovery, user_happiness, result_type)
 VALUES ('result2-bbb', '2024-04-04', 'user2_BAD', 411, 412, 413, 414, 415, 416, 417, 418, 419, 4011, 4012, 4013, 4014, 4015, 4016, 4017, 4018, 4019, 'user-2 readiness_2');
 SET @measurement_id = LAST_INSERT_ID();
 
