@@ -1,4 +1,4 @@
-// import { fetchData } from "./fetch.js";
+import { fetchData } from "./fetch.js";
 
 // PAGE LOAD
 // clear localstorage
@@ -7,47 +7,89 @@
 // });
 
 // Sisäänkirjautuminen
-const Login = () => {
+const LoginUser = document.querySelector(".LoginUser");
+LoginUser.addEventListener("click", async (evt) => {
+  evt.preventDefault();
+
   const LoginForm = document.querySelector(".LoginForm");
   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
-  LoginForm.addEventListener("submit", async (evt) => {
-    evt.preventDefault();
-    const url = "http://127.0.0.1:3000/api/auth/login";
+  const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
 
-    const data = {
-      email: LoginEmail.value,
-      password: LoginPassword.value,
-    };
+  const data = {
+    email: LoginEmail.value,
+    password: LoginPassword.value,
+  };
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
-    try {
-      const responseData = await fetchData(url, options);
-      console.log(responseData);
-      localStorage.setItem("token", responseData.token);
-      localStorage.setItem("user_id", responseData.user.user_id);
-      window.location.href = "home.html";
-      logResponse(
-        "loginResponse",
-        `localStorage set with token value: ${responseData.token}`
-      );
-    } catch (error) {
-      console.error(error);
-      alert("Error logging in");
-    }
-  });
-};
+  try {
+    const responseData = await fetchData(url, options);
+    console.log(responseData);
+    localStorage.setItem("token", responseData.token);
+    localStorage.setItem("user_id", responseData.user_id);
+    // window.location.href = "home.html";
+    logResponse(
+      "loginResponse",
+      `localStorage set with token value: ${responseData.token}`
+    );
+  } catch (error) {
+    console.error(error);
+    alert("Error logging in");
+  }
+});
+
+// const Login = () => {
+//   const LoginForm = document.querySelector(".LoginForm");
+//   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
+//   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
+
+//   LoginForm.addEventListener("submit", async (evt) => {
+//     evt.preventDefault();
+//     const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
+
+//     const data = {
+//       email: LoginEmail.value,
+//       password: LoginPassword.value,
+//     };
+
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     };
+
+//     try {
+//       const responseData = await fetchData(url, options);
+//       console.log(responseData);
+//       localStorage.setItem("token", responseData.token);
+//       localStorage.setItem("user_id", responseData.user.user_id);
+//       window.location.href = "home.html";
+//       logResponse(
+//         "loginResponse",
+//         `localStorage set with token value: ${responseData.token}`
+//       );
+//     } catch (error) {
+//       console.error(error);
+//       alert("Error logging in");
+//     }
+//   });
+// };
 
 // Käyttäjän rekisteröinti
-const Registration = () => {
+const createDoctor = document.querySelector(".CreateUser");
+createDoctor.addEventListener("click", async (evt) => {
+  evt.preventDefault();
+
   const NewUserForm = document.querySelector(".NewUserForm");
   const RegisterEmail = NewUserForm.querySelector(
     'input[name="RegisterEmail"]'
@@ -55,39 +97,78 @@ const Registration = () => {
   const RegisterPassword = NewUserForm.querySelector(
     'input[name="RegisterPassword"]'
   );
+  const RegisterName = NewUserForm.querySelector("input[name=RegisterName");
 
-  NewUserForm.addEventListener("submit", async (evt) => {
-    evt.preventDefault();
+  const url = "http://127.0.0.1:3000/api/users/createDoctor";
 
-    const url = "http://127.0.0.1:3000/api/users";
+  const data = {
+    username: RegisterEmail.value,
+    password: RegisterPassword.value,
+    full_name: RegisterName.value,
+    user_level: 'doctor',
+    admin_password: 'superSecret'
+  };
 
-    const data = {
-      email: RegisterEmail.value,
-      password: RegisterPassword.value,
-    };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
+  try {
+    const responseData = await fetchData(url, options);
+    console.log(responseData);
+    alert("User created successfully");
+  } catch (error) {
+    console.error(error);
+    alert("Error creating user");
+  }
+});
 
-    try {
-      const responseData = await fetchData(url, options);
-      console.log(responseData);
-      alert("User created successfully");
-      newUserModal.remove();
-    } catch (error) {
-      console.error(error);
-      alert("Error creating user");
-    }
-  });
-};
+// const Registration = () => {
+//   const NewUserForm = document.querySelector(".NewUserForm");
+//   const RegisterEmail = NewUserForm.querySelector(
+//     'input[name="RegisterEmail"]'
+//   );
+//   const RegisterPassword = NewUserForm.querySelector(
+//     'input[name="RegisterPassword"]'
+//   );
+//   const RegisterName = NewUserForm.querySelector("input[name=RegisterName");
 
-Login();
-Registration();
+//   NewUserForm.addEventListener("submit", async (evt) => {
+//     evt.preventDefault();
+
+//     const url = "http://127.0.0.1:3000/api/users/createDoctor";
+
+//     const data = {
+//       name: RegisterName.value,
+//       email: RegisterEmail.value,
+//       password: RegisterPassword.value,
+//     };
+
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     };
+
+//     try {
+//       const responseData = await fetchData(url, options);
+//       console.log(responseData);
+//       alert("User created successfully");
+//     } catch (error) {
+//       console.error(error);
+//       alert("Error creating user");
+//     }
+//   });
+// };
+
+// Login();
+// Registration();
 
 // Apufunktio, Tyhjennä local storage
 // function clearLocalStorage() {
