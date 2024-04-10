@@ -46,17 +46,20 @@ body {
 }
 
 .button-group button {
+    width: 300px;
+    height: 66px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
     cursor: pointer;
-    padding: 15px 28px;
-    border: 2px solid #29333C;
-    border-radius: 17px;
-    background-color: #29333C;
-    color: #f2f2f2;
-    margin: 0 10px;
-    font-size: 16px;
-    font-weight: bolder;
+    border-radius: 55px;
+    border: 2px solid #313e50;
+    background-color: #313E50;
+    color: #fffaff;
     margin: 70px auto; 
     display: block; 
+    box-shadow: 0 2px 2px #313E50; /* Add drop shadow */
 }
 
 .button-group button:focus {
@@ -67,3 +70,8 @@ body {
     background-color: #5D7283;
     border: 2px solid #5D7283;
 }
+
+/* Login modal */
+
+
+/* Create account modal */

@@ -25,6 +25,36 @@
         <button class="RegisterBtn">Rekisteröidy</button>
     </div>
 
+    <div id="LoginModal">
+        <span class="CloseLogin">&times;</span>
+        <h1 class="LoginHeading">Tervetuloa takaisin</h1>
+        <form class="LoginForm">
+            <h2>Kirjaudu sisään</h2>
+            <label for="email">Sähköposti</label>
+            <input type="text" name="email" placeholder="Sähköposti" id="email"/>
+            <label for="password">Salasana</label>
+            <input type="password" name="password" placeholder="Salasana" id="password" />
+            <!-- <label for="createAccount" class="hiddentext">'</label> -->
+            <input name="submit" type="submit" value="Kirjaudu sisään" class="LoginUser"/>
+            <p class="NotExisting">Puuttuuko sinulta käyttäjä?<a href="#" class="OpenNewUser">Luo käyttäjä</a></p>
+        </form>
+    </div>
+
+    <div id="NewUserModal">
+        <span class="CloseNewUser">&times;</span>
+        <h1 class="NewUserHeading">Tervetuloa takaisin</h1>
+        <form class="NewUserForm">
+            <h2>Luo uusi käyttäjä</h2>
+            <label for="email">Sähköposti</label>
+            <input type="text" name="email" placeholder="Sähköposti" id="email"/>
+            <label for="password">Salasana</label>
+            <input type="password" name="password" placeholder="Salasana" id="password" />
+            <!-- <label for="createAccount" class="hiddentext">'</label> -->
+            <input name="submit" type="submit" value="Luo käyttäjä" class="CreateUser"/>
+            <p class="Existing">Onko sinulla jo käyttäjä?<a href="#" class="OpenLogin">Kirjaudu sisään</a></p>
+        </form>
+    </div>
+
 </body>
 
 </html>
