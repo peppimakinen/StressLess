@@ -1,6 +1,7 @@
 import {
   onlyForPatientHandler,
   validationErrorHandler,
+  onlyForPatientWhoCompletedSurvey,
 } from '../middlewares/error-handler.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {body, param} from 'express-validator';
@@ -23,6 +24,7 @@ entryRouter
   .post(
     authenticateToken,
     onlyForPatientHandler,
+    onlyForPatientWhoCompletedSurvey,
     body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     body('mood_color').isString(),
     body('notes').isString(),
@@ -52,10 +54,12 @@ entryRouter
   );
 
 entryRouter
-  .route('/:id')
+  .route('/:entry_date')
   .get(
     authenticateToken,
-    param('id', 'must be integer').isInt(),
+    onlyForPatientHandler,
+    onlyForPatientWhoCompletedSurvey,
+    param('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     validationErrorHandler,
     getEntryById,
   );

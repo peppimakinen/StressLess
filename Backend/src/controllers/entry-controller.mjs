@@ -4,6 +4,9 @@ import {
   addMeasurement,
   listAllEntries,
   selectEntryById,
+  getActivitiesForEntry,
+  getMeasurementsForPatient,
+  getEntryUsingDate,
   updateEntryById,
   addAllActivities,
   deleteEntryByIdUser,
@@ -37,23 +40,52 @@ const getEntries = async (req, res, next) => {
   }
 };
 
-// Get specific entries - only for admin
-const getEntryById = async (req, res, next) => {
-  // Check if token is linked to a admin user
-  if (req.user.user_level === 'admin') {
-    const result = await selectEntryById(req.params.id);
-    if (result.error) {
-      // Forward to errorhandler if result contains a error
-      next(customError('Entry not found', 404));
-    } else {
-      // Send response containing entires, if there are no errors
-      return res.json(result);
+const getAllEntryDataForPatient = async (userId, entryDate) => {
+  console.log('Fetching entry for', entryDate);
+  const response = {};
+  const entry = await getEntryUsingDate(userId, entryDate);
+  if (entry.error) {
+    throw customError(entry.message, entry.error);
+  }
+  console.log('Entry found, fetching for measurement data...');
+  response['entry_data'] = entry;
+  const entryId = entry.entry_id;
+  const hrvData = await getMeasurementsForPatient(entryId, userId, entryDate);
+  if (hrvData.error) {
+    throw customError(entry.message, entry.error);
+  }
+  console.log('Measurements found, checking for activities...');
+  response['hrv_measurements'] = hrvData;
+  const foundActivities = await getActivitiesForEntry(
+    entryId,
+    userId,
+    entryDate,
+  );
+
+  if (foundActivities.length > 0) {
+    const activitiesList = [];
+    for (const activity of foundActivities) {
+      activitiesList.push(activity.activity_name);
     }
+    response['performed_activities'] = activitiesList;
   } else {
-    // Unauthorized user was trying to reach this function
-    next(customError('Unauthorized', 401));
+    response['performed_activities'] = [];
+  }
+  return response;
+};
+
+const getEntryById = async (req, res, next) => {
+  try {
+    const userId = req.user.user_id;
+    const entryDate = req.params.entry_date;
+    const entry = await getAllEntryDataForPatient(userId, entryDate);
+    return res.json(entry);
+  } catch (error) {
+    console.log('getEntryById catch error');
+    next(customError(error.message, error.status));
   }
 };
+
 const getKubiosDataForNewEntry = async (req) => {
   const hrvData = await retrieveDataForDate(req, req.body.entry_date);
   const resultsLength = Object.keys(hrvData.results).length;

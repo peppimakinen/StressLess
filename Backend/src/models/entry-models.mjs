@@ -19,6 +19,88 @@ const listAllEntries = async () => {
   }
 };
 
+const getEntryUsingDate = async (userId, date) => {
+  try {
+    const sql = `SELECT * FROM DiaryEntries WHERE user_id=? AND entry_date=?;`;
+    const params = [userId, date];
+    const [rows] = await promisePool.query(sql, params);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: `No entry found with entry_date=${date} `};
+    }
+    // return all found entries
+    return rows[0];
+  } catch (error) {
+    console.error('getEntryUsingDate', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
+const getActivitiesForEntry = async (entryId, userId, entryDate) => {
+  try {
+    const sql = `
+    SELECT
+        CA.activity_name
+    FROM 
+        CompletedActivities AS CA
+    JOIN 
+        DiaryEntries AS DE ON CA.e_id = DE.entry_id
+    JOIN 
+        Users AS U ON DE.user_id = U.user_id
+    WHERE 
+        U.user_id=?
+        AND DE.entry_id=?
+        AND DE.entry_date=?;`;
+    const params = [userId, entryId, entryDate];
+    const [rows] = await promisePool.query(sql, params);
+    // return all found entries
+    return rows;
+  } catch (error) {
+    console.error('getActivitiesForEntry', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+const getMeasurementsForPatient = async (entryId, userId, date) => {
+  try {
+    const sql = `
+      SELECT
+          M.measurement_id,
+          M.kubios_result_id,
+          M.measurement_date,
+          M.mean_hr_bpm,
+          M.sns_index,
+          M.pns_index,
+          M.stress_index
+      FROM 
+          DM D
+      JOIN 
+          Measurements M ON D.m_id = M.measurement_id
+      JOIN 
+          DiaryEntries DE ON D.e_id = DE.entry_id
+      JOIN 
+          Users U ON DE.user_id = U.user_id
+      WHERE 
+          U.user_id=?
+          AND DE.entry_id=?
+          AND DE.entry_date=?;
+    `;
+    const params = [userId, entryId, date];
+    const [rows] = await promisePool.query(sql, params);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {
+        error: 404,
+        message: `No measurements found with entry_id=${entryId}`,
+      };
+    }
+    // return all found entries
+    return rows[0];
+  } catch (error) {
+    console.error('getMeasurementsForPatient', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
 // Get specific entry in db - FOR ADMIN
 const selectEntryById = async (id) => {
   try {
@@ -193,6 +275,7 @@ const deleteAll = async (userId) => {
 export {
   addEntry,
   deleteAll,
+  getEntryUsingDate,
   listAllEntries,
   deleteEntryByIdAdmin,
   selectEntryById,
@@ -200,6 +283,8 @@ export {
   updateEntryById,
   addMeasurement,
   deleteEntryByIdUser,
+  getMeasurementsForPatient,
   listAllEntriesByUserId,
   connectMeasurementToEntry,
+  getActivitiesForEntry,
 };
