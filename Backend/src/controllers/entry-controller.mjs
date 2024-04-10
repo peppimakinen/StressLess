@@ -1,12 +1,15 @@
 /* eslint-disable camelcase */
 import {
   addEntry,
+  addMeasurement,
   listAllEntries,
   selectEntryById,
   updateEntryById,
+  addAllActivities,
   deleteEntryByIdUser,
   deleteEntryByIdAdmin,
   listAllEntriesByUserId,
+  connectMeasurementToEntry,
 } from '../models/entry-models.mjs';
 import {customError, checkActivities} from '../middlewares/error-handler.mjs';
 import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
@@ -51,37 +54,56 @@ const getEntryById = async (req, res, next) => {
     next(customError('Unauthorized', 401));
   }
 };
+const getKubiosDataForNewEntry = async (req) => {
+  const hrvData = await retrieveDataForDate(req, req.body.entry_date);
+  const resultsLength = Object.keys(hrvData.results).length;
+  // Check for errors is response
+  if (hrvData.error) {
+    console.log(hrvData);
+    throw customError('Could not retrieve kubios data', 500);
+  }
+  if (resultsLength === 0) {
+    throw customError('No kubios data found', 400);
+  }
+  return hrvData;
+};
 
 // Hande POST request for new diary entry
 const postEntry = async (req, res, next) => {
   try {
+    // TODO CHECK FOR OLD ENTRY
     console.log('Entered postEntry...');
+    // Format request body data to a list
     const {entry_date, mood_color, notes} = req.body;
-    console.log(entry_date, mood_color, notes);
-    const activitiesList = validateyActivitiesList(req);
-
-    // Activities list is formatted correctly
-    console.log(`Creating a new diary entry for ${entryDate}`);
-    const hrvData = await retrieveDataForDate(req, entryDate);
-    const resultsLength = Object.keys(hrvData.results).length;
-    if (hrvData.error) {
-      console.log(hrvData);
-      return next(customError('Could not retrieve kubios data', 500));
+    const entryParams = [req.user.user_id, entry_date, mood_color, notes];
+    // Validate and format activities list
+    const activitiesParams = validateyActivitiesList(req);
+    // Get kubios daily measurement for the specific date
+    const hrvData = await getKubiosDataForNewEntry(req);
+    // Format hrv values
+    const hrvParams = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
+    // Create a new entry to the database and save its ID
+    const addedEntry = await addEntry(entryParams);
+    const entryId = addedEntry.insertId;
+    // Save Kubios measurement data and save measurement ID
+    const addedMeasurement = await addMeasurement(hrvParams);
+    const measurementId = addedMeasurement.insertId;
+    // Connect measurements to the new entry
+    const entry = await connectMeasurementToEntry(measurementId, entryId);
+    // Some new entries may have activities
+    if (activitiesParams.length > 0) {
+      // Add each activity to a seperate table
+      const addedActivities = await addAllActivities(entryId, activitiesParams);
+      console.log(`Added ${addedActivities.length} activities`);
     }
-    if (resultsLength === 0) {
-      return next(customError('No kubios data found', 400));
-    }
-    const hrvList = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
-
-    console.log(hrvList);
+    // New entry added succesfully
+    console.log('New entry added');
+    return res.json({message: `New entry_id=${entryId}`});
   } catch (error) {
     console.log('postEntry catch error');
     next(customError(error.message, error.status, error.errors));
-    console.log();
   }
 };
-
-const reformatEntryBody = (req) => {};
 
 const validateyActivitiesList = (req) => {
   const activitiesList = req.body.activities;
@@ -139,7 +161,7 @@ const chooseWantedHrvValuesAndReformat = (kubiosResult) => {
   hrvList.push(kubiosResult.user_happiness);
   hrvList.push(kubiosResult.result_type);
   // Return the list
-  console.log('Hrv data selected returning to postEntry...');
+  console.log('Hrv data sorted returning to postEntry...');
   return hrvList;
 };
 

@@ -11,7 +11,7 @@ const getSurveyWithUserId = async (userId) => {
     WHERE Users.user_id=?`;
     const [rows] = await promisePool.query(sql, userId);
     if (rows.length === 0) {
-      return {error: 404, message: 'Survey not found'};
+      return {error: 404, message: `No survey found with user_id=${userId}`};
     } else {
       return rows;
     }

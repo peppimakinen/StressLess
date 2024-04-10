@@ -50,41 +50,62 @@ const listAllEntriesByUserId = async (id) => {
   }
 };
 
-const addEntry = async (user, entry) => {
-  const {entry_date, mood_color, weight, sleep_hours, notes} = entry;
-  // eslint-disable-next-line max-len
-  const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood_color, weight, sleep_hours, notes)
-  VALUES (?, ?, ?, ?, ?, ?)`;
-  const params = [
-    user.user_id,
-    entry_date,
-    mood_color,
-    weight,
-    sleep_hours,
-    notes,
-  ];
+const addEntry = async (params) => {
+  const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
+  VALUES (?, ?, ?, ?)`;
   try {
     const rows = await promisePool.query(sql, params);
-    return rows;
+    return rows[0];
   } catch (error) {
     console.log('addEntry', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'Failed to add a new DiaryEntry'};
   }
 };
 
-const postEntry = async (req, res) => {
-  const {user_id, entry_date, mood, weight, sleep_hours, notes} = req.body;
-  if (entry_date && (weight || mood || sleep_hours || notes) && user_id) {
-    const result = await addEntry(req.body);
-    if (result.entry_id) {
-      res.status(201);
-      res.json({message: 'New entry added.', ...result});
-    } else {
-      res.status(500);
-      res.json(result);
+const addAllActivities = async (entryId, activitiesList) => {
+  const sql = `INSERT INTO CompletedActivities (e_id, activity_name)
+    VALUES (?, ?)`;
+  const insertedRows = [];
+  try {
+    for (const activity of activitiesList) {
+      const params = [entryId, activity];
+      const [rows] = await promisePool.query(sql, params);
+      insertedRows.push(rows);
     }
-  } else {
-    res.sendStatus(400);
+    return insertedRows;
+  } catch (error) {
+    console.log('addAllActivities error:', error);
+    return {error: 500, message: 'Failed to add all activities'};
+  }
+};
+
+const addMeasurement = async (params) => {
+  const sql = `INSERT INTO Measurements (
+      kubios_result_id, measurement_date, artefact_level, lf_power,
+      lf_power_nu, hf_power, hf_power_nu, tot_power,
+      mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms,
+      sd2_ms, sdnn_ms, sns_index, pns_index,
+      stress_index, respiratory_rate, user_readiness, user_recovery,
+      user_happiness, result_type)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+  try {
+    const rows = await promisePool.query(sql, params);
+    return rows[0];
+  } catch (error) {
+    console.log('addMeasurement', error);
+    return {error: 500, message: 'Failed to add a new set of Measurements'};
+  }
+};
+
+const connectMeasurementToEntry = async (entryId, measurementId) => {
+  const sql = `INSERT INTO DM (m_id, e_id) VALUES (?, ?)`;
+  const params = [measurementId, entryId];
+  try {
+    const rows = await promisePool.query(sql, params);
+    return rows[0];
+  } catch (error) {
+    console.log('connectMeasurementToEntry', error);
+    return {error: 500, message: 'Failed to connect measurement to entry'};
   }
 };
 
@@ -175,8 +196,10 @@ export {
   listAllEntries,
   deleteEntryByIdAdmin,
   selectEntryById,
+  addAllActivities,
   updateEntryById,
-  postEntry,
+  addMeasurement,
   deleteEntryByIdUser,
   listAllEntriesByUserId,
+  connectMeasurementToEntry,
 };

@@ -1,5 +1,6 @@
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {
+  onlyForPatientWhoCompletedSurvey,
   onlyForPatientHandler,
   validateSurvey,
 } from '../middlewares/error-handler.mjs';
@@ -14,10 +15,20 @@ const surveyRouter = express.Router();
 
 surveyRouter
   .route('/')
-  .get(authenticateToken, onlyForPatientHandler, getOwnSurvey)
+  .get(
+    authenticateToken,
+    onlyForPatientHandler,
+    onlyForPatientWhoCompletedSurvey,
+    getOwnSurvey,
+  )
   .post(authenticateToken, onlyForPatientHandler, validateSurvey, postSurvey);
 
 surveyRouter
   .route('/activities')
-  .get(authenticateToken, onlyForPatientHandler, getActivities);
+  .get(
+    authenticateToken,
+    onlyForPatientHandler,
+    onlyForPatientWhoCompletedSurvey,
+    getActivities,
+  );
 export default surveyRouter;

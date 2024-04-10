@@ -16,10 +16,7 @@ const getOwnSurvey = async (req, res, next) => {
     const sortedSurvey = extractActivities(result);
     return res.json(sortedSurvey);
   } else {
-    console.log('Survey not found');
-    next(
-      customError(`There is no completed survey with user_id=${userId}`, 404),
-    );
+    return next(customError(result.message, result.error));
   }
 };
 
@@ -40,7 +37,7 @@ const getActivities = async (req, res, next) => {
   if (!activities.error) {
     return res.json({activities: activities});
   } else {
-    next(customError('No activities found', 404));
+    return next(customError(activities.message, activities.error));
   }
 };
 

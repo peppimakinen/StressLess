@@ -1,4 +1,5 @@
 import {validationResult} from 'express-validator';
+import {getSurveyWithUserId} from '../models/survey-model.mjs';
 
 const customError = (message, status, errors) => {
   const error = new Error(message);
@@ -68,6 +69,16 @@ const onlyForDoctorHandler = (req, res, next) => {
     return next(error);
   }
 };
+const onlyForPatientWhoCompletedSurvey = async (req, res, next) => {
+  const result = await getSurveyWithUserId(req.user.user_id);
+  if (!result.error) {
+    console.log('Existing survey found');
+    next();
+  } else {
+    return next(customError(result.message, result.error));
+  }
+};
+
 
 // Validate each key:value pair in a survey
 const validateSurvey = (req, res, next) => {
@@ -161,4 +172,5 @@ export {
   onlyForDoctorHandler,
   validateSurvey,
   checkActivities,
+  onlyForPatientWhoCompletedSurvey,
 };
