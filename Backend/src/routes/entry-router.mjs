@@ -32,6 +32,8 @@ entryRouter
   .route('/monthly')
   .get(
     authenticateToken,
+    onlyForPatientHandler,
+    onlyForPatientWhoCompletedSurvey,
     body('year', 'Only the years between 2020 - 2030 are available').isInt({
       min: 2020,
       max: 2030,
