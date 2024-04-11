@@ -8,16 +8,12 @@ import {body, param} from 'express-validator';
 import express from 'express';
 import {
   postEntry,
-  getEntries,
-  getEntryById,
-  putEntry,
-  deleteEntry,
+  getMonth,
+  getDay,
 } from '../controllers/entry-controller.mjs';
 
 // eslint-disable-next-line new-cap
 const entryRouter = express.Router();
-
-entryRouter.route('/').get(authenticateToken, getEntries);
 
 entryRouter
   .route('/')
@@ -33,35 +29,27 @@ entryRouter
   );
 
 entryRouter
-  .route('/')
-  .put(
+  .route('/monthly')
+  .get(
     authenticateToken,
-    body('entry_id').isInt(),
-    body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
-    body('mood_color').isString(),
-    body('notes').isString(),
+    body('year', 'Only the years between 2020 - 2030 are available').isInt({
+      min: 2020,
+      max: 2030,
+    }),
+    body('month', 'Provide a month number').isInt({min: 1, max: 12}),
     validationErrorHandler,
-    putEntry,
+    getMonth,
   );
 
 entryRouter
-  .route('/')
-  .delete(
-    authenticateToken,
-    body('entry_id').isInt(),
-    validationErrorHandler,
-    deleteEntry,
-  );
-
-entryRouter
-  .route('/:entry_date')
+  .route('/daily/:entry_date')
   .get(
     authenticateToken,
     onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     param('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     validationErrorHandler,
-    getEntryById,
+    getDay,
   );
 
 export default entryRouter;

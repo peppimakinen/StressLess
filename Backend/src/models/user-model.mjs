@@ -182,7 +182,7 @@ const checkSurveyExistance = async (id) => {
 
 const selectDoctorByEmail = async (email) => {
   try {
-    const sql = 'SELECT username, full_name, user_id FROM Users WHERE username=? and user_level="doctor"';
+    const sql = 'SELECT * FROM Users WHERE username=? and user_level="doctor"';
     const params = [email];
     const [rows] = await promisePool.query(sql, params);
     // if nothing is found with the user id, result array is empty []
