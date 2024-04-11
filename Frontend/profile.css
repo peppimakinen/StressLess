@@ -107,4 +107,127 @@ h1 {
     margin-right: 10px; 
 }
 
+.profile-container {
+    margin-top: 40px;
+    display: flex;
+    align-items: flex-start;
+}
 
+.profile-container img {
+    margin-right: 10px; 
+}
+
+.divider {
+    border-left: 1px solid #1e1b18; 
+    height: 500px; 
+    margin:  10px; 
+    margin-top: 30px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-list {
+    background-color: #fffaff;
+    border-radius: 30px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: 25px;
+    padding-bottom: 10px;
+}
+
+.settings-list .title {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.settings-list .title img {
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+.settings-list .title h2 {
+    margin: 0;
+    margin: 10px 0;
+    text-align: center;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 25px;
+}
+
+.settings-list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.settings-list ul li {
+    list-style: none;
+    margin-bottom: 5px;
+}
+
+.settings-list ul li a {
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 400; /* 400-700 */
+    font-size: 20px;
+}
+
+.settings-list ul li a:hover {
+    text-decoration: hover;
+    color: #818181;
+}
+
+
+
+.profile-list {
+    background-color: #fffaff;
+    border-radius: 30px;
+    width: 150%;
+    margin-left: 30px;
+    height: 390px;
+}
+
+.profile-list .title {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.profile-list .title img {
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+.profile-list .title h2 {
+    margin: 0;
+    margin: 10px 0;
+    text-align: center;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 25px;
+}
+
+.profile-list ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    margin-bottom: 5px;
+    color: #1e1b18;
+    padding-left: 40px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 400; /* 400-700 */
+    font-size: 20px;
+}
+
+.profile-list ul li {
+    margin-bottom: 20px;
+}
