@@ -57,9 +57,10 @@ body {
     border: 2px solid #313e50;
     background-color: #313E50;
     color: #fffaff;
-    margin: 70px auto; 
-    display: block; 
-    box-shadow: 0 2px 2px #313E50; /* Add drop shadow */
+    margin: 70px auto;
+    display: block;
+    box-shadow: 0 2px 2px #313E50;
+    /* Add drop shadow */
 }
 
 .button-group button:focus {
@@ -71,7 +72,141 @@ body {
     border: 2px solid #5D7283;
 }
 
-/* Login modal */
+/* Modal container */
+/* Modal container */
+#LoginModal,
+#NewUserModal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+}
 
+/* Modal content */
+.LoginForm,
+.NewUserForm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fffaff;
+    margin: 11% auto;
+    padding: 30px;
+    border-radius: 40px;
+    width: 400px;
+}
 
-/* Create account modal */
+/* Close button */
+.CloseLogin,
+.CloseNewUser {
+    color: #1E1B18;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    top: 24px; /* Adjust top position */
+    right: 28px; /* Adjust right position */
+}
+
+.CloseLogin:hover,
+.CloseNewUser:hover,
+.CloseLogin:focus,
+.CloseNewUser:focus {
+    color: #a09d9a;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Modal headings */
+.LoginHeading,
+.NewUserHeading {
+    text-align: center;
+    padding-top: 30px;
+    color: #1E1B18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 37px;
+}
+
+h2 {
+    text-align: center;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Form elements */
+input[type="text"],
+input[type="password"],
+input[type="submit"] {
+    width: 75%;
+    padding: 20px 20px;
+    margin: 8px 0;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 30px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+}
+
+input[type="submit"] {
+    background-color: #313E50;
+    width: 50%;
+    padding: 20px;
+    margin-top: 20px;
+    color: #fffaff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #5D7283;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="submit"]:focus {
+    outline: none;
+}
+
+/* Hyperlinks */
+.NotExisting,
+.Existing {
+    text-align: center;
+    padding-top: 20px;
+}
+
+.NotExisting a,
+.Existing a {
+    color: #63CCCA;
+    display: block;
+}
+
+/* Overlay */
+#overlay {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}

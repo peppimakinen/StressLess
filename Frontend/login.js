@@ -1,251 +1,215 @@
-import './login.css';
-import { fetchData } from './fetch.js';
+import { fetchData } from "./fetch.js";
 
 // PAGE LOAD
 // clear localstorage
-window.addEventListener('load', () => {
-  clearLocalStorage();
-});
+// window.addEventListener("load", () => {
+//   clearLocalStorage();
+// });
 
 // Sisäänkirjautuminen
-// Avaa pop-up -ikkunan ja täyttää sähköpostin ja salasanan
-const openLoginForm = () => {
-  const loginModal = document.createElement('div');
-  loginModal.id = 'LoginModal';
-  loginModal.classList.add('modal');
+const LoginUser = document.querySelector(".LoginUser");
+LoginUser.addEventListener("click", async (evt) => {
+  evt.preventDefault();
 
-  const closeButton = document.createElement('span');
-  closeButton.classList.add('CloseLogin');
-  closeButton.innerHTML = '&times;'; // Lisää ruksi (X-merkki)
+  const LoginForm = document.querySelector(".LoginForm");
+  const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
+  const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
-  closeButton.addEventListener('click', () => {
-    loginModal.remove(); // Sulje modaalinen ikkuna ruksista painamalla
-  });
+  const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
 
-  const loginHeading = document.createElement('h1');
-  loginHeading.classList.add('LoginHeading');
-  loginHeading.textContent = 'Tervetuloa takaisin';
+  const data = {
+    email: LoginEmail.value,
+    password: LoginPassword.value,
+  };
 
-  const form = document.createElement('form');
-  form.classList.add('LoginForm');
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
-  const heading = document.createElement('h2');
-  heading.textContent = 'Kirjaudu sisään';
-
-  const emailLabel = document.createElement('label');
-  emailLabel.setAttribute('for', 'email');
-  emailLabel.textContent = 'Sähköposti';
-
-  const emailInput = document.createElement('input');
-  emailInput.setAttribute('type', 'email');
-  emailInput.setAttribute('name', 'email');
-  emailInput.setAttribute('placeholder', 'Sähköposti');
-
-  const passwordLabel = document.createElement('label');
-  passwordLabel.setAttribute('for', 'password');
-  passwordLabel.textContent = 'Salasana';
-
-  const passwordInput = document.createElement('input');
-  passwordInput.setAttribute('type', 'password');
-  passwordInput.setAttribute('name', 'password');
-  passwordInput.setAttribute('placeholder', 'Salasana');
-
-  const submitButton = document.createElement('input');
-  submitButton.setAttribute('type', 'submit');
-  submitButton.setAttribute('name', 'submit');
-  submitButton.setAttribute('value', 'Kirjaudu sisään');
-  submitButton.classList.add('LoginUser');
-
-  const notExisting = document.createElement('p');
-  notExisting.classList.add('NotExisting');
-  notExisting.textContent = 'Puuttuuko sinulta käyttäjä?';
-
-  const createUserLink = document.createElement('a');
-  createUserLink.setAttribute('href', '#');
-  createUserLink.classList.add('OpenNewUser');
-  createUserLink.textContent = 'Luo käyttäjä';
-
-  notExisting.appendChild(createUserLink);
-
-  form.append(heading, emailLabel, emailInput, passwordLabel, passwordInput, submitButton, notExisting);
-  loginModal.append(closeButton, loginHeading, form);
-
-  document.body.appendChild(loginModal);
-
-  form.addEventListener('submit', async (evt) => {
-    evt.preventDefault();
-    const url = 'http://127.0.0.1:3000/api/auth/login';
-
-    const email = emailInput.value;
-    const password = passwordInput.value;
-
-    const data = {
-      email: email,
-      password: password,
-    };
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    try {
-      const responseData = await fetchData(url, options);
-      console.log(responseData);
-      localStorage.setItem("token", responseData.token);
-      localStorage.setItem("user_id", responseData.user.user_id);
-      window.location.href = 'home.html';
-      logResponse('loginResponse', `localStorage set with token value: ${responseData.token}`);
-    } catch (error) {
-      console.error(error);
-      alert('Error logging in');
-    }
-
-    loginModal.remove();
-  });
-};
-
-const loginButton = document.querySelector('.LoginBtn');
-loginButton.addEventListener('click', () => {
-  openLoginForm();
+  try {
+    const responseData = await fetchData(url, options);
+    console.log(responseData);
+    localStorage.setItem("token", responseData.token);
+    localStorage.setItem("user_id", responseData.user_id);
+    // window.location.href = "home.html";
+    logResponse(
+      "loginResponse",
+      `localStorage set with token value: ${responseData.token}`
+    );
+  } catch (error) {
+    console.error(error);
+    alert("Error logging in");
+  }
 });
 
+// const Login = () => {
+//   const LoginForm = document.querySelector(".LoginForm");
+//   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
+//   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
+//   LoginForm.addEventListener("submit", async (evt) => {
+//     evt.preventDefault();
+//     const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
 
+//     const data = {
+//       email: LoginEmail.value,
+//       password: LoginPassword.value,
+//     };
+
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     };
+
+//     try {
+//       const responseData = await fetchData(url, options);
+//       console.log(responseData);
+//       localStorage.setItem("token", responseData.token);
+//       localStorage.setItem("user_id", responseData.user.user_id);
+//       window.location.href = "home.html";
+//       logResponse(
+//         "loginResponse",
+//         `localStorage set with token value: ${responseData.token}`
+//       );
+//     } catch (error) {
+//       console.error(error);
+//       alert("Error logging in");
+//     }
+//   });
+// };
 
 // Käyttäjän rekisteröinti
-const openRegistrationForm = () => {
-  const newUserModal = document.createElement('div');
-  newUserModal.id = 'NewUserModal';
-  newUserModal.classList.add('modal');
+const createDoctor = document.querySelector(".CreateUser");
+createDoctor.addEventListener("click", async (evt) => {
+  evt.preventDefault();
 
-  const closeButton = document.createElement('span');
-  closeButton.classList.add('CloseNewUser');
-  closeButton.innerHTML = '&times;'; // Lisää ruksi (X-merkki)
+  const NewUserForm = document.querySelector(".NewUserForm");
+  const RegisterEmail = NewUserForm.querySelector(
+    'input[name="RegisterEmail"]'
+  );
+  const RegisterPassword = NewUserForm.querySelector(
+    'input[name="RegisterPassword"]'
+  );
+  const RegisterName = NewUserForm.querySelector("input[name=RegisterName");
 
-  closeButton.addEventListener('click', () => {
-    newUserModal.remove(); // Sulje modaalinen ikkuna ruksista painamalla
-  });
+  const url = "http://127.0.0.1:3000/api/users/createDoctor";
 
-  const newUserHeading = document.createElement('h1');
-  newUserHeading.classList.add('NewUserHeading');
-  newUserHeading.textContent = 'Tervetuloa takaisin';
+  const data = {
+    username: RegisterEmail.value,
+    password: RegisterPassword.value,
+    full_name: RegisterName.value,
+    user_level: 'doctor',
+    admin_password: 'superSecret'
+  };
 
-  const form = document.createElement('form');
-  form.classList.add('NewUserForm');
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
 
-  const heading = document.createElement('h2');
-  heading.textContent = 'Luo uusi käyttäjä';
-
-  const emailLabel = document.createElement('label');
-  emailLabel.setAttribute('for', 'email');
-  emailLabel.textContent = 'Sähköposti';
-
-  const emailInput = document.createElement('input');
-  emailInput.setAttribute('type', 'email');
-  emailInput.setAttribute('name', 'email');
-  emailInput.setAttribute('placeholder', 'Sähköposti');
-
-  const passwordLabel = document.createElement('label');
-  passwordLabel.setAttribute('for', 'password');
-  passwordLabel.textContent = 'Salasana';
-
-  const passwordInput = document.createElement('input');
-  passwordInput.setAttribute('type', 'password');
-  passwordInput.setAttribute('name', 'password');
-  passwordInput.setAttribute('placeholder', 'Salasana');
-
-  const submitButton = document.createElement('input');
-  submitButton.setAttribute('type', 'submit');
-  submitButton.setAttribute('name', 'submit');
-  submitButton.setAttribute('value', 'Luo käyttäjä');
-  submitButton.classList.add('CreateUser');
-
-  const existingUser = document.createElement('p');
-  existingUser.classList.add('Existing');
-  existingUser.textContent = 'Onko sinulla jo käyttäjä?';
-
-  const loginUserLink = document.createElement('a');
-  loginUserLink.setAttribute('href', '#');
-  loginUserLink.classList.add('OpenLogin');
-  loginUserLink.textContent = 'Kirjaudu sisään';
-
-  existingUser.appendChild(loginUserLink);
-
-  form.append(heading, emailLabel, emailInput, passwordLabel, passwordInput, submitButton, existingUser);
-  newUserModal.append(closeButton, newUserHeading, form);
-
-  document.body.appendChild(newUserModal);
-
-  form.addEventListener('submit', async (evt) => {
-    evt.preventDefault();
-    const url = 'http://127.0.0.1:3000/api/users';
-
-    const email = emailInput.value;
-    const password = passwordInput.value;
-
-    const data = {
-      email: email,
-      password: password,
-    };
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    };
-
-    try {
-      const responseData = await fetchData(url, options);
-      console.log(responseData);
-      alert('User created successfully');
-      newUserModal.remove();
-    } catch (error) {
-      console.error(error);
-      alert('Error creating user');
-    }
-  });
-};
-
-const registerButton = document.querySelector('.RegisterBtn');
-registerButton.addEventListener('click', () => {
-  openRegistrationForm();
+  try {
+    const responseData = await fetchData(url, options);
+    console.log(responseData);
+    alert("User created successfully");
+  } catch (error) {
+    console.error(error);
+    alert("Error creating user");
+  }
 });
 
+// const Registration = () => {
+//   const NewUserForm = document.querySelector(".NewUserForm");
+//   const RegisterEmail = NewUserForm.querySelector(
+//     'input[name="RegisterEmail"]'
+//   );
+//   const RegisterPassword = NewUserForm.querySelector(
+//     'input[name="RegisterPassword"]'
+//   );
+//   const RegisterName = NewUserForm.querySelector("input[name=RegisterName");
 
+//   NewUserForm.addEventListener("submit", async (evt) => {
+//     evt.preventDefault();
+
+//     const url = "http://127.0.0.1:3000/api/users/createDoctor";
+
+//     const data = {
+//       name: RegisterName.value,
+//       email: RegisterEmail.value,
+//       password: RegisterPassword.value,
+//     };
+
+//     const options = {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify(data),
+//     };
+
+//     try {
+//       const responseData = await fetchData(url, options);
+//       console.log(responseData);
+//       alert("User created successfully");
+//     } catch (error) {
+//       console.error(error);
+//       alert("Error creating user");
+//     }
+//   });
+// };
+
+// Login();
+// Registration();
 
 // Apufunktio, Tyhjennä local storage
-function clearLocalStorage() {
-  localStorage.removeItem('token');
-  localStorage.removeItem('user_id');
-  logResponse('clearResponse', 'localStorage cleared!');
-}
+// function clearLocalStorage() {
+//   localStorage.removeItem("token");
+//   localStorage.removeItem("user_id");
+//   logResponse("clearResponse", "localStorage cleared!");
+// }
 
-// popup handling
-const popup = document.getElementById('popup');
-const overlay = document.getElementById('overlay');
-const openPopupBtn = document.querySelector('.openPopup');
-const closePopupBtn = document.getElementById('closePopup');
-const createAccountBtn = document.getElementById('createAccount');
+// Modal handling
+const overlay = document.getElementById("overlay");
 
-openPopupBtn.addEventListener('click', function(evt) {
+// Login popup handling
+const loginModal = document.getElementById("LoginModal");
+const loginBtn = document.querySelector(".LoginBtn");
+const closeLoginBtn = document.querySelector(".CloseLogin");
+
+loginBtn.addEventListener("click", function (evt) {
   evt.preventDefault();
-  popup.style.display = 'block';
-  overlay.style.display = 'block';
+  console.log("clicked login");
+  loginModal.style.display = "block";
+  overlay.style.display = "block";
 });
 
-closePopupBtn.addEventListener('click', function() {
-  popup.style.display = 'none';
-  overlay.style.display = 'none';
+closeLoginBtn.addEventListener("click", function () {
+  loginModal.style.display = "none";
+  overlay.style.display = "none";
 });
 
-createAccountBtn.addEventListener('click', function(evt) {
+// Registration popup handling
+const newUserModal = document.getElementById("NewUserModal");
+const registerBtn = document.querySelector(".RegisterBtn");
+const closeNewUserBtn = document.querySelector(".CloseNewUser");
+
+registerBtn.addEventListener("click", function (evt) {
   evt.preventDefault();
-  popup.style.display = 'none';
-  overlay.style.display = 'none';
+  console.log("clicked Register");
+  newUserModal.style.display = "block";
+  overlay.style.display = "block";
+});
+
+closeNewUserBtn.addEventListener("click", function () {
+  newUserModal.style.display = "none";
+  overlay.style.display = "none";
 });

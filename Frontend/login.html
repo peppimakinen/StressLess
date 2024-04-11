@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    
+
     <div class="BigLogo">
         <img src="imgLogoOneLine.png" alt="BigLogo" class="BigLogoImg">
     </div>
@@ -25,35 +25,42 @@
         <button class="RegisterBtn">Rekisteröidy</button>
     </div>
 
+    <!-- Overlay for popups -->
+    <div id="overlay"></div>
+
     <div id="LoginModal">
-        <span class="CloseLogin">&times;</span>
-        <h1 class="LoginHeading">Tervetuloa takaisin</h1>
         <form class="LoginForm">
+            <span class="CloseLogin">&times;</span>
+            <h1 class="LoginHeading">Tervetuloa takaisin</h1>
             <h2>Kirjaudu sisään</h2>
-            <label for="email">Sähköposti</label>
-            <input type="text" name="email" placeholder="Sähköposti" id="email"/>
-            <label for="password">Salasana</label>
-            <input type="password" name="password" placeholder="Salasana" id="password" />
+            <label for="LoginEmail">Sähköposti</label>
+            <input type="text" name="LoginEmail" placeholder="Sähköposti" id="LoginEmail" />
+            <label for="LoginPassword">Salasana</label>
+            <input type="password" name="LoginPassword" placeholder="Salasana" id="LoginPassword" />
             <!-- <label for="createAccount" class="hiddentext">'</label> -->
-            <input name="submit" type="submit" value="Kirjaudu sisään" class="LoginUser"/>
+            <input name="LoginSubmit" type="submit" value="Kirjaudu sisään" class="LoginUser" />
             <p class="NotExisting">Puuttuuko sinulta käyttäjä?<a href="#" class="OpenNewUser">Luo käyttäjä</a></p>
         </form>
     </div>
 
     <div id="NewUserModal">
-        <span class="CloseNewUser">&times;</span>
-        <h1 class="NewUserHeading">Tervetuloa takaisin</h1>
         <form class="NewUserForm">
+            <span class="CloseNewUser">&times;</span>
+            <h1 class="NewUserHeading">Tervetuloa</h1>
             <h2>Luo uusi käyttäjä</h2>
-            <label for="email">Sähköposti</label>
-            <input type="text" name="email" placeholder="Sähköposti" id="email"/>
-            <label for="password">Salasana</label>
-            <input type="password" name="password" placeholder="Salasana" id="password" />
+            <label for="RegisterName">Koko nimi</label>
+            <input type="text" name="RegisterName" placeholder="Koko nimi" id="RegisterName" />
+            <label for="RegisterEmail">Sähköposti</label>
+            <input type="text" name="RegisterEmail" placeholder="Sähköposti" id="RegisterEmail" />
+            <label for="RegisterPassword">Salasana</label>
+            <input type="password" name="RegisterPassword" placeholder="Salasana" id="RegisterPassword" />
             <!-- <label for="createAccount" class="hiddentext">'</label> -->
-            <input name="submit" type="submit" value="Luo käyttäjä" class="CreateUser"/>
+            <input name="RegisterSubmit" type="submit" value="Luo käyttäjä" class="CreateUser" />
             <p class="Existing">Onko sinulla jo käyttäjä?<a href="#" class="OpenLogin">Kirjaudu sisään</a></p>
         </form>
     </div>
+
+    <script type="module" src="./login.js"></script>
 
 </body>
 
