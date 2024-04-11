@@ -4,8 +4,4 @@ db/create-db-user.sql
 .env
 .docs
 create-db-doctor.json
-keywords.robot
-tests/log.html
-tests/output.xml
-tests/report.html
-
+restful_booker_keywords.resource

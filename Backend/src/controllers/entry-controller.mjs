@@ -39,47 +39,59 @@ const getEntries = async (req, res, next) => {
     next(new Error(result.error));
   }
 };
-
-const getAllEntryDataForPatient = async (userId, entryDate) => {
+const gatherEntryData = async (userId, entryDate) => {
   console.log('Fetching entry for', entryDate);
-  const response = {};
   const entry = await getEntryUsingDate(userId, entryDate);
   if (entry.error) {
     throw customError(entry.message, entry.error);
   }
-  console.log('Entry found, fetching for measurement data...');
-  response['entry_data'] = entry;
-  const entryId = entry.entry_id;
+  return entry;
+};
+
+const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
   const hrvData = await getMeasurementsForPatient(entryId, userId, entryDate);
   if (hrvData.error) {
-    throw customError(entry.message, entry.error);
+    throw customError(hrvData.message, hrvData.error);
   }
-  console.log('Measurements found, checking for activities...');
-  response['hrv_measurements'] = hrvData;
+  return hrvData;
+};
+
+const gatherActivities = async (entryId, userId, entryDate) => {
   const foundActivities = await getActivitiesForEntry(
     entryId,
     userId,
     entryDate,
   );
-
   if (foundActivities.length > 0) {
     const activitiesList = [];
     for (const activity of foundActivities) {
       activitiesList.push(activity.activity_name);
     }
-    response['performed_activities'] = activitiesList;
+    return activitiesList;
   } else {
-    response['performed_activities'] = [];
+    return [];
   }
-  return response;
 };
 
 const getEntryById = async (req, res, next) => {
   try {
     const userId = req.user.user_id;
     const entryDate = req.params.entry_date;
-    const entry = await getAllEntryDataForPatient(userId, entryDate);
-    return res.json(entry);
+    const entry = await gatherEntryData(userId, entryDate);
+    const entryId = entry.entry_id;
+    const hrvData = await gatherPatientMeasurementData(
+      entryId,
+      userId,
+      entryDate,
+    );
+    const activities = await gatherActivities(entryId, userId, entryDate);
+    const allEntryData = {
+      diary_entry: entry,
+      measurement_data: hrvData,
+      activities: activities,
+    };
+
+    return res.json(allEntryData);
   } catch (error) {
     console.log('getEntryById catch error');
     next(customError(error.message, error.status));
