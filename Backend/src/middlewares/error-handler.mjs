@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 import {validationResult} from 'express-validator';
 import {getSurveyWithUserId} from '../models/survey-model.mjs';
 
@@ -70,6 +71,12 @@ const onlyForDoctorHandler = (req, res, next) => {
   }
 };
 const onlyForPatientWhoCompletedSurvey = async (req, res, next) => {
+  if (req.user.user_level !== 'patient') {
+    return next(
+      customError('This endpoint is only for StressLess patient users', 401),
+    );
+  }
+  console.log('Request came from a patient user');
   const result = await getSurveyWithUserId(req.user.user_id);
   if (!result.error) {
     console.log('Existing survey found');
@@ -79,6 +86,34 @@ const onlyForPatientWhoCompletedSurvey = async (req, res, next) => {
   }
 };
 
+function validateMondayAndSundayDates(req, res, next) {
+  console.log('Checking if provided dates are a Monday and a Sunday');
+  const {week_start_date: startDate, week_end_date: endDate} = req.body;
+  // Calculate the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const startDateObj = new Date(startDate);
+  const startDayNumber = startDateObj.getUTCDay();
+  // Check if the start date is a Monday
+  if (startDayNumber === 1) {
+    console.log(startDate, 'is a Monday');
+    // Add 6 days to the start date to get the supposed Sunday
+    const supposedSunday = new Date(startDateObj);
+    supposedSunday.setDate(startDateObj.getDate() + 6);
+    const formattedSupposedSunday = supposedSunday.toISOString().split('T')[0];
+    // Make sure the supposed Sunday is actually a Sunday
+    if (supposedSunday.getUTCDay() === 0) {
+      // Compare the supposed Sunday with the provided end date
+      if (formattedSupposedSunday === endDate) {
+        console.log(endDate, 'is the same weeks Sunday');
+        return next();
+      }
+      return next(
+        customError('Week_end_date is not the same weeks sunday', 400),
+      );
+    }
+    return next(customError('Failed to generate valid sunday date', 500));
+  }
+  return next(customError('Week_start_date is not a monday', 400));
+}
 
 // Validate each key:value pair in a survey
 const validateSurvey = (req, res, next) => {
@@ -108,7 +143,7 @@ const validateSurvey = (req, res, next) => {
       if (invalidActivities.status === 400) {
         return next(invalidActivities);
       }
-    // If the anwer is not a list, its a regular question:answer pair
+      // If the anwer is not a list, its a regular question:answer pair
     } else {
       // Check that answer text isnt too long
       const validAnswer = checkStringLenght(answer, 250);
@@ -172,5 +207,6 @@ export {
   onlyForDoctorHandler,
   validateSurvey,
   checkActivities,
+  validateMondayAndSundayDates,
   onlyForPatientWhoCompletedSurvey,
 };

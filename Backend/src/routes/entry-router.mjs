@@ -19,7 +19,6 @@ entryRouter
   .route('/')
   .post(
     authenticateToken,
-    onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     body('mood_color').isString(),
@@ -32,7 +31,6 @@ entryRouter
   .route('/monthly')
   .get(
     authenticateToken,
-    onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     body('year', 'Only the years between 2020 - 2030 are available').isInt({
       min: 2020,
@@ -47,7 +45,6 @@ entryRouter
   .route('/daily/:entry_date')
   .get(
     authenticateToken,
-    onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     param('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
     validationErrorHandler,

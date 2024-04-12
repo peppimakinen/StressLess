@@ -17,7 +17,6 @@ surveyRouter
   .route('/')
   .get(
     authenticateToken,
-    onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     getOwnSurvey,
   )
@@ -27,7 +26,6 @@ surveyRouter
   .route('/activities')
   .get(
     authenticateToken,
-    onlyForPatientHandler,
     onlyForPatientWhoCompletedSurvey,
     getActivities,
   );
