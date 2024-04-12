@@ -120,7 +120,7 @@ createDoctor.addEventListener("click", async (evt) => {
   try {
     const responseData = await fetchData(url, options);
     console.log(responseData);
-    alert("User created successfully");
+    // alert("User created successfully");
   } catch (error) {
     console.error(error);
     alert("Error creating user");
