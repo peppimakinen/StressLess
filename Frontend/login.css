@@ -24,126 +24,55 @@ body {
     background-size: cover;
 }
 
-
 .BigLogo {
     display: flex;
     justify-content: center;
 }
 
 .BigLogoImg {
-    width: 700px;
+    width: 60%;
     height: auto;
     padding-top: 100px;
     display: flex;
     justify-content: center;
 }
 
-/* Buttons */
-.button-group {
-    display: block;
-    text-align: center;
-    padding-top: 80px;
-}
-
-.button-group button {
-    width: 300px;
-    height: 66px;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: 22px;
-    cursor: pointer;
-    border-radius: 55px;
-    border: 2px solid #313e50;
-    background-color: #313E50;
-    color: #fffaff;
-    margin: 70px auto;
-    display: block;
-    box-shadow: 0 2px 2px #313E50;
-    /* Add drop shadow */
-}
-
-.button-group button:focus {
-    outline: none;
-}
-
-.button-group button:hover {
-    background-color: #5D7283;
-    border: 2px solid #5D7283;
-}
-
-/* Modal container */
-/* Modal container */
-#LoginModal,
-#NewUserModal {
+/* Login */
+#Login {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    display: none;
     position: fixed;
-    z-index: 1;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
+    margin-top: 5%;
 }
 
-/* Modal content */
-.LoginForm,
-.NewUserForm {
+/* Form content */
+.LoginForm {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     background-color: #fffaff;
     margin: 11% auto;
-    padding: 30px;
+    padding: 25px;
     border-radius: 40px;
     width: 400px;
 }
 
-/* Close button */
-.CloseLogin,
-.CloseNewUser {
-    color: #1E1B18;
-    float: right;
-    font-size: 20px;
-    font-weight: bold;
-    position: absolute;
-    top: 24px; /* Adjust top position */
-    right: 28px; /* Adjust right position */
-}
-
-.CloseLogin:hover,
-.CloseNewUser:hover,
-.CloseLogin:focus,
-.CloseNewUser:focus {
-    color: #a09d9a;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Modal headings */
-.LoginHeading,
-.NewUserHeading {
+/* Login headings */
+.LoginHeading {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 20px;
     color: #1E1B18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 700;
     font-size: 37px;
-}
-
-h2 {
-    text-align: center;
-    color: #1E1B18;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    margin-bottom: 20px;
 }
 
 /* Form elements */
@@ -168,6 +97,7 @@ input[type="submit"] {
     width: 50%;
     padding: 20px;
     margin-top: 20px;
+    margin-bottom: 20px;
     color: #fffaff;
     font-family: 'Nunito', sans-serif;
     font-weight: 100;
@@ -186,27 +116,9 @@ input[type="submit"]:focus {
     outline: none;
 }
 
-/* Hyperlinks */
-.NotExisting,
-.Existing {
-    text-align: center;
-    padding-top: 20px;
-}
-
-.NotExisting a,
-.Existing a {
-    color: #63CCCA;
-    display: block;
-}
-
-/* Overlay */
-#overlay {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+/* Responsive rules */
+@media screen and (min-width: 1500px) {
+    .BigLogoImg {
+        width: 40%;
+    }
 }

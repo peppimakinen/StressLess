@@ -213,3 +213,4 @@ closeNewUserBtn.addEventListener("click", function () {
   newUserModal.style.display = "none";
   overlay.style.display = "none";
 });
+
