@@ -1,8 +1,31 @@
+import {getFirstEntryDate} from '../models/report-model.mjs';
+import {customError} from '../middlewares/error-handler.mjs';
+
 /* eslint-disable require-jsdoc */
 const getAvailableWeeks = async (req, res, next) => {
-  console.log('Entered getAvailableWeeks');
-  console.log(getPastWeeksFromDate('2024-02-01'));
+  try {
+    console.log('Entered getAvailableWeeks');
+    const result = {};
+    const userId = req.user.user_id;
+    const firstEntry = await getFirstEntryDate(userId);
+    const firstEntryDate = firstEntry.entry_date;
+    const availableWeeks = getPastWeeksFromDate(firstEntryDate);
+    result['all_weeks'] = availableWeeks;
+    const message =
+      `First entry for ${req.user.username} was made on ${firstEntryDate}`;
+    result['message'] = message;
+    return res.json(result);
+  } catch (error) {
+    console.log('getAvailableWeeks catch block');
+    next(customError(error.message, error.error));
+  }
 };
+
+const getWeeklyReport = async (req, res, next) => {
+  console.log('Entered getWeeklyReport');
+
+};
+
 
 function getPastWeeksFromDate(startDate) {
   // Date object for first date in db
