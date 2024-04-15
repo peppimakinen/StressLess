@@ -34,7 +34,9 @@ LoginPatient.addEventListener("click", async (evt) => {
     const responseData = await fetchData(url, options);
     console.log(responseData);
     localStorage.setItem("token", responseData.token);
-    localStorage.setItem("user_id", responseData.user_id);
+    localStorage.setItem("user_email", responseData.user.username);
+    localStorage.setItem("user_name", responseData.user.full_name);
+    localStorage.setItem("user_level", responseData.user.user_level);
 
   } catch (error) {
     console.error(error);

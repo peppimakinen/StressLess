@@ -17,9 +17,9 @@
 <body>
     <ul class="navigation">
         <li class="home"><a href="#home"><img src="imgLogo.png" alt="Logo"></a></li>
-        <li class="textNav"><a href="">Koti</a></li>
+        <li class="textNav"><a href="patienthome.html">Koti</a></li>
         <li class="textNav"><a href="weekRaports.html">Viikkoraportit</a></li>
-        <li class="textNav"><a href="">Asetukset</a></li>
+        <li class="textNav"><a href="settings.html">Asetukset</a></li>
         <li style="float: right" class="logoutNav"><a href="loginpatient.html">Kirjaudu ulos</a></li>
     </ul>
 
@@ -29,33 +29,56 @@
             <div class="settings-list">
                 <ul class="title">
                     <li><img src="imgSettingsIcon.png" alt="settings Image"></li>
-                    <li><h2>Asetukset</h2></li>
+                    <li>
+                        <h2>Asetukset</h2>
+                    </li>
                 </ul>
                 <ul class="links">
-                    <li><a href="#">Profiili</a></li>
-                    <li><a href="#">Ilmoitukset</a></li>
-                    <li><a href="#">Yhteystiedot</a></li>
+                    <li><a href="profile.html">Profiili</a></li>
+                    <li><a href="notif.html">Ilmoitukset</a></li>
+                    <li><a href="contacts.html">Yhteystiedot</a></li>
                 </ul>
             </div>
         </div>
         <div class="divider"></div> <!-- Tässä on väliviiva -->
         <div class="right-column">
             <h1>Profiili</h1>
-            <div class="profile-list">
-                <ul class="title">
-                    <li><h2>Käyttäjätiedot</h2></li>
-                </ul>
-                <ul class="links">
-                    <li>Nimi</li>
-                    <li>Puhelinnumero</li>
-                    <li>Sähköposti</li>
-                    <li>Osoite</li>
-                </ul>
+            <div class="profile-content">
+                <div class="profile-list">
+                    <ul class="title">
+                        <li>
+                            <h2>Käyttäjätiedot</h2>
+                        </li>
+                    </ul>
+                    <ul class="links">
+                        <ul class="links">
+                            <li style="display: flex; align-items: center;">
+                                <img src="imgProfileIcon.png" alt="profilepic">
+                                <span id="name">nimi</span>
+                            </li>
+                            <li style="display: flex; align-items: center;">
+                                <img src="ImgEmailIcon.png" alt="emailpic">
+                                <span id="email">sposti</span>
+                            </li>
+                        </ul>
+                </div>
+                <div class="blocks">
+                    <ul class="entries">
+                        <li><span id="entries"><a>Päiväkirjamerkintöjen määrä:</a>kpl</span></li>
+                    </ul>
+                    <ul class="buttons">
+                        <li><a href="contacts.html">Yhteystiedot</a></li>
+                        <li class="pic"><img src="ImgDeleteIcon.png"><a href="security.html">Poista Käyttäjä</a></li>
+                    </ul>
+                </div>
             </div>
+
         </div>
     </div>
 
 
 </body>
+
+<script type="module" src="profileP.js"></script>
 
 </html>
