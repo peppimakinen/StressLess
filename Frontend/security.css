@@ -39,7 +39,8 @@ body {
     align-items: center;
 }
 
-li a {
+.navigation li a,
+.settings-list li a {
     display: block;
     text-align: center;
     padding: 14px 26px;
@@ -87,12 +88,12 @@ h1 {
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 700;
-    font-size: 60px;
+    font-size: 45px;
 }
 
 
 .profile {
-    list-style-type: none; /* Remove default list styles */
+    list-style-type: none;
     padding-left: 90px;
     align-items: center;
 }
@@ -107,6 +108,7 @@ h1 {
     margin-top: 40px;
     display: flex;
     align-items: flex-start;
+    width: 100%;
 }
 
 
@@ -119,16 +121,18 @@ h1 {
     margin-right: 50px;
 }
 
-.mainpic {
-    width: 270px; 
-    height: auto;
-}
-
 .left-column {
     display: flex;
     flex-direction: column;
     padding-left: 40px;
 }
+
+.mainpic {
+    width: 270px; 
+    height: 250px;
+    margin-bottom: 20px;
+}
+
 
 .settings-list {
     background-color: #fffaff;
@@ -185,126 +189,16 @@ h1 {
 }
 
 
-.profile-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+.right-column {
+    width: 60%;
 }
 
 
-.profile-list {
-    background-color: #fffaff;
-    border-radius: 20px;
-    width: 400px;
-    margin-top: 50px;
-    margin-left: 30px;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    height: 220px;
+.teksti {
+    padding-left: 40px;
+    padding-top: 20px;
+    padding-bottom: 30px;
 }
-
-.profile-list .title {
-    display: flex;
-    align-items: center;
-    padding-top: 10px;
-    padding-left: 20px;
-}
-
-.profile-list .title h2 {
-    margin: 0;
-    margin: 10px 0;
-    margin-left: 10px;
-    text-align: center;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 700; /* 400-700 */
-    font-size: 25px;
-}
-
-.profile-list ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    color: #1e1b18;
-    padding-left: 20px;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 400; /* 400-700 */
-    font-size: 20px;
-}
-
-.profile-list ul li {
-    margin-bottom: 20px;
-}
-
-.profile-list ul img {
-    max-width: 40px;
-    margin-right: 10px;
-}
-
-
-.blocks {
-    list-style-type: none;
-    width: 430px;
-    margin-right: 60px;
-}
-
-.blocks li {
-    display: flex;
-    align-items: center;
-    background-color: #fffaff;
-    margin-bottom: 20px;
-    padding: 10px;
-    justify-content: center;
-}
-
-.blocks img {
-    width: 50px; 
-    height: 45px; 
-}
-
-.blocks a {
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 700; /* 400-700 */
-    font-size: 20px;
-}
-
-.entries {
-    padding-bottom: 35px;
-}
-
-.entries a {
-    color: #1e1b18;
-}
-
-.entries li {
-    border-radius: 20px;
-    height: 130px;
-}
-
-.entries span {
-    text-align: center;
-    font-size: 40px;
-}
-
-
-.buttons li {
-    background-color:#313e50;
-    border-radius: 50px;
-    height: 75px;
-}
-
-.buttons a {
-    color: #fffaff;
-}
-
-.buttons li:hover {
-        color: #fffaff;
-        background-color: #28303a;
-        border-radius: 30px;
-}
-
 
 
 
@@ -315,7 +209,16 @@ h1 {
         flex-direction: column;
     }
     .divider {
-        height: 790px;
+        height: 550px;
+        margin-bottom: 20px;
+    }
+    .right-column {
+        width: 50%;
     }
 }
 
+@media screen and (max-width: 825px) {
+    .blocks li {
+        height: 85px;
+    }
+}

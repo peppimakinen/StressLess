@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="notif.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><a href="#home"><img src="imgLogo.png" alt="Logo"></a></li>
+        <li class="textNav"><a href="patienthome.html">Koti</a></li>
+        <li class="textNav"><a href="weekRaports.html">Viikkoraportit</a></li>
+        <li class="textNav"><a href="settings.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="loginpatient.html">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div class="profile-container">
+        <div class="left-column">
+            <img class="mainpic" src="imgNotificationsIcon.png" alt="settings Image">
+            <div class="settings-list">
+                <ul class="title">
+                    <li><img src="imgSettingsIcon.png" alt="settings Image"></li>
+                    <li>
+                        <h2>Asetukset</h2>
+                    </li>
+                </ul>
+                <ul class="links">
+                    <li><a href="profile.html">Profiili</a></li>
+                    <li><a href="notif.html">Ilmoitukset</a></li>
+                    <li><a href="contacts.html">Yhteystiedot</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div> <!-- Tässä on väliviiva -->
+        <div class="right-column">
+            <h1>Ilmoitukset</h1>
+            <ul class="blocks">
+                <li>
+                    <div>
+                        Poista ilmoitukset
+                        <button class="toggle-button">POIS</button>
+                    </div>
+                    <a>Poista kaikki ilmoitukset käytöstä</a>
+                </li>
+                <li>
+                    <div>
+                        Uutiset ja päivitykset
+                        <button class="toggle-button">POIS</button>
+                    </div>
+                    <a>uutisia tuotteesta ja ominaisuuspäivityksistä</a>
+                </li>
+                <li>
+                    <div>
+                        Päivittäinen muistutus
+                        <button class="toggle-button">POIS</button>
+                    </div>
+                    <a>päivittäinen muistutus päiväkirja merkinnän tekemisestä</a>
+                </li>
+                <li>
+                    <div>
+                        Viikkoraportti ilmoitukset
+                        <button class="toggle-button">POIS</button>
+                    </div>
+                    <a>Saat ilmoituksen, kun viikkoraportti on julkaistu</a>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+
+
+</body>
+
+<script type="module" src="notif.js"></script>
+
+</html>
