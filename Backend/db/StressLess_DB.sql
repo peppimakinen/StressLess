@@ -93,3 +93,26 @@ CREATE table DM (
     FOREIGN KEY (m_id) REFERENCES Measurements(measurement_id),
     FOREIGN KEY (e_id) REFERENCES DiaryEntries(entry_id)
 );
+
+CREATE TABLE WeeklyReports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    week_number INT NOT NULL,
+    week_start_date date NOT NULL,
+    week_end_date date NOT NULL,
+    red_percentage DECIMAL(8, 2) NOT NULL,
+    green_percentage DECIMAL(8, 2) NOT NULL,
+    yellow_percentage DECIMAL(8, 2) NOT NULL,
+    gray_percentage DECIMAL(8, 2) NOT NULL,
+    monday_si DECIMAL(8, 2) NOT NULL,
+    tuesday_si DECIMAL(8, 2) NOT NULL,
+    wednesday_si DECIMAL(8, 2) NOT NULL,
+    thursday_si DECIMAL(8, 2) NOT NULL,
+    friday_si DECIMAL(8, 2) NOT NULL,
+    saturday_si DECIMAL(8, 2) NOT NULL,
+    sunday_si DECIMAL(8, 2) NOT NULL,
+    week_si_avg DECIMAL(8, 2) NOT NULL,
+    previous_week_si_avg DECIMAL(8, 2),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
+);

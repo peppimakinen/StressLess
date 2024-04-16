@@ -1,5 +1,4 @@
 import {
-  onlyForPatientHandler,
   validationErrorHandler,
   onlyForPatientWhoCompletedSurvey,
 } from '../middlewares/error-handler.mjs';

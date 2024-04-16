@@ -109,7 +109,6 @@ const getEntriesFromSpecificMonthForDoctor = async (year, month, patienId) => {
 };
 
 
-
 const getActivitiesForEntry = async (entryId, userId, entryDate) => {
   try {
     const sql = `
