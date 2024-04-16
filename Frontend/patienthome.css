@@ -89,6 +89,13 @@ h1 {
 
 
 /* Calendar */
+.calendarBackground {
+    background-color: #fffaff; 
+    margin: 30px;
+    border-radius: 22px;
+    
+}
+
 .calendarWrapper {
     width: 90%;
     margin: auto;
@@ -97,10 +104,8 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #fffaff;
-    border-radius: 22px;
     padding: 40px;
-    padding-bottom: 25vh;
+    padding-bottom: 23vh;
 }
 
 .calendarWrapper header {
@@ -174,6 +179,8 @@ header .calendarHeader span {
     font-weight: 700;
     font-size: 20px;
     color: #313e50;
+    width: 11vw;
+    height: auto;
 }
 
 .calendar .days li {
@@ -184,6 +191,8 @@ header .calendarHeader span {
     font-weight: 500;
     font-size: 16px;
     color: #1e1b18;
+    width: 11vw;
+    height: auto;
 }
 
 .days li.inactive {
