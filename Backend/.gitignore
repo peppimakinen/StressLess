@@ -4,4 +4,5 @@ db/create-db-user.sql
 .env
 .docs
 create-db-doctor.json
-restful_booker_keywords.resource
+playwright-log.txt
+output.xml
