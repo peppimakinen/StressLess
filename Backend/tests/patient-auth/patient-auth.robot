@@ -64,3 +64,8 @@ Get survey and activities
     ${response_only_activities}=    Set Variable    ${response.json()}[activities]
     ${matched}=    Evaluate    ${response_only_activities} == ${activities}
     Should Be True    ${matched}
+
+Get self
+    ${response}=    GET    url=http://127.0.0.1:3000/api/auth/me     headers=${headers}
+    Should Be Equal As Strings    ${response.json()}[stressLessUser][user_level]    patient
+    Log    ${response}
