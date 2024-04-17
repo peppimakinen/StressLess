@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="alkuk.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+</head>
+
+<body>
+    <h1>Alkukartoitus</h1>
+
+    <div id="questions">
+        <form class="answer-form-all">
+            <ul class="blocks">
+                <li>
+                    <label for="question1">Syntymäaika *</label>
+                    <input type="date" id="question1" name="question1" />
+                </li>
+                <li>
+                    <label for="question2">Kuinka pitkä olet? (cm) *</label>
+                    <input type="number" id="question2" name="question2" placeholder="Valitse..."/>
+                </li>
+                <li>
+                    <label for="question3">Mikä on painosi? (kg) *</label>
+                    <input type="number" id="question3" name="question3" placeholder="Valitse..."/>
+                </li>
+                <li>
+                    <label for="question4">Mikä on sukupuolesi?</label>
+                    <select id="question4" name="question4">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Nainen">Nainen</option>
+                        <option value="Muunsukupuolinen">Muunsukupuolinen</option>
+                        <option value="Muu">Muu</option>
+                        <option value="Mies">Mies</option>
+                        <option value="En halua sanoa">En halua sanoa</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question5">Koetko olevasi terve?</label>
+                    <select id="question5" name="question5">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Kyllä">Kyllä, olen terve</option>
+                        <option value="En">En, minulla on joitain terveysongelmia</option>
+                        <option value="En osaa sanoa">En osaa sanoa</option>
+                        <option value="En halua vastata">En halua vastata tähän kysymykseen</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question6">Jos et koe olevasi terve, haluatko <br> jakaa terveyshuolia?</label>
+                    <input type="text" id="question6" name="question6" placeholder="Kirjoita tähän..." />
+                </li>
+                <li>
+                    <label for="question7">Asteikolla 1-5, koetko olevasi <br> 
+                        stressaantunut tai ahdistunut? *</label>
+                    <select id="question7" name="question7">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question8">Mitkä ovat yleisiä stressitekijöitä sinun elämässäsi?</label>
+                    <input type="text" id="question8" name="question8" placeholder="Kirjoita tähän..." />
+                </li>
+                <li>
+                    <label for="question9">Vaikuttaako nämä tunteet päivittäiseen <br>elämään/arkeen/opintoihin kuinka vahvasti?</label>
+                    <input type="text" id="question9" name="question9" placeholder="Kirjoita tähän..." />
+                </li>
+                <li>
+                    <label for="question10">Kuinka usein koet näitä tunteita viikossa?</label>
+                    <input type="text" id="question10" name="question10" placeholder="Kirjoita tähän..." />
+                </li>
+                <li>
+                    <label for="question11">Vaikuttaako kokemasi stressi tulevaisuuden näkymääsi?</label>
+                    <select id="question11" name="question11">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Kyllä</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question12">Aiheuttaako kokemasi stressi fyysisiä oireita?</label>
+                    <select id="question12" name="question12">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Kyllä</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question13">Vaikuttaako stressi tai ahdistus uneesi?</label>
+                    <select id="question13" name="question13">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Kyllä</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question14">Mitä aktiviteetteja hyödynnät stressin lievennyksessä?</label>
+                    <input type="text" id="question14" name="question14" placeholder="Kirjoita tähän..." />
+                </li>
+                <li>
+                    <label for="question15">Kuinka monta tuntia viikossa käytät urheiluun ja minkä <br>tyyppistä tämä urheilu on? *</label>
+                    <input type="number" id="question15" name="question15" placeholder="Valitse..."/>
+                </li>
+                <li>
+                    <label for="question16">Miten sykkeesi käyttäytyy rasituksen alaisena?</label>
+                    <input type="text" id="question16" name="question16" placeholder="Kirjoita tähän..."/>
+                </li>
+                <li>
+                    <label for="question17">Tiedätkö, onko sinulla jotain perussairauksia <br>
+                         tai pitkäaikaisia lääkityksiä, jotka saattavat <br>
+                          vaikuttaa sydämen toimintaan?</label>
+                    <input type="text" id="question17" name="question17" placeholder="Kirjoita tähän..."/>
+                </li>
+                <li>
+                    <label for="question18">Kuinka usein käytät...</label>
+                    <p>Kofeiinia?</p>
+                    <select id="question18" name="question18">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Päivittäin</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Alkoholia?</p>
+                    <select id="question18" name="question18">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Päivittäin</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Nikotiinituotteita?</p>
+                    <select id="question18" name="question18">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Päivittäin</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Muita päihteitä?</p>
+                    <select id="question18" name="question18">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="1">Päivittäin</option>
+                        <option value="2">Usein</option>
+                        <option value="3">Joskus</option>
+                        <option value="4">Harvoin</option>
+                        <option value="5">En käytä</option>
+                    </select>
+                    <br>
+                    <br>
+                </li>
+            </ul>
+            <label for="question19">Käytätkö sovellusta YTHS:n lääkärin kanssa? *</label>
+            <input type="submit" value="Kyllä" id="yes"/>
+            <input type="submit" value="En" id="no"/>
+        </form>
+
+        <div id="overlay"></div>
+
+        <div id="popup">
+            <span class="closePopup" id="closePopup">&times;</span>
+            <form class="doctor_form">
+                <h2>YTHS</h2>
+                    <label for="doctorname">Lääkärin nimi tai käyttäjätunnus</label>
+                    <input type="text" id="doctor_name" name="doctor_name" required placeholder="Kirjoita tähän..."><br>
+                    <input name="submit" type="submit" value="Lisää lääkäri" class="doctor"/>
+            </form>
+          </div>
+    </div>
+
+
+</body>
+
+<script type="module" src="alkuk.js"></script>
+
+</html>
