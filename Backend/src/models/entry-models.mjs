@@ -32,7 +32,7 @@ const getEntryUsingDate = async (userId, date) => {
   }
 };
 
-const getEntriesFromSpecificMonthForPatient = async (year, month, userId) => {
+const getMonthlyPatientEntries = async (year, month, userId) => {
   try {
     const sql = `
     SELECT 
@@ -252,16 +252,30 @@ const connectMeasurementToEntry = async (entryId, measurementId) => {
   }
 };
 
+const getEntryCount = async (userId) => {
+  try {
+    const sql = `
+    SELECT 
+      COUNT(*) AS entry_count 
+    FROM DiaryEntries
+    WHERE user_id=?;`;
+    const [rows] = await promisePool.query(sql, userId);
+    return rows[0];
+  } catch (error) {
+    return {error: 500, message: 'db error'};
+  };
+};
 
 export {
   addEntry,
+  getEntryCount,
   getEntryUsingDate,
   selectEntryById,
   addAllActivities,
   addMeasurement,
   getMeasurementsForPatient,
   connectMeasurementToEntry,
-  getEntriesFromSpecificMonthForPatient,
+  getMonthlyPatientEntries,
   getEntriesFromSpecificMonthForDoctor,
   getActivitiesForEntry,
 };

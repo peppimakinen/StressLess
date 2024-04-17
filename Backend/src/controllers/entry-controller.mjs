@@ -6,7 +6,7 @@ import {
   getMeasurementsForPatient,
   getEntryUsingDate,
   addAllActivities,
-  getEntriesFromSpecificMonthForPatient,
+  getMonthlyPatientEntries,
   connectMeasurementToEntry,
 } from '../models/entry-models.mjs';
 import {customError, checkActivities} from '../middlewares/error-handler.mjs';
@@ -14,6 +14,7 @@ import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 
 /**
  * Handle GET request to get all diary entries from a specific month
+ * @async
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
@@ -27,11 +28,11 @@ const getMonth = async (req, res, next) => {
     // Fetch all entries and measurements that took place in during chosen month
     const entries = await gatherMonthlyPatientEntries(month, year, userId);
     // Add completed activities to the found entries
-    const completeEntries = await attatchActivitiesToFoundEntries(entries);
+    const completeEntries = await attachCompletedActivitiesToEntries(entries);
     // Add empty dicts for days that didnt have a entry
-    const completeMonthData = addMissingDays(completeEntries, month, year);
+    const wholeMonth = populateMissingDaysInMonth(completeEntries, month, year);
     // Return all found data
-    return res.json(completeMonthData);
+    return res.json(wholeMonth);
   } catch (error) {
     console.log('getMonth catch block', error);
     next(customError(error.message, error.status));
@@ -39,146 +40,8 @@ const getMonth = async (req, res, next) => {
 };
 
 /**
- *  Add empty dicts for days that didnt have a entry
- * @param {list} entries A list of diary entries
- * @param {int} month A number to represent a month
- * @param {int} year A number to represent a year
- * @return {dictionary} Key:value pairs for every day of the month
- */
-const addMissingDays = (entries, month, year) => {
-  // Get the number of days in the specified month
-  const daysInMonth = new Date(year, month, 0).getDate();
-  const result = {};
-  // Iterate through each day in the month
-  for (let day = 1; day <= daysInMonth; day++) {
-    // Create a Date object for the current day
-    const currentDate = new Date(year, month - 1, day);
-    // Get current date in yyyy-mm-dd format
-    const yyyy = currentDate.getFullYear();
-    const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const dd = String(day).padStart(2, '0');
-    const fullDate = yyyy + '-' + mm + '-' + dd;
-    // Search for the current date in the entries list
-    const foundEntry = entries.find((entry) => entry.entry_date === fullDate);
-    // If a match is found, attatch entry to be the value for the date
-    if (foundEntry) {
-      result[fullDate] = foundEntry;
-    } else {
-      result[fullDate] = {};
-    }
-  }
-  return result;
-};
-
-/**
- * Fetch DiaryEntries and Measurements data with patient scope
- * @param {int} month A month number
- * @param {int} year Year
- * @param {int} userId User ID
- * @return {json} All found entries and measurements within the scope
- */
-const gatherMonthlyPatientEntries = async (month, year, userId) => {
-  // Fetch data from DiaryEntries and Measurements tables
-  const result = await getEntriesFromSpecificMonthForPatient(
-    year,
-    month,
-    userId,
-  );
-  // Check for errors
-  if (result.error) {
-    throw customError(result.message, result.error);
-  };
-  return result;
-};
-
-/**
- * Iterate over entry dates and attatch completed activities if found
- * @param {list} allEntries List containing every found entry
- * @return {list} Modified allEntries
- */
-const attatchActivitiesToFoundEntries = async (allEntries) => {
-  // Iterate over every entry
-  for (const entry of allEntries) {
-    const entryId = entry.entry_id;
-    const entryDate = entry.entry_date;
-    const userId = entry.user_id;
-    // Get activities for that specific date
-    const allActivities = await gatherActivities(entryId, userId, entryDate);
-    // Add a new key:value pair to entry where value is list of activities
-    entry['all_activities'] = allActivities;
-  }
-  // Return modified list
-  return allEntries;
-};
-
-/**
- * Get data from DiaryEntries table for a specific date
- * @param {int} userId User ID
- * @param {Date} entryDate Entry date in yyyy-mm-dd -format
- * @return {dictionary} The found entry
- */
-const gatherEntryDataUsingDate = async (userId, entryDate) => {
-  console.log('Fetching entry for', entryDate);
-  // Fetch data from DiaryEntries table
-  const entry = await getEntryUsingDate(userId, entryDate);
-  // Check for errors
-  if (entry.error) {
-    throw customError(entry.message, entry.error);
-  }
-  // Return OK result
-  return entry;
-};
-
-/**
- * Get measurements for a specific entry
- * @param {int} entryId ID of the entry the data should be linked to
- * @param {int} userId User ID
- * @param {Date} entryDate Entry date in yyyy-mm-dd -format
- * @return {dictionary} The found measurement data
- */
-const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
-  // Fetch data from Measurements table that link to entry ID
-  const hrvData = await getMeasurementsForPatient(entryId, userId, entryDate);
-  // Check for errors
-  if (hrvData.error) {
-    throw customError(hrvData.message, hrvData.error);
-  }
-  // Return OK result
-  return hrvData;
-};
-
-/**
- * Get activities for a specific entry
- * @param {int} entryId ID of the entry the activities should be linked to
- * @param {int} userId User ID
- * @param {Date} entryDate Entry date in yyyy-mm-dd -format
- * @return {list} The found activities for the provided date
- */
-const gatherActivities = async (entryId, userId, entryDate) => {
-  // Fetch data from the CompletedActivities table
-  const foundActivities = await getActivitiesForEntry(
-    entryId,
-    userId,
-    entryDate,
-  );
-  // Check the lenght of the list
-  if (foundActivities.length > 0) {
-    // Initialize a empty list for found activities
-    const activitiesList = [];
-    // Iterate over every activity from the CompletedActivities result
-    for (const activity of foundActivities) {
-      // Append each activity to the list
-      activitiesList.push(activity.activity_name);
-    }
-    // return activities
-    return activitiesList;
-  }
-  // If initial list lenght was 0, just return empty list
-  return [];
-};
-
-/**
  * Get all entry data for a specific date
+ * @async
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
@@ -216,29 +79,8 @@ const getDay = async (req, res, next) => {
 };
 
 /**
- * Get and handle kubios API result data for a specific data
- * @param {Request} req
- * @return {res} Fetched HRV data
- */
-const getKubiosDataForNewEntry = async (req) => {
-  // Fetch data from Kubios API for a specific date
-  const hrvData = await retrieveDataForDate(req, req.body.entry_date);
-  // Check result object lenght
-  const resultsLength = Object.keys(hrvData.results).length;
-  // Check for errors is response
-  if (hrvData.error) {
-    throw customError('Could not retrieve kubios data', 500);
-  }
-  // Check if the response was empty
-  if (resultsLength === 0) {
-    throw customError('No kubios data found', 400);
-  }
-  // Return OK Data
-  return hrvData;
-};
-
-/**
  * Hande POST request for new diary entry
+ * @async
  * @param {Request} req
  * @param {Response} res
  * @param {NextFunction} next
@@ -246,17 +88,17 @@ const getKubiosDataForNewEntry = async (req) => {
  */
 const postEntry = async (req, res, next) => {
   try {
-    // TODO CHECK FOR EXISTING ENTRY
     console.log('Entered postEntry...');
     // Format request body data to a list
     const {entry_date, mood_color, notes} = req.body;
     const entryParams = [req.user.user_id, entry_date, mood_color, notes];
+    await checkForExistingEntry(req.user.user_id, entry_date);
     // Validate and format activities list
     const activitiesParams = validateyActivitiesList(req);
     // Get kubios daily measurement for the specific date
-    const hrvData = await getKubiosDataForNewEntry(req);
+    const hrvData = await getKubiosData(req);
     // Format hrv values
-    const hrvParams = chooseWantedHrvValuesAndReformat(hrvData.results[0]);
+    const hrvParams = extractHRVMeasurementValues(hrvData.results[0]);
     // Create a new entry to the database and save its ID
     const addedEntry = await addEntry(entryParams);
     const entryId = addedEntry.insertId;
@@ -280,6 +122,189 @@ const postEntry = async (req, res, next) => {
     next(customError(error.message, error.status, error.errors));
   }
 };
+
+/**
+ *  Add empty dicts for days that didnt have a entry
+ * @param {list} entries A list of diary entries
+ * @param {int} month A number to represent a month
+ * @param {int} year A number to represent a year
+ * @return {dictionary} Key:value pairs for every day of the month
+ */
+const populateMissingDaysInMonth = (entries, month, year) => {
+  // Get the number of days in the specified month
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const result = {};
+  // Iterate through each day in the month
+  for (let day = 1; day <= daysInMonth; day++) {
+    // Create a Date object for the current day
+    const currentDate = new Date(year, month - 1, day);
+    // Get current date in yyyy-mm-dd format
+    const yyyy = currentDate.getFullYear();
+    const mm = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const dd = String(day).padStart(2, '0');
+    const fullDate = yyyy + '-' + mm + '-' + dd;
+    // Search for the current date in the entries list
+    const foundEntry = entries.find((entry) => entry.entry_date === fullDate);
+    // If a match is found, attatch entry to be the value for the date
+    if (foundEntry) {
+      result[fullDate] = foundEntry;
+    } else {
+      result[fullDate] = {};
+    }
+  }
+  return result;
+};
+
+/**
+ * Fetch DiaryEntries and Measurements data with patient scope
+ * @async
+ * @param {int} month A month number
+ * @param {int} year Year
+ * @param {int} userId User ID
+ * @return {json} All found entries and measurements within the month
+ */
+const gatherMonthlyPatientEntries = async (month, year, userId) => {
+  // Fetch data from DiaryEntries and Measurements tables
+  const result = await getMonthlyPatientEntries(year, month, userId);
+  // Check for errors
+  if (result.error) {
+    throw customError(result.message, result.error);
+  };
+  return result;
+};
+
+/**
+ * Iterate over entry dates and attatch completed activities if found
+ * @async
+ * @param {list} allEntries List containing every found entry
+ * @return {list} Modified allEntries
+ */
+const attachCompletedActivitiesToEntries = async (allEntries) => {
+  // Iterate over every entry
+  for (const entry of allEntries) {
+    const entryId = entry.entry_id;
+    const entryDate = entry.entry_date;
+    const userId = entry.user_id;
+    // Get activities for that specific date
+    const allActivities = await gatherActivities(entryId, userId, entryDate);
+    // Add a new key:value pair to entry where value is list of activities
+    entry['all_activities'] = allActivities;
+  }
+  // Return modified list
+  return allEntries;
+};
+
+/**
+ * Get data from DiaryEntries table for a specific date
+ * @async
+ * @param {int} userId User ID
+ * @param {Date} entryDate Entry date in yyyy-mm-dd -format
+ * @return {dictionary} The found entry
+ */
+const gatherEntryDataUsingDate = async (userId, entryDate) => {
+  console.log('Fetching entry for', entryDate);
+  // Fetch data from DiaryEntries table
+  const entry = await getEntryUsingDate(userId, entryDate);
+  // Check for errors
+  if (entry.error) {
+    throw customError(entry.message, entry.error);
+  }
+  // Return OK result
+  return entry;
+};
+
+/**
+ * Get measurements for a specific entry
+ * @async
+ * @param {int} entryId ID of the entry the data should be linked to
+ * @param {int} userId User ID
+ * @param {Date} entryDate Entry date in yyyy-mm-dd -format
+ * @return {dictionary} The found measurement data
+ */
+const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
+  // Fetch data from Measurements table that link to entry ID
+  const hrvData = await getMeasurementsForPatient(entryId, userId, entryDate);
+  // Check for errors
+  if (hrvData.error) {
+    throw customError(hrvData.message, hrvData.error);
+  }
+  // Return OK result
+  return hrvData;
+};
+
+/**
+ * Get activities for a specific entry
+ * @async
+ * @param {int} entryId ID of the entry the activities should be linked to
+ * @param {int} userId User ID
+ * @param {Date} entryDate Entry date in yyyy-mm-dd -format
+ * @return {list} The found activities for the provided date
+ */
+const gatherActivities = async (entryId, userId, entryDate) => {
+  // Fetch data from the CompletedActivities table
+  const foundActivities = await getActivitiesForEntry(
+    entryId,
+    userId,
+    entryDate,
+  );
+  // Check the lenght of the list
+  if (foundActivities.length > 0) {
+    // Initialize a empty list for found activities
+    const activitiesList = [];
+    // Iterate over every activity from the CompletedActivities result
+    for (const activity of foundActivities) {
+      // Append each activity to the list
+      activitiesList.push(activity.activity_name);
+    }
+    // return activities
+    return activitiesList;
+  }
+  // If initial list lenght was 0, just return empty list
+  return [];
+};
+
+/**
+ * Get and handle kubios API result data for a specific data
+ * @async
+ * @param {Request} req
+ * @return {res} Fetched HRV data
+ */
+const getKubiosData = async (req) => {
+  // Fetch data from Kubios API for a specific date
+  const hrvData = await retrieveDataForDate(req, req.body.entry_date);
+  // Check result object lenght
+  const resultsLength = Object.keys(hrvData.results).length;
+  // Check for errors is response
+  if (hrvData.error) {
+    throw customError('Could not retrieve kubios data', 500);
+  }
+  // Check if the response was empty
+  if (resultsLength === 0) {
+    throw customError('No kubios data found', 400);
+  }
+  // Return OK Data
+  return hrvData;
+};
+
+/**
+ * Check if there is a existing entry for the provided date
+ * @async
+ * @param {int} userId
+ * @param {string} entryDate in yyyy-mm-dd format
+ */
+const checkForExistingEntry = async (userId, entryDate) => {
+  console.log('Checking if there is a entry for this date already');
+  const result = await getEntryUsingDate(userId, entryDate);
+  if (result.error === 500) {
+    throw customError(result.message, result.error);
+  }
+  if (result.error === 404) {
+    console.log(result.message);
+    return;
+  }
+  throw customError('There is a existing entry for this date already', 400);
+};
+
 
 /**
  * Validate the Activities list input for postEntry
@@ -314,7 +339,7 @@ const validateyActivitiesList = (req) => {
  * @param {dictionary} kubiosResult All data for a specific date from kubios API
  * @return {list} All of the values that match Measurement table columns
  */
-const chooseWantedHrvValuesAndReformat = (kubiosResult) => {
+const extractHRVMeasurementValues = (kubiosResult) => {
   console.log('Started to sort kubios hrv data');
   // Simplify the paths to frequency and calculated values
   const freqValues = kubiosResult.result.freq_domain;

@@ -17,6 +17,7 @@ import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 import {v4} from 'uuid';
 import {customError} from '../middlewares/error-handler.mjs';
+import {getEntryCount} from '../models/entry-models.mjs';
 import {getSurveyWithUserId} from '../models/survey-model.mjs';
 import {
   insertUser,
@@ -250,6 +251,12 @@ const getMe = async (req, res) => {
       'Accessing patient user data with the username:',
       req.user.username,
     );
+    const result = await getEntryCount(req.user.user_id);
+    if (result.error) {
+      next(customError(result.message, result.error));
+    }
+    const entryCount = result.entry_count;
+    req.user['entry_count'] = entryCount;
     // Get kubios user information
     const kubiosUser = await kubiosUserInfo(req.user.token);
     // Format response
