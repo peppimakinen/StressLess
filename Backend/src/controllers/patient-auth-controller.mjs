@@ -268,7 +268,6 @@ const getMe = async (req, res) => {
     res.json(user).status(200);
     // If user is a doctor
   } else if (req.user.user_level === 'doctor') {
-    console.log(req.body);
     console.log(
       'Accessing doctor user data with the username:',
       req.user.username,
