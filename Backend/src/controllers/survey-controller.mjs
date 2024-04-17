@@ -7,51 +7,66 @@ import {
   addSurveyRow,
 } from '../models/survey-model.mjs';
 
+/**
+ * Get own survey
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {Function} next
+ * @return {res} Found survey
+ */
 const getOwnSurvey = async (req, res, next) => {
   const {user_id: userId, username} = req.user;
   console.log(`Retrieving survey made by ${username}`);
+  // Fetch survey
   const result = await getSurveyWithUserId(userId);
+  // Check for errors
   if (!result.error) {
-    // console.log('Survey found', result);
+    // Sort activities to a seperate list if survey found
     const sortedSurvey = extractActivities(result);
+    // Return sorted survey
     return res.json(sortedSurvey);
   } else {
+    // Forward to error handler if no survey was found or db error
     return next(customError(result.message, result.error));
   }
 };
 
-const extractActivities = (survey) => {
-  const activities = [];
-  const questions = survey.filter((item) => item.question !== 'Activity');
-  survey.forEach((item) => {
-    if (item.question === 'Activity') {
-      activities.push(item.answer);
-    }
-  });
-  return {questions, activities};
-};
-
+/**
+ * Get only the activities that have been determined in survey
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {Function} next
+ * @return {res} Found survey
+ */
 const getActivities = async (req, res, next) => {
   const userId = req.user.user_id;
+  // Get activities
   const activities = await getOnlyActivities(userId);
+  // Check for errors
   if (!activities.error) {
+    // return found activities
     return res.json({activities: activities});
   } else {
-    return next(customError(activities.message, activities.error));
+    // Handle errors
+    next(customError(activities.message, activities.error));
   }
 };
 
+/**
+ * Post a new survey
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {Function} next
+ * @return {res} Found survey
+ */
 const postSurvey = async (req, res, next) => {
   try {
     const userId = req.user.user_id;
     // Check if user has already filled the survey
-    const existingSurvey = await getSurveyWithUserId(userId);
-    // Return an error if a survey is found
-    if (!existingSurvey.error) {
-      return next(customError('This user has already filled the survey', 409));
-    }
-    // No survey was found
-    console.log('No previous survey was found');
+    await checkForExistingSurvey(userId);
     // Create a new survey and save its ID
     const survey = await handleDatabaseOperation(createSurvey, userId);
     const surveyId = survey.insertId;
@@ -87,6 +102,55 @@ const postSurvey = async (req, res, next) => {
   }
 };
 
+/**
+ * Handle database result for fetching previously completed survey
+ * @async
+ * @param {int} userId
+ * @throws {Error} customError
+ */
+const checkForExistingSurvey = async (userId) => {
+  const existingSurvey = await getSurveyWithUserId(userId);
+  // Searching for a nonexistent survey will return a 404 error
+  if (existingSurvey.error === 404) {
+    // Return back to postSurvey if no survey was found
+    console.log('No previous survey was found');
+    return;
+  }
+  // Return an error if a survey is found
+  if (existingSurvey.error === 500) {
+    throw customError(existingSurvey.message, existingSurvey.error);
+  }
+  // If there was no error, return a conflict error
+  throw customError('User has already completed the survey', 409);
+};
+
+/**
+ * Format questions and activities to a seperate list
+ * @param {list} survey A list with questions and answers
+ * @return {dict} Formatted survey
+ */
+const extractActivities = (survey) => {
+  const activities = [];
+  // Filter questions to a seperate list
+  const questions = survey.filter((item) => item.question !== 'Activity');
+  // Iterate over every question answer pair
+  survey.forEach((item) => {
+    // Performed activities have Activity as key
+    if (item.question === 'Activity') {
+      // Add found activity to the activities list
+      activities.push(item.answer);
+    }
+  });
+  // Return both lists
+  return {questions, activities};
+};
+
+/**
+ * Add each activity as a seperate row to db
+ * @async
+ * @param {list} activityList A list where items are chosen activities
+ * @param {int} surveyId
+ */
 const addActivities = async (activityList, surveyId) => {
   let newRowId;
   // Iterate over every list item/activity
@@ -103,10 +167,18 @@ const addActivities = async (activityList, surveyId) => {
   }
 };
 
+/**
+ * Handle a database operation asynchronously
+ * @async
+ * @param {function} operation The database operation function to be executed
+ * @param  {...any} args Additional arguments to be passed to the function
+ * @return {Promise<any>}
+ * @throws {Error} Throws an error if the database operation fails.
+ */
 const handleDatabaseOperation = async (operation, ...args) => {
   const result = await operation(...args);
   if (result.error) {
-    throw new Error(result.message);
+    throw customError(result.message, result.error);
   }
   return result;
 };
