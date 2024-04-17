@@ -6,37 +6,6 @@ import {customError} from '../middlewares/error-handler.mjs';
 const baseUrl = process.env.KUBIOS_API_URI;
 
 /**
- * Get all user data from kubios API - mostly for testing connection
- * TODO: Implement error handling
- * @async
- * @param {Request} req Request object including Kubios id token
- * @param {Response} res
- * @param {NextFunction} next
- */
-const getAllUserData = async (req, res, next) => {
-  try {
-    console.log(req.user.username, 'accessing all kubios result data...');
-    const headers = new Headers();
-    headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
-    headers.append('Authorization', req.user.token);
-
-    const response = await fetch(
-      // TODO: set the from date in request parameters
-      baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
-      {
-        method: 'GET',
-        headers: headers,
-      },
-    );
-    const results = await response.json();
-    return res.json(results);
-  } catch (error) {
-    console.log('ERRRORRORORRO', error);
-    next(customError('Kubios data could not be retrieved at this time', 500));
-  }
-};
-
-/**
  * Retrieve Kubios data for a specific date
  * @async
  * @param {Request} req - Request object including Kubios id token
@@ -110,4 +79,4 @@ const checkDate = async (req, res, next) => {
   }
 };
 
-export {getAllUserData, checkDate, retrieveDataForDate};
+export {checkDate, retrieveDataForDate};

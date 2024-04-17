@@ -71,7 +71,7 @@ const getDay = async (req, res, next) => {
     };
     // Return OK data
     return res.json(allEntryData);
-  // Handle errors via error handler
+    // Handle errors via error handler
   } catch (error) {
     console.log('getEntryById catch error');
     next(customError(error.message, error.status));
@@ -92,9 +92,12 @@ const postEntry = async (req, res, next) => {
     // Format request body data to a list
     const {entry_date, mood_color, notes} = req.body;
     const entryParams = [req.user.user_id, entry_date, mood_color, notes];
-    await checkForExistingEntry(req.user.user_id, entry_date);
+    // Make sure the request contains only valid HEX values
+    validateMoodColors(mood_color);
     // Validate and format activities list
     const activitiesParams = validateyActivitiesList(req);
+    // Check if this user has a existing entry for this day
+    await checkForExistingEntry(req.user.user_id, entry_date);
     // Get kubios daily measurement for the specific date
     const hrvData = await getKubiosData(req);
     // Format hrv values
@@ -116,11 +119,28 @@ const postEntry = async (req, res, next) => {
     // New entry added succesfully
     console.log('New entry added');
     return res.json({message: `New entry_id=${entryId}`});
-  // Handle errors via error handler
+    // Handle errors via error handler
   } catch (error) {
     console.log('postEntry catch error');
     next(customError(error.message, error.status, error.errors));
   }
+};
+
+/**
+ *  Check if provided HEX value is one that the system approves
+ * @param {string} moodColor A HEX value to describe mood
+ */
+const validateMoodColors = (moodColor) => {
+  const acceptedHexValues = ['9BCF53', 'FFF67E', 'FF8585', 'D9D9D9'];
+  const match = acceptedHexValues.includes(moodColor);
+  if (!match) {
+    throw customError(
+      'Invalid mood color',
+      400,
+      `Available HEX values: ${acceptedHexValues}`,
+    );
+  }
+  return;
 };
 
 /**
@@ -169,7 +189,7 @@ const gatherMonthlyPatientEntries = async (month, year, userId) => {
   // Check for errors
   if (result.error) {
     throw customError(result.message, result.error);
-  };
+  }
   return result;
 };
 
@@ -302,9 +322,12 @@ const checkForExistingEntry = async (userId, entryDate) => {
     console.log(result.message);
     return;
   }
-  throw customError('There is a existing entry for this date already', 400);
+  throw customError(
+    'There is a existing entry for this date already',
+    400,
+    'One entry per day',
+  );
 };
-
 
 /**
  * Validate the Activities list input for postEntry
@@ -327,7 +350,7 @@ const validateyActivitiesList = (req) => {
         invalidListItems.status,
         invalidListItems.errors,
       );
-    // Return OK activities list
+      // Return OK activities list
     } else {
       return activitiesList;
     }
