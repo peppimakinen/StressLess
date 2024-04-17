@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="template.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><a href="#home"><img src="imgLogo.png" alt="Logo"></a></li>
+        <li class="textNav"><a href="">Koti</a></li>
+        <li class="textNav"><a href="">Viikkoraportit</a></li>
+        <li class="textNav"><a href="">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div id="overlay"></div>
+
+    <div class="FormPopup">
+        <span class="closePopup">&times;</span>
+        <h3 class="EntryHeading">Selected date here</h3>
+        <form class="EntryFormNew">
+            <div class="moodAndActivities">
+                <div class="moodNew">
+                    <label>Valitse värikoodi</label>
+                    <div class="moodButtons">
+                        <input type="button" name="mood" class="moodBtn" id="redBtn">
+                        <input type="button" name="mood" class="moodBtn" id="yellowBtn">
+                        <input type="button" name="mood" class="moodBtn" id="greenBtn">
+                    </div>
+                </div>
+                <div class="activitiesNew">
+                    <label for="ActivitiesNew">Aktiviteetit</label>
+                    <input type="text" name="ActivitiesNew" placeholder="Valitse..." id="ActivitiesNew" />
+                </div>
+            </div>
+            <div class="notesAndSubmit">
+                <div class="notesNew">
+                    <label for="NotesNew">Muistiinpanot</label>
+                    <input type="text" name="NotesNew" placeholder="Kirjoita tähän..." id="NotesNew" />
+                </div>
+                <input name="SubmitNew" type="submit" value="Lähetä" class="submitNewEntry" />
+            </div>
+        </form>
+    </div>
+
+
+
+
+    <!-- <div id="app"></div> -->
+    <!-- <script type="module" src="/main.js"></script> -->
+</body>
+
+</html>

@@ -48,14 +48,16 @@ li a {
 
 .navigation .home img {
     width: 66px;
-    height: auto; /* maintains aspect ratio */
+    height: auto;
+    /* maintains aspect ratio */
 }
 
 .navigation .textNav a {
     color: #1e1b18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
-    font-weight: 700; /* 400-700 */
+    font-weight: 700;
+    /* 400-700 */
     font-size: 20px;
 }
 
@@ -69,7 +71,8 @@ li a {
     border-radius: 30px;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
-    font-weight: 500; /* 400-700 */
+    font-weight: 500;
+    /* 400-700 */
     font-size: 20px;
 }
 
@@ -82,4 +85,152 @@ li a {
 h1 {
     padding: 30px;
     padding-left: 160px;
+}
+
+/* popup styles */
+.FormPopup {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: 11% auto;
+    padding: 50px;
+    border-radius: 50px;
+    width: 80%;
+}
+
+.EntryHeading {
+    text-align: center;
+    padding-top: 20px;
+    color: #1E1B18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 37px;
+}
+
+.closePopup {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.moodAndActivities {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activitiesNew {
+    margin-left: 80px;
+}
+
+.moodNew {
+    margin-top: 20px;
+}
+
+.moodButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 25px;
+}
+
+.moodBtn {
+    border: none;
+    cursor: pointer;
+    border-radius: 70px;
+    width: 90px;
+    height: 90px;
+    margin: 0 10px;
+}
+
+.moodBtn:hover,
+.moodBtn:focus {
+    outline: 3px solid #313E50;
+}
+
+#redBtn {
+    background-color: #FF8585;
+}
+
+#yellowBtn {
+    background-color: #FFF67E;
+}
+
+#greenBtn {
+    background-color: #9BCF53;
+}
+
+#ActivitiesNew {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 75%;
+    height: 9vh;
+    padding: 20px 20px;
+    /* margin: 8px 0; */
+    margin-top: 18px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 25px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+}
+
+input:focus {
+    outline: none;
+}
+
+.notesAndSubmit {
+    display: flex;
+    align-items: center;
+}
+
+#NotesNew {
+    height: 140px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    background-color: #313E50;
+    width: 20%;
+    padding: 22px;
+    margin-top: 70px;
+    margin-left: 70px;
+    border-radius: 40px;
+    color: #fffaff;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #5D7283;
+}
+
+.EntryFormNew label {
+    display: block;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    color: #313e50;
+    margin-top: 40px;
 }
