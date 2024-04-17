@@ -96,15 +96,16 @@ h1 {
     justify-content: center;
     text-align: center;
     background-color: #fffaff;
-    margin: 11% auto;
+    margin: auto;
+    margin-top: 50px;
     padding: 50px;
     border-radius: 50px;
-    width: 80%;
+    width: 60%;
 }
 
 .EntryHeading {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 50px;
     color: #1E1B18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
@@ -115,10 +116,16 @@ h1 {
 .closePopup {
     position: absolute;
     top: 20px;
-    right: 30px;
+    right: 40px;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 30px;
+    font-weight: bold;
     padding: 10px;
+    color: #28303a;
+}
+
+.closePopup:hover {
+    color: #5D7283;
 }
 
 .moodAndActivities {
@@ -128,11 +135,13 @@ h1 {
     margin-bottom: 20px;
 }
 
-.activitiesNew {
+.activitiesNew,
+.activitiesEdit {
     margin-left: 80px;
 }
 
-.moodNew {
+.moodNew,
+.moodEdit {
     margin-top: 20px;
 }
 
@@ -169,7 +178,8 @@ h1 {
     background-color: #9BCF53;
 }
 
-#ActivitiesNew {
+#ActivitiesNew,
+#ActivitiesEdit {
     width: 100%;
     margin-bottom: 20px;
 }
@@ -178,7 +188,6 @@ input[type="text"] {
     width: 75%;
     height: 9vh;
     padding: 20px 20px;
-    /* margin: 8px 0; */
     margin-top: 18px;
     background-color: #E1F6FA;
     border: none;
@@ -197,9 +206,11 @@ input:focus {
 .notesAndSubmit {
     display: flex;
     align-items: center;
+    padding-bottom: 20px;
 }
 
-#NotesNew {
+#NotesNew,
+#NotesEdit {
     height: 140px;
     width: 400px;
     margin-bottom: 20px;
@@ -225,7 +236,8 @@ input[type="submit"]:hover {
     background-color: #5D7283;
 }
 
-.EntryFormNew label {
+.EntryFormNew label,
+.EntryFormEdit label {
     display: block;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
@@ -233,4 +245,11 @@ input[type="submit"]:hover {
     font-size: 22px;
     color: #313e50;
     margin-top: 40px;
+}
+
+/* responsive styles */
+@media screen and (max-width: 1600px) {
+    .FormPopup {
+        width: 80%;
+    }
 }
