@@ -41,3 +41,6 @@ window.addEventListener("load", () => {
   initializeCalendar();
 });
 
+// POPUP HANDLING
+const NewEntry = document.querySelector('.FormPopupNew');
+const EditEntry = document.querySelector('.FormPopupEdit');

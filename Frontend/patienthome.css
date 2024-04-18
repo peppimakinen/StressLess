@@ -221,3 +221,172 @@ header .calendarHeader span {
 .days li:not(.active):hover::before {
     background: #f2f2f2;
 }
+
+/* popup styles */
+.FormPopupNew,
+.FormPopupEdit {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: auto;
+    margin-top: 50px;
+    padding: 50px;
+    border-radius: 50px;
+    width: 60%;
+}
+
+.EntryHeading {
+    text-align: center;
+    padding-top: 50px;
+    color: #1E1B18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 37px;
+}
+
+.closePopup {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    color: #28303a;
+}
+
+.closePopup:hover {
+    color: #5D7283;
+}
+
+.moodAndActivities {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activitiesNew,
+.activitiesEdit {
+    margin-left: 80px;
+}
+
+.moodNew,
+.moodEdit {
+    margin-top: 20px;
+}
+
+.moodButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 25px;
+}
+
+.moodBtn {
+    border: none;
+    cursor: pointer;
+    border-radius: 70px;
+    width: 90px;
+    height: 90px;
+    margin: 0 10px;
+}
+
+.moodBtn:hover,
+.moodBtn:focus {
+    outline: 3px solid #313E50;
+}
+
+#redBtn {
+    background-color: #FF8585;
+}
+
+#yellowBtn {
+    background-color: #FFF67E;
+}
+
+#greenBtn {
+    background-color: #9BCF53;
+}
+
+#ActivitiesNew,
+#ActivitiesEdit {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 75%;
+    height: 9vh;
+    padding: 20px 20px;
+    margin-top: 18px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 25px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+}
+
+input:focus {
+    outline: none;
+}
+
+.notesAndSubmit {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+#NotesNew,
+#NotesEdit {
+    height: 140px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    background-color: #313E50;
+    width: 20%;
+    padding: 22px;
+    margin-top: 70px;
+    margin-left: 70px;
+    border-radius: 40px;
+    color: #fffaff;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #5D7283;
+}
+
+.EntryFormNew label,
+.EntryFormEdit label {
+    display: block;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    color: #313e50;
+    margin-top: 40px;
+}
+
+/* responsive styles */
+@media screen and (max-width: 1600px) {
+    .FormPopupNew,
+    .FormPopupEdit {
+        width: 80%;
+    }
+}
