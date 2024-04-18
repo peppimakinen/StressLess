@@ -30,6 +30,7 @@ const baseUrl = process.env.KUBIOS_API_URI;
 /**
  * Creates a POST login request to Kubios API
  * @async
+ * @author mattpe <mattpe@metropolia.fi>
  * @param {string} username Username in Kubios
  * @param {string} password Password in Kubios
  * @return {string} idToken Kubios id token
@@ -82,6 +83,7 @@ const kubiosLogin = async (username, password) => {
 /**
  * Get user info from Kubios API
  * @async
+ * @author mattpe <mattpe@metropolia.fi>
  * @param {string} idToken Kubios id token
  * @return {object} user User info
  */
@@ -247,18 +249,29 @@ const getMe = async (req, res) => {
   console.log('Entered getMe function');
   // Determine the user_level of the requesting user
   if (req.user.user_level === 'patient') {
-    console.log(
-      'Accessing patient user data with the username:',
-      req.user.username,
-    );
+    // Fetch entry count
     const result = await getEntryCount(req.user.user_id);
+    // Check for errors
     if (result.error) {
       next(customError(result.message, result.error));
+    }
+    // Get survey status
+    const surveyStatus = await getSurveyWithUserId(req.user.user_id);
+    if (surveyStatus.error === 500) {
+      next(customError(surveyStatus.message, surveyStatus.error));
+    }
+    if (surveyStatus.error === 404) {
+      req.user['surveyCompleted'] = false;
+    } else {
+      req.user['surveyCompleted'] = true;
     }
     const entryCount = result.entry_count;
     req.user['entry_count'] = entryCount;
     // Get kubios user information
     const kubiosUser = await kubiosUserInfo(req.user.token);
+    // Delete token bc its only the kubios token
+    delete req.user.token;
+
     // Format response
     const user = {
       stressLessUser: req.user,

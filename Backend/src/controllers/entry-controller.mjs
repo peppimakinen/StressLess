@@ -324,7 +324,7 @@ const checkForExistingEntry = async (userId, entryDate) => {
   }
   throw customError(
     'There is a existing entry for this date already',
-    400,
+    409,
     'One entry per day',
   );
 };
