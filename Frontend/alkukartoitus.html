@@ -115,8 +115,11 @@
                     </select>
                 </li>
                 <li>
-                    <label for="question14">Mitä aktiviteetteja hyödynnät stressin lievennyksessä?</label>
+                    <label for="question14">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? <br>
+                        Voit lisätä niin monta aktiviteettia kuin haluat. <br>
+                        (Lisää yksi kerrallaan, tulet tarvitsemaan näitä myöhemmin)</label>
                     <input type="text" id="question14" name="question14" placeholder="Kirjoita tähän..." />
+                    <button id="submitButton" type="button">Lisää aktiviteetti</button>
                 </li>
                 <li>
                     <label for="question15">Kuinka monta tuntia viikossa käytät urheiluun ja minkä <br>tyyppistä tämä urheilu on? *</label>
@@ -190,9 +193,22 @@
                 <h2>YTHS</h2>
                     <label for="doctorname">Lääkärin nimi tai käyttäjätunnus</label>
                     <input type="text" id="doctor_name" name="doctor_name" required placeholder="Kirjoita tähän..."><br>
-                    <input name="submit" type="submit" value="Lisää lääkäri" class="doctor"/>
+                    <input name="submit" type="submit" value="Lisää lääkäri" class="submitdoc"/>
             </form>
-          </div>
+        </div>
+        <div id="popup">
+            <span class="closePopup" id="closePopup">&times;</span>
+            <form class="doctor_form">
+                <h2>YTHS</h2>
+                    <label for="">Suostutko jakamaan alkukartoituksen ja <br>
+                        päiväkirjamerkinnät yllä manitun lääkärin kanssa?</label>
+                        <label for="">Vaikuttaako stressi tai ahdistus uneesi?</label>
+                        <select id="question13" name="question13">
+                            <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                            <option value="1">Kyllä</option>
+                            <option value="2">Usein</option>
+            </form>
+        </div>
     </div>
 
 

@@ -56,7 +56,8 @@ p {
 }
 
 
-.answer-form-all label {
+.answer-form-all label,
+.doctor_form label {
     display: block;
     font-weight: bold;
     margin-bottom: 10px;
@@ -104,6 +105,12 @@ input[type="submit"] {
     width: 400px;
 }
 
+#question14 {
+    display: block;
+    align-items: center;
+    margin-left: 65px;
+}
+
 #overlay {
     position: fixed;
     top: 0;
@@ -123,6 +130,7 @@ input[type="submit"] {
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     display: none;
+    padding: 20px;
 }
 
 
@@ -169,6 +177,19 @@ input[type="submit"] {
     margin-top: 50px;
 }
 
+#submitButton {
+    background-color: #313E50;
+    width: 150px;
+    padding: 10px;
+    color: #fffaff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-top: 30px;
+}
 
 
 
