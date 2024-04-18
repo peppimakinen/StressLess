@@ -1,15 +1,15 @@
 /**
  * Authentication resource controller using Kubios API for login
-* @module controllers/auth-controller
-* @author mattpe <mattpe@metropolia.fi>
-* @requires jsonwebtoken
-* @requires bcryptjs
-* @requires dotenv
-* @requires models/user-model
-* @requires middlewares/error-handler
-* @exports postLogin
-* @exports getMe
-*/
+ * @module controllers/auth-controller
+ * @author mattpe <mattpe@metropolia.fi>
+ * @requires jsonwebtoken
+ * @requires bcryptjs
+ * @requires dotenv
+ * @requires models/user-model
+ * @requires middlewares/error-handler
+ * @exports postLogin
+ * @exports getMe
+ */
 
 import 'dotenv/config';
 import jwt from 'jsonwebtoken';
@@ -17,6 +17,8 @@ import fetch from 'node-fetch';
 import bcrypt from 'bcryptjs';
 import {v4} from 'uuid';
 import {customError} from '../middlewares/error-handler.mjs';
+import {getEntryCount} from '../models/entry-models.mjs';
+import {getSurveyWithUserId} from '../models/survey-model.mjs';
 import {
   insertUser,
   selectUserByEmail,
@@ -26,12 +28,13 @@ import {
 const baseUrl = process.env.KUBIOS_API_URI;
 
 /**
-* Creates a POST login request to Kubios API
-* @async
-* @param {string} username Username in Kubios
-* @param {string} password Password in Kubios
-* @return {string} idToken Kubios id token
-*/
+ * Creates a POST login request to Kubios API
+ * @async
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {string} username Username in Kubios
+ * @param {string} password Password in Kubios
+ * @return {string} idToken Kubios id token
+ */
 const kubiosLogin = async (username, password) => {
   const csrf = v4();
   const headers = new Headers();
@@ -64,8 +67,8 @@ const kubiosLogin = async (username, password) => {
   // If login fails, location contains 'login?null'
   if (location.includes('login?null')) {
     throw customError(
-        'Incorrect username or password for StressLess or Kubios',
-        401,
+      'Incorrect username or password for StressLess or Kubios',
+      401,
     );
   }
   // If login success, Kubios response location header
@@ -78,20 +81,24 @@ const kubiosLogin = async (username, password) => {
 };
 
 /**
-* Get user info from Kubios API
-* @async
-* @param {string} idToken Kubios id token
-* @return {object} user User info
-*/
+ * Get user info from Kubios API
+ * @async
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {string} idToken Kubios id token
+ * @return {object} user User info
+ */
 const kubiosUserInfo = async (idToken) => {
+  // Establish headers
   const headers = new Headers();
   headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
   headers.append('Authorization', idToken);
+  // Send request
   const response = await fetch(baseUrl + '/user/self', {
     method: 'GET',
     headers: headers,
   });
   const responseJson = await response.json();
+  // Check response status
   if (responseJson.status === 'ok') {
     console.log('Kubios user info found');
     return responseJson.user;
@@ -101,14 +108,14 @@ const kubiosUserInfo = async (idToken) => {
 };
 
 /**
-* Attempt login to a localuser
-* @async
-* @param {string} username username/email that is used to log in to kubios
-* @return {object} result existing localuser info
-*/
-const attemptLocalLogin = async (username) => {
+ * Attempt login to a localuser
+ * @async
+ * @param {string} email username == email and is used to log in to kubios
+ * @return {object} result existing localuser info
+ */
+const attemptLocalLogin = async (email) => {
   try {
-    const result = await selectUserByEmail(username);
+    const result = await selectUserByEmail(email);
     return result;
   } catch (error) {
     console.log('Error in attemptLocalLogin', error);
@@ -117,11 +124,11 @@ const attemptLocalLogin = async (username) => {
 };
 
 /**
-* Create a newlocal user to the database
-* @async
-* @param {object} kubiosUser User info from Kubios API
-* @return {object} result success message from user model
-*/
+ * Create a newlocal user to the database
+ * @async
+ * @param {object} kubiosUser User info from Kubios API
+ * @return {object} result success message from user model
+ */
 const createNewLocalAccount = async (kubiosUser) => {
   try {
     console.log('Creating a new localuser...');
@@ -138,8 +145,10 @@ const createNewLocalAccount = async (kubiosUser) => {
     };
     // Insert new user to db
     const result = await insertUser(newUser);
-    console.log('New localuser created in the database, with username:',
-        newUser.username);
+    console.log(
+      'New localuser created in the database, with username:',
+      newUser.username,
+    );
     return result;
   } catch (error) {
     console.log('Error in createNewLocalAccount', error);
@@ -147,21 +156,29 @@ const createNewLocalAccount = async (kubiosUser) => {
   }
 };
 
-
 /**
-* Sync Kubios user info with local db
-* @async
-* @param {object} kubiosUser User info from Kubios API
-* @return {object} user from db
-*/
+ * Sync Kubios user info with local db
+ * @async
+ * @param {object} kubiosUser User info from Kubios API
+ * @return {object} user from db
+ */
 const syncWithLocalUser = async (kubiosUser) => {
   // Attempt login
   let user = await attemptLocalLogin(kubiosUser.email);
   // User exists in db if no error occurred in attempted login
   if (!user.error) {
-    console.log('Existing local user found');
-    // add a key to state that not a new user for the client
-    user['firstSignIn'] = false;
+    console.log(`Checking if user_id=${user.user_id} has completed the survey`);
+    const surveyStatus = await getSurveyWithUserId(user.user_id);
+    // Check if user has compleated survey
+    if (!surveyStatus.error) {
+      // if there is no error, survey has been compleated
+      console.log(user.username, 'has compleated the survey');
+      user['surveyCompleted'] = true;
+    } else {
+      // If there was a error, survey has not been compleated
+      console.log(user.username, 'has not compleated the survey');
+      user['surveyCompleted'] = false;
+    }
     // Return existing and logged in localuser
     return user;
   }
@@ -173,10 +190,10 @@ const syncWithLocalUser = async (kubiosUser) => {
     user = await attemptLocalLogin(kubiosUser.email);
     console.log('Signed in with this new localuser');
     // add a key to state that this is a new user for the client
-    user['firstSignIn'] = true;
+    user['surveyCompleted'] = false;
     // Return new and logged in localuser
     return user;
-  // Handle errors that occurred during new localuser sync
+    // Handle errors that occurred during new localuser sync
   } catch (error) {
     console.log('Could not create and sync new localuser', error);
     return error;
@@ -184,13 +201,13 @@ const syncWithLocalUser = async (kubiosUser) => {
 };
 
 /**
-* User login
-* @async
-* @param {object} req
-* @param {object} res
-* @param {function} next
-* @return {object} user if username & password match
-*/
+ * User login
+ * @async
+ * @param {object} req
+ * @param {object} res
+ * @param {function} next
+ * @return {object} user if username & password match
+ */
 const patientPostLogin = async (req, res, next) => {
   console.log('Patient user accessing login');
   try {
@@ -203,11 +220,11 @@ const patientPostLogin = async (req, res, next) => {
     const user = await syncWithLocalUser(kubiosUser);
     // Include kubiosIdToken in the auth token used in this app
     const token = jwt.sign(
-        {...user, token: kubiosIdToken},
-        process.env.JWT_SECRET,
-        {
-          expiresIn: process.env.JWT_EXPIRES_IN,
-        },
+      {...user, token: kubiosIdToken},
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES_IN,
+      },
     );
     console.log('Local user passed all login steps: ', user);
     return res.json({
@@ -221,21 +238,40 @@ const patientPostLogin = async (req, res, next) => {
   }
 };
 /**
-* Get user info based on token
-* @async
-* @param {object} req
-* @param {object} res
-* @param {function} next
-* @return {object} local and kubios user info
-*/
+ * Get user info based on token
+ * @async
+ * @param {object} req
+ * @param {object} res
+ * @param {function} next
+ * @return {object} local and kubios user info
+ */
 const getMe = async (req, res) => {
   console.log('Entered getMe function');
   // Determine the user_level of the requesting user
   if (req.user.user_level === 'patient') {
-    console.log('Accessing patient user data with the username:',
-        req.user.username);
+    // Fetch entry count
+    const result = await getEntryCount(req.user.user_id);
+    // Check for errors
+    if (result.error) {
+      next(customError(result.message, result.error));
+    }
+    // Get survey status
+    const surveyStatus = await getSurveyWithUserId(req.user.user_id);
+    if (surveyStatus.error === 500) {
+      next(customError(surveyStatus.message, surveyStatus.error));
+    }
+    if (surveyStatus.error === 404) {
+      req.user['surveyCompleted'] = false;
+    } else {
+      req.user['surveyCompleted'] = true;
+    }
+    const entryCount = result.entry_count;
+    req.user['entry_count'] = entryCount;
     // Get kubios user information
     const kubiosUser = await kubiosUserInfo(req.user.token);
+    // Delete token bc its only the kubios token
+    delete req.user.token;
+
     // Format response
     const user = {
       stressLessUser: req.user,
@@ -243,11 +279,12 @@ const getMe = async (req, res) => {
     };
     // Send response
     res.json(user).status(200);
-  // If user is a doctor
+    // If user is a doctor
   } else if (req.user.user_level === 'doctor') {
-    console.log(req.body)
-    console.log('Accessing doctor user data with the username:',
-        req.user.username);
+    console.log(
+      'Accessing doctor user data with the username:',
+      req.user.username,
+    );
     // Return user info - this mimics a loopback
     res.json(req.user).status(200);
   }

@@ -2,55 +2,81 @@ import 'dotenv/config';
 import fetch from 'node-fetch';
 import {customError} from '../middlewares/error-handler.mjs';
 
-// Kubios API base URL should be set in .env
+// Kubios API base URL
 const baseUrl = process.env.KUBIOS_API_URI;
 
 /**
- * Get user data from Kubios API example1
- * TODO: Implement error handling
+ * Retrieve Kubios data for a specific date
  * @async
- * @param {Request} req Request object including Kubios id token
- * @param {Response} res
- * @param {NextFunction} next
+ * @param {Request} req - Request object including Kubios id token
+ * @param {date} desiredDate Date that should be retrieved
+ * @return {Object} - Object containing Kubios data or error information
  */
-const getAllUserData = async (req, res, next) => {
+const retrieveDataForDate = async (req, desiredDate) => {
   try {
-    console.log(req.user.username, 'accessing all kubios result data...');
+    console.log('Fetching kubios data for', desiredDate);
+    // Establish headers
     const headers = new Headers();
     headers.append('User-Agent', process.env.KUBIOS_USER_AGENT);
     headers.append('Authorization', req.user.token);
 
+    // Constructing from and to timestamps for the specific date
+    const fromDate = new Date(desiredDate);
+    fromDate.setUTCHours(0, 0, 0, 0);
+    const toDate = new Date(desiredDate);
+    toDate.setUTCHours(23, 59, 59, 999);
+
+    const formattedFromDate = fromDate.toISOString();
+    const formattedToDate = toDate.toISOString();
+
     const response = await fetch(
-      // TODO: set the from date in request parameters
-      baseUrl + '/result/self?from=2022-01-01T00%3A00%3A00%2B00%3A00',
+      baseUrl +
+        `/result/self?types=readiness&daily=yes&from=${formattedFromDate}&to=${formattedToDate}`,
       {
         method: 'GET',
         headers: headers,
       },
     );
-    const results = await response.json();
-    return res.json(results);
+    // Check for successful response status
+    if (!response.ok) {
+      // If response status is not ok, throw an error
+      throw new Error(`Error: ${response.status}`);
+    } else {
+      const data = await response.json();
+      return data;
+    }
   } catch (error) {
-    console.log('ERRRORRORORRO', error);
-    next(customError('Kubios data could not be retrieved at this time', 500));
+    // Return the error object instead of throwing
+    return {error};
   }
 };
 
-const getToday = async (req, res, next) => {
-  const currentDate = getTodaysDate;
-  console.log('User fetching for todays kubios data...', currentDate);
-};
 
 /**
- * Get current date
- * @return {string} Current date in yyyy-mm-dd format
+ * Check if there is a existing measurement on a specific date
+ * @async
+ * @param {Request} req Request object including Kubios id token
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {boolean} kubiosDataFound
  */
-function getTodaysDate() {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
+const checkDate = async (req, res, next) => {
+  // Get data from Kubios API
+  const desiredDate = req.params.date;
+  const result = await retrieveDataForDate(req, desiredDate);
+  // Check for error in result
+  if (result.error) {
+    next(customError('Kubios data could not be retrieved at this time', 500));
+  } else {
+    // console.log('Measurement found', result)
+    // Check how many measurements were fetched from Kubios
+    const resultsLength = Object.keys(result.results).length;
+    if (resultsLength === 0) {
+      return res.json({kubiosDataFound: false});
+    } else {
+      return res.json({kubiosDataFound: true});
+    }
+  }
+};
 
-export {getAllUserData, getToday};
+export {checkDate, retrieveDataForDate};
