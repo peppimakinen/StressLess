@@ -1,30 +1,43 @@
-import { renderCalendar } from "./rendercalendar";
 import { fetchData } from "./fetch.js";
+import { renderCalendar } from "./rendercalendar.js";
 
-// Render calendar when page is loaded
-window.addEventListener("load", () => {
-  renderCalendar();
-});
+// RENDERING CALENDAR
+// get new date, current year and month
+let date = new Date(),
+  currYear = date.getFullYear(),
+  currMonth = date.getMonth();
 
-// Render calendar when previous or next buttons are clicked
+// store full name of all months in array
 const prevNextIcon = document.querySelectorAll(".calendarHeader span");
 
-prevNextIcon.forEach((icon) => {
-  // getting prev and next calendarHeader
-  icon.addEventListener("click", () => {
-    // adding click event on both calendarHeader
-    // if clicked icon is previous icon then decrement current month by 1 else increment it by 1
-    currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+// function to render calendar when page is loaded
+const initializeCalendar = () => {
+  renderCalendar(currYear, currMonth);
+};
 
-    if (currMonth < 0 || currMonth > 11) {
-      // if current month is less than 0 or greater than 11
-      // creating a new date of current year & month and pass it as date value
-      date = new Date(currYear, currMonth, new Date().getDate());
-      currYear = date.getFullYear(); // updating current year with new date year
-      currMonth = date.getMonth(); // updating current month with new date month
-    } else {
-      date = new Date(); // pass the current date as date value
-    }
-    renderCalendar(); // calling renderCalendar function
+// function to update calendar when previous or next buttons are clicked
+const updateCalendar = (icon) => {
+  currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+
+  if (currMonth < 0 || currMonth > 11) {
+    date = new Date(currYear, currMonth, new Date().getDate());
+    currYear = date.getFullYear();
+    currMonth = date.getMonth();
+  } else {
+    date = new Date();
+  }
+  renderCalendar(currYear, currMonth);
+};
+
+// event listeners for previous and next buttons
+prevNextIcon.forEach((icon) => {
+  icon.addEventListener("click", () => {
+    updateCalendar(icon);
   });
 });
+
+// render calendar when page is loaded
+window.addEventListener("load", () => {
+  initializeCalendar();
+});
+
