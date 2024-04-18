@@ -88,7 +88,7 @@ h1 {
 }
 
 /* popup styles */
-.FormPopup {
+.PopupPastEntry {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -111,6 +111,15 @@ h1 {
     font-style: italic;
     font-weight: 700;
     font-size: 37px;
+}
+
+.editIcon {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: auto;
 }
 
 .closePopup {
@@ -247,9 +256,38 @@ input[type="submit"]:hover {
     margin-top: 40px;
 }
 
+.PopupPastEntry h4 {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: #1E1B18;
+}
+
+.PopupPastEntry p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #1E1B18;
+}
+
+.hrvAndActivities {
+    display: flex;
+    margin-top: 7vh;
+}
+
+.activitiesPast {
+    margin-left: 10vw;
+}
+
+.notesPast {
+    margin-top: 5vh;
+}
+
 /* responsive styles */
-@media screen and (max-width: 1600px) {
-    .FormPopup {
+@media screen and (max-width: 1400px) {
+    .FormPopup,
+    .PopupPastEntry {
         width: 80%;
     }
 }
