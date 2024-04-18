@@ -17,10 +17,10 @@ logout.addEventListener('click', logout);
 
 // HRV
 // fetching HRV data from the backend
-async function fetchHRVDataFromBackend(beginningDate, endDate) {
+async function fetchHRVDataFromBackend(entry_id) {
   try {
       // URL with query parameters for the beginning and ending dates
-      const url = `http://backendUrl.com/hrv-data?beginningDate=${beginningDate}&endDate=${endDate}`;
+      const url = `http://backendUrl.com/hrv-data?entry_id=${entry_id}`;
 
       // GET request to fetch HRV data
       const response = await fetch(url);
@@ -63,25 +63,25 @@ const weeklyHRV = fetchWeeklyHRV(beginningDate, endDate);
 console.log(weeklyHRV); 
 
 // POPUP
-const popup = document.getElementById('popup');
-const overlay = document.getElementById('overlay');
-const openPopupBtn = document.querySelector('.yes');
-const closePopupBtn = document.getElementById('closePopup');
-const createEntryBtn = document.querySelector('.createEntry');
+// const popup = document.getElementById('popup');
+// const overlay = document.getElementById('overlay');
+// const openPopupBtn = document.querySelector('.yes');
+// const closePopupBtn = document.getElementById('closePopup');
+// const createEntryBtn = document.querySelector('.createEntry');
 
-openPopupBtn.addEventListener('click', function(evt) {
-  evt.preventDefault();
-  popup.style.display = 'block';
-  overlay.style.display = 'block';
-});
+// openPopupBtn.addEventListener('click', function(evt) {
+//   evt.preventDefault();
+//   popup.style.display = 'block';
+//   overlay.style.display = 'block';
+// });
 
-closePopupBtn.addEventListener('click', function() {
-  popup.style.display = 'none';
-  overlay.style.display = 'none';
-});
+// closePopupBtn.addEventListener('click', function() {
+//   popup.style.display = 'none';
+//   overlay.style.display = 'none';
+// });
 
-createEntryBtn.addEventListener('click', function(evt) {
-  evt.preventDefault();
-  popup.style.display = 'none';
-  overlay.style.display = 'none';
-});
+// createEntryBtn.addEventListener('click', function(evt) {
+//   evt.preventDefault();
+//   popup.style.display = 'none';
+//   overlay.style.display = 'none';
+// });
