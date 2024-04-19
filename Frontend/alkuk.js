@@ -1,3 +1,5 @@
+import { fetchData } from './fetch.js';
+
 //aktiviteetit listaus
 document.getElementById('submitButton').addEventListener('click', function() {
     const textarea = document.getElementById('question14');
@@ -12,12 +14,21 @@ document.getElementById('submitButton').addEventListener('click', function() {
             }
         });
 
+        // Add activities to the survey form data
+        const form = document.querySelector('.answer-form-all');
+        const activityInput = document.createElement('input');
+        activityInput.type = 'hidden';
+        activityInput.name = 'activities';
+        activityInput.value = JSON.stringify(activities);
+        form.appendChild(activityInput);
+
         // Clear the textarea for the next input
         textarea.value = '';
     } else {
         alert('Please enter some activities before submitting.');
     }
 });
+
 
 
 // POPUP HANDLING
@@ -71,41 +82,67 @@ doctorForm.addEventListener('submit', async function (evt) {
 });
 
 
-// ei lääkäriä, submittaa vastsaukset ja menee patienthome
-const No = document.getElementById('no');
 
-No.addEventListener('click', async (evt) => {
+// ei lääkäriä, submittaa vastsaukset ja menee patienthome
+const survey = document.getElementById('no');
+
+survey.addEventListener('click', async (evt) => {
     evt.preventDefault();
-    // Select the form element
-    const form = document.querySelector('.answer-form-all');
-    // Serialize form data
-    const formData = new FormData(form);
-    const serializedFormData = {};
-    for (const [key, value] of formData) {
-        serializedFormData[key] = value;
-    }
+    console.log('Nyt palautetaan vastauslomake');
 
     const url = "http://127.0.0.1:3000/api/survey"
 
-    try {
-        // Send form data to the backend for processing and storing in the database
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(serializedFormData)
-        });
+    // Select the form element
+    const form = document.querySelector('.answer-form-all');
 
-        if (response.ok) {
-            // If submission is successful, redirect to patienthome.html
-            window.location.href = 'patienthome.html';
-        } else {
-            console.error('Failed to submit form data to the server.');
-            // Handle error as needed
+    // Check if the form is valid
+    if (!form.checkValidity()) {
+    // If the form is not valid, show the validation messages
+        form.reportValidity();
+        return; // Exit function if form is not valid
+    };
+
+    console.log('Tiedot valideja, jatketaan');
+
+    // Create an array to hold all the questions and answers
+    const questions = [];
+
+    // Loop through all input fields in the form
+    form.querySelectorAll('input, select').forEach(input => {
+        // Skip inputs without a name attribute or with the name "user_choice"
+        if (!input.name || input.name === 'user_choice') {
+            return;
         }
+        // Add the input question and answer to the questions array
+        questions.push({
+            question: input.previousElementSibling.textContent.trim(),
+            answer: input.value
+        });
+    });
+
+    const data = { questions };
+
+    // const data = {
+    //     question: form.querySelector('input[name=password]').value,
+    //     answer: form.querySelector('input[name=password]').value,
+    // };
+
+    const options = {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    };
+
+    // fetchataan tiedot
+    try {
+        const responseData = await fetchData(url, options);
+        console.log(responseData);
+        alert('Form submitted!');
+        window.location.href = 'patienthome.html';
     } catch (error) {
-        console.error('Error submitting form data:', error);
-        // Handle error as needed
+        console.error('Error submitting form data:',error);
     }
 });
+
