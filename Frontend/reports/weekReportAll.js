@@ -1,43 +1,42 @@
-import { fetchData } from './fetch.js';
-import getReportByEntryId from '../Backend/report-AbortController.mjs';
 
 // LOGOUT 
 // const logout = document.querySelector('.logout');
 
-const logout = function(evt) {
-  evt.preventDefault();
-  window.location.href = 'login.html';
-};
+// const logout = function(evt) {
+//   evt.preventDefault();
+//   window.location.href = 'login.html';
+// };
 
-logout.addEventListener('click', logout);
+// logout.addEventListener('click', logout);
 
 
 
 // fetching weeks dates
-
-const getSpecificReport = async (req, res, next) => {
-
-try {
-    console.log('Entered getSpecificReport');
-    const userId = req.user.user_id;
-    const entryId = req.params.entry_id; 
-    // Fetch report from database based on entryId
-    const result = await getReportByEntryId(userId, entryId);
-    // Check for errors
-    if (result.error) {
-      throw customError(result.message, result.error);
+const showReport = async function(event) {
+    event.preventDefault();
+    const weekElement = event.target.closest('.week'); // Get the parent week element
+    const entryId = weekElement.dataset.entryId; // Get the entry ID from the week element's dataset
+    try {
+        const result = await fetch(`/api/reports/${entryId}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any necessary authentication headers if required
+            },
+        });
+        if (!result.ok) {
+            throw new Error('Failed to fetch report');
+        }
+        const reportData = await result.json();
+        // Handle the fetched report data as needed
+        console.log(reportData);
+    } catch (error) {
+        console.error('Error fetching report:', error);
     }
-    
-    return res.json(result);
-  // Handle errors
-  } catch (error) {
-    next(customError(error.message, error.status));
-  }
-  };
+};
 
-  const weekDates = function(evt) {
-    evt.preventDefault();
-    getSpecificReport()
-}
-
-document.getElementsByClassName('date').textContent = weekDates;
+// Add click event listeners to all "Näytä raportti" links
+const reportLinks = document.querySelectorAll('.reports a');
+reportLinks.forEach(link => {
+    link.addEventListener('click', showReport);
+});
