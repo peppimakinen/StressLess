@@ -208,7 +208,7 @@ async function gatherNewEntryData() {
   const newEntrydata = {
     entry_date: entry_date,
     mood_color: mood_color,
-    activites: activities,
+    activities: activities,
     notes: notes,
   };
 
