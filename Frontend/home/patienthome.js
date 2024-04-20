@@ -1,4 +1,4 @@
-import { fetchData } from "./fetch.js";
+import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./rendercalendar.js";
 
 // RENDERING CALENDAR

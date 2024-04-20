@@ -19,7 +19,7 @@ body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background-image: url(imgBg.jpg);
+    background-image: url(../assets/imgBg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -91,9 +91,10 @@ h1 {
 /* Calendar */
 .calendarBackground {
     background-color: #fffaff;
-    margin: 30px;
+    margin: 50px;
     border-radius: 22px;
-    padding-bottom: 25vh;
+    padding-bottom: 15vh;
+    margin-top: 10vh;
 }
 
 .calendarWrapper {
@@ -448,5 +449,10 @@ input[type="submit"]:hover {
     .FormPopupEdit,
     .PopupPastEntry {
         width: 80%;
+    }
+
+    .calendarBackground {
+        padding-bottom: 24vh;
+        margin-top: 5vh;
     }
 }
