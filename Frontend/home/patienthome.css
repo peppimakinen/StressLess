@@ -333,12 +333,6 @@ header .calendarHeader span {
     background-color: #9BCF53;
 }
 
-#ActivitiesNew,
-#ActivitiesEdit {
-    width: 100%;
-    margin-bottom: 20px;
-}
-
 input[type="text"] {
     width: 75%;
     height: 9vh;
@@ -355,6 +349,27 @@ input[type="text"] {
 }
 
 input:focus {
+    outline: none;
+}
+
+.activitiesNew select {
+    width: 20vw;
+    height: 9vh;
+    padding: 20px;
+    margin-top: 18px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 25px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+    margin-bottom: 20px;
+}
+
+/* Adjustments for focused state */
+.activitiesNew select:focus {
     outline: none;
 }
 
