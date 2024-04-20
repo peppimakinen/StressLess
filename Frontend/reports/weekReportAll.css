@@ -124,9 +124,8 @@ h1 {
 
 .weeks {
     width: 100%; 
-    height: 200px; 
+    height: 560px; 
     overflow: auto; 
-    border: 1px solid #ccc; 
     padding: 50px;
 }
 
@@ -147,7 +146,7 @@ h1 {
 }
 
 
-.summary a {
+.reports a {
     background-color: #313e50;
     color: #fffaff;
     border-radius: 30px;
@@ -157,7 +156,7 @@ h1 {
     font-size: 20px;
 }
     
-.summary a:hover {
+.reports a:hover {
 color: #fffaff;
         background-color: #28303a;
         border-radius: 30px;
