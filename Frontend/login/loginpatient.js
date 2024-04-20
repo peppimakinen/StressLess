@@ -1,4 +1,4 @@
-import { fetchData } from "./fetch.js";
+import { fetchData } from "../assets/fetch.js";
 
 // PAGE LOAD
 // clear localstorage
