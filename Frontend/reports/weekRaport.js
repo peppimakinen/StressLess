@@ -1,4 +1,4 @@
-import './weekRaport.css'
+
 import { fetchData } from './fetch.js';
 
 // LOGOUT 
@@ -85,3 +85,4 @@ console.log(weeklyHRV);
 //   popup.style.display = 'none';
 //   overlay.style.display = 'none';
 // });
+
