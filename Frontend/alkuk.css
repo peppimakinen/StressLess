@@ -128,13 +128,27 @@ input[type="submit"] {
     transform: translate(-50%, -50%);
     background-color: #fffaff;
     border-radius: 30px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 10);
     display: none;
     padding: 20px;
 }
 
+#popup2 {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fffaff;
+    border-radius: 30px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 10);
+    display: none;
+    padding: 27.8px;
+    max-width: 400px;
+}
 
-.closePopup {
+
+.closePopup,
+.closePopup2 {
     position: absolute;
     top: 20px;
     right: 30px;
@@ -143,11 +157,13 @@ input[type="submit"] {
     padding: 10px;
 }
 
-.closePopup:hover {
+.closePopup:hover,
+.closePopup2:hover {
     color: #aaa;
 }
 
-.doctor_form h2 {
+.doctor_form h2,
+.doctor_form2 h2 {
     margin-bottom: 50px;
     text-align: center;
     align-items: center;
@@ -159,7 +175,8 @@ input[type="submit"] {
     font-size: 50px;
 }
 
-.doctor_form input[type="text"] {
+.doctor_form input[type="text"],
+.doctor_form2 input[type="text"] {
     width: 300px;
     padding: 13px;
     background-color: #E1F6FA;
@@ -173,7 +190,8 @@ input[type="submit"] {
     margin-top: 10px;
 }
 
-.doctor_form input[type="submit"] {
+.doctor_form input[type="submit"],
+.doctor_form2 input[type="submit"] {
     margin-top: 50px;
 }
 
@@ -191,8 +209,6 @@ input[type="submit"] {
     margin-top: 30px;
 }
 
-
-
 /* responsive styles */
 @media screen and (max-width: 825px) {
     .answer-form-all input[type="date"],
@@ -200,5 +216,16 @@ input[type="submit"] {
     .answer-form-all input[type="number"],
     .answer-form-all select {
         width: 300px;
+    }
+    #question14 {
+        display: block;
+        align-items: center;
+        margin-left: 220px;
+    }
+}
+
+@media screen and (max-width: 720px) {
+    #question14 {
+        margin-right: 210px;
     }
 }

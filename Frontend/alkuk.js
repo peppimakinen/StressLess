@@ -37,7 +37,11 @@ const overlay = document.getElementById('overlay');
 const openPopupBtn = document.getElementById('yes');
 const closePopupBtn = document.getElementById('closePopup');
 
+const popup2 = document.getElementById('popup2');
+const openPopup = document.querySelector('.submitdoc'); // Target the submit button with class 'submitdoc'
+const closePopup = document.getElementById('closePopup2');
 
+// first popup
 openPopupBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
     popup.style.display = 'block';
@@ -48,6 +52,19 @@ closePopupBtn.addEventListener('click', function () {
     popup.style.display = 'none';
     overlay.style.display = 'none';
 });
+
+// second popup
+openPopup.addEventListener('click', function (evt) { // Change the event listener to listen for click event on 'submitdoc'
+    evt.preventDefault();
+    popup2.style.display = 'block';
+    overlay.style.display = 'block';
+});
+
+closePopup.addEventListener('click', function () {
+    popup2.style.display = 'none';
+    overlay.style.display = 'none';
+});
+
 
 // haetaan lekuri
 const doctorForm = document.querySelector('.doctor_form'); // Select the doctor form
@@ -60,8 +77,8 @@ doctorForm.addEventListener('submit', async function (evt) {
 
     try {
         // Perform a fetch request to your backend to find the doctor's name in the database
-        const response = await fetch('find-doctor-endpoint', {
-            method: 'POST',
+        const response = await fetchData('http://127.0.0.1:3000/api/users/find-doctor', {
+            method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -69,11 +86,13 @@ doctorForm.addEventListener('submit', async function (evt) {
         });
 
         if (response.ok) {
-            // If the doctor is found, redirect to patienthome.html
-            window.location.href = 'patienthome.html';
+            // If the doctor is found, display the second popup
+            document.getElementById('popup2').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
         } else {
+            // If the doctor is not found, display an alert message
+            alert('Doctor not found.');
             console.error('Doctor not found.');
-            // Handle error as needed
         }
     } catch (error) {
         console.error('Error finding doctor:', error);
@@ -90,17 +109,17 @@ survey.addEventListener('click', async (evt) => {
     evt.preventDefault();
     console.log('Nyt palautetaan vastauslomake');
 
-    const url = "http://127.0.0.1:3000/api/survey"
+    const url = "http://127.0.0.1:3000/api/survey";
 
     // Select the form element
     const form = document.querySelector('.answer-form-all');
 
     // Check if the form is valid
     if (!form.checkValidity()) {
-    // If the form is not valid, show the validation messages
+        // If the form is not valid, show the validation messages
         form.reportValidity();
         return; // Exit function if form is not valid
-    };
+    }
 
     console.log('Tiedot valideja, jatketaan');
 
@@ -120,29 +139,57 @@ survey.addEventListener('click', async (evt) => {
         });
     });
 
+    // Create the data object with the questions array
     const data = { questions };
 
-    // const data = {
-    //     question: form.querySelector('input[name=password]').value,
-    //     answer: form.querySelector('input[name=password]').value,
-    // };
+    // Retrieve the authentication token from local storage
+    const authToken = localStorage.getItem("token");
 
+    // Create the options object for the fetch request
     const options = {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
-          'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken // Include the authentication token from local storage
         },
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     };
 
-    // fetchataan tiedot
+    // Fetch the data
     try {
-        const responseData = await fetchData(url, options);
+        const response = await fetchData(url, options);
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+        const responseData = await response.json();
         console.log(responseData);
+        
+        // Store the token in local storage
+        localStorage.setItem("token", responseData.token);
+        
         alert('Form submitted!');
         window.location.href = 'patienthome.html';
     } catch (error) {
-        console.error('Error submitting form data:',error);
+        console.error('Error submitting form data:', error);
     }
 });
+
+
+
+// checkbox
+// Select the form and the checkbox element
+const doctorForm2 = document.querySelector('.doctor_form2');
+const checkbox = document.getElementById('give-info');
+
+// Add event listener to form submission
+doctorForm2.addEventListener('submit', function (event) {
+    // Check if the checkbox is not checked
+    if (!checkbox.checked) {
+        // Prevent the default form submission behavior
+        event.preventDefault();
+        // Show alert message
+        alert("Sinun on valittava valintaruutu jatkaaksesi!");
+    }
+});
+
 

@@ -1,3 +1,5 @@
+import { fetchData } from "./fetch";
+
 function showProfile() {
     const user_name = localStorage.getItem('user_name');
     const nameSpan = document.getElementById("name");
@@ -9,28 +11,57 @@ function showProfile() {
     emailSpan.textContent = user_email;
 }
 
-const deleteUser = async (req, res, next) => {
-    try {
-      // Check if token is linked to admin user
-      if (req.user.user_level === 'admin') {
-        const userId = req.params.id; // Extract user ID from request parameters
-        const result = await deleteUserById(userId); // Call deleteUserById function
-        // Check for error in db
-        if (result.error) {
-          next(customError(result.message, result.error));
-        } else {
-          // Respond with a ok status - User deleted successfully
-          return res.json(result);
+// Select the delete account button
+const deleteAccountButton = document.querySelector('.pic a');
+
+// Add event listener to the delete account button
+deleteAccountButton.addEventListener('click', async function(evt) {
+    evt.preventDefault(); // Prevent default link behavior
+
+    const user_id = evt.target.dataset.user_id;
+    console.log('User ID to delete:', user_id);
+
+    // Confirm deletion with user
+    const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+    // If user confirms deletion
+    if (confirmation) {
+        try {
+            // Retrieve the token from localStorage
+            const token = localStorage.getItem('token');
+
+            // Construct the URL for deleting the account
+            const url = `http://127.0.0.1:3000/api/users/${user_id}`;
+
+            // Set up the options for the DELETE request
+            const options = {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + token,
+                },
+            };
+
+            // Send the DELETE request to delete the account
+            const response = await fetchData(url, options);
+
+            // Check if the request was successful
+            if (response.ok) {
+                alert('Account deleted successfully.');
+                // Optionally, redirect the user to a confirmation page or log them out
+                // window.location.href = 'confirmation.html';
+            } else {
+                // If the request was not successful, display an error message
+                const errorData = await response.json();
+                alert('Error deleting account: ' + errorData.message);
+            }
+        } catch (error) {
+            console.error('Error deleting account:', error);
+            alert('Error deleting account. Please try again later.');
         }
-      } else {
-        // Unauthorized user was trying to reach this function
-        next(customError('Unauthorized', 401));
-      }
-    } catch (error) {
-      // Handle unexpected errors
-      next(customError('Internal Server Error', 500));
     }
-  };
+});
+
+
   
 
 showProfile();
