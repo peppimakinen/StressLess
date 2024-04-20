@@ -1,0 +1,1 @@
+import { fetchData } from "../assets/fetch.js";
