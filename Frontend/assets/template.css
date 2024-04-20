@@ -87,144 +87,8 @@ h1 {
     padding-left: 160px;
 }
 
-
-/* Calendar */
-.calendarBackground {
-    background-color: #fffaff; 
-    margin: 30px;
-    border-radius: 22px;
-    padding-bottom: 23vh;
-}
-
-.calendarWrapper {
-    width: 90%;
-    margin: auto;
-    margin-top: 80px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px;
-}
-
-.calendarWrapper header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 50px;
-    color: #313e50;
-}
-
-.calendarWrapper p {
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 30px;
-    color: #313e50;
-    margin: 0;
-    padding: 0;
-    padding-left: 40px;
-    padding-right: 40px;
-}
-
-header .calendarHeader {
-    display: flex;
-    padding-top: 10px;
-}
-
-header .calendarHeader span {
-    margin: 0 10px;
-    cursor: pointer;
-    color: #313e50;
-    font-size:30px;
-}
-
-.calendar {
-    width: 80vw;
-    height: 40vh;
-    border-spacing: 0;
-    border-collapse: collapse;
-    background-color: #fffaff;
-}
-
-.calendar ul {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-}
-
-.calendar .days {
-    margin-bottom: 20px;
-}
-
-.calendar li {
-    color: #313e50;
-    width: calc(100% / 7);
-    font-size: 18px;
-    border: 1px solid #ccc;
-    box-sizing: border-box; /* Include border in width calculation */
-    height: 80px;
-    line-height: 80px;
-}
-
-.calendar .weeks li {
-    border: none;
-    background-color: #fffaff;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 20px;
-    color: #313e50;
-    width: 11vw;
-    height: auto;
-}
-
-.calendar .days li {
-    z-index: 1;
-    cursor: pointer;
-    position: relative;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 500;
-    font-size: 16px;
-    color: #1e1b18;
-    width: 11vw;
-    height: auto;
-}
-
-.days li.inactive {
-    color: #aaa;
-}
-
-.days li.active {
-    color: #313e50;
-}
-
-.days li::before {
-    position: absolute;
-    content: "";
-    left: 50%;
-    top: 50%;
-    height: 40px;
-    width: 40px;
-    z-index: -1;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.days li.active::before {
-    background: #C8EEF6;
-}
-
-.days li:not(.active):hover::before {
-    background: #f2f2f2;
-}
-
 /* popup styles */
-.FormPopupNew,
-.FormPopupEdit {
+.PopupPastEntry {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -247,6 +111,15 @@ header .calendarHeader span {
     font-style: italic;
     font-weight: 700;
     font-size: 37px;
+}
+
+.editIcon {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: auto;
 }
 
 .closePopup {
@@ -383,10 +256,38 @@ input[type="submit"]:hover {
     margin-top: 40px;
 }
 
+.PopupPastEntry h4 {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: #1E1B18;
+}
+
+.PopupPastEntry p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #1E1B18;
+}
+
+.hrvAndActivities {
+    display: flex;
+    margin-top: 7vh;
+}
+
+.activitiesPast {
+    margin-left: 10vw;
+}
+
+.notesPast {
+    margin-top: 5vh;
+}
+
 /* responsive styles */
-@media screen and (max-width: 1600px) {
-    .FormPopupNew,
-    .FormPopupEdit {
+@media screen and (max-width: 1400px) {
+    .FormPopup,
+    .PopupPastEntry {
         width: 80%;
     }
 }

@@ -19,7 +19,7 @@ body {
     min-width: 320px;
     min-height: 100vh;
     margin: 0;
-    background-image: url(imgBg.jpg);
+    background-image: url(../assets/imgBg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
 }
@@ -87,9 +87,162 @@ h1 {
     padding-left: 160px;
 }
 
-/* popup styles */
-.FormPopup {
+
+/* Calendar */
+.calendarBackground {
+    background-color: #fffaff;
+    margin: 50px;
+    border-radius: 22px;
+    padding-bottom: 15vh;
+    margin-top: 10vh;
+}
+
+.calendarWrapper {
+    width: 90%;
+    margin: auto;
+    margin-top: 60px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    z-index: 1;
+}
+
+.calendarWrapper header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    color: #313e50;
+}
+
+.calendarWrapper p {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 30px;
+    color: #313e50;
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+header .calendarHeader {
+    display: flex;
+    padding-top: 10px;
+}
+
+header .calendarHeader span {
+    margin: 0 10px;
+    cursor: pointer;
+    color: #313e50;
+    font-size: 30px;
+}
+
+.calendar {
+    width: 80vw;
+    height: 40vh;
+    border-spacing: 0;
+    border-collapse: collapse;
+    background-color: #fffaff;
+}
+
+.calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.calendar .days {
+    margin-bottom: 20px;
+}
+
+.calendar li {
+    color: #313e50;
+    width: calc(100% / 7);
+    font-size: 18px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    /* Include border in width calculation */
+    height: 80px;
+    line-height: 80px;
+}
+
+.calendar .weeks li {
+    border: none;
+    background-color: #fffaff;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    color: #313e50;
+    width: 11vw;
+    height: auto;
+}
+
+.calendar .days li {
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #1e1b18;
+    width: 11vw;
+    height: auto;
+}
+
+.days li.inactive {
+    color: #aaa;
+}
+
+.days li.active {
+    color: #313e50;
+}
+
+.days li::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.days li.active::before {
+    background: #C8EEF6;
+}
+
+.days li:not(.active):hover::before {
+    background: #f2f2f2;
+}
+
+/* popup styles */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.FormPopupNew,
+.FormPopupEdit,
+.PopupPastEntry {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -101,6 +254,7 @@ h1 {
     padding: 50px;
     border-radius: 50px;
     width: 60%;
+    z-index: 2;
 }
 
 .EntryHeading {
@@ -247,9 +401,58 @@ input[type="submit"]:hover {
     margin-top: 40px;
 }
 
+/* Past entry popup specific rules */
+.PopupPastEntry h4 {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: #1E1B18;
+}
+
+.PopupPastEntry p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #1E1B18;
+}
+
+.editIcon {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: auto;
+}
+
+.hrvAndActivities {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 7vh;
+}
+
+.activitiesPast {
+    margin-left: 10vw;
+}
+
+.notesPast {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
 /* responsive styles */
 @media screen and (max-width: 1600px) {
-    .FormPopup {
+
+    .FormPopupNew,
+    .FormPopupEdit,
+    .PopupPastEntry {
         width: 80%;
+    }
+
+    .calendarBackground {
+        padding-bottom: 24vh;
+        margin-top: 5vh;
     }
 }
