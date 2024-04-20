@@ -95,4 +95,5 @@ createEntry.addEventListener('click', async (evt) => {
   console.log('Lets create a new diary entry');
 
   gatherNewEntryData();
+  hideAllPopups();
 });
