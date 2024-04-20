@@ -1,5 +1,7 @@
 import { fetchData } from "../assets/fetch.js";
-import { renderCalendar } from "./rendercalendar.js";
+import { renderCalendar } from "./calendar.js";
+import { gatherNewEntryData } from "./newentry.js";
+import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
 // get new date, current year and month
@@ -41,98 +43,53 @@ window.addEventListener("load", () => {
   initializeCalendar();
 });
 
-// POPUP HANDLING
-// get required elements for displaying the modals
-const NewEntry = document.querySelector(".FormPopupNew");
-const PastEntry = document.querySelector(".PopupPastEntry");
-const EditEntry = document.querySelector(".FormPopupEdit");
-const calendarWrapper = document.querySelector(".calendarBackground");
-const overlay = document.getElementById("overlay");
 
-// selected date variable
-let selectedDate = "";
-
-// Add click event listeners to calendar days
+// MODAL HANDLING
+// event listener for calendar days
 const calendar = document.querySelector(".calendar");
 calendar.addEventListener("click", (event) => {
-  // Check if the clicked element is an li element inside the .days list
   if (
     event.target.tagName === "LI" &&
     event.target.parentElement.classList.contains("days")
   ) {
-    const clickedDate = parseInt(event.target.textContent); // Get the clicked date
+    // get clicked date
+    const clickedDate = parseInt(event.target.textContent); 
     const currentDate = new Date(currYear, currMonth, clickedDate);
-    const today = new Date(); // Get current date
+    //get current date
+    const today = new Date(); 
 
-    // Check if clicked date is in the future
     if (currentDate > today || event.target.classList.contains("inactive")) {
-      return; // Exit the event handler if clicked date is in the future
+      return;
     }
 
-    // Check if clicked date is today
-    if (currentDate.toDateString() === today.toDateString()) {
-      // Display FormPopupNew modal
-      NewEntry.style.display = "block";
-      // Hide the calendar
-      calendarWrapper.style.display = "none";
-      // Show the overlay
-      overlay.style.display = "block";
-    } else {
-      // Display PopupPastEntry modal
-      PastEntry.style.display = "block";
-      // Hide the calendar
-      calendarWrapper.style.display = "none";
-      // Show the overlay
-      overlay.style.display = "block";
-    }
-
-    // format date for the modal headings
     const formattedDay = currentDate.getDate().toString().padStart(2, "0");
-    const formattedMonth = (currentDate.getMonth() + 1)
-      .toString()
-      .padStart(2, "0");
-      selectedDate = `${formattedDay}.${formattedMonth}.${currentDate.getFullYear()}`;
+    const formattedMonth = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+    const selectedDate = `${formattedDay}.${formattedMonth}.${currentDate.getFullYear()}`;
 
-    // update the date in the NewEntry modal
-    document
-      .querySelectorAll(".FormPopupNew .EntryHeading")
-      .forEach((heading) => {
-        heading.textContent = selectedDate;
-      });
-
-    // update the date in the PastEntry modal
-    document
-      .querySelectorAll(".PopupPastEntry .EntryHeading")
-      .forEach((heading) => {
-        heading.textContent = selectedDate;
-      });
+    if (currentDate.toDateString() === today.toDateString()) {
+      showNewEntryPopup(selectedDate);
+    } else {
+      showPastEntryPopup(selectedDate);
+    }
   }
 });
 
-// Add click event listener to edit icon in PopupPastEntry modal
+// event listener for edit icon
 const editIcon = document.querySelector(".editIcon");
-editIcon.addEventListener("click", () => {
-  // Display FormPopupEdit modal
-  EditEntry.style.display = "block";
+editIcon.addEventListener("click", showEditEntryPopup);
 
-  // Hide pastentry
-  PastEntry.style.display = "none"
-
-  // Update the date in the FormPopupEdit modal
-  document.querySelector(".FormPopupEdit .EntryHeading").textContent = selectedDate
-});
-
-// Add click event listener to the closePopup buttons
+// event listener for closePopup buttons
 const closePopups = document.querySelectorAll(".closePopup");
 closePopups.forEach((button) => {
-  button.addEventListener("click", () => {
-    // Hide the popup
-    button.parentElement.style.display = "none";
+  button.addEventListener("click", hideAllPopups);
+});
 
-    // Show the calendar
-    calendarWrapper.style.display = "block";
 
-    // Hide the overlay
-    overlay.style.display = "none";
-  });
+// CREATE NEW ENTRY
+const createEntry = document.querySelector('.submitNewEntry');
+createEntry.addEventListener('click', async (evt) => {
+  evt.preventDefault();
+  console.log('Lets create a new diary entry');
+
+  gatherNewEntryData();
 });

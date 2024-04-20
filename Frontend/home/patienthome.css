@@ -316,7 +316,8 @@ header .calendarHeader span {
 }
 
 .moodBtn:hover,
-.moodBtn:focus {
+.moodBtn:focus,
+.moodBtn.selected {
     outline: 3px solid #313E50;
 }
 
