@@ -205,5 +205,24 @@ li {
     left: 180px; 
   }
 
-
+    /* arrow back */
+    .arrow-left {
+      width: 40px; /* Adjust width as needed */
+      height: 20px; /* Adjust height as needed */
+      background-color: #313e50; /* Color of the arrow */
+      position: relative;
+      border-radius: 4px; /* Rounded edges */
+  }
+  
+  .arrow-left::before {
+      content: '';
+      position: absolute;
+      top: 50%; /* Position in the middle vertically */
+      left: -20px; /* Adjusted position to extend beyond the arrow */
+      width: 20px; /* Length of the tail */
+      height: 2px; /* Thickness of the tail */
+      background-color: #759fdc; /* Color of the tail */
+      transform: translateY(-50%); /* Center vertically */
+      margin-left: 20px;
+  }
   
