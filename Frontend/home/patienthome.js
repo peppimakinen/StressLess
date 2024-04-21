@@ -1,7 +1,7 @@
 import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
 import { gatherNewEntryData } from "./newentry.js";
-import { getMonthColors } from "./pastentry.js";
+import { getMonthData } from "./pastentry.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
@@ -13,10 +13,13 @@ let date = new Date(),
 // store full name of all months in array
 const prevNextIcon = document.querySelectorAll(".calendarHeader span");
 
+
 // function to render calendar when page is loaded
 const initializeCalendar = () => {
   renderCalendar(currYear, currMonth);
-  getMonthColors(currYear, currMonth);
+  // currMonth is off by one, let's fix for the request
+  const requestMonth = currMonth + 1;
+  getMonthData(currYear, requestMonth);
 };
 
 // function to update calendar when previous or next buttons are clicked
@@ -31,6 +34,9 @@ const updateCalendar = (icon) => {
     date = new Date();
   }
   renderCalendar(currYear, currMonth);
+  // currMonth is off by one, let's fix that
+  const requestMonth = currMonth + 1;
+  getMonthData(currYear, requestMonth);
 };
 
 // event listeners for previous and next buttons
@@ -43,7 +49,7 @@ prevNextIcon.forEach((icon) => {
 // render calendar when page is loaded
 window.addEventListener("load", () => {
   initializeCalendar();
-  console.log(currYear, currMonth);
+  console.log(currYear, formattedMonth);
 });
 
 
