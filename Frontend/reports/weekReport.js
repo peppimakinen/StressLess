@@ -1,15 +1,7 @@
 
 import { fetchData } from './fetch.js';
 
-// LOGOUT 
-// const logout = document.querySelector('.logout');
 
-const logout = function(evt) {
-  evt.preventDefault();
-  window.location.href = 'login.html';
-};
-
-logout.addEventListener('click', logout);
 
 // MOOD
 // fetching mood data from the backend
@@ -39,50 +31,20 @@ async function fetchHRVDataFromBackend(entry_id) {
   }
 }
 
-// Call the fetchHRVDataFromBackend function
-// fetchHRVDataFromBackend(beginningDate, endDate)
-//   .then(weeklyHRVData => {
-//       console.log('Weekly HRV data:', weeklyHRVData);
-//   })
-//   .catch(error => {
-//       console.error('Error:', error);
-//   });
+document.addEventListener('DOMContentLoaded', function () {
+  // Example data received from backend
+  const hrvData = [50, 80, 120, 170, 70, 100, 30];
+  const pieData = [30, 45, 25]; // Percentages
 
+  // Set HRV bars height
+  const bars = document.querySelectorAll('.hrvSummary .chart .bar');
+  bars.forEach((bar, index) => {
+      bar.style.height = `${hrvData[index]}px`;
+  });
 
-// Function to fetch weekly HRV data based on the beginning and ending dates
-function fetchWeeklyHRV(beginningDate, endDate) {
-  // Fetch HRV data from the backend for the given week
-  const weeklyHRVData = fetchHRVDataFromBackend(beginningDate, endDate);
-  return weeklyHRVData;
-}
-
-// fetching hrv data by a week
-const beginningDate = new Date('2024-04-01'); 
-const endDate = new Date('2024-04-07'); 
-const weeklyHRV = fetchWeeklyHRV(beginningDate, endDate);
-console.log(weeklyHRV); 
-
-// POPUP
-// const popup = document.getElementById('popup');
-// const overlay = document.getElementById('overlay');
-// const openPopupBtn = document.querySelector('.yes');
-// const closePopupBtn = document.getElementById('closePopup');
-// const createEntryBtn = document.querySelector('.createEntry');
-
-// openPopupBtn.addEventListener('click', function(evt) {
-//   evt.preventDefault();
-//   popup.style.display = 'block';
-//   overlay.style.display = 'block';
-// });
-
-// closePopupBtn.addEventListener('click', function() {
-//   popup.style.display = 'none';
-//   overlay.style.display = 'none';
-// });
-
-// createEntryBtn.addEventListener('click', function(evt) {
-//   evt.preventDefault();
-//   popup.style.display = 'none';
-//   overlay.style.display = 'none';
-// });
-
+  // Set pie chart slice sizes
+  const slices = document.querySelectorAll('.moodSummary .pie-chart .slice');
+  slices.forEach((slice, index) => {
+      slice.style.setProperty('--size', `${pieData[index]}%`);
+  });
+});

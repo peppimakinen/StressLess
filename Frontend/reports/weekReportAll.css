@@ -98,8 +98,8 @@ li {
     padding: 20px;
     /* display: flex;
     float: inherit; */
-    gap: 30%;
-    white-space: nowrap;
+    gap: 10%;
+    white-space: wrap;
 }
 
 
@@ -129,6 +129,7 @@ h1 {
     padding: 50px;
 }
 
+  
 /* Hide the scrollbar */
 .weeks::-webkit-scrollbar {
     display: none;
@@ -137,14 +138,19 @@ h1 {
 .week {
     background-color: #fffaff;
     color: #1e1b18;
+    font-size: 30px;
     margin: 5px;
     border-radius: 10px;
     padding: 20px;
     display: flex;
-    justify-content: center; /* Horizontally center items */
+    justify-content: space-around; /* Horizontally center items */
     align-items: center; /* Vertically center items */
 }
 
+.date {
+    color: #888888;
+    font-size: smaller;
+}
 
 .reports a {
     background-color: #313e50;
