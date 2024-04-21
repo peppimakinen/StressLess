@@ -1,6 +1,7 @@
 import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
 import { gatherNewEntryData } from "./newentry.js";
+import { getMonthColors } from "./pastentry.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
@@ -15,6 +16,7 @@ const prevNextIcon = document.querySelectorAll(".calendarHeader span");
 // function to render calendar when page is loaded
 const initializeCalendar = () => {
   renderCalendar(currYear, currMonth);
+  getMonthColors(currYear, currMonth);
 };
 
 // function to update calendar when previous or next buttons are clicked
@@ -41,6 +43,7 @@ prevNextIcon.forEach((icon) => {
 // render calendar when page is loaded
 window.addEventListener("load", () => {
   initializeCalendar();
+  console.log(currYear, currMonth);
 });
 
 
@@ -92,4 +95,5 @@ createEntry.addEventListener('click', async (evt) => {
   console.log('Lets create a new diary entry');
 
   gatherNewEntryData();
+  hideAllPopups();
 });

@@ -1,4 +1,4 @@
-// popups.js
+import { populateActivitiesDropdown } from "./newentry";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
@@ -23,6 +23,9 @@ export function showNewEntryPopup(date) {
     .forEach((heading) => {
       heading.textContent = selectedDate;
     });
+
+    // populate the dropdown menu
+    populateActivitiesDropdown();
 }
 
 // Function to show PastEntry popup
