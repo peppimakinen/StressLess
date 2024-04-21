@@ -1,50 +1,69 @@
+import { fetchData } from '../assets/fetch.js';
 
-import { fetchData } from './fetch.js';
+// Render charts 
+async function renderData() {
+    const data = await fetchData('http://127.0.0.1:3000/api/reports/available-weeks');
 
+    const pieChartContainer = document.getElementById('pieChart');
+    const barChartContainer = document.getElementById('barChart');
+    const noDataMessage = document.getElementById('noDataMessage');
 
+    if (!data || Object.keys(data).length === 0) {
+        // If no data available, display message and hide charts
+        noDataMessage.style.display = 'block';
+        pieChartContainer.style.display = 'none';
+        barChartContainer.style.display = 'none';
+     } else {
+        renderPieChart(data.colorPercentages);
+        renderBarChart(data.hrvValues);
+        noDataMessage.style.display = 'none';
+        pieChartContainer.style.display = 'block';
+        barChartContainer.style.display = 'block';
+    }
+    }
 
-// MOOD
-// fetching mood data from the backend
-
-
-// HRV
-// fetching HRV data from the backend
-async function fetchHRVDataFromBackend(entry_id) {
-  try {
-      // URL with query parameters for the beginning and ending dates
-      const url = `http://backendUrl.com/hrv-data?entry_id=${entry_id}`;
-
-      // GET request to fetch HRV data
-      const response = await fetch(url);
-
-      if (!response.ok) {
-          throw new Error('Failed to fetch HRV data');
-      }
-
-      // Parse the response JSON
-      const data = await response.json();
-      
-      return data; // array of objects
-  } catch (error) {
-      console.error('Error fetching HRV data:', error);
-      return null;
-  }
+// Render pie chart
+function renderPieChart(colorPercentages) {
+    const pieChartCanvas = document.getElementById('pieChart').getContext('2d');
+    
+    // Set the aspect ratio to make the pie chart a circle
+    pieChartCanvas.canvas.height = pieChartCanvas.canvas.width;
+    
+    new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: {
+            labels: ['Red', 'Green', 'Yellow', 'Gray'],
+            datasets: [{
+                data: Object.values(colorPercentages),
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#D3D3D3'],
+            }]
+        }
+    });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-  // Example data received from backend
-  const hrvData = [50, 80, 120, 170, 70, 100, 30];
-  const pieData = [30, 45, 25]; // Percentages
+// Render bar chart
+function renderBarChart(hrvValues) {
+    const barChartCanvas = document.getElementById('barChart').getContext('2d');
+    new Chart(barChartCanvas, {
+        type: 'bar',
+        data: {
+            labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+            datasets: [{
+                label: 'HRV Values',
+                data: hrvValues,
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
 
-  // Set HRV bars height
-  const bars = document.querySelectorAll('.hrvSummary .chart .bar');
-  bars.forEach((bar, index) => {
-      bar.style.height = `${hrvData[index]}px`;
-  });
-
-  // Set pie chart slice sizes
-  const slices = document.querySelectorAll('.moodSummary .pie-chart .slice');
-  slices.forEach((slice, index) => {
-      slice.style.setProperty('--size', `${pieData[index]}%`);
-  });
-});
+window.onload = renderData;
