@@ -8,6 +8,7 @@ import express from 'express';
 import {
   postEntry,
   getMonth,
+  putEntry,
   getDay,
 } from '../controllers/entry-controller.mjs';
 
@@ -24,6 +25,15 @@ entryRouter
     body('notes').isString(),
     validationErrorHandler,
     postEntry,
+  )
+  .put(
+    authenticateToken,
+    onlyForPatientWhoCompletedSurvey,
+    body('entry_date', 'Date should be in yyyy-mm-dd format').isDate(),
+    body('mood_color').isString(),
+    body('notes').isString(),
+    validationErrorHandler,
+    putEntry,
   );
 
 entryRouter

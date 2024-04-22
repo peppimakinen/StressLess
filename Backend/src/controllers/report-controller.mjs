@@ -32,7 +32,7 @@ const getAvailableWeeks = async (req, res, next) => {
     if (!latestReportDates) {
       // Try to generate reports using existing entries
       await generateFirstReports(latestSunday, userId);
-    // If reports are found
+      // If reports are found
     } else {
       const latestReportEndDate = latestReportDates.end;
       // Check weeks between last report to latest sunday
@@ -52,7 +52,7 @@ const getAvailableWeeks = async (req, res, next) => {
       throw customError(result.message, result.error);
     }
     return res.json(result);
-  // Handle errors
+    // Handle errors
   } catch (error) {
     next(customError(error.message, error.status));
   }
@@ -77,7 +77,7 @@ const getSpecificReport = async (req, res, next) => {
       throw customError(result.message, result.error);
     }
     return res.json(result);
-  // Handle errors
+    // Handle errors
   } catch (error) {
     next(customError(error.message, error.status));
   }
@@ -272,7 +272,7 @@ const deleteWeeksWithoutData = async (weeks, userId) => {
 /**
  * Convert Date object yyyy-mm-ddT00:00:00.000Z --> yyyy-mm-dd
  * @param {dateObj} dateObj
- * @return {string} The same date but in string format 
+ * @return {string} The same date but in string format
  */
 function convertDateObjToStr(dateObj) {
   return dateObj.toISOString().slice(0, 10);
@@ -314,7 +314,7 @@ function isSunday(dateObj) {
     if (dateObj.getUTCDay() === 0) {
       // return true if it is sunday
       return true;
-    // Throw a error
+      // Throw a error
     } else {
       throw customError('Provided isSunday object is not a sunday', 500);
     }
@@ -363,7 +363,7 @@ function getWeeksBetweenSundays(startDateObj, endDateObj) {
   }
   // Return all weeks
   return weeks;
-};
+}
 
 /**
  * Get first entry date as a date object
@@ -560,7 +560,7 @@ function getDailyStressIndexFromEntries(startDate, endDate, entries) {
       const stressIndex = parseFloat(entryThatHasSameDate.stress_index);
       // Append stress index to list
       indeciesList.push(stressIndex);
-    // If no match was found
+      // If no match was found
     } else {
       // Append a zero where stress index was not found
       indeciesList.push(0);
@@ -587,10 +587,10 @@ function calculateMoodColorPercentages(entries) {
     // Check if entry containes red hex value
     if (moodColor === 'FF8585') {
       colors.red += 1;
-    // Check if entry containes green hex value
+      // Check if entry containes green hex value
     } else if (moodColor === '9BCF53') {
       colors.green += 1;
-    // Check if entry containes yellow hex value
+      // Check if entry containes yellow hex value
     } else if (moodColor === 'FFF67E') {
       colors.yellow += 1;
     }
@@ -624,4 +624,9 @@ function getWeekNumber(day) {
   const weekNo = Math.ceil(((day - yearStart) / 86400000 + 1) / 7);
   return weekNo;
 }
-export {getAvailableWeeks, getSpecificReport};
+export {
+  getAvailableWeeks,
+  getSpecificReport,
+  convertDateObjToStr,
+  getCurrentDate,
+};
