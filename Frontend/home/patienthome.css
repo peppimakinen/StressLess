@@ -99,6 +99,7 @@ h1 {
     align-items: center;
     flex-direction: column;
     overflow: hidden; /* Ensures no spillover */
+    padding-bottom: 5vh;
 }
 
 .calendarWrapper {
