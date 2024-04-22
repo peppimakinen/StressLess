@@ -1,33 +1,40 @@
 import { fetchData } from '../assets/fetch.js';
 
-//aktiviteetit listaus
+// aktiviteetit
 document.getElementById('submitButton').addEventListener('click', function() {
-    const textarea = document.getElementById('question14');
-    const activities = textarea.value.trim().split('\n').map(activity => activity.trim());
+    const inputField = document.getElementById('question14');
+    const activity = inputField.value.trim();
+    const questionText = document.getElementById('activityLabel').textContent.trim(); // Make sure the label is correctly associated
 
-    if (activities.length > 0) {
-        activities.forEach(activity => {
-            if (activity !== '') {
-                // Here you can send the activity to your backend for processing
-                // For demonstration purpose, we're just logging it to the console
-                console.log('Activity submitted:', activity);
-            }
-        });
+    if (activity !== '') {
+        let activities = [];
 
-        // Add activities to the survey form data
-        const form = document.querySelector('.answer-form-all');
+        // Check if there's already an existing hidden input for activities
+        const existingInput = document.querySelector('input[name="activities"]');
+        if (existingInput) {
+            activities = JSON.parse(existingInput.value);
+            existingInput.remove();  // Remove it to replace later
+        }
+
+        activities.push(activity);
+
         const activityInput = document.createElement('input');
         activityInput.type = 'hidden';
         activityInput.name = 'activities';
         activityInput.value = JSON.stringify(activities);
+
+        const form = document.querySelector('.answer-form-all');
         form.appendChild(activityInput);
 
-        // Clear the textarea for the next input
-        textarea.value = '';
+        inputField.value = '';
+
+        console.log(questionText + ':', activities);
     } else {
-        alert('Please enter some activities before submitting.');
+        alert('Please enter an activity before submitting.');
     }
 });
+
+
 
 
 
@@ -123,24 +130,29 @@ survey.addEventListener('click', async (evt) => {
 
     console.log('Tiedot valideja, jatketaan');
 
-    // Create an array to hold all the questions and answers
-    const questions = [];
+    // Create an object to hold all the questions and answers
+    const survey = {};
 
-    // Loop through all input fields in the form
+    // Loop through all input and select fields in the form
     form.querySelectorAll('input, select').forEach(input => {
-        // Skip inputs without a name attribute or with the name "user_choice"
-        if (!input.name || input.name === 'user_choice') {
+        if (!input.name || input.name === 'user_choice' || input.value === "") {
             return;
         }
-        // Add the input question and answer to the questions array
-        questions.push({
-            question: input.previousElementSibling.textContent.trim(),
-            answer: input.value
-        });
+        if (input.name === 'activities') {
+            survey['Activities'] = JSON.parse(input.value); // Parse JSON string into array
+        } else {
+            survey[input.previousElementSibling && input.previousElementSibling.textContent.trim()] = input.value;
+        }
     });
 
+    // This will log the object in the format you requested
+    console.log(survey);
+
+
+
     // Create the data object with the questions array
-    const data = { questions };
+    const data = { survey };
+    console.log(data);
 
     // Retrieve the authentication token from local storage
     const authToken = localStorage.getItem("token");
