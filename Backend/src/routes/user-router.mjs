@@ -4,7 +4,7 @@ import {
   validationErrorHandler,
 } from '../middlewares/error-handler.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
-import {body} from 'express-validator';
+import {body, param} from 'express-validator';
 import express from 'express';
 import {
   postDoctor,
@@ -26,11 +26,11 @@ userRouter
   );
 
 userRouter
-  .route('/find-doctor')
+  .route('/find-doctor/:doctor_username')
   .get(
     authenticateToken,
     onlyForPatientHandler,
-    body('doctor_name_or_email', 'Invalid name or email for doctor').isLength({min: 3, max: 60}).trim(),
+    param('doctor_username', 'Invalid username for doctor').isEmail().trim(),
     validationErrorHandler,
     getDoctor,
   );

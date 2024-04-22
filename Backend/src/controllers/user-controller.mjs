@@ -38,39 +38,15 @@ const postDoctor = async (req, res, next) => {
 };
 
 const getDoctor = async (req, res, next) => {
-  console.log('Patient user trying to find a doctor via usename or name');
-  const nameOrEmail = req.body.doctor_name_or_email;
+  console.log('Patient user trying to find a doctor via usename');
+  const doctorEmail = req.params.doctor_username;
   // Check if there is a doctor with the same email/username address
-  const doctorFoundWithEmail = await selectDoctorByEmail(nameOrEmail);
-  // selectDoctorByEmail returns 404 error if doctor not found
-  if (!doctorFoundWithEmail.error) {
-    delete doctorFoundWithEmail.password;
-    // There was no errors, so a matching doctor was found
-    doctorFoundWithEmail['message'] = 'Doctor found using email address';
-    // Return selected doctor user data
-    return res.json({found_doctor: doctorFoundWithEmail});
+  const result = await selectDoctorByEmail(doctorEmail);
+  if (result.error) {
+    return next(customError(result.message, result.error));
   }
-  // Doctor was not found using email, try searching with full name
-  console.log('No results with email adress, searching again with name...');
-  const doctorFoundWithName = await selectDoctorByName(nameOrEmail);
-  // selectDoctorByName returns 404 error if doctor not found
-  if (!doctorFoundWithName.error) {
-    delete doctorFoundWithName.password;
-    // There was no errors, so a matching doctor was found
-    doctorFoundWithName['message'] = 'Doctor found using full name';
-    // Return selected doctor user data
-    return res.json({found_doctor: doctorFoundWithName});
-    // If there was a error, no doctor was found
-  } else {
-    console.log('Doctor was not found with full name');
-    // Return a error message to the client
-    return next(
-      customError(
-        `Could not find doctor using: '${nameOrEmail}' as search input`,
-        404,
-      ),
-    );
-  }
+  delete result.password;
+  return res.json({found_doctor: result});
 };
 
 const formPair = async (req, res, next) => {
