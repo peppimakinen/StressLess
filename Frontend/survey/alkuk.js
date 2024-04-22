@@ -28,15 +28,12 @@ document.getElementById('submitButton').addEventListener('click', function() {
 
         inputField.value = '';
 
-        console.log(questionText + ':', activities);
+        const activitiesString = `Mitä aktiviteetteja hyödynnät stressin lievennyksessä?: ${JSON.stringify(activities)}`;
+        console.log(activitiesString);
     } else {
         alert('Please enter an activity before submitting.');
     }
 });
-
-
-
-
 
 // POPUP HANDLING
 const popup = document.getElementById('popup');
@@ -107,8 +104,6 @@ doctorForm.addEventListener('submit', async function (evt) {
     }
 });
 
-
-
 // ei lääkäriä, submittaa vastsaukset ja menee patienthome
 const survey = document.getElementById('no');
 
@@ -139,7 +134,7 @@ survey.addEventListener('click', async (evt) => {
             return;
         }
         if (input.name === 'activities') {
-            survey['Activities'] = JSON.parse(input.value); // Parse JSON string into array
+            survey['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value); // Parse JSON string into array
         } else {
             survey[input.previousElementSibling && input.previousElementSibling.textContent.trim()] = input.value;
         }
@@ -147,12 +142,6 @@ survey.addEventListener('click', async (evt) => {
 
     // This will log the object in the format you requested
     console.log(survey);
-
-
-
-    // Create the data object with the questions array
-    const data = { survey };
-    console.log(data);
 
     // Retrieve the authentication token from local storage
     const authToken = localStorage.getItem("token");
@@ -164,7 +153,7 @@ survey.addEventListener('click', async (evt) => {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + authToken // Include the authentication token from local storage
         },
-        body: JSON.stringify(data), // body data type must match "Content-Type" header
+        body: JSON.stringify(survey), // body data type must match "Content-Type" header
     };
 
     // Fetch the data
@@ -203,5 +192,3 @@ doctorForm2.addEventListener('submit', function (event) {
         alert("Sinun on valittava valintaruutu jatkaaksesi!");
     }
 });
-
-
