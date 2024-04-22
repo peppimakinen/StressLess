@@ -45,6 +45,7 @@ const popup2 = document.getElementById('popup2');
 const openPopup = document.querySelector('.submitdoc'); // Target the submit button with class 'submitdoc'
 const closePopup = document.getElementById('closePopup2');
 
+
 // first popup
 openPopupBtn.addEventListener('click', function (evt) {
     evt.preventDefault();
@@ -68,6 +69,9 @@ closePopup.addEventListener('click', function () {
     popup2.style.display = 'none';
     overlay.style.display = 'none';
 });
+
+
+
 
 
 // haetaan lekuri
@@ -158,20 +162,21 @@ survey.addEventListener('click', async (evt) => {
 
     // Fetch the data
     try {
+        // Execute the fetch operation
         const response = await fetchData(url, options);
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    
+        // Check if the fetch was successful and the response is what you expect
+        if (response) { 
+            alert('Alkukartoitus tehty!');
+            window.location.href = 'http://localhost:5173/home/patienthome.html'; // Redirect only on success
+        } else {
+            console.error(response);
+            alert('Tapahtui virhe. Yritä uudelleen.');
         }
-        const responseData = await response.json();
-        console.log(responseData);
-        
-        // Store the token in local storage
-        localStorage.setItem("token", responseData.token);
-        
-        alert('Form submitted!');
-        window.location.href = 'patienthome.html';
     } catch (error) {
+        // Handle network errors or other errors in fetching
         console.error('Error submitting form data:', error);
+        alert('Tietojen lähettämisessä tapahtui virhe. Tarkista verkkoyhteys.');
     }
 });
 
@@ -182,13 +187,24 @@ survey.addEventListener('click', async (evt) => {
 const doctorForm2 = document.querySelector('.doctor_form2');
 const checkbox = document.getElementById('give-info');
 
-// Add event listener to form submission
-doctorForm2.addEventListener('submit', function (event) {
-    // Check if the checkbox is not checked
-    if (!checkbox.checked) {
-        // Prevent the default form submission behavior
-        event.preventDefault();
-        // Show alert message
-        alert("Sinun on valittava valintaruutu jatkaaksesi!");
+if (doctorForm2 && checkbox) {
+    const redirectButton = document.getElementById('redirect');
+    if (redirectButton) {
+        redirectButton.addEventListener('click', function(event) {
+            console.log('Button clicked');
+            if (!checkbox.checked) {
+                console.log('Checkbox is not checked');
+                event.preventDefault();
+                alert("Sinun on valittava valintaruutu jatkaaksesi!");
+            } else {
+                console.log('Checkbox is checked, redirecting...');
+                window.location = 'http://localhost:5173/home/patienthome.html';
+                alert('Alkukartoitus tehty!'); 
+            }
+        });
+    } else {
+        console.log('Redirect button not found!');
     }
-});
+} else {
+    console.log('Form or checkbox not found!');
+};

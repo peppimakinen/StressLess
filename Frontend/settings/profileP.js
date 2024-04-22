@@ -1,4 +1,4 @@
-import { fetchData } from "./fetch";
+import { fetchData } from "../assets/fetch";
 
 function showProfile() {
     const user_name = localStorage.getItem('user_name');
