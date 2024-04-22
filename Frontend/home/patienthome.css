@@ -91,29 +91,32 @@ h1 {
 /* Calendar */
 .calendarBackground {
     background-color: #fffaff;
-    margin: 50px;
+    margin: 50px; /* Auto for horizontal centering */
     border-radius: 22px;
-    padding-bottom: 15vh;
-    margin-top: 10vh;
+    padding-top: 20px; /* Adding top padding for visual balance */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden; /* Ensures no spillover */
 }
 
 .calendarWrapper {
-    width: 90%;
+    width: 90%; /* Responsive width */
+    max-width: 1200px; /* Maximum width can be adjusted based on design preference */
     margin: auto;
-    margin-top: 60px;
-    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 40px;
-    z-index: 1;
+    padding: 20px; /* Adjusted padding */
 }
+
 
 .calendarWrapper header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
     color: #313e50;
 }
 
@@ -143,7 +146,7 @@ header .calendarHeader span {
 
 .calendar {
     width: 80vw;
-    height: 40vh;
+    min-height: 400px; /* Minimum height to ensure it doesn't get too small */
     border-spacing: 0;
     border-collapse: collapse;
     background-color: #fffaff;
@@ -159,7 +162,6 @@ header .calendarHeader span {
 }
 
 .calendar .days {
-    margin-bottom: 20px;
 }
 
 .calendar li {
@@ -468,7 +470,25 @@ input[type="submit"]:hover {
     }
 
     .calendarBackground {
-        padding-bottom: 24vh;
+        padding-bottom: 5vh;
         margin-top: 5vh;
+        padding-left: 16px;
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    .calendarBackground {
+        padding-left: 40px;
+        padding-right: 20px;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .calendarBackground {
+        padding-left: 70px;
+        padding-right: 50px;
+        margin-right: 30px;
+        margin-left: 30px;
     }
 }
