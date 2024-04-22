@@ -162,9 +162,6 @@ header .calendarHeader span {
     margin: 0;
 }
 
-.calendar .days {
-}
-
 .calendar li {
     color: #313e50;
     width: calc(100% / 7);
