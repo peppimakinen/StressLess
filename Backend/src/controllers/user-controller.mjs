@@ -6,10 +6,10 @@ import {
   selectDoctorByEmail,
   selectDoctorByName,
   pairExistsAlready,
+  selectUserByUsername,
   insertNewPair,
 } from '../models/user-model.mjs';
 /* eslint-disable camelcase */
-
 
 const postDoctor = async (req, res, next) => {
   const {username, password, full_name, admin_password} = req.body;
@@ -116,8 +116,31 @@ const formPair = async (req, res, next) => {
   }
 };
 
-export {
-  formPair,
-  postDoctor,
-  getDoctor,
+const deleteSelf = async (req, res, next) => {
+  try {
+    const inputPassword = req.body.confirmation_password;
+    const existingUser = await selectUserByUsername(req.user.username);
+    if (existingUser.error) {
+      throw customError(existingUser.message, existingUser.error);
+    }
+    const foundPasswordHash = existingUser.password;
+    // Compare the input password hash with the stored password hash
+    const isMatch = await bcrypt.compare(inputPassword, foundPasswordHash);
+    // Check if passwords match
+    if (isMatch) {
+      // Passwords match, proceed with deleting the user
+      await deleteUserData(existingUser.user_id);
+
+      // Respond with success message or redirect to appropriate route
+      res.status(200).json({message: 'User deleted successfully'});
+    } else {
+      // Passwords don't match, respond with an error message
+      throw customError('Invalid confirmation password', 401);
+    }
+  } catch (error) {
+    console.log('deleteSelf catch block');
+    next(customError(error.message, error.error));
+  }
 };
+
+export {formPair, postDoctor, getDoctor, deleteSelf};
