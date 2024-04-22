@@ -23,7 +23,7 @@ import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 const getMonth = async (req, res, next) => {
   try {
     console.log('Entered getMonth');
-    const {month, year} = req.body;
+    const {month, year} = req.query;
     const userId = req.user.user_id;
     // Fetch all entries and measurements that took place in during chosen month
     const entries = await gatherMonthlyPatientEntries(month, year, userId);
@@ -49,6 +49,7 @@ const getMonth = async (req, res, next) => {
  */
 const getDay = async (req, res, next) => {
   try {
+    console.log(req);
     const userId = req.user.user_id;
     const entryDate = req.params.entry_date;
     // Fetch data from DiaryEntries table for a specific date
