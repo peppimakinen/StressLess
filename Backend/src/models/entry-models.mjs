@@ -32,6 +32,22 @@ const getEntryUsingDate = async (userId, date) => {
   }
 };
 
+const updateEntry = async (params, entryId) => {
+  try {
+    const sql = `
+      UPDATE DiaryEntries
+        set entry_date=?, mood_color=?, notes=?
+      WHERE 
+        entry_id=?;`;
+    params.push(entryId);
+    const rows = await promisePool.query(sql, params);
+    return rows;
+  } catch (error) {
+    console.error('updateEntry', error);
+    return {error: 500, message: 'db error'};
+  }
+};
+
 const getMonthlyPatientEntries = async (year, month, userId) => {
   try {
     const sql = `
@@ -108,7 +124,6 @@ const getEntriesFromSpecificMonthForDoctor = async (year, month, patienId) => {
   }
 };
 
-
 const getActivitiesForEntry = async (entryId, userId, entryDate) => {
   try {
     const sql = `
@@ -133,6 +148,7 @@ const getActivitiesForEntry = async (entryId, userId, entryDate) => {
     return {error: 500, message: 'db error'};
   }
 };
+
 const getMeasurementsForPatient = async (entryId, userId, date) => {
   try {
     const sql = `
@@ -174,24 +190,6 @@ const getMeasurementsForPatient = async (entryId, userId, date) => {
   }
 };
 
-// Get specific entry in db - FOR ADMIN
-const selectEntryById = async (id) => {
-  try {
-    const sql = 'SELECT * FROM DiaryEntries WHERE user_id=?';
-    const params = [id];
-    const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
-    if (rows.length === 0) {
-      return {error: 404, message: `No entries found with user_id = ${id} `};
-    }
-    // return all found entries
-    return rows;
-  } catch (error) {
-    console.error('selectUserById', error);
-    return {error: 500, message: 'db error'};
-  }
-};
-
 const addEntry = async (params) => {
   const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
   VALUES (?, ?, ?, ?)`;
@@ -202,6 +200,17 @@ const addEntry = async (params) => {
     console.log('addEntry', error);
     return {error: 500, message: 'Failed to add a new DiaryEntry'};
   }
+};
+
+const deleteExistingActivities = async (entryId) => {
+  const sql = `DELETE FROM CompletedActivities WHERE e_id=?; `;
+  try {
+    const rows = await promisePool.query(sql, entryId);
+    return rows[0];
+  } catch (error) {
+    console.log('deleteExistingEntries', error);
+    return {error: 500, message: 'Failed to delete activities'};
+  };
 };
 
 const addAllActivities = async (entryId, activitiesList) => {
@@ -222,8 +231,8 @@ const addAllActivities = async (entryId, activitiesList) => {
 };
 
 const addMeasurement = async (params) => {
-  const sql = 
-  `INSERT INTO Measurements (
+  const sql = `
+  INSERT INTO Measurements (
       kubios_result_id, measurement_date, artefact_level, lf_power,
       lf_power_nu, hf_power, hf_power_nu, tot_power,
       mean_hr_bpm, mean_rr_ms, rmssd_ms, sd1_ms,
@@ -239,6 +248,32 @@ const addMeasurement = async (params) => {
     return {error: 500, message: 'Failed to add a new set of Measurements'};
   }
 };
+
+const updateEntryMeasurements = async (params, entryId) => {
+  const sql = `
+    UPDATE Measurements m
+    JOIN DM d ON m.measurement_id = d.m_id
+    JOIN DiaryEntries e ON e.entry_id = d.e_id
+    SET 
+        m.kubios_result_id = ?, m.measurement_date = ?, m.artefact_level = ?,
+        m.lf_power = ?,m.lf_power_nu = ?, m.hf_power = ?, m.hf_power_nu = ?,
+        m.tot_power = ?, m.mean_hr_bpm = ?, m.mean_rr_ms = ?, m.rmssd_ms = ?,
+        m.sd1_ms = ?, m.sd2_ms = ?, m.sdnn_ms = ?, m.sns_index = ?,
+        m.pns_index = ?, m.stress_index = ?, m.respiratory_rate = ?,
+        m.user_readiness = ?, m.user_recovery = ?, m.user_happiness = ?,
+        m.result_type = ?
+    WHERE e.entry_id = ?;`;
+  try {
+    // Add entryId to the params array
+    params.push(entryId);
+    const rows = await promisePool.query(sql, params);
+    return rows[0];
+  } catch (error) {
+    console.log('updateEntryMeasurements', error);
+    return {error: 500, message: 'Failed to update Measurements'};
+  }
+};
+
 
 const connectMeasurementToEntry = async (entryId, measurementId) => {
   const sql = `INSERT INTO DM (m_id, e_id) VALUES (?, ?)`;
@@ -266,15 +301,18 @@ const getEntryCount = async (userId) => {
   };
 };
 
+
 export {
   addEntry,
+  updateEntry,
   getEntryCount,
   getEntryUsingDate,
-  selectEntryById,
   addAllActivities,
+  deleteExistingActivities,
   addMeasurement,
   getMeasurementsForPatient,
   connectMeasurementToEntry,
+  updateEntryMeasurements,
   getMonthlyPatientEntries,
   getEntriesFromSpecificMonthForDoctor,
   getActivitiesForEntry,
