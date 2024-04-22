@@ -8,12 +8,22 @@ import {body} from 'express-validator';
 import express from 'express';
 import {
   postDoctor,
+  deleteSelf,
   formPair,
   getDoctor,
 } from '../controllers/user-controller.mjs';
 
 // eslint-disable-next-line new-cap
 const userRouter = express.Router();
+
+userRouter
+  .route('/')
+  .delete(
+    authenticateToken,
+    body('confirmation_password').isLength({min: 3, max: 60}).trim(),
+    validationErrorHandler,
+    deleteSelf,
+  );
 
 userRouter
   .route('/find-doctor')

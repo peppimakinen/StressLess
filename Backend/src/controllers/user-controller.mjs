@@ -6,10 +6,10 @@ import {
   selectDoctorByEmail,
   selectDoctorByName,
   pairExistsAlready,
+  selectUserByUsername,
   insertNewPair,
 } from '../models/user-model.mjs';
 /* eslint-disable camelcase */
-
 
 const postDoctor = async (req, res, next) => {
   const {username, password, full_name, admin_password} = req.body;
