@@ -128,9 +128,8 @@ const deleteSelf = async (req, res, next) => {
     const isMatch = await bcrypt.compare(inputPassword, foundPasswordHash);
     // Check if passwords match
     if (isMatch) {
+      const userId = req.user.user_id;
       // Passwords match, proceed with deleting the user
-      await deleteUserData(existingUser.user_id);
-
       // Respond with success message or redirect to appropriate route
       res.status(200).json({message: 'User deleted successfully'});
     } else {
