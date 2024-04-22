@@ -94,7 +94,7 @@ const selectDoctorByEmail = async (email) => {
     const [rows] = await promisePool.query(sql, params);
     // if nothing is found with the user id, result array is empty []
     if (rows.length === 0) {
-      return {error: 404, message: 'user not found'};
+      return {error: 404, message: 'No doctor was found using the provided username'};
     }
     return rows[0];
   } catch (error) {
