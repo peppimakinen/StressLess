@@ -33,7 +33,7 @@ reportLinks.forEach(link => {
 // Function to fetch week data
 async function fetchWeekData() {
     try {
-        const response = await fetchData('/api/available-weeks'); // Use fetchData function to fetch data
+        const response = await fetchData('http://127.0.0.1:3000/api/available-weeks'); // Use fetchData function to fetch data
         const data = await response.json(); // Parse JSON response
         return data;
     } catch (error) {

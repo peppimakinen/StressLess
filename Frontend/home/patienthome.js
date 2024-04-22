@@ -49,7 +49,6 @@ prevNextIcon.forEach((icon) => {
 // render calendar when page is loaded
 window.addEventListener("load", () => {
   initializeCalendar();
-  console.log(currYear, formattedMonth);
 });
 
 
