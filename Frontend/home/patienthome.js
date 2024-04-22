@@ -1,7 +1,7 @@
 import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
 import { gatherNewEntryData } from "./newentry.js";
-import { getMonthData } from "./pastentry.js";
+import { getMonthData, hasEntry } from "./pastentry.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
@@ -13,17 +13,18 @@ let date = new Date(),
 // store full name of all months in array
 const prevNextIcon = document.querySelectorAll(".calendarHeader span");
 
+// Declare monthData variable globally
+let monthData = {};
 
 // function to render calendar when page is loaded
-const initializeCalendar = () => {
-  renderCalendar(currYear, currMonth);
-  // currMonth is off by one, let's fix for the request
-  const requestMonth = currMonth + 1;
-  getMonthData(currYear, requestMonth);
+const initializeCalendar = async () => {
+  // Fetch month data
+  monthData = await getMonthData(currYear, currMonth + 1);
+  renderCalendar(currYear, currMonth, monthData);
 };
 
 // function to update calendar when previous or next buttons are clicked
-const updateCalendar = (icon) => {
+const updateCalendar = async (icon) => {
   currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
 
   if (currMonth < 0 || currMonth > 11) {
@@ -33,10 +34,8 @@ const updateCalendar = (icon) => {
   } else {
     date = new Date();
   }
-  renderCalendar(currYear, currMonth);
-  // currMonth is off by one, let's fix that
-  const requestMonth = currMonth + 1;
-  getMonthData(currYear, requestMonth);
+  // Update the calendar with the new month data
+  renderCalendar(currYear, currMonth, await getMonthData(currYear, currMonth + 1));
 };
 
 // event listeners for previous and next buttons
@@ -63,7 +62,6 @@ calendar.addEventListener("click", (event) => {
     // get clicked date
     const clickedDate = parseInt(event.target.textContent); 
     const currentDate = new Date(currYear, currMonth, clickedDate);
-    //get current date
     const today = new Date(); 
 
     if (currentDate > today || event.target.classList.contains("inactive")) {
@@ -74,17 +72,27 @@ calendar.addEventListener("click", (event) => {
     const formattedMonth = (currentDate.getMonth() + 1).toString().padStart(2, "0");
     const selectedDate = `${formattedDay}.${formattedMonth}.${currentDate.getFullYear()}`;
 
-    if (currentDate.toDateString() === today.toDateString()) {
-      showNewEntryPopup(selectedDate);
-    } else {
+    console.log("Clicked date:", selectedDate);
+
+    // Check if there's an entry for the clicked date
+    const hasEntryForDate = hasEntry(monthData, currYear, currMonth + 1, clickedDate);
+    console.log("Has entry for date:", hasEntryForDate);
+
+    // Open the appropriate modal based on whether there's an entry for the clicked date
+    if (hasEntryForDate) {
       showPastEntryPopup(selectedDate);
+    } else {
+      showNewEntryPopup(selectedDate);
     }
   }
 });
 
+
+
 // event listener for edit icon
 const editIcon = document.querySelector(".editIcon");
 editIcon.addEventListener("click", showEditEntryPopup);
+
 
 // event listener for closePopup buttons
 const closePopups = document.querySelectorAll(".closePopup");

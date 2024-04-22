@@ -1,4 +1,5 @@
 import { populateActivitiesDropdown } from "./newentry";
+import { renderCalendar } from "./calendar";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
@@ -58,4 +59,5 @@ export function hideAllPopups() {
   EditEntry.style.display = "none";
   calendarWrapper.style.display = "block";
   overlay.style.display = "none";
+  renderCalendar(currYear, currMonth, monthData);
 }
