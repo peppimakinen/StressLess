@@ -81,5 +81,4 @@ export function hideAllPopups() {
   EditEntry.style.display = "none";
   calendarWrapper.style.display = "block";
   overlay.style.display = "none";
-  renderCalendar(currYear, currMonth, monthData);
 }
