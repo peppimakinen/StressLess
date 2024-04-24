@@ -1,8 +1,20 @@
 import { fetchData } from '../assets/fetch.js';
 
 // Render charts 
+
+
 async function renderData() {
-    const data = await fetchData('http://127.0.0.1:3000/api/reports/available-weeks');
+    let token = localStorage.getItem("token");
+
+    const options = {
+     method: "GET",
+        headers: {
+        Authorization: "Bearer " + token,
+        },
+  };
+
+    const data = await fetchData('http://127.0.0.1:3000/api/reports/user_id=${user_id}', options);
+    console.log(data);
 
     const pieChartContainer = document.getElementById('pieChart');
     const barChartContainer = document.getElementById('barChart');

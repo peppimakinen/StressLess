@@ -16,9 +16,8 @@ const showReport = async function(event) {
             },
         };
 
-        const reportData = await fetchData(url, options); // Use fetchData function to fetch report data
-        // Display the fetched report data on the HTML page
-        displayReport(reportData);
+        const reportData = await fetchData(url, options); 
+        return reportData
     } catch (error) {
         console.error('Error fetching report:', error);
     }
@@ -33,7 +32,7 @@ reportLinks.forEach(link => {
 // Function to fetch week data
 async function fetchWeekData() {
     try {
-        const response = await fetchData('http://127.0.0.1:3000/api/available-weeks'); // Use fetchData function to fetch data
+        const response = await fetchData('http://127.0.0.1:3000/api/reports/available-weeks'); // Use fetchData function to fetch data
         const data = await response.json(); // Parse JSON response
         return data;
     } catch (error) {
