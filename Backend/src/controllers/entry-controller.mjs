@@ -53,7 +53,6 @@ const getMonth = async (req, res, next) => {
  */
 const getDay = async (req, res, next) => {
   try {
-    console.log(req);
     const userId = req.user.user_id;
     const entryDate = req.params.entry_date;
     // Fetch data from DiaryEntries table for a specific date and save its ID
