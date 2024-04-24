@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import {
   addEntry,
+  updateEntry,
   addMeasurement,
   getActivitiesForEntry,
   getMeasurementsForPatient,
@@ -8,12 +9,14 @@ import {
   addAllActivities,
   getMonthlyPatientEntries,
   connectMeasurementToEntry,
+  deleteExistingActivities,
+  updateEntryMeasurements,
 } from '../models/entry-models.mjs';
 import {customError, checkActivities} from '../middlewares/error-handler.mjs';
 import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 
 /**
- * Handle GET request to get all diary entries from a specific month
+ * Handle GET request to get all diary entries for a specific month
  * @async
  * @param {Request} req
  * @param {Response} res
@@ -23,7 +26,7 @@ import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
 const getMonth = async (req, res, next) => {
   try {
     console.log('Entered getMonth');
-    const {month, year} = req.body;
+    const {month, year} = req.query;
     const userId = req.user.user_id;
     // Fetch all entries and measurements that took place in during chosen month
     const entries = await gatherMonthlyPatientEntries(month, year, userId);
@@ -33,6 +36,7 @@ const getMonth = async (req, res, next) => {
     const wholeMonth = populateMissingDaysInMonth(completeEntries, month, year);
     // Return all found data
     return res.json(wholeMonth);
+    // Handle errors
   } catch (error) {
     console.log('getMonth catch block', error);
     next(customError(error.message, error.status));
@@ -49,11 +53,11 @@ const getMonth = async (req, res, next) => {
  */
 const getDay = async (req, res, next) => {
   try {
+    console.log(req);
     const userId = req.user.user_id;
     const entryDate = req.params.entry_date;
-    // Fetch data from DiaryEntries table for a specific date
+    // Fetch data from DiaryEntries table for a specific date and save its ID
     const entry = await gatherEntryDataUsingDate(userId, entryDate);
-    // Get entry ID from result
     const entryId = entry.entry_id;
     // Fetch Measurement data for that entry ID
     const hrvData = await gatherPatientMeasurementData(
@@ -69,13 +73,137 @@ const getDay = async (req, res, next) => {
       measurement_data: hrvData,
       activities: activities,
     };
-    // Return OK data
+    // Return gathered data for the specific date
     return res.json(allEntryData);
-    // Handle errors via error handler
+    // Handle errors
   } catch (error) {
-    console.log('getEntryById catch error');
+    console.log('getDay catch error');
     next(customError(error.message, error.status));
   }
+};
+
+/**
+ * Hande PUT request to update existing diary entry
+ * @async
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {res} success message
+ */
+const putEntry = async (req, res, next) => {
+  try {
+    // Parse variables from request
+    const {entry_date: entryDate, mood_color: moodColor, notes} = req.body;
+    const userId = req.user.user_id;
+    // Make sure the request contains only valid HEX values
+    validateMoodColors(moodColor);
+    // Validate and format activities list
+    const activitiesParams = validateyActivitiesList(req);
+    // Check if this user has a existing entry for this day and save its ID
+    const entry = await verifyThatEntryExists(userId, entryDate);
+    const entryId = entry.entry_id;
+    // Format new DiaryEntries params from the request body
+    const entryParams = [entryDate, moodColor, notes];
+    // Fetch kubios data for the chosen date
+    const hrvData = await getKubiosData(req);
+    // Update database
+    await updateMeasurementsTable(hrvData, entryId, userId, entryDate);
+    await updateActivitiesTable(activitiesParams, entryId);
+    await updateEntryTable(entryParams, entryId);
+    // Inform the client that entry has been updated
+    return res.json({message: 'Entry updated'});
+    // Handle errors
+  } catch (error) {
+    console.log('putEntry catch error');
+    next(customError(error.message, error.status, error.errors));
+  }
+};
+
+/**
+ * Update a specific entry using entry ID in DiaryEntries table
+ * @async
+ * @param {list} entryParams validated request body data
+ * @param {int} entryId
+ * @throws customError
+ */
+const updateEntryTable = async (entryParams, entryId) => {
+  // Update DiaryEntries table
+  const result = await updateEntry(entryParams, entryId);
+  // Check for errors
+  if (result.error) {
+    throw customError(result.message, result.error);
+  }
+  console.log('DiaryEntries table updated');
+  return;
+};
+
+/**
+ * Update a specific entry using entry ID in CompletedActivities table
+ * @async
+ * @param {list} params validated activities list
+ * @param {int} entryId
+ * @throws customError
+ */
+const updateActivitiesTable = async (params, entryId) => {
+  // Delete all activities for the entry ID
+  const deleteResult = await deleteExistingActivities(entryId);
+  // Check for errors
+  if (deleteResult.error) {
+    throw customError(deleteResult.message, deleteResult.error);
+  }
+  // Check if the list is empty
+  if (params.length > 0) {
+    // Insert all activities into CompletedActivities table
+    const newActivities = await addAllActivities(entryId, params);
+    // Check for errors
+    if (newActivities.error) {
+      throw customError(newActivities.message, newActivities.error);
+    }
+    console.log('Added activities to entry');
+  }
+  console.log('CompletedActivities table updated');
+  return;
+};
+
+/**
+ * Update a specific entry using entry ID in Measurements table
+ * @async
+ * @param {dict} kubiosResult all data from kubios cloud for a specific date
+ * @param {int} entryId
+ * @param {int} userId
+ * @param {string} date entry date in yyyy-mm-dd format
+ * @throws customError
+ */
+const updateMeasurementsTable = async (kubiosResult, entryId, userId, date) => {
+  // Get the existing Measurements set for the entry
+  const curMeasurement = await getMeasurementsForPatient(entryId, userId, date);
+  // Check for errors
+  if (curMeasurement.error) {
+    throw customError(curMeasurement.message, curMeasurement.error);
+  }
+  // Save the existing measurements kubios result ID
+  const curMeasurementKubiosId = curMeasurement.kubios_result_id;
+  // From fetched kubios cloud data parse the result ID
+  const newMeasuremenetKubiosId = kubiosResult.results[0].result_id;
+  // Check if the result ID from kubios cloud is the same that is already in db
+  if (curMeasurementKubiosId === newMeasuremenetKubiosId) {
+    // If true, the measurements in db are the same as in kubios cloud
+    console.log('HRV data in db is already up to date');
+    // Return because no need to update db
+    return;
+  }
+  // There is need to update db if the ID's were different
+  console.log('New HRV data found from kubios');
+  // Format hrv values into a params list
+  const hrvParams = extractHRVMeasurementValues(kubiosResult.results[0]);
+  // Update the Measurements table
+  const result = await updateEntryMeasurements(hrvParams, entryId);
+  // Check for errors
+  if (result.error) {
+    throw customError(result.message, result.error);
+  }
+  console.log('Measurements table updated');
+  return result;
 };
 
 /**
@@ -88,16 +216,15 @@ const getDay = async (req, res, next) => {
  */
 const postEntry = async (req, res, next) => {
   try {
-    console.log('Entered postEntry...');
     // Format request body data to a list
-    const {entry_date, mood_color, notes} = req.body;
-    const entryParams = [req.user.user_id, entry_date, mood_color, notes];
+    const {entry_date: entryDate, mood_color: moodColor, notes} = req.body;
+    const entryParams = [req.user.user_id, entryDate, moodColor, notes];
     // Make sure the request contains only valid HEX values
-    validateMoodColors(mood_color);
+    validateMoodColors(moodColor);
     // Validate and format activities list
     const activitiesParams = validateyActivitiesList(req);
     // Check if this user has a existing entry for this day
-    await checkForExistingEntry(req.user.user_id, entry_date);
+    await checkForExistingEntry(req.user.user_id, entryDate);
     // Get kubios daily measurement for the specific date
     const hrvData = await getKubiosData(req);
     // Format hrv values
@@ -109,7 +236,7 @@ const postEntry = async (req, res, next) => {
     const addedMeasurement = await addMeasurement(hrvParams);
     const measurementId = addedMeasurement.insertId;
     // Connect measurements to the new entry
-    const entry = await connectMeasurementToEntry(measurementId, entryId);
+    await connectMeasurementToEntry(measurementId, entryId);
     // Some new entries may have activities
     if (activitiesParams.length > 0) {
       // Add each activity to a seperate table
@@ -127,13 +254,18 @@ const postEntry = async (req, res, next) => {
 };
 
 /**
- *  Check if provided HEX value is one that the system approves
- * @param {string} moodColor A HEX value to describe mood
+ * Check if provided HEX value is one that the system approves
+ * @param {string} moodColor mood_color value from req.body
+ * @throws customError
  */
 const validateMoodColors = (moodColor) => {
+  // Define the HEX values that the system approves
   const acceptedHexValues = ['9BCF53', 'FFF67E', 'FF8585', 'D9D9D9'];
+  // Check if given parameter is one of the items in the approved HEX values
   const match = acceptedHexValues.includes(moodColor);
+  // Check if match was found
   if (!match) {
+    // Throw a error if given parameter doesnt match any item in the list
     throw customError(
       'Invalid mood color',
       400,
@@ -146,9 +278,9 @@ const validateMoodColors = (moodColor) => {
 /**
  *  Add empty dicts for days that didnt have a entry
  * @param {list} entries A list of diary entries
- * @param {int} month A number to represent a month
- * @param {int} year A number to represent a year
- * @return {dictionary} Key:value pairs for every day of the month
+ * @param {int} month
+ * @param {int} year
+ * @return {dictionary} Dict for every day of the month, where key is yyyy-mm-dd
  */
 const populateMissingDaysInMonth = (entries, month, year) => {
   // Get the number of days in the specified month
@@ -178,10 +310,11 @@ const populateMissingDaysInMonth = (entries, month, year) => {
 /**
  * Fetch DiaryEntries and Measurements data with patient scope
  * @async
- * @param {int} month A month number
- * @param {int} year Year
- * @param {int} userId User ID
+ * @param {int} month
+ * @param {int} year
+ * @param {int} userId
  * @return {json} All found entries and measurements within the month
+ * @throws CustomError
  */
 const gatherMonthlyPatientEntries = async (month, year, userId) => {
   // Fetch data from DiaryEntries and Measurements tables
@@ -198,6 +331,7 @@ const gatherMonthlyPatientEntries = async (month, year, userId) => {
  * @async
  * @param {list} allEntries List containing every found entry
  * @return {list} Modified allEntries
+ * @throws CustomError
  */
 const attachCompletedActivitiesToEntries = async (allEntries) => {
   // Iterate over every entry
@@ -207,7 +341,11 @@ const attachCompletedActivitiesToEntries = async (allEntries) => {
     const userId = entry.user_id;
     // Get activities for that specific date
     const allActivities = await gatherActivities(entryId, userId, entryDate);
-    // Add a new key:value pair to entry where value is list of activities
+    // Check for errors
+    if (allActivities.error) {
+      throw customError(allActivities.message, allActivities.error);
+    }
+    // Add a new key value pair to entry where value is list of activities
     entry['all_activities'] = allActivities;
   }
   // Return modified list
@@ -220,9 +358,9 @@ const attachCompletedActivitiesToEntries = async (allEntries) => {
  * @param {int} userId User ID
  * @param {Date} entryDate Entry date in yyyy-mm-dd -format
  * @return {dictionary} The found entry
+ * @throws CustomError
  */
 const gatherEntryDataUsingDate = async (userId, entryDate) => {
-  console.log('Fetching entry for', entryDate);
   // Fetch data from DiaryEntries table
   const entry = await getEntryUsingDate(userId, entryDate);
   // Check for errors
@@ -240,6 +378,7 @@ const gatherEntryDataUsingDate = async (userId, entryDate) => {
  * @param {int} userId User ID
  * @param {Date} entryDate Entry date in yyyy-mm-dd -format
  * @return {dictionary} The found measurement data
+ * @throws CustomError
  */
 const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
   // Fetch data from Measurements table that link to entry ID
@@ -248,7 +387,6 @@ const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
   if (hrvData.error) {
     throw customError(hrvData.message, hrvData.error);
   }
-  // Return OK result
   return hrvData;
 };
 
@@ -259,6 +397,7 @@ const gatherPatientMeasurementData = async (entryId, userId, entryDate) => {
  * @param {int} userId User ID
  * @param {Date} entryDate Entry date in yyyy-mm-dd -format
  * @return {list} The found activities for the provided date
+ * @throws CustomError
  */
 const gatherActivities = async (entryId, userId, entryDate) => {
   // Fetch data from the CompletedActivities table
@@ -267,6 +406,10 @@ const gatherActivities = async (entryId, userId, entryDate) => {
     userId,
     entryDate,
   );
+  // Check for errors
+  if (foundActivities.error) {
+    throw customError(foundActivities.message, foundActivities.error);
+  }
   // Check the lenght of the list
   if (foundActivities.length > 0) {
     // Initialize a empty list for found activities
@@ -288,6 +431,7 @@ const gatherActivities = async (entryId, userId, entryDate) => {
  * @async
  * @param {Request} req
  * @return {res} Fetched HRV data
+ * @throws customError
  */
 const getKubiosData = async (req) => {
   // Fetch data from Kubios API for a specific date
@@ -311,6 +455,7 @@ const getKubiosData = async (req) => {
  * @async
  * @param {int} userId
  * @param {string} entryDate in yyyy-mm-dd format
+ * @throws customError
  */
 const checkForExistingEntry = async (userId, entryDate) => {
   console.log('Checking if there is a entry for this date already');
@@ -330,9 +475,29 @@ const checkForExistingEntry = async (userId, entryDate) => {
 };
 
 /**
+ * Check if there is a existing entry for the provided date
+ * @async
+ * @param {int} userId
+ * @param {string} entryDate in yyyy-mm-dd format
+ * @throws customError
+ */
+const verifyThatEntryExists = async (userId, entryDate) => {
+  const result = await getEntryUsingDate(userId, entryDate);
+  if (result.error === 500) {
+    throw customError(result.message, result.error);
+  }
+  if (result.error === 404) {
+    throw customError(result.message, result.error);
+  }
+  console.log('Found a entry that can be updated');
+  return result;
+};
+
+/**
  * Validate the Activities list input for postEntry
  * @param {Request} req
- * @return {res} List of vali activities
+ * @return {list} List of valid activities
+ * @throws customError
  */
 const validateyActivitiesList = (req) => {
   const activitiesList = req.body.activities;
@@ -364,36 +529,45 @@ const validateyActivitiesList = (req) => {
  */
 const extractHRVMeasurementValues = (kubiosResult) => {
   console.log('Started to sort kubios hrv data');
-  // Simplify the paths to frequency and calculated values
-  const freqValues = kubiosResult.result.freq_domain;
-  const hrvValues = kubiosResult.result;
-  const hrvList = [];
-  // Pick and choose the values that match Measurement table columns
-  hrvList.push(kubiosResult.result_id);
-  hrvList.push(kubiosResult.daily_result);
-  hrvList.push(kubiosResult.result.artefact_level);
-  hrvList.push(freqValues.LF_power);
-  hrvList.push(freqValues.LF_power_nu);
-  hrvList.push(freqValues.HF_power);
-  hrvList.push(freqValues.HF_power_nu);
-  hrvList.push(freqValues.tot_power);
-  hrvList.push(hrvValues.mean_hr_bpm);
-  hrvList.push(hrvValues.mean_rr_ms);
-  hrvList.push(hrvValues.rmssd_ms);
-  hrvList.push(hrvValues.sd1_ms);
-  hrvList.push(hrvValues.sd2_ms);
-  hrvList.push(hrvValues.sdnn_ms);
-  hrvList.push(hrvValues.sns_index);
-  hrvList.push(hrvValues.pns_index);
-  hrvList.push(hrvValues.stress_index);
-  hrvList.push(hrvValues.respiratory_rate);
-  hrvList.push(hrvValues.readiness);
-  hrvList.push(hrvValues.recovery);
-  hrvList.push(kubiosResult.user_happiness);
-  hrvList.push(kubiosResult.result_type);
-  // Return the list
-  console.log('Hrv data sorted returning to postEntry...');
-  return hrvList;
+  // Try block to account for potential changes in the Kubios result structure
+  try {
+    // Simplify the paths to frequency and calculated values
+    const freqValues = kubiosResult.result.freq_domain;
+    const hrvValues = kubiosResult.result;
+    const hrvList = [];
+    // Pick and choose the values that match Measurement table columns
+    hrvList.push(kubiosResult.result_id);
+    hrvList.push(kubiosResult.daily_result);
+    hrvList.push(kubiosResult.result.artefact_level);
+    hrvList.push(freqValues.LF_power);
+    hrvList.push(freqValues.LF_power_nu);
+    hrvList.push(freqValues.HF_power);
+    hrvList.push(freqValues.HF_power_nu);
+    hrvList.push(freqValues.tot_power);
+    hrvList.push(hrvValues.mean_hr_bpm);
+    hrvList.push(hrvValues.mean_rr_ms);
+    hrvList.push(hrvValues.rmssd_ms);
+    hrvList.push(hrvValues.sd1_ms);
+    hrvList.push(hrvValues.sd2_ms);
+    hrvList.push(hrvValues.sdnn_ms);
+    hrvList.push(hrvValues.sns_index);
+    hrvList.push(hrvValues.pns_index);
+    hrvList.push(hrvValues.stress_index);
+    hrvList.push(hrvValues.respiratory_rate);
+    hrvList.push(hrvValues.readiness);
+    hrvList.push(hrvValues.recovery);
+    hrvList.push(kubiosResult.user_happiness);
+    hrvList.push(kubiosResult.result_type);
+    // Return the list
+    return hrvList;
+    // Handle errors
+  } catch (error) {
+    throw customError(
+      'Failed to parse through Kubios cloud data',
+      500,
+      'Check Kubios API documentation for result structure',
+    );
+  }
 };
 
-export {getMonth, getDay, postEntry};
+export {getMonth, getDay, postEntry, putEntry};

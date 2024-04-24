@@ -1,4 +1,6 @@
-const renderCalendar = (currYear, currMonth) => {
+// calendar.js
+
+const renderCalendar = (currYear, currMonth, monthData = {}) => {
   const daysTag = document.querySelector(".days"),
     currentDate = document.querySelector(".currentDate");
   let date = new Date();
@@ -40,7 +42,20 @@ const renderCalendar = (currYear, currMonth) => {
       currYear === new Date().getFullYear()
         ? "active"
         : "";
-    liTag += `<li class="${isToday}">${i}</li>`;
+
+    // Check if mood data exists for this date
+    const currentDateKey = `${currYear}-${(currMonth + 1).toString().padStart(2, "0")}-${i.toString().padStart(2, "0")}`;
+    const moodColor = monthData[currentDateKey] ? monthData[currentDateKey].mood_color : null;
+
+    // Set the background color based on mood data
+    let bgColor = '';
+    if (moodColor) {
+      bgColor = `background-color: #${moodColor};`;
+    } else if (new Date(currYear, currMonth, i) < new Date(date.getFullYear(), date.getMonth(), date.getDate())) {
+      bgColor = 'background-color: #D9D9D9;';
+    }
+
+    liTag += `<li class="${isToday}" style="${bgColor}">${i}</li>`;
   }
 
   const remainingCells = totalCells - (firstDayofMonth + lastDateofMonth - 1);

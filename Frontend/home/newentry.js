@@ -39,7 +39,6 @@ async function postNewEntry(url, options) {
 }
 
 // Function to convert selected date to yyyy-mm-dd format
-// Function to convert selected date to yyyy-mm-dd format
 function convertToYYYYMMDD(selectedDate) {
   // Split the date into day, month, and year
   const [day, month, year] = selectedDate.split(".");
@@ -49,6 +48,37 @@ function convertToYYYYMMDD(selectedDate) {
     "0"
   )}`;
   return formattedDate;
+}
+
+// function to send GET request to check HRV data for a specific date
+async function checkHRVDataForDate(date) {
+  // Retrieve the Bearer token from localStorage
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("Bearer token missing");
+    return;
+  }
+
+  // Construct the URL for checking HRV data
+  const url = `http://127.0.0.1:3000/api/kubios/check/${date}`;
+
+  // Define request options with the Bearer token included in the headers
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    // Send GET request to check HRV data
+    const response = await fetchData(url, options);
+    console.log("HRV data found:", response.kubiosDataFound);
+    return response.kubiosDataFound;
+  } catch (error) {
+    console.error("Error checking HRV data:", error);
+    return false; // Return false in case of error
+  }
 }
 
 // Add event listener to each mood button
@@ -229,4 +259,4 @@ async function gatherNewEntryData() {
   postNewEntry("http://127.0.0.1:3000/api/entries", options);
 }
 
-export { gatherNewEntryData, populateActivitiesDropdown };
+export { gatherNewEntryData, populateActivitiesDropdown, convertToYYYYMMDD, checkHRVDataForDate };

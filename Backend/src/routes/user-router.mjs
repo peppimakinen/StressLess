@@ -8,6 +8,7 @@ import {body, param} from 'express-validator';
 import express from 'express';
 import {
   postDoctor,
+  deleteSelf,
   formPair,
   getDoctor,
 } from '../controllers/user-controller.mjs';

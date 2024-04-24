@@ -99,6 +99,7 @@ h1 {
     align-items: center;
     flex-direction: column;
     overflow: hidden; /* Ensures no spillover */
+    padding-bottom: 5vh;
 }
 
 .calendarWrapper {
@@ -159,9 +160,6 @@ header .calendarHeader span {
     text-align: center;
     padding: 0;
     margin: 0;
-}
-
-.calendar .days {
 }
 
 .calendar li {
@@ -241,6 +239,7 @@ header .calendarHeader span {
 .FormPopupNew,
 .FormPopupEdit,
 .PopupPastEntry {
+    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
