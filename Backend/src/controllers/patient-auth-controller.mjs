@@ -22,6 +22,7 @@ import {getSurveyWithUserId} from '../models/survey-model.mjs';
 import {
   insertUser,
   selectUserByEmail,
+  getOwnDoctor,
 } from '../models/user-model.mjs';
 
 // Kubios API base URL should be set in .env
@@ -127,6 +128,7 @@ const attemptLocalLogin = async (email) => {
  * Create a newlocal user to the database
  * @async
  * @param {object} kubiosUser User info from Kubios API
+ * @param {string} password
  * @return {object} result success message from user model
  */
 const createNewLocalAccount = async (kubiosUser, password) => {
@@ -159,6 +161,7 @@ const createNewLocalAccount = async (kubiosUser, password) => {
  * Sync Kubios user info with local db
  * @async
  * @param {object} kubiosUser User info from Kubios API
+ * @param {string} password
  * @return {object} user from db
  */
 const syncWithLocalUser = async (kubiosUser, password) => {
@@ -236,57 +239,87 @@ const patientPostLogin = async (req, res, next) => {
     return next(err);
   }
 };
+
 /**
- * Get user info based on token
+ * Handle GET requests based on user level and return user data
  * @async
  * @param {object} req
  * @param {object} res
  * @param {function} next
  * @return {object} local and kubios user info
  */
-const getMe = async (req, res) => {
-  console.log('Entered getMe function');
-  // Determine the user_level of the requesting user
-  if (req.user.user_level === 'patient') {
-    // Fetch entry count
-    const result = await getEntryCount(req.user.user_id);
-    // Check for errors
-    if (result.error) {
-      next(customError(result.message, result.error));
-    }
-    // Get survey status
-    const surveyStatus = await getSurveyWithUserId(req.user.user_id);
-    if (surveyStatus.error === 500) {
-      next(customError(surveyStatus.message, surveyStatus.error));
-    }
-    if (surveyStatus.error === 404) {
-      req.user['surveyCompleted'] = false;
+const getMe = async (req, res, next) => {
+  try {
+    // Determine the user_level of the requesting user
+    const {user_id: userId, token, user_level: userLevel} = req.user;
+    // Check if request came from a patient user
+    if (userLevel === 'patient') {
+      // Gather self as patient, if request came from a patient
+      const allUserInformation = await getMeAsPatient(userId, token, req.user);
+      // Send response
+      return res.json(allUserInformation).status(200);
+    // Check if the request came from a doctor user
+    } else if (userLevel === 'doctor') {
+      // Return user info
+      return res.json(req.user).status(200);
     } else {
-      req.user['surveyCompleted'] = true;
+      throw customError('Unable to detect user level', 500);
     }
-    const entryCount = result.entry_count;
-    req.user['entry_count'] = entryCount;
-    // Get kubios user information
-    const kubiosUser = await kubiosUserInfo(req.user.token);
-    // Delete token bc its only the kubios token
-    delete req.user.token;
-
-    // Format response
-    const user = {
-      stressLessUser: req.user,
-      kubiosUser: kubiosUser,
-    };
-    // Send response
-    res.json(user).status(200);
-    // If user is a doctor
-  } else if (req.user.user_level === 'doctor') {
-    console.log(
-      'Accessing doctor user data with the username:',
-      req.user.username,
-    );
-    // Return user info - this mimics a loopback
-    res.json(req.user).status(200);
+  } catch (error) {
+    console.log('getMe catch block');
+    next(customError(error.message, error.status));
   }
+};
+
+/**
+ * Gather all data for patient users getMe request
+ * @async
+ * @param {int} userId
+ * @param {string} token
+ * @param {object} reqUser req.user object
+ * @return {object} local and kubios user info
+ * @throws customError
+ */
+const getMeAsPatient = async (userId, token, reqUser) => {
+  // Fetch entry count
+  const entryCountResult = await getEntryCount(userId);
+  // Check for errors
+  if (entryCountResult.error) {
+    throw customError(entryCountResult.message, entryCountResult.error);
+  }
+  // Add entry count to user object
+  reqUser['entry_count'] = entryCountResult.entry_count;
+  // Get survey status
+  const surveyStatus = await getSurveyWithUserId(userId);
+  // Check for db error
+  if (surveyStatus.error === 500) {
+    throw customError(surveyStatus.message, surveyStatus.error);
+  // Check for not found error
+  } else if (surveyStatus.error === 404) {
+    // Add a boolean to indicate that survey is not yet completed
+    reqUser['surveyCompleted'] = false;
+  // Response was ok, so there is a existing survey
+  } else {
+    reqUser['surveyCompleted'] = true;
+  }
+  // Get kubios user information
+  const kubiosUser = await kubiosUserInfo(token);
+  // Delete token bc its only the kubios token and not stressless token
+  delete reqUser.token;
+  // Fetch chosen doctor
+  const chosenDoctor = await getOwnDoctor(userId);
+  // Check for errors
+  if (chosenDoctor.error) {
+    throw customError(chosenDoctor.message, chosenDoctor.error);
+  }
+  // Add response to user object
+  reqUser['chosen_doctor'] = chosenDoctor;
+  // Format response
+  const user = {
+    stressLessUser: reqUser,
+    kubiosUser: kubiosUser,
+  };
+  return user;
 };
 
 export {patientPostLogin, getMe};
