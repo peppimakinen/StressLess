@@ -129,12 +129,11 @@ const attemptLocalLogin = async (email) => {
  * @param {object} kubiosUser User info from Kubios API
  * @return {object} result success message from user model
  */
-const createNewLocalAccount = async (kubiosUser) => {
+const createNewLocalAccount = async (kubiosUser, password) => {
   try {
     console.log('Creating a new localuser...');
     // Generate a mock password that blends in to the db
     const salt = await bcrypt.genSalt(10);
-    const password = v4();
     const hashedPassword = await bcrypt.hash(password, salt);
     // Establish new user
     const newUser = {
@@ -162,7 +161,7 @@ const createNewLocalAccount = async (kubiosUser) => {
  * @param {object} kubiosUser User info from Kubios API
  * @return {object} user from db
  */
-const syncWithLocalUser = async (kubiosUser) => {
+const syncWithLocalUser = async (kubiosUser, password) => {
   // Attempt login
   let user = await attemptLocalLogin(kubiosUser.email);
   // User exists in db if no error occurred in attempted login
@@ -185,7 +184,7 @@ const syncWithLocalUser = async (kubiosUser) => {
   try {
     console.log('No existing localuser found');
     // No user was found in db, Create a new localuser
-    await createNewLocalAccount(kubiosUser);
+    await createNewLocalAccount(kubiosUser, password);
     // Sign in to the new user
     user = await attemptLocalLogin(kubiosUser.email);
     console.log('Signed in with this new localuser');
@@ -217,7 +216,7 @@ const patientPostLogin = async (req, res, next) => {
     // If login ok, user kubios id token to get user data from kubios api
     const kubiosUser = await kubiosUserInfo(kubiosIdToken);
     // Sync kubios user with local user
-    const user = await syncWithLocalUser(kubiosUser);
+    const user = await syncWithLocalUser(kubiosUser, password);
     // Include kubiosIdToken in the auth token used in this app
     const token = jwt.sign(
       {...user, token: kubiosIdToken},

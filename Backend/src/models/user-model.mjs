@@ -103,21 +103,6 @@ const selectDoctorByEmail = async (email) => {
   }
 };
 
-const selectDoctorByName = async (fullName) => {
-  try {
-    const sql = 'SELECT username, full_name, user_id FROM Users WHERE full_name=? and user_level="doctor"';
-    const params = [fullName];
-    const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
-    if (rows.length === 0) {
-      return {error: 404, message: 'user not found'};
-    }
-    return rows[0];
-  } catch (error) {
-    console.error('selectUserByEmail', error);
-    return {error: 500, message: 'db error'};
-  }
-};
 
 const insertNewPair = async (patientId, doctorId) => {
   try {
@@ -155,7 +140,6 @@ export {
   insertUser,
   selectUserByEmail,
   insertDoctor,
-  selectDoctorByName,
   selectDoctorByEmail,
   pairExistsAlready,
   insertNewPair,
