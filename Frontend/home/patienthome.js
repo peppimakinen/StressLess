@@ -1,6 +1,7 @@
 import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
 import { gatherNewData } from "./newentry.js";
+import { gatherEditData } from "./editentry.js";
 import { getMonthData } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
@@ -92,7 +93,19 @@ calendar.addEventListener("click", (event) => {
 
 // event listener for edit icon
 const editIcon = document.querySelector(".editIcon");
-editIcon.addEventListener("click", showEditEntryPopup);
+editIcon.addEventListener("click", () => {
+    // Extract the date information from the PastEntry modal
+    const dateHeading = document.querySelector(".PopupPastEntry .EntryHeading");
+    if (dateHeading) {
+        const date = dateHeading.textContent;
+        console.log("Date extracted:", date);
+        // Call showEditEntryPopup with the extracted date
+        showEditEntryPopup(date);
+    } else {
+        console.error("Date heading not found or empty.");
+    }
+});
+
 
 
 // event listener for closePopup buttons
@@ -109,5 +122,15 @@ createEntry.addEventListener('click', async (evt) => {
   console.log('Lets create a new diary entry');
 
   gatherNewData();
+  hideAllPopups();
+});
+
+// EDIT AN ENTRY
+const editEntry = document.querySelector('.submitEditEntry');
+editEntry.addEventListener('click', async (evt) => {
+  evt.preventDefault();
+  console.log('Let\'s edit the diary entry');
+
+  gatherEditData();
   hideAllPopups();
 });

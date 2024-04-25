@@ -1,6 +1,6 @@
 import { populateActivitiesDropdown } from "./activities.js";
 import { convertToYYYYMMDD } from "./convertday.js";
-import { checkHRVDataForDate } from "./checkdata.js";
+import { checkHRVDataForDate, hasEntry } from "./checkdata.js";
 import { getDayData } from "./getdata.js";
 
 // get required elements for displaying the modals
@@ -39,7 +39,7 @@ export async function showNewEntryPopup(date) {
         });
 
       // Populate the dropdown menu with activities
-      populateActivitiesDropdown();
+      populateActivitiesDropdown('ActivitiesNew');
     } else {
       // HRV data not found, show an alert
       alert("No HRV data was found for the selected date.");
@@ -53,6 +53,7 @@ export async function showNewEntryPopup(date) {
 
 // Function to show PastEntry popup and populate with entry data
 export async function showPastEntryPopup(date) {
+  const dateHeading = date
   selectedDate = convertToYYYYMMDD(date);
   console.log(selectedDate);
   
@@ -68,7 +69,7 @@ export async function showPastEntryPopup(date) {
     document
       .querySelectorAll(".PopupPastEntry .EntryHeading")
       .forEach((heading) => {
-        heading.textContent = selectedDate;
+        heading.textContent = dateHeading;
       });
 
     // Update HRV data in the modal
@@ -87,7 +88,6 @@ export async function showPastEntryPopup(date) {
   }
 }
 
-
 // Function to show EditEntry popup
 export function showEditEntryPopup() {
   EditEntry.style.display = "block";
@@ -95,7 +95,10 @@ export function showEditEntryPopup() {
   // Update the date in the FormPopupEdit modal
   document.querySelector(".FormPopupEdit .EntryHeading").textContent =
     selectedDate;
+  // Populate the dropdown menu with activities
+  populateActivitiesDropdown('ActivitiesEdit');
 }
+
 
 // Function to hide all popups
 export function hideAllPopups() {
