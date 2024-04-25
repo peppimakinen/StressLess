@@ -7,6 +7,7 @@ import {
   pairExistsAlready,
   selectUserByUsername,
   insertNewPair,
+  getOwnPatients,
 } from '../models/user-model.mjs';
 import {
   deleteSelfFromWeeklyReports,

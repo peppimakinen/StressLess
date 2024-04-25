@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import {
+  onlyForDoctorHandler,
   onlyForPatientHandler,
   validationErrorHandler,
 } from '../middlewares/error-handler.mjs';
@@ -11,6 +12,7 @@ import {
   deleteSelf,
   formPair,
   getDoctor,
+  getPatients,
 } from '../controllers/user-controller.mjs';
 
 // eslint-disable-next-line new-cap
