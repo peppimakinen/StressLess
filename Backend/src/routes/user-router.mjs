@@ -44,6 +44,13 @@ userRouter
     validationErrorHandler,
     formPair,
   );
+userRouter
+  .route('/doctor/patients')
+  .get(
+    authenticateToken,
+    onlyForDoctorHandler,
+    getPatients,
+  );
 // Only for application admin - authentication done with a enviorment variable
 userRouter
   .route('/create-doctor')

@@ -155,6 +155,48 @@ const getOwnDoctor = async (userId) => {
   };
 };
 
+const getOwnPatients = async (userId) => {
+  try {
+    const sql = `
+      SELECT
+          u.user_id,
+          u.username,
+          u.full_name,
+          u.user_level,
+          u.created_at,
+          DP.pair_id
+      FROM
+          Users u
+      INNER JOIN
+          DoctorPatient DP ON u.user_id = DP.patient_id
+      WHERE
+          DP.doctor_id=?;
+        `;
+    const [rows] = await promisePool.query(sql, [userId]);
+    // if nothing is found with the user id, result array is empty []
+    return rows;
+  } catch (error) {
+    console.error('getOwnPatients', error);
+    return {error: 500, message: 'db error'};
+  };
+};
+
+const getDoctorPatientPair = async (patientId, doctorId) => {
+  try {
+    const sql = `SELECT * FROM DoctorPatient WHERE patient_id=? AND doctor_id=?;`;
+    const params = [patientId, doctorId];
+    const [rows] = await promisePool.query(sql, params);
+    if (rows.length === 0) {
+      return {error: 403, message: `This patient is not sharing data with doctor_id=${doctorId}`};
+    } else {
+      return rows[0];
+    };
+  } catch (error) {
+    console.error('getDoctorPatientPair', error);
+    return {error: 500, message: 'db error'};
+  };
+};
+
 export {
   selectUserByUsername,
   checkSurveyExistance,
@@ -165,4 +207,6 @@ export {
   pairExistsAlready,
   insertNewPair,
   getOwnDoctor,
+  getOwnPatients,
+  getDoctorPatientPair,
 };
