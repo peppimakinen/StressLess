@@ -353,7 +353,8 @@ input:focus {
     outline: none;
 }
 
-.activitiesNew select {
+.activitiesNew select,
+.activitiesEdit select {
     width: 20vw;
     height: 9vh;
     padding: 20px;

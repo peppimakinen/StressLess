@@ -33,8 +33,8 @@ async function fetchActivities() {
   }
 }
 // Function to populate the dropdown menu with activities
-async function populateActivitiesDropdown() {
-  const activitiesDropdown = document.getElementById("ActivitiesNew");
+async function populateActivitiesDropdown(dropdownId) {
+  const activitiesDropdown = document.getElementById(dropdownId);
   activitiesDropdown.innerHTML = ""; // Clear previous options
 
   try {
