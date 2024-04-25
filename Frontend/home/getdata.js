@@ -42,16 +42,4 @@ async function getDayData(selectedDate) {
   }
 }
 
-// Function to check if a date has an entry
-function hasEntry(data, year, month, day) {
-  const entryDate = `${year}-${month.toString().padStart(2, "0")}-${day
-    .toString()
-    .padStart(2, "0")}`;
-
-  // Check if data exists for the entryDate and if it's not an empty object
-  return (
-    data.hasOwnProperty(entryDate) && Object.keys(data[entryDate]).length > 0
-  );
-}
-
-export { getMonthData, hasEntry, getDayData };
+export { getMonthData, getDayData };

@@ -1,7 +1,8 @@
 import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
-import { gatherNewEntryData } from "./newentry.js";
-import { getMonthData, hasEntry } from "./pastentry.js";
+import { gatherNewData } from "./newentry.js";
+import { getMonthData } from "./getdata.js";
+import { hasEntry } from "./checkdata.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
@@ -107,6 +108,6 @@ createEntry.addEventListener('click', async (evt) => {
   evt.preventDefault();
   console.log('Lets create a new diary entry');
 
-  gatherNewEntryData();
+  gatherNewData();
   hideAllPopups();
 });

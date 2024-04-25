@@ -1,5 +1,3 @@
-// calendar.js
-
 const renderCalendar = (currYear, currMonth, monthData = {}) => {
   const daysTag = document.querySelector(".days"),
     currentDate = document.querySelector(".currentDate");

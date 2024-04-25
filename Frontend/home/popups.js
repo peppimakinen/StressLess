@@ -1,5 +1,7 @@
-import { populateActivitiesDropdown, convertToYYYYMMDD, checkHRVDataForDate } from "./newentry";
-import { getDayData } from "./pastentry";
+import { populateActivitiesDropdown } from "./activities.js";
+import { convertToYYYYMMDD } from "./convertday.js";
+import { checkHRVDataForDate } from "./checkdata.js";
+import { getDayData } from "./getdata.js";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
