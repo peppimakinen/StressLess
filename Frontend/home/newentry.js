@@ -255,8 +255,16 @@ async function gatherNewEntryData() {
     body: JSON.stringify(newEntrydata), // Convert data to JSON format and send it
   };
 
-  // Send POST request
-  postNewEntry("http://127.0.0.1:3000/api/entries", options);
+  try {
+    // Send POST request
+    await postNewEntry("http://127.0.0.1:3000/api/entries", options);
+    
+    // Reload the page after successful submission
+    window.location.reload();
+  } catch (error) {
+    console.error("Error submitting new entry:", error);
+    // Handle error appropriately (e.g., display an error message to the user)
+  }
 }
 
 export { gatherNewEntryData, populateActivitiesDropdown, convertToYYYYMMDD, checkHRVDataForDate };
