@@ -70,8 +70,26 @@ closePopup.addEventListener('click', function () {
     overlay.style.display = 'none';
 });
 
+// alerts
+function showCustomAlert(message) {
+    document.getElementById('alertMessage').textContent = message;
+    document.getElementById('customAlert').style.display = 'block';
+    document.getElementById('customOverlay').style.display = 'block';
+}
 
+document.addEventListener('DOMContentLoaded', () => {
+    const closeAlertButton = document.getElementById('closeAlertButton');
+    if (closeAlertButton) {
+        closeAlertButton.addEventListener('click', closeCustomAlert);
+    } else {
+        console.log("Close alert button not found!");
+    }
+});
 
+function closeCustomAlert() {
+    document.getElementById('customAlert').style.display = 'none';
+    document.getElementById('customOverlay').style.display = 'none';
+}
 
 
 // Function to fetch doctor data
@@ -101,8 +119,7 @@ async function getDoctor() {
             document.getElementById('popup2').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         } else {
-            alert('Invalid email address');
-            console.error('Invalid email address');
+            showCustomAlert('Sähköpostiosoitetta ei löytynyt');
             document.getElementById('popup2').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
         }
@@ -193,7 +210,7 @@ if (doctorForm2 && checkbox) {
         
         if (!checkbox.checked) {
             console.log('Checkbox is not checked');
-            alert("Sinun on valittava valintaruutu jatkaaksesi!");
+            showCustomAlert('Sinun on valittava valintaruutu jatkaaksesi!');
         } else {
             console.log('Checkbox is checked, submitting form...');
 

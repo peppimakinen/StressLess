@@ -199,12 +199,19 @@
 
         <div id="overlay"></div>
 
+        <div id="customAlert">
+            <p id="alertMessage">Sähköpostiosoitetta ei löytynyt</p>
+            <button id="closeAlertButton">OK</button>
+        </div>
+        <div id="customOverlay"></div>
+               
+
         <div id="popup2">
             <span class="closePopup2" id="closePopup2">&times;</span>
             <form class="doctor_form2">
                 <h2><span id="doctor">lääkäri</span> löytyi!</h2>
                 <input type="checkbox" id="give-info" name="give-info">
-                <label for="doctor">Suostutko jakamaan alkukartoituksen ja <br>
+                <label for="doctor" id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
                         päiväkirjamerkinnät yllä manitun lääkärin kanssa?</label>
                 <input name="submit" id="redirect" type="submit" value="Jaa tiedot" class="submit-info"/>
             </form>

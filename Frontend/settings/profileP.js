@@ -3,13 +3,48 @@ import { fetchData } from "../assets/fetch";
 function showProfile() {
     const user_name = localStorage.getItem('user_name');
     const nameSpan = document.getElementById("name");
+    nameSpan.textContent = user_name || "No name available";
 
     const user_email = localStorage.getItem('user_email');
     const emailSpan = document.getElementById("email");
+    emailSpan.textContent = user_email || "No email available";
 
-    nameSpan.textContent = user_name;
-    emailSpan.textContent = user_email;
+    const entry_count = localStorage.getItem('entry_count');
+    const entrySpan = document.getElementById("count");
+    entrySpan.textContent = entry_count || "0";
 }
+
+
+
+async function getEntryCount() {
+    const url = `http://127.0.0.1:3000/api/auth/me`;
+    const token = localStorage.getItem("token");
+
+    const options = {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+    };
+    
+    try {
+        const response = await fetchData(url, options);
+        const responseData = await response.json();
+        console.log(responseData);
+        if (responseData && responseData.stressLessUser && responseData.stressLessUser.entry_count !== undefined) {
+            localStorage.setItem("entry_count", responseData.stressLessUser.entry_count);
+        } else {
+            localStorage.setItem("entry_count", 0);  // Set default count as 0
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Entries could not be retrieved.");
+    }
+};
+
+
+
 
 // Select the delete account button
 const deleteAccountButton = document.querySelector('.pic a');
@@ -65,3 +100,4 @@ deleteAccountButton.addEventListener('click', async function(evt) {
   
 
 showProfile();
+getEntryCount();
