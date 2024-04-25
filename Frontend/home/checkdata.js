@@ -1,3 +1,5 @@
+import { fetchData } from "../assets/fetch.js";
+
 // Function to check if a date has an entry
 function hasEntry(data, year, month, day) {
   const entryDate = `${year}-${month.toString().padStart(2, "0")}-${day
