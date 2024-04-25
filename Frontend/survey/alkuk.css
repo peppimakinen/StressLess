@@ -176,6 +176,7 @@ input[type="submit"] {
 }
 
 .doctor_form input[type="text"],
+.doctor_form input[type="email"],
 .doctor_form2 input[type="text"] {
     width: 300px;
     padding: 13px;

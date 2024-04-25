@@ -74,41 +74,52 @@ closePopup.addEventListener('click', function () {
 
 
 
-// haetaan lekuri
-const doctorForm = document.querySelector('.doctor_form'); // Select the doctor form
+// Function to fetch doctor data
+async function getDoctor() {
+    const doctorEmailInput = document.getElementById('doctor_email');
+    const doctorEmail = doctorEmailInput.value.trim();
 
-doctorForm.addEventListener('submit', async function (evt) {
-    evt.preventDefault();
-    const doctorNameInput = document.getElementById('doctor_name');
-    const doctorName = doctorNameInput.value;
-    console.log('mooi');
+    const url = `http://127.0.0.1:3000/api/users/find-doctor/${doctorEmail}`;
+    const token = localStorage.getItem("token");
+
+    const options = {
+        method: 'GET', // Assuming your API handles finding a doctor with GET request
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        }
+    };
 
     try {
-        // Perform a fetch request to your backend to find the doctor's name in the database
-        const response = await fetchData('http://127.0.0.1:3000/api/users/find-doctor', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ doctorName }) // Sending the doctor's name to the backend
-        });
+        const response = await fetch(url, options);
+        const responseData = await response.json(); // Assuming response returns JSON
+        console.log(response);
+        console.log(responseData);
 
-        if (response.ok) {
-            // If the doctor is found, display the second popup
+        if (response.ok && responseData) { // Check both that fetch was ok and responseData is truthy
+            console.log('Doctor found:', responseData);
             document.getElementById('popup2').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
         } else {
-            // If the doctor is not found, display an alert message
-            alert('Doctor not found.');
-            console.error('Doctor not found.');
+            alert('Invalid email address');
+            console.error('Invalid email address');
+            document.getElementById('popup2').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
         }
     } catch (error) {
         console.error('Error finding doctor:', error);
-        // Handle error as needed
+        alert('An error occurred while trying to find the doctor. Please try again.');
     }
+}
+
+// Event listener for the button with class 'submitdoc'
+const submitDocButton = document.querySelector('.submitdoc');
+submitDocButton.addEventListener('click', () => {
+    getDoctor();
 });
 
-// ei lääkäriä, submittaa vastsaukset ja menee patienthome
+
+//ei lääkäriä
 const survey = document.getElementById('no');
 
 survey.addEventListener('click', async (evt) => {
@@ -116,69 +127,57 @@ survey.addEventListener('click', async (evt) => {
     console.log('Nyt palautetaan vastauslomake');
 
     const url = "http://127.0.0.1:3000/api/survey";
-
-    // Select the form element
     const form = document.querySelector('.answer-form-all');
 
-    // Check if the form is valid
     if (!form.checkValidity()) {
-        // If the form is not valid, show the validation messages
         form.reportValidity();
         return; // Exit function if form is not valid
     }
 
     console.log('Tiedot valideja, jatketaan');
 
-    // Create an object to hold all the questions and answers
-    const survey = {};
-
-    // Loop through all input and select fields in the form
+    const surveyData = {};
     form.querySelectorAll('input, select').forEach(input => {
         if (!input.name || input.name === 'user_choice' || input.value === "") {
             return;
         }
         if (input.name === 'activities') {
-            survey['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value); // Parse JSON string into array
+            surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value);
         } else {
-            survey[input.previousElementSibling && input.previousElementSibling.textContent.trim()] = input.value;
+            surveyData[input.previousElementSibling.textContent.trim()] = input.value;
         }
     });
 
-    // This will log the object in the format you requested
-    console.log(survey);
+    console.log(surveyData);
 
-    // Retrieve the authentication token from local storage
     const authToken = localStorage.getItem("token");
 
-    // Create the options object for the fetch request
     const options = {
-        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + authToken // Include the authentication token from local storage
+            'Authorization': 'Bearer ' + authToken
         },
-        body: JSON.stringify(survey), // body data type must match "Content-Type" header
+        body: JSON.stringify(surveyData),
     };
 
-    // Fetch the data
     try {
-        // Execute the fetch operation
         const response = await fetchData(url, options);
-    
-        // Check if the fetch was successful and the response is what you expect
-        if (response) { 
-            alert('Alkukartoitus tehty!');
-            window.location.href = 'http://localhost:5173/home/patienthome.html'; // Redirect only on success
-        } else {
-            console.error(response);
-            alert('Tapahtui virhe. Yritä uudelleen.');
+
+        if (!response.ok) { // Check if the fetch was NOT successful
+            console.error('Failed to submit survey:', response);
+            throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
         }
+
+        console.log('Survey submitted successfully');
+        alert('Alkukartoitus tehty!');
+        window.location.href = 'http://localhost:5173/home/patienthome.html';
     } catch (error) {
-        // Handle network errors or other errors in fetching
         console.error('Error submitting form data:', error);
-        alert('Tietojen lähettämisessä tapahtui virhe. Tarkista verkkoyhteys.');
+        alert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
     }
 });
+
 
 
 
@@ -188,23 +187,66 @@ const doctorForm2 = document.querySelector('.doctor_form2');
 const checkbox = document.getElementById('give-info');
 
 if (doctorForm2 && checkbox) {
-    const redirectButton = document.getElementById('redirect');
-    if (redirectButton) {
-        redirectButton.addEventListener('click', function(event) {
-            console.log('Button clicked');
-            if (!checkbox.checked) {
-                console.log('Checkbox is not checked');
-                event.preventDefault();
-                alert("Sinun on valittava valintaruutu jatkaaksesi!");
-            } else {
-                console.log('Checkbox is checked, redirecting...');
-                window.location = 'http://localhost:5173/home/patienthome.html';
-                alert('Alkukartoitus tehty!'); 
+    doctorForm2.addEventListener('submit', async function(event) {
+        event.preventDefault();  // Prevent the default form submission
+        console.log('Submit button clicked');
+        
+        if (!checkbox.checked) {
+            console.log('Checkbox is not checked');
+            alert("Sinun on valittava valintaruutu jatkaaksesi!");
+        } else {
+            console.log('Checkbox is checked, submitting form...');
+
+            const url = 'http://127.0.0.1:3000/api/survey'; 
+            const form = document.querySelector('.answer-form-all');
+
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return; // Exit function if form is not valid
             }
-        });
-    } else {
-        console.log('Redirect button not found!');
-    }
-} else {
-    console.log('Form or checkbox not found!');
-};
+
+            console.log('Tiedot valideja, jatketaan');
+
+            const surveyData = {};
+            form.querySelectorAll('input, select').forEach(input => {
+                if (!input.name || input.name === 'user_choice' || input.value === "") {
+                    return;
+                }
+                if (input.name === 'activities') {
+                    surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value);
+                } else {
+                    surveyData[input.previousElementSibling.textContent.trim()] = input.value;
+                }
+            });
+
+            console.log(surveyData);
+
+            const authToken = localStorage.getItem("token");
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify(surveyData),
+            };
+
+            try {
+                const response = await fetchData(url, options);
+        
+                if (!response) { // Check if the fetch was NOT successful
+                    console.error('Failed to submit survey:', response);
+                    throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
+                }
+        
+                console.log('Survey submitted successfully');
+                alert('Alkukartoitus tehty!');
+                window.location.href = 'http://localhost:5173/home/patienthome.html';
+            } catch (error) {
+                console.log('Error submitting form data:', error);
+            }
+        }
+    });
+} 
+

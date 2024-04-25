@@ -22,15 +22,15 @@
             <ul class="blocks">
                 <li>
                     <label for="question1">Syntymäaika *</label>
-                    <input type="date" id="question1" name="question1" />
+                    <input type="date" id="question1" name="question1" required /> <!-- added required attribute -->
                 </li>
                 <li>
                     <label for="question2">Kuinka pitkä olet? (cm) *</label>
-                    <input type="number" id="question2" name="question2" placeholder="Valitse..."/>
+                    <input type="number" id="question2" name="question2" placeholder="Valitse..." required />
                 </li>
                 <li>
                     <label for="question3">Mikä on painosi? (kg) *</label>
-                    <input type="number" id="question3" name="question3" placeholder="Valitse..."/>
+                    <input type="number" id="question3" name="question3" placeholder="Valitse..." required />
                 </li>
                 <li>
                     <label for="question4">Mikä on sukupuolesi?</label>
@@ -60,7 +60,7 @@
                 <li>
                     <label for="question7">Asteikolla 1-5, koetko olevasi <br> 
                         stressaantunut tai ahdistunut? *</label>
-                    <select id="question7" name="question7">
+                    <select id="question7" name="question7" required>
                         <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -115,15 +115,15 @@
                     </select>
                 </li>
                 <li>
-                    <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? <br>
+                    <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? *<br>
                         Voit lisätä niin monta aktiviteettia kuin haluat. <br>
                         (Lisää yksi kerrallaan, tulet tarvitsemaan näitä myöhemmin)</label>
-                    <input type="text" id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..." />
+                    <input type="text" id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..."/>
                     <button id="submitButton" type="button">Lisää aktiviteetti</button>
                 </li>
                 <li>
                     <label for="question15">Kuinka monta tuntia viikossa käytät urheiluun ja minkä <br>tyyppistä tämä urheilu on? *</label>
-                    <input type="text" id="question15" name="question15" placeholder="Kirjoita tähän..."/>
+                    <input type="text" id="question15" name="question15" placeholder="Kirjoita tähän..." required />
                 </li>
                 <li>
                     <label for="question16">Miten sykkeesi käyttäytyy rasituksen alaisena?</label>
@@ -191,10 +191,10 @@
             <span class="closePopup" id="closePopup">&times;</span>
             <form class="doctor_form">
                 <h2>YTHS</h2>
-                    <label for="doctorname">Lääkärin sähköpostiosoite</label>
-                    <input type="text" id="doctor_name" name="doctor_name" required placeholder="laakari@yths.fi"><br>
-                    <input name="submit" type="submit" value="Lisää lääkäri" class="submitdoc"/>
-            </form>
+                <label for="doctor_name">Lääkärin sähköpostiosoite</label>
+                <input type="email" id="doctor_email" name="doctor_email" required placeholder="laakari@yths.fi"><br>
+                <input type="submit" value="Lisää lääkäri" class="submitdoc"/>
+            </form>            
         </div>
 
         <div id="overlay"></div>
