@@ -21,13 +21,37 @@ async function getMonthData(year, month) {
   }
 }
 
-// Function to check if a date has an entry
-function hasEntry(data, year, month, day) {
-  const entryDate = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-  
-  // Check if data exists for the entryDate and if it's not an empty object
-  return data.hasOwnProperty(entryDate) && Object.keys(data[entryDate]).length > 0;
+async function getDayData(selectedDate) {
+  const url = `http://127.0.0.1:3000/api/entries/daily/${selectedDate}`;
+  let token = localStorage.getItem("token");
+
+  const options = {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  try {
+    const responseData = await fetchData(url, options);
+    console.log(responseData);
+    return responseData; // Return the response data
+  } catch (error) {
+    console.error("Error fetching entries:", error);
+    return {}; // Return an empty object in case of error
+  }
 }
 
+// Function to check if a date has an entry
+function hasEntry(data, year, month, day) {
+  const entryDate = `${year}-${month.toString().padStart(2, "0")}-${day
+    .toString()
+    .padStart(2, "0")}`;
 
-export { getMonthData, hasEntry };
+  // Check if data exists for the entryDate and if it's not an empty object
+  return (
+    data.hasOwnProperty(entryDate) && Object.keys(data[entryDate]).length > 0
+  );
+}
+
+export { getMonthData, hasEntry, getDayData };
