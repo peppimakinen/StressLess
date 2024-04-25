@@ -185,7 +185,17 @@ const handleDatabaseOperation = async (operation, ...args) => {
 
 const getPatientSurvey = async (req, res, next) => {
   console.log('Entered getPatientSurvey');
-  return res.json('Moooi');
+  const patientId = req.params.patient_id;
+  const patientSurvey = await getSurveyWithUserId(patientId);
+  if (patientSurvey.error === 404) {
+    return next(customError('Selected patient ID has no survey', 404));
+  } else if (patientSurvey.error === 500) {
+    return next(customError(patientSurvey.message, patientSurvey.error));
+  } else {
+    const sortedPatientSurvey = extractActivities(patientSurvey);
+    // Return sorted survey
+    return res.json(sortedPatientSurvey);
+  }
 };
 
 export {getOwnSurvey, postSurvey, getActivities, getPatientSurvey};
