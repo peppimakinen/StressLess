@@ -1,10 +1,9 @@
 import { fetchData } from "../assets/fetch.js";
+import { convertToDDMMYYYY } from "../home/convertday.js"
 
 // Function to handle click event on "Näytä raportti" links
-const showReport = async function(event) {
-    // event.preventDefault();
-    // const weekElement = event.target.closest('.week'); // Get the parent week element
-    // const reportId = weekElement.dataset.reportId; // Get the report ID from the week element's dataset
+window.addEventListener('load', async (evt) => {
+    evt.preventDefault();
     try {
         const url = "http://127.0.0.1:3000/api/reports/available-weeks";
         let token = localStorage.getItem("token");
@@ -17,35 +16,44 @@ const showReport = async function(event) {
         };
 
         const reportData = await fetchData(url, options); 
-        return reportData
+        console.log(reportData);
+
+        const weekNumber = document.querySelector('.weeks');
+    // Iterate over the reportData to populate the week numbers
+    reportData.forEach((week, date, index) => {
+        //week
+        const weekItem = document.createElement('li');
+        weekItem.classList.add('week');
+        weekItem.textContent = `Viikko ${week.week_number}`;
+
+        //date
+        const dateDiv = document.createElement('div');
+        dateDiv.classList.add('date');
+        dateDiv.textContent = `${week.week_start_date} - ${week.week_end_date}`;
+
+        const start_date = convertToDDMMYYYY(`${week.week_start_date}`);
+        const end_date = convertToDDMMYYYY(`${week.week_start_date}`);
+        console.log(start_date, end_date)
+        // dateDiv.textContent = `${week.start_date} - ${week.end_date}`;
+  
+
+        //reports
+        const reportsDiv = document.createElement('div');
+        reportsDiv.classList.add('reports');
+        const reportLink = document.createElement('a');
+        reportLink.href = `weekReport.html?week=${week.weekNumber}`; // Adjust the URL as needed
+        reportLink.textContent = 'Näytä raportti';
+        reportsDiv.appendChild(reportLink);
+        weekItem.appendChild(dateDiv);
+        weekItem.appendChild(reportsDiv);
+        weekNumber.appendChild(weekItem);
+    });
+
+
     } catch (error) {
         console.error('Error fetching report:', error);
     }
-};
+    });
 
-// Function to handle click event on "Näytä raportti" links
-const reportLinks = document.querySelectorAll('.reports a');
-reportLinks.forEach(link => {
-    link.addEventListener('click', showReport);
-});
-
-// Function to fetch week data
-async function fetchWeekData() {
-    try {
-        const response = await fetchData('http://127.0.0.1:3000/api/reports/available-weeks'); // Use fetchData function to fetch data
-        const data = await response.json(); // Parse JSON response
-        return data;
-    } catch (error) {
-        console.error('Error fetching data:', error);
-    }
-}
-
-// Render week information
-async function renderData() {
-    const data = await fetchWeekData(); // Use the fetchData function
-    if (data) {
-        renderWeekInfo(data.weekNumber, data.startDate, data.endDate);
-    }
-}
-
-window.onload = renderData;
+    
+    
