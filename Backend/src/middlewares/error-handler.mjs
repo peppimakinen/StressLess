@@ -1,6 +1,7 @@
 /* eslint-disable require-jsdoc */
 import {validationResult} from 'express-validator';
 import {getSurveyWithUserId} from '../models/survey-model.mjs';
+import {getDoctorPatientPair} from '../models/user-model.mjs';
 
 const customError = (message, status, errors) => {
   const error = new Error(message);
@@ -68,6 +69,18 @@ const onlyForDoctorHandler = (req, res, next) => {
       401,
     );
     return next(error);
+  }
+};
+
+const verifyRightToViewPatientsData = async (req, res, next) => {
+  const patientId = req.params.patient_id;
+  const doctorId = req.user.user_id;
+  const result = await getDoctorPatientPair(patientId, doctorId);
+  if (!result.error) {
+    console.log('Doctor user fetching authorized patient data');
+    next();
+  } else {
+    return next(customError(result.message, result.error));
   }
 };
 
@@ -180,4 +193,5 @@ export {
   validateSurvey,
   checkActivities,
   onlyForPatientWhoCompletedSurvey,
+  verifyRightToViewPatientsData,
 };

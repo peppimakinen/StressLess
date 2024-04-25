@@ -47,7 +47,7 @@ userRouter
     formPair,
   );
 userRouter
-  .route('/doctor/available-patients')
+  .route('/doctor/patients')
   .get(
     authenticateToken,
     onlyForDoctorHandler,

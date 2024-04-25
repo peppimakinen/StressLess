@@ -181,6 +181,21 @@ const getOwnPatients = async (userId) => {
   };
 };
 
+const getDoctorPatientPair = async (patientId, doctorId) => {
+  try {
+    const sql = `SELECT * FROM DoctorPatient WHERE patient_id=? AND doctor_id=?;`;
+    const params = [patientId, doctorId];
+    const [rows] = await promisePool.query(sql, params);
+    if (rows.length === 0) {
+      return {error: 403, message: `This patient is not sharing data with doctor_id=${doctorId}`};
+    } else {
+      return rows[0];
+    };
+  } catch (error) {
+    console.error('getDoctorPatientPair', error);
+    return {error: 500, message: 'db error'};
+  };
+};
 
 export {
   selectUserByUsername,
@@ -193,4 +208,5 @@ export {
   insertNewPair,
   getOwnDoctor,
   getOwnPatients,
+  getDoctorPatientPair,
 };

@@ -183,4 +183,9 @@ const handleDatabaseOperation = async (operation, ...args) => {
   return result;
 };
 
-export {getOwnSurvey, postSurvey, getActivities};
+const getPatientSurvey = async (req, res, next) => {
+  console.log('Entered getPatientSurvey');
+  return res.json('Moooi');
+};
+
+export {getOwnSurvey, postSurvey, getActivities, getPatientSurvey};
