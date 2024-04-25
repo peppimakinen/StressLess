@@ -5,7 +5,12 @@ import { fetchData } from '../assets/fetch.js';
 
 async function renderData() {
     let token = localStorage.getItem("token");
+    // let userId = getUserID(); // Get the user ID from wherever it's available
 
+    const user_email = localStorage.getItem('user_email')
+    console.log(user_email)
+
+    const url = `http://127.0.0.1:3000/api/users/${user_email}`;
     const options = {
      method: "GET",
         headers: {
@@ -13,7 +18,7 @@ async function renderData() {
         },
   };
 
-    const data = await fetchData('http://127.0.0.1:3000/api/reports/user_id=${user_id}', options);
+    const data = await fetchData(url, options);
     console.log(data);
 
     const pieChartContainer = document.getElementById('pieChart');

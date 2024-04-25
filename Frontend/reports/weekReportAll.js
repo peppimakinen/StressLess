@@ -2,11 +2,11 @@ import { fetchData } from "../assets/fetch.js";
 
 // Function to handle click event on "Näytä raportti" links
 const showReport = async function(event) {
-    event.preventDefault();
-    const weekElement = event.target.closest('.week'); // Get the parent week element
-    const reportId = weekElement.dataset.reportId; // Get the report ID from the week element's dataset
+    // event.preventDefault();
+    // const weekElement = event.target.closest('.week'); // Get the parent week element
+    // const reportId = weekElement.dataset.reportId; // Get the report ID from the week element's dataset
     try {
-        const url = `http://127.0.0.1:3000/api/reports/${reportId}`;
+        const url = "http://127.0.0.1:3000/api/reports/available-weeks";
         let token = localStorage.getItem("token");
 
         const options = {

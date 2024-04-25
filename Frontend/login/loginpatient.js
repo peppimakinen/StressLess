@@ -37,6 +37,7 @@ LoginPatient.addEventListener("click", async (evt) => {
     localStorage.setItem("user_email", responseData.user.username);
     localStorage.setItem("user_name", responseData.user.full_name);
     localStorage.setItem("user_level", responseData.user.user_level);
+    localStorage.setItem("user_id", responseData.user.user_id);
     alert('logging in to your account now!')
 
   } catch (error) {

@@ -1,4 +1,5 @@
 import { fetchData } from "../assets/fetch.js";
+import {reportRouter} from "../routes/report-router"
 
 async function getReport(userId, reportId) {
     console.log("Fetching report for user:", userId);
