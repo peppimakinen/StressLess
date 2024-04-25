@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import {
+  onlyForDoctorHandler,
   onlyForPatientHandler,
   validationErrorHandler,
 } from '../middlewares/error-handler.mjs';
@@ -11,6 +12,7 @@ import {
   deleteSelf,
   formPair,
   getDoctor,
+  getPatients,
 } from '../controllers/user-controller.mjs';
 
 // eslint-disable-next-line new-cap
@@ -43,6 +45,13 @@ userRouter
     body('doctor_username', 'Doctor username should be their email').isEmail(),
     validationErrorHandler,
     formPair,
+  );
+userRouter
+  .route('/doctor/available-patients')
+  .get(
+    authenticateToken,
+    onlyForDoctorHandler,
+    getPatients,
   );
 // Only for application admin - authentication done with a enviorment variable
 userRouter

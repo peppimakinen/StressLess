@@ -7,6 +7,7 @@ import {
   pairExistsAlready,
   selectUserByUsername,
   insertNewPair,
+  getOwnPatients,
 } from '../models/user-model.mjs';
 import {
   deleteSelfFromWeeklyReports,
@@ -225,4 +226,24 @@ const deleteSelfAsDoctor = async (userId) => {
   return;
 };
 
-export {formPair, postDoctor, getDoctor, deleteSelf};
+/**
+ * Handle doctor GET request to fetch all patients that share data with them
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const getPatients = async (req, res, next) => {
+  const doctorId = req.user.user_id;
+  // Fetch all patients that have formed a pair with this doctor ID
+  const allPatients = await getOwnPatients(doctorId);
+  // Check for errors
+  if (allPatients.error) {
+    return next(customError(allPatients.message, allPatients.error));
+  }
+  // Return result (empty or populated list)
+  return res.json(allPatients);
+};
+
+
+export {formPair, postDoctor, getDoctor, deleteSelf, getPatients};
