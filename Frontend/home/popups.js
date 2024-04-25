@@ -1,6 +1,5 @@
-import { populateActivitiesDropdown } from "./newentry";
-import { renderCalendar } from "./calendar";
-import { convertToYYYYMMDD, checkHRVDataForDate } from "./newentry";
+import { populateActivitiesDropdown, convertToYYYYMMDD, checkHRVDataForDate } from "./newentry";
+import { getDayData } from "./pastentry";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
@@ -50,20 +49,42 @@ export async function showNewEntryPopup(date) {
   }
 }
 
-// Function to show PastEntry popup
-export function showPastEntryPopup(date) {
-  selectedDate = date;
+// Function to show PastEntry popup and populate with entry data
+export async function showPastEntryPopup(date) {
+  selectedDate = convertToYYYYMMDD(date);
+  console.log(selectedDate);
+  
   PastEntry.style.display = "block";
   calendarWrapper.style.display = "none";
   overlay.style.display = "block";
 
-  // Update the date in the PastEntry modal
-  document
-    .querySelectorAll(".PopupPastEntry .EntryHeading")
-    .forEach((heading) => {
-      heading.textContent = selectedDate;
-    });
+  try {
+    // Fetch entry data for the selected date
+    const entryData = await getDayData(selectedDate);
+
+    // Update the date in the PastEntry modal
+    document
+      .querySelectorAll(".PopupPastEntry .EntryHeading")
+      .forEach((heading) => {
+        heading.textContent = selectedDate;
+      });
+
+    // Update HRV data in the modal
+    document.querySelector(".PopupPastEntry .hrv p").textContent = 'PNS index: ' + entryData.measurement_data.pns_index + '\nSNS index: ' + entryData.measurement_data.sns_index || "HRV data not available";
+
+    // Update activities data in the modal
+    const activitiesList = entryData.activities && entryData.activities.length > 0 ? entryData.activities.join(", ") : "No activities";
+    document.querySelector(".PopupPastEntry .activitiesPast p").textContent = entryData.activities;
+
+    // Update notes data in the modal
+    document.querySelector(".PopupPastEntry .notesPast p").textContent = entryData.diary_entry.notes || "No notes";
+
+  } catch (error) {
+    console.error("Error fetching entry data:", error);
+    // Handle error appropriately (e.g., display an error message to the user)
+  }
 }
+
 
 // Function to show EditEntry popup
 export function showEditEntryPopup() {
