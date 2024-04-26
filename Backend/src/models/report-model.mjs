@@ -26,7 +26,7 @@ const getReport = async (userId, reportId) => {
     const sql = `
     SELECT
       user_id,
-      report_id,
+      report_id, 
       week_number,
       DATE_FORMAT(week_start_date, '%Y-%m-%d') AS week_start_date,
       DATE_FORMAT(week_end_date, '%Y-%m-%d') AS week_end_date,

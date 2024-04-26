@@ -173,7 +173,9 @@ const getOwnPatients = async (userId) => {
           DP.doctor_id=?;
         `;
     const [rows] = await promisePool.query(sql, [userId]);
-    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {error: 404, message: 'There is no patients sharing data with this doctor user'};
+    };
     return rows;
   } catch (error) {
     console.error('getOwnPatients', error);
