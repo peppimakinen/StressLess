@@ -1,6 +1,8 @@
 import {
   validationErrorHandler,
   onlyForPatientWhoCompletedSurvey,
+  onlyForDoctorHandler,
+  verifyRightToViewPatientsData,
 } from '../middlewares/error-handler.mjs';
 import {authenticateToken} from '../middlewares/authentication.mjs';
 import {body, param, query} from 'express-validator';
@@ -10,6 +12,7 @@ import {
   getMonth,
   putEntry,
   getDay,
+  getPatientMonth,
 } from '../controllers/entry-controller.mjs';
 
 // eslint-disable-next-line new-cap
@@ -36,19 +39,17 @@ entryRouter
     putEntry,
   );
 
-entryRouter
-  .route('/monthly')
-  .get(
-    authenticateToken,
-    onlyForPatientWhoCompletedSurvey,
-    query('year', 'Only the years between 2020 - 2030 are available').isInt({
-      min: 2020,
-      max: 2030,
-    }),
-    query('month', 'Provide a month number').isInt({min: 1, max: 12}),
-    validationErrorHandler,
-    getMonth,
-  );
+entryRouter.route('/monthly').get(
+  authenticateToken,
+  onlyForPatientWhoCompletedSurvey,
+  query('year', 'Only the years between 2020 - 2030 are available').isInt({
+    min: 2020,
+    max: 2030,
+  }),
+  query('month', 'Provide a month number').isInt({min: 1, max: 12}),
+  validationErrorHandler,
+  getMonth,
+);
 
 entryRouter
   .route('/daily/:entry_date')
@@ -59,5 +60,19 @@ entryRouter
     validationErrorHandler,
     getDay,
   );
+
+entryRouter.route('/doctor/monthly/:patient_id').get(
+  authenticateToken,
+  onlyForDoctorHandler,
+  param('patient_id', 'Invalid patient ID'). isInt(),
+  query('year', 'Only the years between 2020 - 2030 are available').isInt({
+    min: 2020,
+    max: 2030,
+  }),
+  query('month', 'Provide a month number').isInt({min: 1, max: 12}),
+  validationErrorHandler,
+  verifyRightToViewPatientsData,
+  getPatientMonth,
+);
 
 export default entryRouter;

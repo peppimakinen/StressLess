@@ -11,6 +11,7 @@ import {
   connectMeasurementToEntry,
   deleteExistingActivities,
   updateEntryMeasurements,
+  getMonthlyEntriesForDoctor,
 } from '../models/entry-models.mjs';
 import {customError, checkActivities} from '../middlewares/error-handler.mjs';
 import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
@@ -569,4 +570,27 @@ const extractHRVMeasurementValues = (kubiosResult) => {
   }
 };
 
-export {getMonth, getDay, postEntry, putEntry};
+const getPatientMonth = async (req, res, next) => {
+  try {
+    const {month, year} = req.query;
+    const patientId = req.params.patient_id;
+    // Fetch all entries and measurements that took place in during chosen month
+    const entries = await getMonthlyEntriesForDoctor(
+      parseInt(year),
+      parseInt(month),
+      patientId,
+    );
+    // Add completed activities to the found entries
+    const completeEntries = await attachCompletedActivitiesToEntries(entries);
+    // Add empty dicts for days that didnt have a entry
+    const wholeMonth = populateMissingDaysInMonth(completeEntries, month, year);
+    // Return all found data
+    return res.json(wholeMonth);
+    // Handle errors
+  } catch (error) {
+    console.log('getPatientMonth catch block', error);
+    next(customError(error.message, error.status));
+  }
+};
+
+export {getMonth, getDay, postEntry, putEntry, getPatientMonth};

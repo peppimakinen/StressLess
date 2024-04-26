@@ -87,16 +87,39 @@ const getMonthlyPatientEntries = async (year, month, userId) => {
   }
 };
 
-const getEntriesFromSpecificMonthForDoctor = async (year, month, patienId) => {
+const getMonthlyEntriesForDoctor = async (year, month, patienId) => {
   try {
     const sql = `
     SELECT 
         Users.user_id,
-        DATE_FORMAT(entry_date, '%Y-%m-%d') AS entry_date,
-        DiaryEntries.entry_date,
+        DATE_FORMAT(DiaryEntries.entry_date, '%Y-%m-%d') AS entry_date,
         DiaryEntries.mood_color,
         DiaryEntries.notes,
-        Measurements.*
+        DiaryEntries.entry_id,
+        Measurements.measurement_id,
+        Measurements.kubios_result_id,
+        DATE_FORMAT(Measurements.measurement_date, '%Y-%m-%d')
+          AS measurement_date,
+        Measurements.artefact_level,
+        Measurements.lf_power,
+        Measurements.lf_power_nu,
+        Measurements.hf_power,
+        Measurements.hf_power_nu,
+        Measurements.tot_power,
+        Measurements.mean_hr_bpm,
+        Measurements.mean_rr_ms,
+        Measurements.rmssd_ms,
+        Measurements.sd1_ms,
+        Measurements.sd2_ms,
+        Measurements.sdnn_ms,
+        Measurements.sns_index,
+        Measurements.pns_index,
+        Measurements.stress_index,
+        Measurements.respiratory_rate,
+        Measurements.user_readiness,
+        Measurements.user_recovery,
+        Measurements.user_happiness,
+        Measurements.result_type
     FROM 
         Users
     JOIN 
@@ -112,10 +135,6 @@ const getEntriesFromSpecificMonthForDoctor = async (year, month, patienId) => {
 
     const params = [year, month, patienId];
     const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
-    if (rows.length === 0) {
-      return {error: 404, message: `No entries found in ${month}/${year} `};
-    }
     // return all found entries
     return rows;
   } catch (error) {
@@ -314,6 +333,6 @@ export {
   connectMeasurementToEntry,
   updateEntryMeasurements,
   getMonthlyPatientEntries,
-  getEntriesFromSpecificMonthForDoctor,
+  getMonthlyEntriesForDoctor,
   getActivitiesForEntry,
 };
