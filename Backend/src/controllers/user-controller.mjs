@@ -20,7 +20,6 @@ import {
 } from '../models/delete-self-model.mjs';
 /* eslint-disable camelcase */
 
-
 /**
  * Create a new Doctor user to stressless - only for system admins
  * @async
@@ -52,7 +51,7 @@ const postDoctor = async (req, res, next) => {
     // Forward to error handler if result contains an error
     next(customError(result.message, result.error));
     return;
-  };
+  }
   // Respond with an OK status - User created successfully
   return res.status(201).json(result);
 };
@@ -127,9 +126,7 @@ const formPair = async (req, res, next) => {
     return res.json({message: resultMessage, pair_id: pairId});
     // Tell client that it was a server issue if pair creation failed
   } else {
-    return next(
-      customError('Doctor was found but there was a db error', 500),
-    );
+    return next(customError('Doctor was found but there was a db error', 500));
   }
 };
 
@@ -170,17 +167,17 @@ const deleteSelf = async (req, res, next) => {
         // If true, proceed to delete all data for doctor user
         console.log('Doctor user deleting themselves');
         await deleteSelfAsDoctor(userId);
-      // Throw a error, if user level was not recognized
+        // Throw a error, if user level was not recognized
       } else {
         throw customError('User level not recognized', 500);
       }
       // Return OK response
       res.status(200).json({message: 'StressLess user deleted'});
-    // Passwords didnt match, respond with an error message
+      // Passwords didnt match, respond with an error message
     } else {
       throw customError('Invalid confirmation password', 400);
     }
-  // Handle errors
+    // Handle errors
   } catch (error) {
     console.log('deleteSelf catch block');
     next(customError(error.message, error.status));
@@ -225,4 +222,23 @@ const deleteSelfAsDoctor = async (userId) => {
   return;
 };
 
-export {formPair, postDoctor, getDoctor, deleteSelf};
+/**
+ * Handle doctor GET request to fetch all patients that share data with them
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const getPatients = async (req, res, next) => {
+  const doctorId = req.user.user_id;
+  // Fetch all patients that have formed a pair with this doctor ID
+  const allPatients = await getOwnPatients(doctorId);
+  // Check for errors
+  if (allPatients.error) {
+    return next(customError(allPatients.message, allPatients.error));
+  }
+  // Return result (empty or populated list)
+  return res.json(allPatients);
+};
+
+export {formPair, postDoctor, getDoctor, deleteSelf, getPatients};

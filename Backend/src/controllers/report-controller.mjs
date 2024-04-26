@@ -84,6 +84,32 @@ const getSpecificReport = async (req, res, next) => {
 };
 
 /**
+ * Get all available week reports for specific patient ID
+ * @async
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+const getAvailablePatientReports = async (req, res, next) => {
+  const patientId = req.params.patient_id;
+  // Fetch report dates from database
+  const result = await getAvailableReportDates(patientId);
+  // Check for not found error
+  if (result.error === 404) {
+    // Replace user ID with patient ID to avoid confusion.
+    const message = `No reports found for patient_id=${patientId}.`;
+    // Return survey not found error
+    return next(customError(message, 404));
+  // Check for db error
+  } else if (result.error === 500) {
+    return next(customError(result.message, result.error));
+  // Else return found report dates if no errors occurred
+  } else {
+    return res.json(result);
+  }
+};
+
+/**
  * Check if there is a need to generate reports based on new entries
  * @async
  * @param {dict} allWeeks all weeks between two dates
@@ -629,4 +655,5 @@ export {
   getSpecificReport,
   convertDateObjToStr,
   getCurrentDate,
+  getAvailablePatientReports,
 };
