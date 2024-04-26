@@ -29,19 +29,19 @@ async function getEntryCount() {
     };
     
     try {
-        const response = await fetchData(url, options);
-        const responseData = await response.json();
+        const responseData = await fetchData(url, options); // Assuming fetchData returns JSON directly
         console.log(responseData);
-        if (responseData && responseData.stressLessUser && responseData.stressLessUser.entry_count !== undefined) {
-            localStorage.setItem("entry_count", responseData.stressLessUser.entry_count);
+        if (responseData && responseData.stressLessUser) {
+            const entryCount = responseData.stressLessUser.entry_count || 0;
+            localStorage.setItem("entry_count", entryCount);
         } else {
-            localStorage.setItem("entry_count", 0);  // Set default count as 0
+            console.log('No entries found');
         }
     } catch (error) {
-        console.error(error);
+        console.error('Error finding entries:', error);
         alert("Entries could not be retrieved.");
     }
-};
+}
 
 
 
