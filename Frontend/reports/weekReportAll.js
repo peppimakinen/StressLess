@@ -1,5 +1,5 @@
 import { fetchData } from "../assets/fetch.js";
-import { convertToDDMMYYYY } from "../home/convertday.js"
+import { convertToDDMMYYYY } from "./convertDay.js"
 
 // Function to handle click event on "Näytä raportti" links
 window.addEventListener('load', async (evt) => {
@@ -29,12 +29,10 @@ window.addEventListener('load', async (evt) => {
         //date
         const dateDiv = document.createElement('div');
         dateDiv.classList.add('date');
-        dateDiv.textContent = `${week.week_start_date} - ${week.week_end_date}`;
-
         const start_date = convertToDDMMYYYY(`${week.week_start_date}`);
-        const end_date = convertToDDMMYYYY(`${week.week_start_date}`);
+        const end_date = convertToDDMMYYYY(`${week.week_end_date}`);
         console.log(start_date, end_date)
-        // dateDiv.textContent = `${week.start_date} - ${week.end_date}`;
+        dateDiv.textContent = `${start_date} - ${end_date}`;
   
 
         //reports

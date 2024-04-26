@@ -188,7 +188,7 @@ survey.addEventListener('click', async (evt) => {
 
         console.log('Survey submitted successfully');
         alert('Alkukartoitus tehty!');
-        window.location.href = 'http://localhost:5173/home/patienthome.html';
+        window.location.href = '../home/patienthome.html';
     } catch (error) {
         console.error('Error submitting form data:', error);
         alert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
@@ -259,7 +259,7 @@ if (doctorForm2 && checkbox) {
         
                 console.log('Survey submitted successfully');
                 alert('Alkukartoitus tehty!');
-                window.location.href = 'http://localhost:5173/home/patienthome.html';
+                window.location.href = '../home/patienthome.html';
             } catch (error) {
                 console.log('Error submitting form data:', error);
             }
