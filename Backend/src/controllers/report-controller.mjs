@@ -94,18 +94,46 @@ const getAvailablePatientReports = async (req, res, next) => {
   const patientId = req.params.patient_id;
   // Fetch report dates from database
   const result = await getAvailableReportDates(patientId);
-  // Check for not found error
-  if (result.error === 404) {
-    // Replace user ID with patient ID to avoid confusion.
-    const message = `No reports found for patient_id=${patientId}.`;
-    // Return survey not found error
-    return next(customError(message, 404));
-  // Check for db error
-  } else if (result.error === 500) {
+  // Check for error
+  if (result.error) {
+    // Check if it was a not found error
+    if (result.error === 404) {
+      // Replace user ID with patient ID in error msg to avoid confusion.
+      result.message = `No reports found for patient_id=${patientId}.`;
+    };
     return next(customError(result.message, result.error));
-  // Else return found report dates if no errors occurred
-  } else {
+  };
+  // Return ok result, if no errors occurred
+  return res.json(result);
+};
+
+/**
+ * Handle GET requests to get own patients report using patient ID and report ID
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
+const getPatientsReport = async (req, res, next) => {
+  try {
+    const patientId = req.params.patient_id;
+    const patientReportId = req.params.report_id;
+    // Fetch the report
+    const result = await getReport(patientId, patientReportId);
+    // Check for errors
+    if (result.error) {
+      // Check if it was a not found error
+      if (result.error === 404) {
+        // Reword the error msg to avoid confusion
+        // eslint-disable-next-line max-len
+        result.message = `There is no report_id=${patientReportId} for patient_id=${patientId}`;
+      }
+      throw customError(result.message, result.error);
+    }
+    // Return the found report
     return res.json(result);
+  } catch (error) {
+    console.log('getPatientsReport', error);
+    next(customError(error.message, error.status));
   }
 };
 
@@ -656,4 +684,5 @@ export {
   convertDateObjToStr,
   getCurrentDate,
   getAvailablePatientReports,
+  getPatientsReport,
 };
