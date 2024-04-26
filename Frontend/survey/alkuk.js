@@ -180,10 +180,11 @@ survey.addEventListener('click', async (evt) => {
 
     try {
         const response = await fetchData(url, options);
+        console.log(response)
 
         if (!response.ok) { // Check if the fetch was NOT successful
             console.error('Failed to submit survey:', response);
-            throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
+            // throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
         }
 
         console.log('Survey submitted successfully');

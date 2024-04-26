@@ -39,6 +39,7 @@ LoginPatient.addEventListener("click", async (evt) => {
     localStorage.setItem("user_level", responseData.user.user_level);
     localStorage.setItem("user_id", responseData.user.user_id);
     alert('logging in to your account now!')
+    //console.log(responseData.user.surveyCompleted)
     window.location.href = '../survey/alkukartoitus.html';
 
   } catch (error) {
