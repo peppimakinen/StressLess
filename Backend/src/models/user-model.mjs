@@ -187,7 +187,7 @@ const getDoctorPatientPair = async (patientId, doctorId) => {
     const params = [patientId, doctorId];
     const [rows] = await promisePool.query(sql, params);
     if (rows.length === 0) {
-      return {error: 403, message: `This patient is not sharing data with doctor_id=${doctorId}`};
+      return {error: 403, message: `Requested patient is not sharing data with doctor_id=${doctorId}`};
     } else {
       return rows[0];
     };
