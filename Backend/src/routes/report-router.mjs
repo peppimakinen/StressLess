@@ -10,6 +10,7 @@ import {
   getAvailableWeeks,
   getSpecificReport,
   getAvailablePatientReports,
+  getPatientsReport,
 } from '../controllers/report-controller.mjs';
 import express from 'express';
 
@@ -38,6 +39,18 @@ reportRouter
     validationErrorHandler,
     verifyRightToViewPatientsData,
     getAvailablePatientReports,
+  );
+
+reportRouter
+  .route('/doctor/specific-report/:report_id/:patient_id')
+  .get(
+    authenticateToken,
+    onlyForDoctorHandler,
+    param('patient_id').isInt(),
+    param('report_id').isInt(),
+    validationErrorHandler,
+    verifyRightToViewPatientsData,
+    getPatientsReport,
   );
 
 export default reportRouter;
