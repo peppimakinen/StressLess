@@ -209,6 +209,63 @@ const getMeasurementsForPatient = async (entryId, userId, date) => {
   }
 };
 
+const getMeasurementsForDoctor = async (entryId, userId, date) => {
+  try {
+    const sql = `
+    SELECT
+        M.measurement_id,
+        M.kubios_result_id,
+        DATE_FORMAT(M.measurement_date, '%Y-%m-%d')
+          AS measurement_date,
+        M.artefact_level,
+        M.lf_power,
+        M.lf_power_nu,
+        M.hf_power,
+        M.hf_power_nu,
+        M.tot_power,
+        M.mean_hr_bpm,
+        M.mean_rr_ms,
+        M.rmssd_ms,
+        M.sd1_ms,
+        M.sd2_ms,
+        M.sdnn_ms,
+        M.sns_index,
+        M.pns_index,
+        M.stress_index,
+        M.respiratory_rate,
+        M.user_readiness,
+        M.user_recovery,
+        M.user_happiness,
+        M.result_type
+    FROM 
+        DM D
+    JOIN 
+        Measurements M ON D.m_id = M.measurement_id
+    JOIN 
+        DiaryEntries DE ON D.e_id = DE.entry_id
+    JOIN 
+        Users U ON DE.user_id = U.user_id
+    WHERE 
+        U.user_id=?
+        AND DE.entry_id=?
+        AND DE.entry_date=?;
+    `;
+    const params = [userId, entryId, date];
+    const [rows] = await promisePool.query(sql, params);
+    // if nothing is found with the user id, result array is empty []
+    if (rows.length === 0) {
+      return {
+        error: 404,
+        message: `No measurements found with entry_id=${entryId}`,
+      };
+    }
+    // return all found entries
+    return rows[0];
+  } catch (error) {
+    console.error('getMeasurementsForDoctor', error);
+    return {error: 500, message: 'db error'};
+  }
+};
 const addEntry = async (params) => {
   const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
   VALUES (?, ?, ?, ?)`;
@@ -335,4 +392,5 @@ export {
   getMonthlyPatientEntries,
   getMonthlyEntriesForDoctor,
   getActivitiesForEntry,
+  getMeasurementsForDoctor,
 };

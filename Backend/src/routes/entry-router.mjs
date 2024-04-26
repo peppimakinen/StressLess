@@ -13,6 +13,7 @@ import {
   putEntry,
   getDay,
   getPatientMonth,
+  getPatientDay,
 } from '../controllers/entry-controller.mjs';
 
 // eslint-disable-next-line new-cap
@@ -60,11 +61,19 @@ entryRouter
     validationErrorHandler,
     getDay,
   );
-
+entryRouter.route('/doctor/daily/:entry_date/:patient_id').get(
+  authenticateToken,
+  onlyForDoctorHandler,
+  param('patient_id', 'Invalid patient ID').isInt(),
+  param('entry_date', 'Entry date should be in yyyy-mm-dd format').isDate(),
+  validationErrorHandler,
+  verifyRightToViewPatientsData,
+  getPatientDay,
+);
 entryRouter.route('/doctor/monthly/:patient_id').get(
   authenticateToken,
   onlyForDoctorHandler,
-  param('patient_id', 'Invalid patient ID'). isInt(),
+  param('patient_id', 'Invalid patient ID').isInt(),
   query('year', 'Only the years between 2020 - 2030 are available').isInt({
     min: 2020,
     max: 2030,
