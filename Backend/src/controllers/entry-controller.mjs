@@ -12,6 +12,7 @@ import {
   deleteExistingActivities,
   updateEntryMeasurements,
   getMonthlyEntriesForDoctor,
+  getMeasurementsForDoctor,
 } from '../models/entry-models.mjs';
 import {customError, checkActivities} from '../middlewares/error-handler.mjs';
 import {retrieveDataForDate} from '../controllers/kubios-controller.mjs';
@@ -580,6 +581,10 @@ const getPatientMonth = async (req, res, next) => {
       parseInt(month),
       patientId,
     );
+    // Check for error
+    if (entries.error) {
+      throw customError(entries.message, entries.error);
+    }
     // Add completed activities to the found entries
     const completeEntries = await attachCompletedActivitiesToEntries(entries);
     // Add empty dicts for days that didnt have a entry
@@ -593,4 +598,45 @@ const getPatientMonth = async (req, res, next) => {
   }
 };
 
-export {getMonth, getDay, postEntry, putEntry, getPatientMonth};
+/**
+ * Get all entry data for a specific date using patient ID
+ * @async
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {res}
+ */
+const getPatientDay = async (req, res, next) => {
+  try {
+    const patientId = req.params.patient_id;
+    const entryDate = req.params.entry_date;
+    // Fetch data from DiaryEntries table for a specific date and save its ID
+    const entry = await gatherEntryDataUsingDate(patientId, entryDate);
+    const entryId = entry.entry_id;
+    // Fetch Measurement data for that entry ID
+    const hrvData = await getMeasurementsForDoctor(
+      entryId,
+      patientId,
+      entryDate,
+    );
+    // Check for errors
+    if (hrvData.error) {
+      throw customError(hrvData.message, hrvData.error);
+    }
+    // Fetch CompletedActivities data for that entry ID
+    const activities = await gatherActivities(entryId, patientId, entryDate);
+    // Format response data
+    const allEntryData = {
+      diary_entry: entry,
+      measurement_data: hrvData,
+      activities: activities,
+    };
+    // Return gathered data for the specific date
+    return res.json(allEntryData);
+    // Handle errors
+  } catch (error) {
+    console.log('getPatientDay catch error');
+    next(customError(error.message, error.status));
+  }
+};
+export {getMonth, getDay, postEntry, putEntry, getPatientMonth, getPatientDay};
