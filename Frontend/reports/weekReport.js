@@ -1,4 +1,5 @@
 import { fetchData } from '../assets/fetch.js';
+import {convertToDDMMYYYY} from './convertDay.js';
 
 
 
@@ -35,20 +36,20 @@ window.addEventListener('load', async (evt) => {
         //stressindex summary comparing last week
         const stressIndexNow = specificReportData.week_si_avg;
         const stressIndexPrev = specificReportData.previous_week_si_avg;
-        console.log(stressIndexNow, stressIndexPrev)
+        const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
 
         if ( stressIndexNow >= (stressIndexPrev || null) ) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressasit tällä viikolla enemmän verrattuna viime viikkoon. On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin.";
+            summary.textContent = "Stressasit tällä viikolla enemmän verrattuna viime viikkoon. On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin. " + uploadDate;
         } if ( stressIndexNow == stressIndexPrev) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna.";
+            summary.textContent = "Stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna. " + uploadDate;
         } if ( stressIndexNow <= stressIndexPrev ) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa!"
+            summary.textContent = "Stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa! " + uploadDate
         } else {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon."
+            summary.textContent = "Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon. " + uploadDate
         }
     
 //trials for diagrams
