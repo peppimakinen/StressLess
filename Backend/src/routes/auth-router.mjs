@@ -15,11 +15,11 @@ const authRouter = express.Router();
  */
 
 /**
- * @apiDefine onlyPatients Only users with patient tokens
+ * @apiDefine onlyPatients Only signed in users with patient token.
  */
 
 /**
- * @apiDefine onlyDoctors Only users with doctor tokens
+ * @apiDefine onlyDoctors Only signed in users with doctor token.
  */
 
 /**
