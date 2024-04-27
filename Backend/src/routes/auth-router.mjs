@@ -15,6 +15,14 @@ const authRouter = express.Router();
  */
 
 /**
+ * @apiDefine onlyPatients Only users with patient tokens
+ */
+
+/**
+ * @apiDefine onlyDoctors Only users with doctor tokens
+ */
+
+/**
  * @apiDefine token Logged in user access only
  * Valid authentication token must be provided within request.
  */
@@ -32,6 +40,31 @@ const authRouter = express.Router();
  *     }
  */
 
+/**
+ * @apiDefine InvalidTokenError
+ * @apiError InvalidTokenError Expired or invalid token
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 401 Unauthorized
+ *     {
+ *       "error": {
+ *         "message": "Invalid bearer token",
+ *         "status": 401
+ *       }
+ *     }
+ */
+
+/**
+ * @apiDefine TokenMissingError
+ * @apiError TokenMissingError Token missing
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 403 Forbidden
+ *     {
+ *       "error": {
+ *         "message": "Bearer token missing",
+ *         "status": 403
+ *       }
+ *     }
+ */
 /**
  * @apiDefine UnauthorizedDoctorError
  * @apiError UnauthorizedDoctorError Invalid doctor username or password.
@@ -74,15 +107,15 @@ const authRouter = express.Router();
  *
  * @apiDescription Authenticate using Kubios credentials to obtain a token
  *
- * @apiParam {String} Kubios username.
- * @apiParam {String} Kubios password.
+ * @apiParam {String} Username Kubios username
+ * @apiParam {String} Password Kubios password
  *
  * @apiParamExample {json} Request-Example:
  *    {
  *      "username": "johnd@email.com",
  *      "password": "secret"
  *    }
- * 
+ *
  * @apiSuccess {String} message Message for successful login
  * @apiSuccess {String} token Token for the user authentication.
  * @apiSuccess {Object} user User info.
@@ -94,7 +127,7 @@ const authRouter = express.Router();
  *      "user": {
  *        "user_id": 21,
  *        "username": "johnd",
- *        "full_name: "John Doe"
+ *        "full_name": "John Doe"
  *        "user_level": "patient",
  *        "created_at": "2024-04-24T15:51:01.000Z",
  *        "surveyCompleted": false
@@ -106,7 +139,7 @@ const authRouter = express.Router();
  *    }
  *
  * @apiUse UnauthorizedPatientError
- * @apiUser LoginValidationError
+ * @apiUse LoginValidationError
  */
 authRouter
   .post(
@@ -126,8 +159,8 @@ authRouter
  *
  * @apiDescription Authenticate using StressLess credentials to obtain a token
  *
- * @apiParam {String} StressLess username
- * @apiParam {String} StressLess password
+ * @apiParam {String} Username StressLess username
+ * @apiParam {String} Password StressLess password
  *
  * @apiParamExample {json} Request-Example:
  *    {
@@ -146,7 +179,7 @@ authRouter
  *      "user": {
  *        "user_id": 3,
  *        "username": "doctorUser@email.com",
- *        "full_name: "Andy Mccoy"
+ *        "full_name": "Andy Mcdoctor"
  *        "user_level": "doctor",
  *        "created_at": "2024-04-24T15:51:01.000Z"
  *      }
@@ -157,7 +190,7 @@ authRouter
  *    }
  *
  * @apiUse UnauthorizedDoctorError
- * @apiUser LoginValidationError
+ * @apiUse LoginValidationError
  */
 authRouter
   .post(
@@ -168,6 +201,61 @@ authRouter
     doctorPostLogin,
   );
 
+/**
+ * @api {get} api/auth/me Get self
+ * @apiVersion 1.0.0
+ * @apiName getMe
+ * @apiGroup Authentication
+ * @apiPermission token
+ *
+ * @apiDescription Get self using authentication token
+ *
+ * @apiSuccessExample Success-Response for patient user:
+ *    HTTP/1.1 200 OK
+ *     {
+ *        "stressLessUser": {
+ *            "user_id": 5,
+ *            "username": "johnd@email.com",
+ *            "full_name": "John Doe",
+ *            "user_level": "patient",
+ *            "created_at": "2024-04-24T15:51:01.000Z",
+ *            "surveyCompleted": false,
+ *            "iat": 1714217147,
+ *            "exp": 1714220747,
+ *            "entry_count": 1,
+ *            "chosen_doctor": [
+ *                {
+ *                    "user_id": 3,
+ *                    "username": "doctorUser@email.com",
+ *                    "full_name": "Andy Mcdoctor",
+ *                    "user_level": "doctor",
+ *                    "created_at": "2024-04-24T12:04:20.000Z"
+ *                }
+ *            ]
+ *        },
+ *        "kubiosUser": {
+ *            "email": "johnd@email.com",
+ *            "family_name": "Doe",
+ *            "given_name": "John",
+ *            "sub": "edasdfasdf9-ddsfa0-83d1-7askkhg17d4"
+ *        }
+ *    }
+ *
+ * @apiSuccessExample Success-Response for doctor user:
+ *    HTTP/1.1 200 OK
+ *    {
+ *       "user_id": 3,
+ *       "username": "doctorUser@email.com",
+ *       "full_name": "Andy Mcdoctor",
+ *       "user_level": "doctor",
+ *       "created_at": "2024-04-24T12:04:20.000Z",
+ *       "iat": 1714216973,
+ *       "exp": 1714220573
+ *     }
+ *
+ * @apiUse InvalidTokenError
+ * @apiUse TokenMissingError
+ */
 authRouter.get('/me', authenticateToken, getMe);
 
 export default authRouter;
