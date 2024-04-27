@@ -51,7 +51,7 @@ const onlyForPatientHandler = (req, res, next) => {
     console.log('a non-patient user was intercepted');
     const error = customError(
       'This endpoint is only for StressLess patient users',
-      401,
+      403,
     );
     return next(error);
   }
