@@ -6,3 +6,4 @@ db/create-db-user.sql
 create-db-doctor.json
 playwright-log.txt
 output.xml
+docs
