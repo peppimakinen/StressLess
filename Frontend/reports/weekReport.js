@@ -123,27 +123,41 @@ window.addEventListener('load', async (evt) => {
     };
 
     // Bar chart properties
-    const barWidth = 20;
-    const barSpacing = 20;
+    const barWidth = 10;
+    const barSpacing = 30
     const chartHeight = canvasBar.height - 40;
 
     // Draw the bars
     ctxBar.fillStyle = 'black';
     dataBar.percentages.forEach((percentage, index) => {
-        const barHeight = (percentage / 100) * chartHeight;
-        const x = (barWidth + barSpacing) * index;
+        const barHeight = (percentage / 10) * chartHeight;
+        const x = (barWidth + barSpacing) * index + 15;
         const y = chartHeight - barHeight;
         ctxBar.fillRect(x, y, barWidth, barHeight);
     });
 
     // Draw the labels
     ctxBar.fillStyle = 'black';
-    ctxBar.font = '14px Arial';
+    ctxBar.font = '7px tahoma';
     dataBar.days.forEach((day, index) => {
         const x = (barWidth + barSpacing) * index;
         const y = chartHeight + 20;
         ctxBar.fillText(day, x, y);
         });
+
+     
+//scales
+    // Draw the horizontal scale
+    const scaleIntervalh = 2; // Interval between scale ticks
+    const maxScaleValueh = 10; // Maximum scale value (assuming percentage data)
+    ctxBar.lineWidth = 0.1; // Set the width of the horizontal lines
+    for (let i = 0; i <= maxScaleValueh; i += scaleIntervalh) {
+        const yPos = chartHeight - (i / maxScaleValueh) * chartHeight;
+        ctxBar.moveTo(10, yPos); // Start at the left of the chart
+        ctxBar.lineTo(canvasBar.width, yPos); // Draw a line to the right of the chart
+        ctxBar.stroke();
+        ctxBar.fillText(i.toString(), 5, yPos - 5); // Draw scale label
+    }
 
         } catch (error) {
             console.error('Error fetching report:', error);
