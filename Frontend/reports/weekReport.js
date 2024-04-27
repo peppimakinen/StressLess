@@ -48,29 +48,104 @@ window.addEventListener('load', async (evt) => {
             summary.textContent = "Stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa!"
         } else {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan vertailu yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon."
+            summary.textContent = "Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon."
         }
     
-        //trials for diagrams
-        const diagrams = document.querySelector('.diagrams');
-        reportData.forEach((HRV, mood) => {
-            //HRV from the week
-            const HRVItem = document.createElement('li');
-            HRVItem.classList.add('hrvSummary');
-            HRVItem.textContent = `Viikko ${diagrams.week_number}`;
+//trials for diagrams
 
-            const moodItem = document.createElement('li');
-            moodItem.classList.add('moodSummary');
-            moodItem.textContent = `Viikko ${diagrams.week_number}`;
+    //pieChart objects
+    const moodGreen = specificReportData.green_percentage;
+    const moodYellow = specificReportData.yellow_percentage;
+    const moodRed = specificReportData.red_percentage;
+    const moodGrey = specificReportData.gray_percentage;
+    const canvasPie = document.getElementById('pieChart');
+    const ctxPie = canvasPie.getContext('2d');
 
-            reportParts.appendChild(summaryItem);
-            diagrams.appendChild(HRVItem);
-            diagrams.appendChild(moodItem);
-            infoParts.appendChild(reportParts)
-            infoParts.appendChild(diagrams)
+    // Data for the pie chart (percentages)
+    const dataPie = {
+        colors: ['Red', 'Green', 'Grey', 'Yellow'],
+        percentages: [moodRed, moodGreen, moodGrey, moodYellow] 
+    };
+
+
+    // Pie chart properties
+    const x = canvasPie.width / 2;
+    const y = canvasPie.height / 2;
+    const radius = Math.min(x, y) * 0.9;
+    const startAngle = 180;
+
+    // Draw the pie chart
+    let angle = startAngle;
+    dataPie.percentages.forEach((percentage, index) => {
+        const sliceAngle = (Math.PI * 2 * percentage) / 100;
+        const endAngle = angle + sliceAngle;
+
+        ctxPie.beginPath();
+        ctxPie.moveTo(x, y);
+        ctxPie.arc(x, y, radius, angle, endAngle);
+        ctxPie.fillStyle = dataPie.colors[index];
+        ctxPie.fill();
+
+        //draw the label
+        // const textAngle = angle + sliceAngle / 2;
+        // const textX = x + radius * Math.cos(textAngle);
+        // const textY = y + radius * Math.sin(textAngle);
+        // ctx.font = '14px Arial';
+        // ctx.fillStyle = 'black';
+       // ctx.fillText(data.colors[index], textX, textY);
+
+        angle = endAngle;
+    });
+
+    //labels for colors in pieChart
+    // data.colors.forEach((color, index) => {
+    //     ctx.fillStyle = color;
+    //     ctx.fillRect(20, 20 + index * 30, 15, 15);
+    //     ctx.fillStyle = 'black';
+    //     ctx.fillText(color, 40, 32 + index * 30);
+    // });
+
+    //bar-chart
+    const monday = specificReportData.monday_si;
+    const tuesday = specificReportData.tuesday_sig;
+    const wednesday = specificReportData.wednesday_sig;
+    const thursday = specificReportData.thursday_sig;
+    const friday = specificReportData.friday_sig;
+    const saturday = specificReportData.saturday_sig;
+    const sunday = specificReportData.sunday_sig;
+    const canvasBar = document.getElementById('barChart');
+    const ctxBar = canvasBar.getContext('2d');
+
+    // Data for the bar chart (percentages for each day of the week)
+    const dataBar = {
+        days: ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'],
+        percentages: [monday, tuesday, wednesday, thursday, friday, saturday, sunday] 
+    };
+
+    // Bar chart properties
+    const barWidth = 20;
+    const barSpacing = 20;
+    const chartHeight = canvasBar.height - 40;
+
+    // Draw the bars
+    ctxBar.fillStyle = 'black';
+    dataBar.percentages.forEach((percentage, index) => {
+        const barHeight = (percentage / 100) * chartHeight;
+        const x = (barWidth + barSpacing) * index;
+        const y = chartHeight - barHeight;
+        ctxBar.fillRect(x, y, barWidth, barHeight);
+    });
+
+    // Draw the labels
+    ctxBar.fillStyle = 'black';
+    ctxBar.font = '14px Arial';
+    dataBar.days.forEach((day, index) => {
+        const x = (barWidth + barSpacing) * index;
+        const y = chartHeight + 20;
+        ctxBar.fillText(day, x, y);
         });
 
         } catch (error) {
             console.error('Error fetching report:', error);
-        };
+            };
     });

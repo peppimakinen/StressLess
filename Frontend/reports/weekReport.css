@@ -102,117 +102,59 @@ h1 {
 
 #stressSummary {
     font-weight: lighter;
+    margin: 20px;
 }
 
-li {
+/* li {
     list-style: none;
     font-weight: bold;
     font-style: italic;
-}
+} */
 
 .diagrams {
     padding: 50px;
     display: flex;
-    justify-content: space-around;
+    gap: 25%;
+    /* justify-content: space-around; */
+    font-weight: bold;
+    font-style: italic;
+    
+}
+.moodSummary {
+  width: 50%;
 }
 
 /* pie-chart mood */
+canvas.pieChart {
+  width: 50px;
+  height: 400px;
+  margin: 20px;
+  border: 1px solid #ccc;
+}
 
-.pie-chart {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-  }
-  
-  .slice {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
-    transform-origin: center;
-  }
-  
-  .slice:nth-child(1) {
-    transform: rotate(0deg) scaleY(var(--size));
-    background-color: #ff5733; /* Adjust color as needed */
-  }
-  
-  .slice:nth-child(2) {
-    transform: rotate(calc(30deg + (360deg * var(--size) / 100))) scaleY(var(--size));
-    background-color: #f0c40e; /* Adjust color as needed */
-  }
-  
-  .slice:nth-child(3) {
-    transform: rotate(calc(75deg + (360deg * var(--size) / 100))) scaleY(var(--size));
-    background-color: #33ff57; /* Adjust color as needed */
-  }
+.hrvSummary {
+  width: 50%;
+}
 
-/* chart hrv */
-
-
-
-.chart {
-    width: 300px;
-    height: 200px;
-    border: 1px solid #000;
-    background-color: #fffaff;
-    position: relative;
-    /* display: flex;
-    justify-content: space-between; */
-  }
-  
-  .bar {
-    /* width: 20px; */
-    background-color: #007bff;
-    position: absolute;
-    bottom: 0;
-  }
-
-  .bar:nth-child(1) {
-    width: 20px;
-    left: 0;
-  }
-  
-  .bar:nth-child(2) {
-    width: 20px;
-    left: 30px; 
-  }
-  
-  .bar:nth-child(3) {
-    width: 20px;
-    left: 60px; 
-  }
-
-  .bar:nth-child(4) {
-    width: 20px;
-    left: 90px; 
-  }
-
-  .bar:nth-child(5) {
-    width: 20px;
-    left: 120px; 
-  }
-
-  .bar:nth-child(6) {
-    width: 20px;
-    left: 150px; 
-  }
-
-  .bar:nth-child(7) {
-    width: 20px;
-    left: 180px; 
-  }
+.bar  {
+  width: 100%;
+}
+/* bar-chart hrv */
+canvas.barChart {
+  width: 10%;
+  height: 300px;
+  margin: 20px;
+  border: 1px solid #ccc;
+}
 
     /* arrow back */
-    .arrow-left {
-      width: 40px; /* Adjust width as needed */
-      height: 20px; /* Adjust height as needed */
-      background-color: #313e50; /* Color of the arrow */
-      position: relative;
-      border-radius: 4px; /* Rounded edges */
-  }
+.arrow-left {
+  width: 40px; /* Adjust width as needed */
+  height: 20px; /* Adjust height as needed */
+  background-color: #313e50; /* Color of the arrow */
+  position: relative;
+  border-radius: 4px; /* Rounded edges */
+}
   
   .arrow-left::before {
       content: '';
