@@ -87,19 +87,29 @@ const checkSurveyExistance = async (id) => {
   }
 };
 
+/**
+ * Select all data for a specific doctor user
+ * @async
+ * @param {string} email Email is used as username
+ * @return {object} Found user or error
+ */
 const selectDoctorByEmail = async (email) => {
   try {
+    // Form the query
     const sql = 'SELECT * FROM Users WHERE username=? and user_level="doctor"';
-    const params = [email];
-    const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
+    // Fetch data from db
+    const [rows] = await promisePool.query(sql, [email]);
+    // Check if no users was found
     if (rows.length === 0) {
+      // Return a 404 error if no doctor user was found
       return {error: 404, message: 'No doctor was found using the provided username'};
     }
+    // Return the found user
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.error('selectUserByEmail', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in selectDoctorByEmail'};
   }
 };
 
