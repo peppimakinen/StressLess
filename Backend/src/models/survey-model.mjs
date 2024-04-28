@@ -17,7 +17,7 @@ const getSurveyWithUserId = async (userId) => {
     }
   } catch (error) {
     console.error('getSurveyWithUserId', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in getSurveyWithUserId'};
   }
 };
 
@@ -40,7 +40,7 @@ const getOnlyActivities = async (userId) => {
     }
   } catch (error) {
     console.error('getSurveyWithUserId', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in getOnlyActivities'};
   }
 };
 
@@ -51,7 +51,7 @@ const createSurvey = async (userId) => {
     return rows;
   } catch (error) {
     console.log('createSurvey', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in createSurvey'};
   }
 };
 
@@ -63,7 +63,7 @@ const addSurveyRow = async (question, answer) => {
     return rows;
   } catch (error) {
     console.error('getSurveyWithUserId', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in addSurveyRow'};
   }
 };
 
@@ -75,11 +75,9 @@ const connectQuestionToSurvey = async (questionId, surveyId) => {
     return rows;
   } catch (error) {
     console.error('getSurveyWithUserId', error);
-    return {error: 500, message: 'db error'};
+    return {error: 500, message: 'db error in connectQuestionToSurvey'};
   }
 };
-
-
 
 export {
   getSurveyWithUserId,

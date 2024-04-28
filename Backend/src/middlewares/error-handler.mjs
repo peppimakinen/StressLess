@@ -66,7 +66,7 @@ const onlyForDoctorHandler = (req, res, next) => {
     console.log('a non-doctor user was intercepted');
     const error = customError(
       'This endpoint is only for StressLess doctor users',
-      401,
+      403,
     );
     return next(error);
   }
@@ -120,7 +120,7 @@ const validateSurvey = (req, res, next) => {
     if (Array.isArray(answer)) {
       foundActivityLists += 1;
       // Make sure a empty list isnt submitted
-      if (answer.lenght === 0) {
+      if (answer.length === 0) {
         return next(customError('Empty activity list cant be submitted', 400));
       }
       // Pass the activities list to different function to check validity

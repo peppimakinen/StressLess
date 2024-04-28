@@ -103,6 +103,36 @@ const postSurvey = async (req, res, next) => {
 };
 
 /**
+ * Handle doctor user GET request to fetch patients survey
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {Function} next
+ * @return {res} Found survey
+ */
+const getPatientSurvey = async (req, res, next) => {
+  // Seperate patients user ID from the URL parameters
+  const patientId = req.params.patient_id;
+  // Fetch survey for the patients user ID
+  const patientSurvey = await getSurveyWithUserId(patientId);
+  // Check if response has 404 error (survey not found)
+  if (patientSurvey.error === 404) {
+    // Return a error
+    return next(customError('Selected patient ID has no survey', 404));
+  // Check if response has 500 error (db problem)
+  } else if (patientSurvey.error === 500) {
+    // return a error
+    return next(customError(patientSurvey.message, patientSurvey.error));
+  // Survey was found if result didnt contain errors
+  } else {
+    // Sort questions and activities to seperate lists
+    const sortedPatientSurvey = extractActivities(patientSurvey);
+    // Return sorted survey
+    return res.json(sortedPatientSurvey);
+  }
+};
+
+/**
  * Handle database result for fetching previously completed survey
  * @async
  * @param {int} userId
@@ -181,36 +211,6 @@ const handleDatabaseOperation = async (operation, ...args) => {
     throw customError(result.message, result.error);
   }
   return result;
-};
-
-/**
- * Handle doctor user GET request to fetch patients survey
- * @async
- * @param {req} req
- * @param {res} res
- * @param {Function} next
- * @return {res} Found survey
- */
-const getPatientSurvey = async (req, res, next) => {
-  // Seperate patients user ID from the URL parameters
-  const patientId = req.params.patient_id;
-  // Fetch survey for the patients user ID
-  const patientSurvey = await getSurveyWithUserId(patientId);
-  // Check if response has 404 error (survey not found)
-  if (patientSurvey.error === 404) {
-    // Return a error
-    return next(customError('Selected patient ID has no survey', 404));
-  // Check if response has 500 error (db problem)
-  } else if (patientSurvey.error === 500) {
-    // return a error
-    return next(customError(patientSurvey.message, patientSurvey.error));
-  // Survey was found if result didnt contain errors
-  } else {
-    // Sort questions and activities to seperate lists
-    const sortedPatientSurvey = extractActivities(patientSurvey);
-    // Return sorted survey
-    return res.json(sortedPatientSurvey);
-  }
 };
 
 export {getOwnSurvey, postSurvey, getActivities, getPatientSurvey};
