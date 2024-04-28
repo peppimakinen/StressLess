@@ -39,6 +39,7 @@ Send Post Requests For Each entry
         END
     END
 
+
 Check if month empty
     [Arguments]    ${monthNum}    ${yearNum}
     ${response}=    GET    url=http://127.0.0.1:3000/api/entries/monthly?month=${monthNum}&year=${yearNum}     headers=${headers}
@@ -51,6 +52,7 @@ Check if month empty
         END
     END
     RETURN    ${emptyMonth}
+
 
 Get available week reports
     ${response}=    GET    url=http://127.0.0.1:3000/api/reports/available-weeks     headers=${headers}
@@ -104,10 +106,25 @@ Post new entries if february empty
         Should Not Be True    ${isEmpty}
     END
 
-Get february week reports
+
+Get available february week reports
     ${availableReports}=    Get available week reports
     Should Be Equal As Strings    ${availableReports[0]['week_number']}    6
     Should Be Equal As Strings    ${availableReports[1]['week_number']}    7
+    ${week6reportId}=    Set Variable    ${availableReports[0]['report_id']}
+    ${week7reportId}=    Set Variable    ${availableReports[1]['report_id']}
+    Set Suite Variable    ${week6reportId}
+    Set Suite Variable    ${week7reportId}
 
 
-    Log To Console    ${availableReports}
+Compaire february reports
+    ${week6report}=    GET    url=http://127.0.0.1:3000/api/reports/${week6reportId}     headers=${headers}
+    Should Be Equal As Numbers    ${week6report.json()['week_si_avg']}    4.28
+    Should Be Equal As Strings    ${week6report.json()['previous_week_si_avg']}    None
+    Should Be Equal As Numbers    ${week6report.json()['gray_percentage']}    57.14
+
+    ${week7report}=    GET    url=http://127.0.0.1:3000/api/reports/${week7reportId}     headers=${headers}
+    Should Be Equal As Numbers    ${week7report.json()['yellow_percentage']}    28.57
+    Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
+    Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
+
