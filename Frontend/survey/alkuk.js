@@ -1,5 +1,21 @@
 import { fetchData } from '../assets/fetch.js';
 
+// ENTERIN TOIMIMATTOMUUS KIITOS
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.querySelector('.answer-form-all');
+    form.addEventListener('keypress', function(event) {
+        if (event.keyCode === 13) {  // Enter key code is 13
+            event.preventDefault(); // Prevent the default form submit action
+            // Optionally, you can trigger your desired action here
+            return false; // Prevent the event from propagating further
+        }
+    });
+
+    // Existing code to handle popup display or other interactions
+    // Ensure this code block is added after the DOMContentLoaded to ensure all elements are loaded
+});
+
+
 // aktiviteetit
 document.getElementById('submitButton').addEventListener('click', function() {
     const inputField = document.getElementById('question14');
@@ -116,12 +132,17 @@ async function getDoctor() {
 
         if (response.ok && responseData) { // Check both that fetch was ok and responseData is truthy
             console.log('Doctor found:', responseData);
+            const doctorPair = responseData.found_doctor.username;
+            localStorage.setItem("Paired_doc_name", doctorPair);
+            console.log(doctorPair);
             document.getElementById('popup2').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
+            return responseData;
         } else {
             showCustomAlert('Sähköpostiosoitetta ei löytynyt');
             document.getElementById('popup2').style.display = 'none';
             document.getElementById('overlay').style.display = 'none';
+            return null;
         }
     } catch (error) {
         console.error('Error finding doctor:', error);
@@ -129,11 +150,89 @@ async function getDoctor() {
     }
 }
 
+async function checkPairingBeforePairing() {
+    const hasPaired = await checkIfAlreadyPaired();
+    if (hasPaired) {
+        alert("You are already paired with a doctor.");
+        return; // Stop the function if already paired
+    }
+
+    // If not paired, proceed to pair with a new doctor
+    pairDoctor();
+}
+
+async function checkIfAlreadyPaired() {
+    const url = 'http://127.0.0.1:3000/api/users/create-pair';  // Updated endpoint
+    const token = localStorage.getItem("token");
+
+    const options = {
+        method: 'GET',  // Correct method for fetching data
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    };
+
+    try {
+        const response = await fetch(url, options);
+        if (response.ok) {
+            const responseData = await response.json();
+            return responseData.isPaired;  // Assuming the endpoint returns { isPaired: true/false }
+        }
+        throw new Error('Failed to check pairing status.');
+    } catch (error) {
+        console.error('Error checking if already paired:', error);
+        return false;  // Assume not paired on error, or handle differently as needed
+    }
+}
+
+
+async function pairDoctor() {
+    const doctorUsername = localStorage.getItem("Paired_doc_name");
+    const url = 'http://127.0.0.1:3000/api/users/create-pair';
+    const token = localStorage.getItem("token");
+
+    if (!doctorUsername) {
+        alert("No doctor username found in storage. Please try again.");
+        return;
+    }
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({
+            doctor_username: doctorUsername
+        })
+    };
+
+    try {
+        const response = await fetch(url, options);
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log('Doctor pairing successful:', responseData);
+            alert('Doctor successfully paired.');
+        } else {
+            const errorResponse = await response.json();
+            throw new Error(`Failed to pair: ${errorResponse.message || response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error creating doctor pair:', error);
+        alert('Failed to pair with the doctor. Please try again.');
+    }
+}
+
+
+
 // Event listener for the button with class 'submitdoc'
 const submitDocButton = document.querySelector('.submitdoc');
 submitDocButton.addEventListener('click', () => {
     getDoctor();
+    checkPairingBeforePairing();
 });
+
 
 
 //ei lääkäriä

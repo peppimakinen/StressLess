@@ -16,16 +16,16 @@
 
 <body>
     <ul class="navigation">
-        <li class="home"><a href="#home"><img src="../assets/imgLogo.png" alt="Logo"></a></li>
-        <li class="textNav"><a href="patienthome.html">Koti</a></li>
-        <li class="textNav"><a href="weekRaports.html">Viikkoraportit</a></li>
-        <li class="textNav"><a href="settings.html">Asetukset</a></li>
-        <li style="float: right" class="logoutNav"><a href="loginpatient.html">Kirjaudu ulos</a></li>
+        <li class="home"><a href="../home/patienthome.html"><img src="../assets/imgLogo.png" alt="Logo"></a></li>
+        <li class="textNav"><a href="../home/patienthome.html">Koti</a></li>
+        <li class="textNav"><a href="../reports/weekReport.html">Viikkoraportit</a></li>
+        <li class="textNav"><a href="../settings/profileP.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="../login/loginpatient.html">Kirjaudu ulos</a></li>
     </ul>
 
     <div class="profile-container">
         <div class="left-column">
-            <img class="mainpic" src="../assets/imgContactIcon.png" alt="settings Image">
+            <img class="mainpic" src="../assets/imgProfileIcon.png" alt="settings Image">
             <div class="settings-list">
                 <ul class="title">
                     <li><img src="../assets/imgSettingsIcon.png" alt="settings Image"></li>
@@ -37,6 +37,7 @@
                     <li><a href="profileP.html">Profiili</a></li>
                     <li><a href="notif.html">Ilmoitukset</a></li>
                     <li><a href="contacts.html">Yhteystiedot</a></li>
+                    <li><a href="security.html">Tietosuoja</a></li>
                 </ul>
             </div>
         </div>
@@ -44,13 +45,13 @@
         <div class="right-column">
             <h1>Yhteystiedot</h1>
             <ul class="blocks">
-                <li>
-                    Lääkäri Armi Auttavainen
-                    <a href="">armi.auttavainen@sposti.fi</a>
-                </li>
+                    <li id="doctorInfo">
+                        Lääkäri <span id="doctorName">[Lääkärin nimi]</span>
+                        <a id="doctorEmail" href="">[Sähköposti]</a>
+                    </li>                
                 <li>
                     YTHS
-                    <a href="">+358 12 112 1112</a>
+                    <a href="">046 710 1073</a>
                 </li>
                 <li>
                     Kriisipuhelin
@@ -62,5 +63,7 @@
 
 
 </body>
+
+<script type="module" src="contacts.js"></script>
 
 </html>

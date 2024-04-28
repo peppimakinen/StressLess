@@ -37,9 +37,9 @@
                     <select id="question4" name="question4">
                         <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
                         <option value="Nainen">Nainen</option>
+                        <option value="Mies">Mies</option>
                         <option value="Muunsukupuolinen">Muunsukupuolinen</option>
                         <option value="Muu">Muu</option>
-                        <option value="Mies">Mies</option>
                         <option value="En halua sanoa">En halua sanoa</option>
                     </select>
                 </li>
@@ -181,6 +181,10 @@
                 </li>
             </ul>
             <label for="question19">Käytätkö sovellusta YTHS:n lääkärin kanssa? *</label>
+            <p>Alkukartoitus on nyt suoritettu ja tallentuu automaattisesti, kun painat <br>
+                jompaa kumpaa näistä napeista. Halutessasi voit yhdistää <br>
+                lääkärin painamalla "Kyllä" nappia. "En" nappi uudelleenohjaa <br>
+                sinut kalenterinäkymään.</p>
             <input type="submit" value="Kyllä" id="yes"/>
             <input type="submit" value="En" id="no"/>
         </form>
@@ -212,7 +216,7 @@
                 <h2><span id="doctor">lääkäri</span> löytyi!</h2>
                 <input type="checkbox" id="give-info" name="give-info">
                 <label for="doctor" id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
-                        päiväkirjamerkinnät yllä manitun lääkärin kanssa?</label>
+                        päiväkirjamerkinnät tämän lääkärin kanssa?</label>
                 <input name="submit" id="redirect" type="submit" value="Jaa tiedot" class="submit-info"/>
             </form>
         </div>

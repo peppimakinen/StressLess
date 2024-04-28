@@ -285,9 +285,12 @@ h1 {
 
 .entries span {
     text-align: center;
-    font-size: 40px;
+    font-size: 25px;
 }
 
+#count {
+    font-size: 30px;
+}
 
 .buttons li {
     background-color:#313e50;

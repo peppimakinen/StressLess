@@ -142,7 +142,7 @@ input[type="submit"] {
     border-radius: 30px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 10);
     display: none;
-    padding: 27.8px;
+    padding: 40px;
     max-width: 400px;
 }
 
@@ -267,7 +267,7 @@ input[type="submit"] {
     #question14 {
         display: block;
         align-items: center;
-        margin-left: 220px;
+        margin-left: 200px;
     }
 }
 
