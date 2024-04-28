@@ -8,7 +8,7 @@ Library    Collections
 *** Variables ***
 ${Username}    crypt:PcD1tAnbMlsIge3//bWX4nPhyyB0Lu0DPXPDipMgv3tIcWPcfvgM8jV4XFsfW2vEqheWyVv+A2cg0ChpDESQKDWy5Y0k0W3LEgMriR0p
 ${Password}    crypt:tSNi8tTS6pD1IMEy9EfvtwdUdwF3xqzMd/EZMEfhtTw04yQGm3XXaODegPSQ7uIFyRRK8wJj3NrGbvzjp8OZAw==
-${token}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFsZWtzaS5raXZpbGVodG9AbWV0cm9wb2xpYS5maSIsImZ1bGxfbmFtZSI6IkFsZWtzaSBLaXZpbGVodG8iLCJ1c2VyX2xldmVsIjoicGF0aWVudCIsImNyZWF0ZWRfYXQiOiIyMDI0LTA0LTI4VDA4OjIxOjAyLjAwMFoiLCJzdXJ2ZXlDb21wbGV0ZWQiOnRydWUsInRva2VuIjoiZXlKcmFXUWlPaUpRVkVSUlVHWkxialUyYlhCNVJVOXBjSFZ4T0dSRlVEQlBlWGxKTVdoMVdsUXdNVkpWZWtkWFVTdFJQU0lzSW1Gc1p5STZJbEpUTWpVMkluMC5leUpoZEY5b1lYTm9Jam9pY2twZldHRmZjeTFXYW1WMldtcFRTbk5MZEVoV1VTSXNJbk4xWWlJNkltVmtNamc0TW1VNUxXUXdZVEF0TkRnek1pMDRNMlF4TFRjME5tRXlPVEl6TVRka05DSXNJbVZ0WVdsc1gzWmxjbWxtYVdWa0lqcDBjblZsTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVpYVXRkMlZ6ZEMweExtRnRZWHB2Ym1GM2N5NWpiMjFjTDJWMUxYZGxjM1F0TVY5MVVXMUJaelExZUhraUxDSmpiMmR1YVhSdk9uVnpaWEp1WVcxbElqb2laV1F5T0RneVpUa3RaREJoTUMwME9ETXlMVGd6WkRFdE56UTJZVEk1TWpNeE4yUTBJaXdpWjJsMlpXNWZibUZ0WlNJNklrRnNaV3R6YVNJc0ltRjFaQ0k2SWpjME5UY3hjR1JvZFdNM2RuWmhhelIwYkRRMWRYUnpPSFU0SWl3aVpYWmxiblJmYVdRaU9pSTJZakUxTm1Jd01DMDFZVE0wTFRRelpqQXRZamN5T0Mxa1pqa3pNRE0yWTJJNU9UUWlMQ0owYjJ0bGJsOTFjMlVpT2lKcFpDSXNJbUYxZEdoZmRHbHRaU0k2TVRjeE5ESTVPREV6TlN3aVpYaHdJam94TnpFME16QXhOek0xTENKcFlYUWlPakUzTVRReU9UZ3hNelVzSW1aaGJXbHNlVjl1WVcxbElqb2lTMmwyYVd4bGFIUnZJaXdpWlcxaGFXd2lPaUpoYkdWcmMya3VhMmwyYVd4bGFIUnZRRzFsZEhKdmNHOXNhV0V1Wm1raWZRLkZpMDdIRFlmcF83Sk9fMmhtMGRhV20yUHpsLVp2NzVBOVRmN3BCTmRCc09LY1llb1Q4RXh2MWNtOHZHNnJNV3k1VVVWZUUycE1tU1I1dy1zel80YjFWbktISDZUQktJdUwxQ3hKYXFwaGpvRExpZ3ZxRWVtbzNHanNmTlN4Z2h1ZVlRYlRUSjRSN3ZLZ0oyR29qNU00aVNJbDBibmtqMU4zZW1WWjhpc041VWVUcGF6ZXlRN09TQVRiOW5PeWZiRFRSWjJacTFxZ3BVRnZveFR1WnVEcTRKcEFTU1I4djR1LW1STll5U1E2LUE2U3hIQTlTMEdreHhENFpkOTVNRjEzRmNHNmM0ZFhWYmROVzR1OWRPX09kOEU4VjNWd2JPZk5vQWt1UmpOWkNUR3p6YkRmQ1ZZb09kM21tbm1kZVhfVW9MZFNZLW1jbkNVdXNsM2ZLeHV0dyIsImlhdCI6MTcxNDI5ODEzNiwiZXhwIjoxNzE0MzAxNzM2fQ.RhUfGRzTMFNJ-V1q4uyaDeXil1MDfle6EXpIGVJlpvg
+${token}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFsZWtzaS5raXZpbGVodG9AbWV0cm9wb2xpYS5maSIsImZ1bGxfbmFtZSI6IkFsZWtzaSBLaXZpbGVodG8iLCJ1c2VyX2xldmVsIjoicGF0aWVudCIsImNyZWF0ZWRfYXQiOiIyMDI0LTA0LTI4VDExOjM4OjMwLjAwMFoiLCJzdXJ2ZXlDb21wbGV0ZWQiOmZhbHNlLCJ0b2tlbiI6ImV5SnJhV1FpT2lKUVZFUlJVR1pMYmpVMmJYQjVSVTlwY0hWeE9HUkZVREJQZVhsSk1XaDFXbFF3TVZKVmVrZFhVU3RSUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKaGRGOW9ZWE5vSWpvaU4zSkdlbWhoYUUxemJqVkxja3BXTVV4MVJqTmhkeUlzSW5OMVlpSTZJbVZrTWpnNE1tVTVMV1F3WVRBdE5EZ3pNaTA0TTJReExUYzBObUV5T1RJek1UZGtOQ0lzSW1WdFlXbHNYM1psY21sbWFXVmtJanAwY25WbExDSnBjM01pT2lKb2RIUndjenBjTDF3dlkyOW5ibWwwYnkxcFpIQXVaWFV0ZDJWemRDMHhMbUZ0WVhwdmJtRjNjeTVqYjIxY0wyVjFMWGRsYzNRdE1WOTFVVzFCWnpRMWVIa2lMQ0pqYjJkdWFYUnZPblZ6WlhKdVlXMWxJam9pWldReU9EZ3laVGt0WkRCaE1DMDBPRE15TFRnelpERXROelEyWVRJNU1qTXhOMlEwSWl3aVoybDJaVzVmYm1GdFpTSTZJa0ZzWld0emFTSXNJbUYxWkNJNklqYzBOVGN4Y0dSb2RXTTNkblpoYXpSMGJEUTFkWFJ6T0hVNElpd2laWFpsYm5SZmFXUWlPaUkxWldFNFpXRXpNeTFpTlRBMkxUUXlNVEV0WVdVNU1TMHdaVEJrTnpjek1EbGpPVFVpTENKMGIydGxibDkxYzJVaU9pSnBaQ0lzSW1GMWRHaGZkR2x0WlNJNk1UY3hORE13TkRNd09Td2laWGh3SWpveE56RTBNekEzT1RBNUxDSnBZWFFpT2pFM01UUXpNRFF6TURrc0ltWmhiV2xzZVY5dVlXMWxJam9pUzJsMmFXeGxhSFJ2SWl3aVpXMWhhV3dpT2lKaGJHVnJjMmt1YTJsMmFXeGxhSFJ2UUcxbGRISnZjRzlzYVdFdVpta2lmUS5reXpPTFRkbUFKSkZTVUltSTdhQ3JRTm1YdlprNnBKcXdIOVBURzJSSG1BYWhQQ2hmZFljSTM0eEZja25wX0s2eXpLcGdKY3pWejRWV3Qzb3NnT29TWFpPS1JleUtON0ZrRC0xTFVZc1F0MjZWZGpGbjFxWkNBd1pNTFR1VW8xUzVQRk1ReXU5Y2JXejRFQnAwakVuZVJDUFQxSzR1Y0dqMWtLeUQ3Q2ZyOV9VT0ktOUwwTzdFWmx3aXl2UlVEdXB2bnU1S2lpcTVacTB3bFRlbDBESE9QYlpMdTBxUlBqV0VNM1FBUTI1bVlYam1HT3F5OHBORHJKd1dRRUdmYXNNRXk0T3F1VDlqcy1ETm01aWpNNjFBUE4tQ2QtdFBLMXQ5d2c3Y1RQbGN6TThweE5hRjVPQ3NUSm5uVVNMaWFRRFZ0SGNMb3cxR25jOVU3dEFfNzZqQkEiLCJpYXQiOjE3MTQzMDQzMTAsImV4cCI6MTcxNDMwNzkxMH0.O9sl96tIa4078KzSjbGaPSgB7Qllg-t8pUwwrY-DeNg
 ${surveyStatus}    True
 &{headers}    Content-Type=application/json   Authorization=Bearer ${token}
 ${question1}    On a scale from 1 to 5, how stressed are you?
@@ -33,11 +33,12 @@ ${answer2}  It doesn't
 Send Post Requests For Each entry
     [Arguments]    @{allEntries}
     FOR    ${entry}    IN    @{allEntries}
-        ${response}=    POST   http://127.0.0.1:3000/api/entries    headers=${headers}    json=${entry}
-        Log    ${response}
+        ${containsData}=    GET   http://127.0.0.1:3000/api/kubios/check/${entry.entry_date}    headers=${headers}    json=${entry}
+        IF    ${containsData.json()['kubiosDataFound']}
+            ${response}=    POST   http://127.0.0.1:3000/api/entries    headers=${headers}    json=${entry}
+        END
     END
 
-*** Keywords ***
 Check if month empty
     [Arguments]    ${monthNum}    ${yearNum}
     ${response}=    GET    url=http://127.0.0.1:3000/api/entries/monthly?month=${monthNum}&year=${yearNum}     headers=${headers}
@@ -51,11 +52,15 @@ Check if month empty
     END
     RETURN    ${emptyMonth}
 
+Get available week reports
+    ${response}=    GET    url=http://127.0.0.1:3000/api/reports/available-weeks     headers=${headers}
+    RETURN    ${response.json()}
+
 
 *** Test Cases ***
 Submit survey if necessary
     IF    ${surveyStatus} == True
-        Log    Survey has been completed
+        Log To Console  Survey has been completed
     ELSE IF    ${surveyStatus} == False
         ${body}=    Create Dictionary    ${question1}=${answer1}   ${question2}=${answer2}    activities=@{activities}
         ${response}=    POST    url=http://127.0.0.1:3000/api/survey     headers=${headers}    json=${body}
@@ -98,3 +103,11 @@ Post new entries if february empty
     ELSE
         Should Not Be True    ${isEmpty}
     END
+
+Get february week reports
+    ${availableReports}=    Get available week reports
+    Should Be Equal As Strings    ${availableReports[0]['week_number']}    6
+    Should Be Equal As Strings    ${availableReports[1]['week_number']}    7
+
+
+    Log To Console    ${availableReports}
