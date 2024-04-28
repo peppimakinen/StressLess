@@ -128,3 +128,8 @@ Compaire february reports
     Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
     Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
 
+
+Search for a existing doctor user
+    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/andy@gmail.com     headers=${headers}
+    Log To Console    ${result.json()}
+    Should Be Equal As Strings    ${result.json()['found_doctor']['full_name']}    andy the doctor
