@@ -37,19 +37,21 @@ window.addEventListener('load', async (evt) => {
         const stressIndexNow = specificReportData.week_si_avg;
         const stressIndexPrev = specificReportData.previous_week_si_avg;
         const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
+        const createdTag = document.querySelector('.createdTag');
+        createdTag.textContent = uploadDate
 
         if ( stressIndexNow >= (stressIndexPrev || null) ) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressasit tällä viikolla enemmän verrattuna viime viikkoon. On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin. " + uploadDate;
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla enemmän verrattuna viime viikkoon (nyt: ${stressIndexNow}, viime viikolla:  ${stressIndexPrev}). On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin.`;
         } if ( stressIndexNow == stressIndexPrev) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna. " + uploadDate;
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna (nyt: ${stressIndexNow}, viime viikolla:  ${stressIndexPrev}).`;
         } if ( stressIndexNow <= stressIndexPrev ) {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa! " + uploadDate
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna (nyt: ${stressIndexNow}, viime viikolla:  ${stressIndexPrev}), hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa!`;
         } else {
             const summary = document.querySelector('#stressSummary');
-            summary.textContent = "Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon. " + uploadDate
+            summary.textContent = `Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon mitatun stressi-indexisi perusteella (nyt: ${stressIndexNow}, viime viikolla:  ${stressIndexPrev}).`;
         }
     
 //trials for diagrams
