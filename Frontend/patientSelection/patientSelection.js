@@ -25,6 +25,11 @@ window.addEventListener('load', async (evt) => {
             const clients = document.querySelector('.clients');
         // Iterate over the reportData to populate the client numbers
             reportData.forEach((client, index) => {
+                //delete
+                const delete_user = document.createElement('li');
+                delete_user.classList.add('delete');
+                delete_user.textContent = 'x';
+
                 //client
                 const clientItem = document.createElement('li');
                 clientItem.classList.add('client');
@@ -35,11 +40,13 @@ window.addEventListener('load', async (evt) => {
                 const reportsDiv = document.createElement('div');
                 reportsDiv.classList.add('reports');
                 const reportLink = document.createElement('a');
-                reportLink.href = `clientReport.html?client=${client.clientNumber}`; // Adjust the URL as needed
+                reportLink.href = `clientReport.html?client=${client.clientNumber}`; 
                 reportLink.textContent = 'Näytä asiakastili';
+
                 reportsDiv.appendChild(reportLink);
-                clientItem.appendChild(reportsDiv);
-                clients.appendChild(clientItem);
+                delete_user.appendChild(clientItem);
+                delete_user.appendChild(reportsDiv);
+                clients.appendChild(delete_user);
             });
         }
 

@@ -98,25 +98,22 @@ li a {
     margin-left: 40px;
 }
 
-.client_list {
-    font-size: large;
-    margin: auto;
-    text-align: center;
+.delete {
+    gap: 10px;
 }
 
-.clients {
+/* .clients {
     padding: 0;
-}
+
+} */
 
 .clients li {
     background-color: #fffaff;
     border-radius: 22px;
-    padding: 20px;
+    padding: 10px;
     list-style: none;
     display: flex;
-    justify-content: space-between;
     font-size: xx-large;
-    margin: 10px;
 }
 
 .clients a {
@@ -135,19 +132,15 @@ color: #fffaff;
         border-radius: 30px;
     }
 
-
+.reports {
+    right: 5%;
+    position: absolute;
+} 
 
 
 /* responsive styles */
 @media screen and (max-width: 1600px) {
-
-    .FormPopupNew,
-    .FormPopupEdit,
-    .PopupPastEntry {
-        width: 80%;
-    }
-
-    .calendarBackground {
+    .client_list {
         padding-bottom: 5vh;
         margin-top: 5vh;
         padding-left: 16px;
@@ -156,17 +149,15 @@ color: #fffaff;
 
 
 @media screen and (max-width: 700px) {
-    .calendarBackground {
+    .client_list {
         padding-left: 40px;
         padding-right: 20px;
     }
 }
 
 @media screen and (max-width: 610px) {
-    .calendarBackground {
+    .client_list {
         padding-left: 70px;
         padding-right: 50px;
-        margin-right: 30px;
-        margin-left: 30px;
     }
 }
