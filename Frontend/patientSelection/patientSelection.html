@@ -23,108 +23,17 @@
     </ul>
 
     <div class="box">
-        <div class="selection_wrap">
             <header>
                 <div class="header">Asiakkaat
                 </div>
             </header>
             <div class="client_list">
-                <ul class="clients">
-                    <li class="client_section">Ma</li>
-                </ul>
-            </div>
+                <!-- <span class="delete_user">x</span> -->
+                    <ul class="clients">
+                    </ul>
         </div>
     </div>
 
-    <div id="overlay"></div>
-
-
-    <div class="popupContainer">
-        <!-- Modal for creating a new entry -->
-        <div class="FormPopupNew" style="display: none;">
-            <span class="closePopup">&times;</span>
-            <h3 class="EntryHeading">Selected date here</h3>
-            <form class="EntryFormNew">
-                <div class="moodAndActivities">
-                    <div class="moodNew">
-                        <label>Valitse värikoodi</label>
-                        <div class="moodButtons">
-                            <input type="button" name="mood" class="moodBtn" id="redBtn">
-                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
-                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
-                        </div>
-                    </div>
-                    <div class="activitiesNew">
-                        <label for="ActivitiesNew">Aktiviteetit</label>
-                        <select name="ActivitiesNew" id="ActivitiesNew">
-                            <option value="" disabled selected>Valitse...</option>
-                            <!-- Options will be dynamically populated by JavaScript -->
-                        </select>
-                    </div>
-                </div>
-                <div class="notesAndSubmit">
-                    <div class="notesNew">
-                        <label for="NotesNew">Muistiinpanot</label>
-                        <input type="text" name="NotesNew" placeholder="Kirjoita tähän..." id="NotesNew" />
-                    </div>
-                    <input name="SubmitNew" type="submit" value="Lähetä" class="submitNewEntry" />
-                </div>
-            </form>
-        </div>
-
-        <!-- Modal for editing a past entry -->
-        <div class="FormPopupEdit" style="display: none;">
-            <span class="closePopup">&times;</span>
-            <h3 class="EntryHeading">Selected date here</h3>
-            <form class="EntryFormEdit">
-                <div class="moodAndActivities">
-                    <div class="moodEdit">
-                        <label>Valitse värikoodi</label>
-                        <div class="moodButtons">
-                            <input type="button" name="mood" class="moodBtn" id="redBtn">
-                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
-                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
-                        </div>
-                    </div>
-                    <div class="activitiesEdit">
-                        <label for="ActivitiesEdit">Aktiviteetit</label>
-                        <select name="ActivitiesEdit" id="ActivitiesEdit">
-                            <option value="" disabled selected>Valitse...</option>
-                            <!-- Options will be dynamically populated by JavaScript -->
-                        </select>
-                    </div>
-                </div>
-                <div class="notesAndSubmit">
-                    <div class="notesEdit">
-                        <label for="NotesEdit">Muistiinpanot</label>
-                        <input type="text" name="NotesEdit" placeholder="Kirjoita tähän..." id="NotesNew" />
-                    </div>
-                    <input name="SubmitEdit" type="submit" value="Lähetä" class="submitEditEntry" />
-                </div>
-            </form>
-        </div>
-
-        <!-- Modal for viewing a past entry -->
-        <div class="PopupPastEntry" style="display: none;">
-            <img src="../assets/imgEditIcon.png" alt="edit Image" class="editIcon" />
-            <span class="closePopup">&times;</span>
-            <h3 class="EntryHeading">Selected date here</h3>
-            <div class="hrvAndActivities">
-                <div class="hrv">
-                    <h4>HRV</h4>
-                    <p>HRV data here</p>
-                </div>
-                <div class="activitiesPast">
-                    <h4>Aktiviteetit</h4>
-                    <p>Activities here</p>
-                </div>
-            </div>
-            <div class="notesPast">
-                <h4>Muistiinpanot</h4>
-                <p>notes here</p>
-            </div>
-        </div>
-    </div>
 
 
     <!-- <div id="app"></div> -->
