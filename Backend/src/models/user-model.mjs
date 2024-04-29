@@ -143,6 +143,17 @@ const pairExistsAlready = async (patientId, doctorId) => {
   }
 };
 
+const updateDoctorPasswordWithId = async (userId, newPasswordHash) => {
+  try {
+    const sql = `UPDATE Users SET password=? WHERE user_id=? AND user_level='doctor'`;
+    const [rows] = await promisePool.query(sql, [newPasswordHash, userId]);
+    return rows;
+  } catch (error) {
+    console.error('Error in deleteSelfFromDoctorPatient:', error);
+    throw customError('deleteSelfFromDoctorPatient error', 500);
+  }
+};
+
 const getOwnDoctor = async (userId) => {
   try {
     const sql = `
@@ -210,6 +221,7 @@ const getDoctorPatientPair = async (patientId, doctorId) => {
 };
 
 export {
+  updateDoctorPasswordWithId,
   selectUserByUsername,
   checkSurveyExistance,
   insertUser,
