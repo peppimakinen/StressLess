@@ -1,4 +1,4 @@
-import { fetchData } from "./fetch.js";
+import { fetchData } from "../assets/fetch.js";
 
 // PAGE LOAD
 // clear localstorage
@@ -15,7 +15,7 @@ LoginDoctor.addEventListener("click", async (evt) => {
   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
-  const url = "http://127.0.0.1:3000/api/auth/login-doctor";
+  const url = "http://127.0.0.1:3000/api/auth/doctor-login";
 
   const data = {
     username: LoginEmail.value,
@@ -35,7 +35,8 @@ LoginDoctor.addEventListener("click", async (evt) => {
     console.log(responseData);
     localStorage.setItem("token", responseData.token);
     localStorage.setItem("user_id", responseData.user_id);
-
+    alert('logging in to your account now!')
+    window.location.href = '../home/doctorhome.html';
   } catch (error) {
     console.error(error);
     alert("Error logging in");
