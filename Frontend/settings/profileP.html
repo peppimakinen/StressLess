@@ -63,6 +63,9 @@
                             </li>
                         </ul>
                 </div>
+
+                <div id="snackbar-target"></div>
+
                 <div class="blocks">
                     <ul class="entries">
                         <li><span id="entriesCount"><a>Päiväkirjamerkintöjen määrä:</a><a id="count"></a></span></li>
@@ -71,6 +74,15 @@
                         <li><a href="https://kubioscloud.auth.eu-west-1.amazoncognito.com/forgotPassword?response_type=code&client_id=1h4rmoi5s66u2cliaqcpuejgpg&redirect_uri=https://analysis.kubioscloud.com/v2/portal/login&scope=openid%20profile%20email%20phone">Vaihda salasana</a></li>
                         <li class="pic"><img src="../assets/ImgDeleteIcon.png"><a href="">Poista Käyttäjä</a></li>
                     </ul>
+                    <div id="deleteModal" class="modal">
+                        <div class="modal-content">
+                          <span class="close">&times;</span>
+                          <h2>Oletko varma, että haluat poistaa tilin?</h2>
+                          <p>Kirjoita "Poista tili" poistaaksesi tili:</p>
+                          <input type="text" id="deleteConfirm" placeholder="Type here..."/>
+                          <button id="confirmDeletion">Confirm</button>
+                        </div>    
+                    </div>
                 </div>
             </div>
         </div>

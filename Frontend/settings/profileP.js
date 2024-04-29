@@ -1,4 +1,5 @@
 import { fetchData } from "../assets/fetch";
+import { showSnackbar } from "../snackbar";
 
 function showProfile() {
     const user_name = localStorage.getItem('user_name');
@@ -39,64 +40,49 @@ async function getEntryCount() {
         }
     } catch (error) {
         console.error('Error finding entries:', error);
-        alert("Entries could not be retrieved.");
+        showSnackbar("Red","Merkintöjen määrää ei löytynyt.");
     }
 }
 
 
-
-
-// Select the delete account button
-const deleteAccountButton = document.querySelector('.pic a');
-
-// Add event listener to the delete account button
-deleteAccountButton.addEventListener('click', async function(evt) {
-    evt.preventDefault(); // Prevent default link behavior
-
-    const user_id = evt.target.dataset.user_id;
-    console.log('User ID to delete:', user_id);
-
-    // Confirm deletion with user
-    const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-
-    // If user confirms deletion
-    if (confirmation) {
-        try {
-            // Retrieve the token from localStorage
-            const token = localStorage.getItem('token');
-
-            // Construct the URL for deleting the account
-            const url = `http://127.0.0.1:3000/api/users/${user_id}`;
-
-            // Set up the options for the DELETE request
-            const options = {
-                method: 'DELETE',
-                headers: {
-                    'Authorization': 'Bearer ' + token,
-                },
-            };
-
-            // Send the DELETE request to delete the account
-            const response = await fetchData(url, options);
-
-            // Check if the request was successful
-            if (response.ok) {
-                alert('Account deleted successfully.');
-                // Optionally, redirect the user to a confirmation page or log them out
-                // window.location.href = 'confirmation.html';
-            } else {
-                // If the request was not successful, display an error message
-                const errorData = await response.json();
-                alert('Error deleting account: ' + errorData.message);
-            }
-        } catch (error) {
-            console.error('Error deleting account:', error);
-            alert('Error deleting account. Please try again later.');
+//tilin poisto
+document.querySelector('.pic a').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('deleteModal').style.display = 'block';
+  });
+  
+  document.querySelector('.close').addEventListener('click', function() {
+    document.getElementById('deleteModal').style.display = 'none';
+  });
+  
+  document.getElementById('confirmDeletion').addEventListener('click', async function() {
+    const userInput = document.getElementById('deleteConfirm').value;
+    if (userInput === 'Poista tili') {
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/users', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        if (response.ok) {
+            showSnackbar("Green","Tili poistettu onnistuneesti");
+            setTimeout(() => {
+                window.location.href = '../login/loginpatient.html';
+            }, 3000);
+        } else {
+          throw new Error('Failed to delete account');
         }
+      } catch (error) {
+        showSnackbar("Red", error.message);
+      }
+    } else {
+        showSnackbar("Red", "Poistaminen epäonnistui: väärä teksti");
     }
-});
-
-
+    document.getElementById('deleteModal').style.display = 'none';
+  });
+  
   
 
 showProfile();
