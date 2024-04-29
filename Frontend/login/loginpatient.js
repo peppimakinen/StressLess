@@ -1,4 +1,5 @@
 import { fetchData } from "../assets/fetch.js";
+import { showSnackbar } from "../snackbar.js";
 
 // PAGE LOAD
 // clear localstorage
@@ -38,19 +39,33 @@ LoginPatient.addEventListener("click", async (evt) => {
     localStorage.setItem("user_name", responseData.user.full_name);
     localStorage.setItem("user_level", responseData.user.user_level);
     localStorage.setItem("user_id", responseData.user.user_id);
-    alert('logging in to your account now!')
-    //console.log(responseData.user.surveyCompleted)
-    window.location.href = '../survey/alkukartoitus.html';
-
+    
+    // Redirect based on survey completion status
+    if (responseData.user.surveyCompleted) {
+      showSnackbar('Green', 'Kirjaudutaan sisään!');
+      setTimeout(() => {
+        window.location.href = '../home/patienthome.html';
+      }, 3000);  // 3000 milliseconds = 3 seconds
+    } else {
+      showSnackbar('Green', 'Kirjaudutaan sisään!');
+      setTimeout(() => {
+        window.location.href = '../survey/alkukartoitus.html';
+      }, 3000);  // 3000 milliseconds = 3 seconds
+    }
+  
   } catch (error) {
     console.error(error);
     alert("Error logging in");
   }
+  
 });
 
 // Function to clear local storage
 function clearLocalStorage() {
   localStorage.removeItem('token');
   localStorage.removeItem('user_id');
+  localStorage.removeItem("user_email");
+  localStorage.removeItem("user_name");
+  localStorage.removeItem("user_level");
 }
 

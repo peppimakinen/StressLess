@@ -2,21 +2,22 @@ import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 import {customError} from '../middlewares/error-handler.mjs';
 import {
-  insertDoctor,
+  updateDoctorPasswordWithId,
+  selectUserByUsername,
   selectDoctorByEmail,
   pairExistsAlready,
-  selectUserByUsername,
-  insertNewPair,
   getOwnPatients,
+  insertNewPair,
+  insertDoctor,
 } from '../models/user-model.mjs';
 import {
-  deleteSelfFromWeeklyReports,
-  deleteSelfEntryLinkedData,
-  deleteSelfSurveyLinkedData,
-  deleteSelfFromSurveys,
   deleteSelfFromDoctorPatientAsPatient,
   deleteSelfFromDoctorPatientAsDoctor,
+  deleteSelfFromWeeklyReports,
+  deleteSelfSurveyLinkedData,
   deleteSelfFromDiaryEntries,
+  deleteSelfEntryLinkedData,
+  deleteSelfFromSurveys,
   deleteSelfFromUsers,
 } from '../models/delete-self-model.mjs';
 /* eslint-disable camelcase */
@@ -141,44 +142,24 @@ const formPair = async (req, res, next) => {
  */
 const deleteSelf = async (req, res, next) => {
   try {
-    const confPassword = req.body.confirmation_password;
-    // Fetch local user
-    const existingUser = await selectUserByUsername(req.user.username);
-    // Check for errors
-    if (existingUser.error) {
-      throw customError(existingUser.message, existingUser.error);
-    }
-    // Save the found users password hash
-    const foundPasswordHash = existingUser.password;
-    // Compare the confirmation password hash with the stored password hash
-    const isMatch = await bcrypt.compare(confPassword, foundPasswordHash);
-    // Check if passwords match
-    if (isMatch) {
-      // When passwords match, proceed to delete all data for request user ID
-      const userId = req.user.user_id;
-      const userLevel = req.user.user_level;
-      // NOTE: Following functions are in a seperate model and throw customError
-      // Check if request came from a patient user
-      if (userLevel === 'patient') {
-        // If true, proceed to delete all data for patient user
-        console.log('Patient user deleting themselves');
-        await deleteSelfAsPatient(userId);
-        // Check if request came from a doctor user
-      } else if (userLevel === 'doctor') {
-        // If true, proceed to delete all data for doctor user
-        console.log('Doctor user deleting themselves');
-        await deleteSelfAsDoctor(userId);
-        // Throw a error, if user level was not recognized
-      } else {
-        throw customError('User level not recognized', 500);
-      }
-      // Return OK response
-      res.status(200).json({message: 'StressLess user deleted'});
-      // Passwords didnt match, respond with an error message
+    const userId = req.user.user_id;
+    const userLevel = req.user.user_level;
+    // NOTE: Following functions are in a seperate model and throw customError
+    // Check if request came from a patient user
+    if (userLevel === 'patient') {
+      // If true, proceed to delete all data for patient user
+      await deleteSelfAsPatient(userId);
+      // Check if request came from a doctor user
+    } else if (userLevel === 'doctor') {
+      // If true, proceed to delete all data for doctor user
+      await deleteSelfAsDoctor(userId);
+      // Throw a error, if user level was not recognized
     } else {
-      throw customError('Invalid confirmation password', 400);
+      throw customError('User level not recognized', 500);
     }
-    // Handle errors
+    // Return OK response
+    res.status(200).json({message: 'StressLess user deleted'});
+  // Handle errors
   } catch (error) {
     console.log('deleteSelf catch block');
     next(customError(error.message, error.status));
@@ -242,4 +223,35 @@ const getPatients = async (req, res, next) => {
   return res.json(allPatients);
 };
 
-export {formPair, postDoctor, getDoctor, deleteSelf, getPatients};
+/**
+ * Handle doctor PUT request to update password
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const changeDoctorPassword = async (req, res, next) => {
+  const userId = req.user.user_id;
+  const newPassword = req.body.new_password;
+  // Generate salt to hash new password
+  const salt = await bcrypt.genSalt(10);
+  // Apply salt and hash
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  const result = await updateDoctorPasswordWithId(userId, hashedPassword);
+  // Check for error in result
+  if (result.error) {
+    return next(customError(result.message, result.error));
+  } else {
+    // Respond with a ok status - User update successful
+    return res.json({message: 'Password updated'});
+  }
+};
+
+export {
+  changeDoctorPassword,
+  getPatients,
+  deleteSelf,
+  postDoctor,
+  getDoctor,
+  formPair,
+};

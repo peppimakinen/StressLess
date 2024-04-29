@@ -1,16 +1,12 @@
 import { fetchData } from "../assets/fetch.js";
 
 // Function to check if a date has an entry
-function hasEntry(data, year, month, day) {
-  const entryDate = `${year}-${month.toString().padStart(2, "0")}-${day
-    .toString()
-    .padStart(2, "0")}`;
-
-  // Check if data exists for the entryDate and if it's not an empty object
-  return (
-    data.hasOwnProperty(entryDate) && Object.keys(data[entryDate]).length > 0
-  );
+function hasEntry(monthData, date) {
+  // Check if data exists for the given date and if it's not an empty object
+  return monthData.hasOwnProperty(date) && Object.keys(monthData[date]).length > 0;
 }
+
+
 
 // function to send GET request to check HRV data for a specific date
 async function checkHRVDataForDate(date) {

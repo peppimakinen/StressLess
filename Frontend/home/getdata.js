@@ -21,8 +21,9 @@ async function getMonthData(year, month) {
   }
 }
 
-async function getDayData(selectedDate) {
-  const url = `http://127.0.0.1:3000/api/entries/daily/${selectedDate}`;
+async function getDayData(entry_date) {
+  console.log('GetDayData: ' + entry_date);
+  const url = `http://127.0.0.1:3000/api/entries/daily/${entry_date}`;
   let token = localStorage.getItem("token");
 
   const options = {
