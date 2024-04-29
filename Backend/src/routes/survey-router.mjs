@@ -3,17 +3,17 @@ import {param} from 'express-validator';
 import express from 'express';
 import {
   onlyForPatientWhoCompletedSurvey,
-  onlyForPatientHandler,
-  validateSurvey,
-  onlyForDoctorHandler,
   verifyRightToViewPatientsData,
   validationErrorHandler,
+  onlyForPatientHandler,
+  onlyForDoctorHandler,
+  validateSurvey,
 } from '../middlewares/error-handler.mjs';
 import {
+  getPatientSurvey,
+  getActivities,
   getOwnSurvey,
   postSurvey,
-  getActivities,
-  getPatientSurvey,
 } from '../controllers/survey-controller.mjs';
 
 const surveyRouter = express.Router();
@@ -151,6 +151,11 @@ const surveyRouter = express.Router();
  *
  * @apiDescription Get questions and activities after submitting survey
  *
+ * @apiSuccess {List} questions List of questions and answers
+ * @apiSuccess {String} question Question text from survey
+ * @apiSuccess {String} answer Answer to that specific question
+ * @apiSuccess {List} activities List of defined activities to manage stress
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
  *       {
@@ -191,6 +196,11 @@ surveyRouter
  *
  * @apiDescription Submit new survey for a patient user
  *
+ * @apiParam {Object} Request Request that contains 1 activities list and atleast one question and answer pair
+ * @apiParam {String} Question Question defined in vaatimusdokumentti liite 3
+ * @apiParam {String} Answer Patient users answer to that specific question
+ * @apiParam {List} Activities List containing atleast 1 activity
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
  *       {
@@ -224,6 +234,8 @@ surveyRouter
  *
  * @apiDescription Get activities after submitting survey
  *
+ * @apiSuccess {List} activities List of defined activities to manage stress
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
  *       {
@@ -254,6 +266,11 @@ surveyRouter
  * @apiPermission onlyDoctor
  *
  * @apiDescription Get own patients survey
+ *
+ * @apiSuccess {List} questions List of questions and answers
+ * @apiSuccess {String} question Question text from survey
+ * @apiSuccess {String} answer Answer to that specific question
+ * @apiSuccess {List} activities List of defined activities to manage stress
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
