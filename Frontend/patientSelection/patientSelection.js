@@ -40,7 +40,8 @@ window.addEventListener('load', async (evt) => {
                 const reportsDiv = document.createElement('div');
                 reportsDiv.classList.add('reports');
                 const reportLink = document.createElement('a');
-                reportLink.href = `clientReport.html?client=${client.clientNumber}`; 
+                //change into the home page of the client
+                reportLink.href = `../home/doctorhome.html?client=${client.user_id}`; 
                 reportLink.textContent = 'Näytä asiakastili';
 
                 reportsDiv.appendChild(reportLink);
