@@ -1,136 +1,62 @@
 import { fetchData } from "../assets/fetch.js";
-import { renderCalendar } from "./calendar.js";
-import { gatherNewData } from "./newentry.js";
-import { gatherEditData } from "./editentry.js";
-import { getMonthData } from "./getdata.js";
-import { hasEntry } from "./checkdata.js";
-import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 
-// RENDERING CALENDAR
-// get new date, current year and month
-let date = new Date(),
-  currYear = date.getFullYear(),
-  currMonth = date.getMonth();
+// Function to handle click event on "Näytä raportti" links
+window.addEventListener('load', async (evt) => {
+    evt.preventDefault();
+    try {
+        const url = "http://127.0.0.1:3000/api/users/doctors/patients";
+        let token = localStorage.getItem("token");
 
-// store full name of all months in array
-const prevNextIcon = document.querySelectorAll(".calendarHeader span");
+        const options = {
+            method: "GET",
+            headers: {
+                Authorization: "Bearer " + token,
+            },
+        };
 
-// Declare monthData variable globally
-let monthData = {};
+        const reportData = await fetchData(url, options); 
+        if (reportData == null ) {
+            const clientItem = document.querySelector('.client_list');
+            clientItem.textContent = "Käyttäjätililläsi ei ole vielä yhtään potilastiliä liitettynä.";
 
-// function to render calendar when page is loaded
-const initializeCalendar = async () => {
-  // Fetch month data
-  monthData = await getMonthData(currYear, currMonth + 1);
-  renderCalendar(currYear, currMonth, monthData);
-};
+        } else {
+            console.log(reportData);
 
-// function to update calendar when previous or next buttons are clicked
-const updateCalendar = async (icon) => {
-  currMonth = icon.id === "prev" ? currMonth - 1 : currMonth + 1;
+            const clients = document.querySelector('.clients');
+        // Iterate over the reportData to populate the client numbers
+            reportData.forEach((name, index) => {
+                //client
+                const clientItem = document.createElement('li');
+                clientItem.classList.add('client');
+                clientItem.textContent = `Viikko ${client.username}`;
 
-  if (currMonth < 0 || currMonth > 11) {
-    date = new Date(currYear, currMonth, new Date().getDate());
-    currYear = date.getFullYear();
-    currMonth = date.getMonth();
-  } else {
-    date = new Date();
-  }
-  // Update the calendar with the new month data
-  renderCalendar(currYear, currMonth, await getMonthData(currYear, currMonth + 1));
-};
+                //date
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('date');
+                const start_date = convertToDDMMYYYY(`${client.client_start_date}`);
+                const end_date = convertToDDMMYYYY(`${client.client_end_date}`);
+                console.log(start_date, end_date)
+                dateDiv.textContent = `${start_date} - ${end_date}`;
+        
 
-// event listeners for previous and next buttons
-prevNextIcon.forEach((icon) => {
-  icon.addEventListener("click", () => {
-    updateCalendar(icon);
-  });
-});
-
-// render calendar when page is loaded
-window.addEventListener("load", () => {
-  initializeCalendar();
-});
-
-
-// MODAL HANDLING
-// event listener for calendar days
-const calendar = document.querySelector(".calendar");
-calendar.addEventListener("click", (event) => {
-  if (
-    event.target.tagName === "LI" &&
-    event.target.parentElement.classList.contains("days")
-  ) {
-    // get clicked date
-    const clickedDate = parseInt(event.target.textContent); 
-    const currentDate = new Date(currYear, currMonth, clickedDate);
-    const today = new Date(); 
-
-    if (currentDate > today || event.target.classList.contains("inactive")) {
-      return;
-    }
-
-    const formattedDay = currentDate.getDate().toString().padStart(2, "0");
-    const formattedMonth = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-    const selectedDate = `${formattedDay}.${formattedMonth}.${currentDate.getFullYear()}`;
-
-    console.log("Clicked date:", selectedDate);
-
-    // Check if there's an entry for the clicked date
-    const hasEntryForDate = hasEntry(monthData, currYear, currMonth + 1, clickedDate);
-    console.log("Has entry for date:", hasEntryForDate);
-
-    // Open the appropriate modal based on whether there's an entry for the clicked date
-    if (hasEntryForDate) {
-      showPastEntryPopup(selectedDate);
-    } else {
-      showNewEntryPopup(selectedDate);
-    }
-  }
-});
+                //reports
+                const reportsDiv = document.createElement('div');
+                reportsDiv.classList.add('reports');
+                const reportLink = document.createElement('a');
+                reportLink.href = `clientReport.html?client=${client.clientNumber}`; // Adjust the URL as needed
+                reportLink.textContent = 'Näytä raportti';
+                reportsDiv.appendChild(reportLink);
+                clientItem.appendChild(dateDiv);
+                clientItem.appendChild(reportsDiv);
+                clientNumber.appendChild(clientItem);
+            });
+        }
 
 
-
-// event listener for edit icon
-const editIcon = document.querySelector(".editIcon");
-editIcon.addEventListener("click", () => {
-    // Extract the date information from the PastEntry modal
-    const dateHeading = document.querySelector(".PopupPastEntry .EntryHeading");
-    if (dateHeading) {
-        const date = dateHeading.textContent;
-        console.log("Date extracted:", date);
-        // Call showEditEntryPopup with the extracted date
-        showEditEntryPopup(date);
-    } else {
-        console.error("Date heading not found or empty.");
+    } catch (error) {
+        console.error('Error fetching report:', error);
     }
 });
 
-
-
-// event listener for closePopup buttons
-const closePopups = document.querySelectorAll(".closePopup");
-closePopups.forEach((button) => {
-  button.addEventListener("click", hideAllPopups);
-});
-
-
-// CREATE NEW ENTRY
-const createEntry = document.querySelector('.submitNewEntry');
-createEntry.addEventListener('click', async (evt) => {
-  evt.preventDefault();
-  console.log('Lets create a new diary entry');
-
-  gatherNewData();
-  hideAllPopups();
-});
-
-// EDIT AN ENTRY
-const editEntry = document.querySelector('.submitEditEntry');
-editEntry.addEventListener('click', async (evt) => {
-  evt.preventDefault();
-  console.log('Let\'s edit the diary entry');
-
-  gatherEditData();
-  hideAllPopups();
-});
+            
+            
