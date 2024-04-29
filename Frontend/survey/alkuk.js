@@ -1,4 +1,5 @@
 import { fetchData } from '../assets/fetch.js';
+import { showSnackbar } from "../snackbar.js";
 
 // ENTERIN TOIMIMATTOMUUS KIITOS
 document.addEventListener('DOMContentLoaded', () => {
@@ -46,8 +47,9 @@ document.getElementById('submitButton').addEventListener('click', function() {
 
         const activitiesString = `Mitä aktiviteetteja hyödynnät stressin lievennyksessä?: ${JSON.stringify(activities)}`;
         console.log(activitiesString);
+        showSnackbar('green', 'Aktiviteetti lisätty, voit halutessasi lisätä useamman')
     } else {
-        alert('Please enter an activity before submitting.');
+        showCustomAlert('Lisää aktiviteettejä ennen alkukartoituksen lähettämistä.');
     }
 });
 
@@ -150,41 +152,6 @@ async function getDoctor() {
     }
 }
 
-async function checkPairingBeforePairing() {
-    const hasPaired = await checkIfAlreadyPaired();
-    if (hasPaired) {
-        alert("You are already paired with a doctor.");
-        return; // Stop the function if already paired
-    }
-
-    // If not paired, proceed to pair with a new doctor
-    pairDoctor();
-}
-
-async function checkIfAlreadyPaired() {
-    const url = 'http://127.0.0.1:3000/api/users/create-pair';  // Updated endpoint
-    const token = localStorage.getItem("token");
-
-    const options = {
-        method: 'GET',  // Correct method for fetching data
-        headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-        }
-    };
-
-    try {
-        const response = await fetch(url, options);
-        if (response.ok) {
-            const responseData = await response.json();
-            return responseData.isPaired;  // Assuming the endpoint returns { isPaired: true/false }
-        }
-        throw new Error('Failed to check pairing status.');
-    } catch (error) {
-        console.error('Error checking if already paired:', error);
-        return false;  // Assume not paired on error, or handle differently as needed
-    }
-}
 
 
 async function pairDoctor() {
@@ -213,24 +180,24 @@ async function pairDoctor() {
         if (response.ok) {
             const responseData = await response.json();
             console.log('Doctor pairing successful:', responseData);
-            alert('Doctor successfully paired.');
+            showSnackbar('#9BCF53','Lääkäri yhdistetty onnistuneesti.');
         } else {
-            const errorResponse = await response.json();
-            throw new Error(`Failed to pair: ${errorResponse.message || response.statusText}`);
+            showCustomAlert('Lääkäriä ei pystytty yhdistämään.');
+            return null;
         }
     } catch (error) {
         console.error('Error creating doctor pair:', error);
-        alert('Failed to pair with the doctor. Please try again.');
+        showCustomAlert('Lääkäriä ei pystytty yhdistämään.');
+        return null;
     }
 }
 
 
 
 // Event listener for the button with class 'submitdoc'
-const submitDocButton = document.querySelector('.submitdoc');
-submitDocButton.addEventListener('click', () => {
+const getDocButton = document.querySelector('.submitdoc');
+getDocButton.addEventListener('click', () => {
     getDoctor();
-    checkPairingBeforePairing();
 });
 
 
@@ -287,8 +254,11 @@ survey.addEventListener('click', async (evt) => {
         }
 
         console.log('Survey submitted successfully');
-        alert('Alkukartoitus tehty!');
-        window.location.href = '../home/patienthome.html';
+        showCustomAlert('Alkukartoitus on nyt suoritettu. Sinut uudelleenohjataan kalenterisivulle.');
+        // Aseta uudelleenohjaus tapahtumaan 3 sekunnin kuluttua
+        setTimeout(() => {
+            window.location.href = '../home/patienthome.html';
+        }, 3000);  // 3000 millisekuntia = 3 sekuntia
     } catch (error) {
         console.error('Error submitting form data:', error);
         alert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
@@ -297,73 +267,71 @@ survey.addEventListener('click', async (evt) => {
 
 
 
-
 // checkbox
 // Select the form and the checkbox element
 const doctorForm2 = document.querySelector('.doctor_form2');
-const checkbox = document.getElementById('give-info');
 
-if (doctorForm2 && checkbox) {
+if (doctorForm2 ) {
     doctorForm2.addEventListener('submit', async function(event) {
         event.preventDefault();  // Prevent the default form submission
         console.log('Submit button clicked');
         
-        if (!checkbox.checked) {
-            console.log('Checkbox is not checked');
-            showCustomAlert('Sinun on valittava valintaruutu jatkaaksesi!');
+        console.log('Nyt palautetaan vastauslomake');
+
+    const url = "http://127.0.0.1:3000/api/survey";
+    const form = document.querySelector('.answer-form-all');
+
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return; // Exit function if form is not valid
+    }
+
+    console.log('Tiedot valideja, jatketaan');
+
+    const surveyData = {};
+    form.querySelectorAll('input, select').forEach(input => {
+        if (!input.name || input.name === 'user_choice' || input.value === "") {
+            return;
+        }
+        if (input.name === 'activities') {
+            surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value);
         } else {
-            console.log('Checkbox is checked, submitting form...');
-
-            const url = 'http://127.0.0.1:3000/api/survey'; 
-            const form = document.querySelector('.answer-form-all');
-
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                return; // Exit function if form is not valid
-            }
-
-            console.log('Tiedot valideja, jatketaan');
-
-            const surveyData = {};
-            form.querySelectorAll('input, select').forEach(input => {
-                if (!input.name || input.name === 'user_choice' || input.value === "") {
-                    return;
-                }
-                if (input.name === 'activities') {
-                    surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value);
-                } else {
-                    surveyData[input.previousElementSibling.textContent.trim()] = input.value;
-                }
-            });
-
-            console.log(surveyData);
-
-            const authToken = localStorage.getItem("token");
-
-            const options = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + authToken
-                },
-                body: JSON.stringify(surveyData),
-            };
-
-            try {
-                const response = await fetchData(url, options);
-        
-                if (!response) { // Check if the fetch was NOT successful
-                    console.error('Failed to submit survey:', response);
-                    throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
-                }
-        
-                console.log('Survey submitted successfully');
-                alert('Alkukartoitus tehty!');
-                window.location.href = '../home/patienthome.html';
-            } catch (error) {
-                console.log('Error submitting form data:', error);
-            }
+            surveyData[input.previousElementSibling.textContent.trim()] = input.value;
         }
     });
+
+    console.log(surveyData);
+
+    const authToken = localStorage.getItem("token");
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + authToken
+        },
+        body: JSON.stringify(surveyData),
+    };
+
+    try {
+        const response = await fetchData(url, options);
+        console.log(response)
+
+        if (!response.ok) { // Check if the fetch was NOT successful
+            console.error('Failed to submit survey:', response);
+            // throw new Error('Failed to submit survey: ' + response.statusText); // Throw an error to catch it below
+        }
+
+        console.log('Survey submitted successfully');
+        showCustomAlert('Alkukartoitus on nyt suoritettu. Sinut uudelleenohjataan kalenterisivulle.');
+        // Aseta uudelleenohjaus tapahtumaan 3 sekunnin kuluttua
+        setTimeout(() => {
+            window.location.href = '../home/patienthome.html';
+        }, 3000);  // 3000 millisekuntia = 3 sekuntia
+    } catch (error) {
+        console.error('Error submitting form data:', error);
+        showSnackbar('Red','Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
+    }
+});
 } 
 

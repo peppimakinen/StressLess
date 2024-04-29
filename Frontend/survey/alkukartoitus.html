@@ -116,8 +116,8 @@
                 </li>
                 <li>
                     <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? *<br>
-                        Voit lisätä niin monta aktiviteettia kuin haluat. <br>
-                        (Lisää yksi kerrallaan, tulet tarvitsemaan näitä myöhemmin)</label>
+                        (Lisää yksi kerrallaan ja kaikki mahdolliset aktivitettisi, tulet tarvitsemaan <br>
+                        näitä myöhemmin kalenteria käyttäessä)</label>
                     <input type="text" id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..."/>
                     <button id="submitButton" type="button">Lisää aktiviteetti</button>
                 </li>
@@ -208,13 +208,13 @@
             <button id="closeAlertButton">OK</button>
         </div>
         <div id="customOverlay"></div>
-               
+        
+        <div id="snackbar-target"></div>      
 
         <div id="popup2">
             <span class="closePopup2" id="closePopup2">&times;</span>
             <form class="doctor_form2">
                 <h2><span id="doctor">lääkäri</span> löytyi!</h2>
-                <input type="checkbox" id="give-info" name="give-info">
                 <label for="doctor" id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
                         päiväkirjamerkinnät tämän lääkärin kanssa?</label>
                 <input name="submit" id="redirect" type="submit" value="Jaa tiedot" class="submit-info"/>
@@ -222,6 +222,7 @@
         </div>
     </div>
 
+    
 
 </body>
 
