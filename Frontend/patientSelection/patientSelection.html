@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="patientSelection.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><a href="patienthome.html"><img src="../assets/imgLogo.png" alt="Logo"></a></li>
+        <li style="float: right" class="logoutNav"><a href="">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div class="box">
+        <div class="selection_wrap">
+            <header>
+                <div class="header">
+                    <p class="currentDate">Asiakkaat</p>
+                </div>
+            </header>
+            <div class="client_list">
+                <ul class="clients">
+                    <li>Ma</li>
+                    <li>Ti</li>
+                    <li>ke</li>
+                    <li>To</li>
+                    <li>Pe</li>
+                    <li>La</li>
+                    <li>Su</li>
+                </ul>
+                <ul class="days"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+
+
+    <div class="popupContainer">
+        <!-- Modal for creating a new entry -->
+        <div class="FormPopupNew" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <form class="EntryFormNew">
+                <div class="moodAndActivities">
+                    <div class="moodNew">
+                        <label>Valitse värikoodi</label>
+                        <div class="moodButtons">
+                            <input type="button" name="mood" class="moodBtn" id="redBtn">
+                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
+                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
+                        </div>
+                    </div>
+                    <div class="activitiesNew">
+                        <label for="ActivitiesNew">Aktiviteetit</label>
+                        <select name="ActivitiesNew" id="ActivitiesNew">
+                            <option value="" disabled selected>Valitse...</option>
+                            <!-- Options will be dynamically populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="notesAndSubmit">
+                    <div class="notesNew">
+                        <label for="NotesNew">Muistiinpanot</label>
+                        <input type="text" name="NotesNew" placeholder="Kirjoita tähän..." id="NotesNew" />
+                    </div>
+                    <input name="SubmitNew" type="submit" value="Lähetä" class="submitNewEntry" />
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal for editing a past entry -->
+        <div class="FormPopupEdit" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <form class="EntryFormEdit">
+                <div class="moodAndActivities">
+                    <div class="moodEdit">
+                        <label>Valitse värikoodi</label>
+                        <div class="moodButtons">
+                            <input type="button" name="mood" class="moodBtn" id="redBtn">
+                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
+                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
+                        </div>
+                    </div>
+                    <div class="activitiesEdit">
+                        <label for="ActivitiesEdit">Aktiviteetit</label>
+                        <select name="ActivitiesEdit" id="ActivitiesEdit">
+                            <option value="" disabled selected>Valitse...</option>
+                            <!-- Options will be dynamically populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="notesAndSubmit">
+                    <div class="notesEdit">
+                        <label for="NotesEdit">Muistiinpanot</label>
+                        <input type="text" name="NotesEdit" placeholder="Kirjoita tähän..." id="NotesNew" />
+                    </div>
+                    <input name="SubmitEdit" type="submit" value="Lähetä" class="submitEditEntry" />
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal for viewing a past entry -->
+        <div class="PopupPastEntry" style="display: none;">
+            <img src="../assets/imgEditIcon.png" alt="edit Image" class="editIcon" />
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <div class="hrvAndActivities">
+                <div class="hrv">
+                    <h4>HRV</h4>
+                    <p>HRV data here</p>
+                </div>
+                <div class="activitiesPast">
+                    <h4>Aktiviteetit</h4>
+                    <p>Activities here</p>
+                </div>
+            </div>
+            <div class="notesPast">
+                <h4>Muistiinpanot</h4>
+                <p>notes here</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <div id="app"></div> -->
+    <script type="module" src="./patientSelection.js"></script>
+</body>
+
+</html>

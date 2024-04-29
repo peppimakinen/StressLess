@@ -1,0 +1,487 @@
+:root {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url(../assets/imgBg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* navigation */
+.navigation {
+    list-style-type: none;
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 30px;
+    overflow: hidden;
+    background-color: #fffaff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 14px 26px;
+    text-decoration: none;
+}
+
+.navigation .home img {
+    width: 66px;
+    height: auto;
+    /* maintains aspect ratio */
+}
+
+.navigation .textNav a {
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    /* 400-700 */
+    font-size: 20px;
+}
+
+.navigation .textNav a:hover {
+    color: #818181;
+}
+
+.navigation .logoutNav a {
+    background-color: #313e50;
+    color: #fffaff;
+    border-radius: 30px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.navigation .logoutNav a:hover {
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
+}
+
+
+/*below*/
+.box {
+    background-color: #fffaff;
+    margin: 50px; /* Auto for horizontal centering */
+    border-radius: 22px;
+    padding-top: 20px; /* Adding top padding for visual balance */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden; /* Ensures no spillover */
+    padding-bottom: 5vh;
+}
+
+.selection_wrap {
+    width: 90%; /* Responsive width */
+    max-width: 1200px; /* Maximum width can be adjusted based on design preference */
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px; /* Adjusted padding */
+}
+
+
+.selection_wrap header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    color: #313e50;
+}
+
+.selection_wrap p {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 30px;
+    color: #313e50;
+    margin: 0;
+    padding: 0;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+header .header {
+    display: flex;
+    padding-top: 10px;
+}
+
+
+
+
+
+
+/*  */
+.calendar {
+    width: 80vw;
+    min-height: 400px; /* Minimum height to ensure it doesn't get too small */
+    border-spacing: 0;
+    border-collapse: collapse;
+    background-color: #fffaff;
+}
+
+.calendar ul {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.calendar li {
+    color: #313e50;
+    width: calc(100% / 7);
+    font-size: 18px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    /* Include border in width calculation */
+    height: 80px;
+    line-height: 80px;
+}
+
+.calendar .weeks li {
+    border: none;
+    background-color: #fffaff;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 20px;
+    color: #313e50;
+    width: 11vw;
+    height: auto;
+}
+
+.calendar .days li {
+    z-index: 1;
+    cursor: pointer;
+    position: relative;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #1e1b18;
+    width: 11vw;
+    height: auto;
+}
+
+.days li.inactive {
+    color: #aaa;
+}
+
+.days li.active {
+    color: #313e50;
+}
+
+.days li::before {
+    position: absolute;
+    content: "";
+    left: 50%;
+    top: 50%;
+    height: 40px;
+    width: 40px;
+    z-index: -1;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.days li.active::before {
+    background: #C8EEF6;
+}
+
+.days li:not(.active):hover::before {
+    background: #f2f2f2;
+}
+
+/* popup styles */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+.FormPopupNew,
+.FormPopupEdit,
+.PopupPastEntry {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: auto;
+    margin-top: 50px;
+    padding: 50px;
+    border-radius: 50px;
+    width: 60%;
+    z-index: 2;
+}
+
+.EntryHeading {
+    text-align: center;
+    padding-top: 50px;
+    color: #1E1B18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 37px;
+}
+
+.closePopup {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    cursor: pointer;
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    color: #28303a;
+}
+
+.closePopup:hover {
+    color: #5D7283;
+}
+
+.moodAndActivities {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activitiesNew,
+.activitiesEdit {
+    margin-left: 80px;
+}
+
+.moodNew,
+.moodEdit {
+    margin-top: 20px;
+}
+
+.moodButtons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 25px;
+}
+
+.moodBtn {
+    border: none;
+    cursor: pointer;
+    border-radius: 70px;
+    width: 90px;
+    height: 90px;
+    margin: 0 10px;
+}
+
+.moodBtn:hover,
+.moodBtn:focus,
+.moodBtn.selected {
+    outline: 3px solid #313E50;
+}
+
+#redBtn {
+    background-color: #FF8585;
+}
+
+#yellowBtn {
+    background-color: #FFF67E;
+}
+
+#greenBtn {
+    background-color: #9BCF53;
+}
+
+input[type="text"] {
+    width: 75%;
+    height: 9vh;
+    padding: 20px 20px;
+    margin-top: 18px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 25px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+}
+
+input:focus {
+    outline: none;
+}
+
+.activitiesNew select,
+.activitiesEdit select {
+    width: 20vw;
+    height: 9vh;
+    padding: 20px;
+    margin-top: 18px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 55px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+    margin-bottom: 20px;
+}
+
+/* Adjustments for focused state */
+.activitiesNew select:focus {
+    outline: none;
+}
+
+.notesAndSubmit {
+    display: flex;
+    align-items: center;
+    padding-bottom: 20px;
+}
+
+#NotesNew,
+#NotesEdit {
+    height: 140px;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+input[type="submit"] {
+    background-color: #313E50;
+    width: 20%;
+    padding: 22px;
+    margin-top: 70px;
+    margin-left: 70px;
+    border-radius: 40px;
+    color: #fffaff;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 18px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #5D7283;
+}
+
+.EntryFormNew label,
+.EntryFormEdit label {
+    display: block;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 22px;
+    color: #313e50;
+    margin-top: 40px;
+}
+
+/* Past entry popup specific rules */
+.PopupPastEntry h4 {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: #1E1B18;
+}
+
+.PopupPastEntry p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #1E1B18;
+}
+
+.editIcon {
+    position: absolute;
+    top: 30px;
+    left: 40px;
+    cursor: pointer;
+    width: 50px;
+    height: auto;
+}
+
+.hrvAndActivities {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 7vh;
+}
+
+.activitiesPast {
+    margin-left: 10vw;
+}
+
+.notesPast {
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+/* responsive styles */
+@media screen and (max-width: 1600px) {
+
+    .FormPopupNew,
+    .FormPopupEdit,
+    .PopupPastEntry {
+        width: 80%;
+    }
+
+    .calendarBackground {
+        padding-bottom: 5vh;
+        margin-top: 5vh;
+        padding-left: 16px;
+    }
+}
+
+
+@media screen and (max-width: 700px) {
+    .calendarBackground {
+        padding-left: 40px;
+        padding-right: 20px;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    .calendarBackground {
+        padding-left: 70px;
+        padding-right: 50px;
+        margin-right: 30px;
+        margin-left: 30px;
+    }
+}
