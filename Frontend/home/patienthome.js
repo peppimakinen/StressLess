@@ -131,10 +131,14 @@ const createEntry = document.querySelector('.submitNewEntry');
 createEntry.addEventListener('click', async (evt) => {
   evt.preventDefault();
   console.log('Lets create a new diary entry');
-  showSnackbar("Green","Uusi merkintä luotu");
+  showSnackbar("Green","Uusi merkintä luotu ja HRV data lisätty");
 
   gatherNewData();
   hideAllPopups();
+
+  // Dispatch custom event to indicate new entry added
+  const event = new Event('entrySubmitted');
+  document.dispatchEvent(event);
 });
 
 // EDIT AN ENTRY
@@ -146,5 +150,24 @@ editEntry.addEventListener('click', async (evt) => {
 
   gatherEditData();
   hideAllPopups();
+
+  // Dispatch custom event to indicate entry edited
+  const event = new Event('entrySubmitted');
+  document.dispatchEvent(event);
+});
+
+// Listen for custom event indicating new entry added or edited
+document.addEventListener('entrySubmitted', async () => {
+  console.log('DOES THIS WORK?');
+  // Introduce a delay (e.g., 1 second) before fetching updated data
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  // Fetch updated month data
+  const updatedMonthData = await getMonthData(currYear, currMonth + 1);
+
+  monthData = updatedMonthData;
+  // console.log('Updated month data: ' + JSON.stringify(updatedMonthData));
+  
+  // Re-render the calendar with the updated monthData
+  renderCalendar(currYear, currMonth, monthData);
 });
 

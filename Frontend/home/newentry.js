@@ -1,5 +1,6 @@
 import { fetchData } from "../assets/fetch.js";
 import { convertToYYYYMMDD } from "./convertday.js";
+import { getMonthData } from "./getdata.js";
 
 // url variable
 const url = "http://127.0.0.1:3000/api/entries";
@@ -135,9 +136,6 @@ async function gatherNewData() {
   try {
     // Send POST request
     await postNewEntry("http://127.0.0.1:3000/api/entries", options);
-    
-    // Reload the page after successful submission
-    window.location.reload();
   } catch (error) {
     console.error("Error submitting new entry:", error);
     // Handle error appropriately (e.g., display an error message to the user)
