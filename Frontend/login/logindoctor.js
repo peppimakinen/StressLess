@@ -39,7 +39,7 @@ LoginDoctor.addEventListener("click", async (evt) => {
     showSnackbar('Green', 'Kirjaudutaan sisään!');
     //console.log(responseData.user.surveyCompleted)
     setTimeout(() => {
-      window.location.href = '../settings/profileD.html';
+      window.location.href = '../settingsD/profileD.html';
     }, 3000);  // 3000 millisekuntia = 3 sekuntia '
 
   } catch (error) {
