@@ -97,7 +97,6 @@ async function putData(url, options = {}) {
   
     // Get token from localStorage
     const token = localStorage.getItem("token");
-    console.log(token);
     if (!token) {
       console.error("Token not found in local storage");
       return;
@@ -127,9 +126,6 @@ async function putData(url, options = {}) {
     try {
       // Send POST request
       await putEditEntry("http://127.0.0.1:3000/api/entries", options);
-      
-      // Reload the page after successful submission
-      window.location.reload();
     } catch (error) {
       console.error("Error submitting entry edits:", error);
       // Handle error appropriately (e.g., display an error message to the user)
