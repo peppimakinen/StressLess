@@ -1,4 +1,5 @@
 import { fetchData } from "../assets/fetch";
+import { showSnackbar } from "../snackbar";
 
 function showProfile() {
     const doc_name = localStorage.getItem('full_name');
@@ -36,8 +37,7 @@ async function getOwnDoctor() {
             console.log('No doctor info');
         }
     } catch (error) {
-        console.error('Error finding doctor:', error);
-        alert("Entries could not be retrieved.");
+        showSnackbar("Grey","Lääkäriä ei ole yhdistetty");
     }
 }
 
