@@ -1,3 +1,4 @@
+import { convertToYYYYMMDD } from "./convertday";
 
 // function to send POST request using fetch
 async function putData(url, options = {}) {
@@ -67,7 +68,7 @@ async function putData(url, options = {}) {
     const entryDateHeading = document.querySelector(
       ".FormPopupEdit .EntryHeading"
     );
-    const selectedDate = entryDateHeading.textContent;
+    const selectedDate = convertToYYYYMMDD(entryDateHeading.textContent);
   
     // get chosen mood color data
     let mood_color = "";

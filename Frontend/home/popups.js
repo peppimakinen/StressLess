@@ -1,5 +1,5 @@
 import { populateActivitiesDropdown } from "./activities.js";
-import { convertToYYYYMMDD } from "./convertday.js";
+import { convertToYYYYMMDD, convertToDDMMYYYY } from "./convertday.js";
 import { checkHRVDataForDate, hasEntry } from "./checkdata.js";
 import { getDayData } from "./getdata.js";
 
@@ -52,36 +52,59 @@ export async function showNewEntryPopup(date) {
 }
 
 // Function to show PastEntry popup and populate with entry data
-export async function showPastEntryPopup(date) {
-  const dateHeading = date
-  selectedDate = convertToYYYYMMDD(date);
-  console.log(selectedDate);
-  
-  PastEntry.style.display = "block";
-  calendarWrapper.style.display = "none";
-  overlay.style.display = "block";
+export async function showPastEntryPopup(date, monthData) {
+  selectedDate = date;
+
+  // Convert the selected date to the yyyy-mm-dd format
+  const formattedDate = convertToYYYYMMDD(selectedDate);
+  console.log(formattedDate);
 
   try {
-    // Fetch entry data for the selected date
-    const entryData = await getDayData(selectedDate);
+    // Check if there's an entry for the selected date
+    const hasEntryForDate = hasEntry(monthData, formattedDate);
+    console.log("Has entry for date:", hasEntryForDate);
 
-    // Update the date in the PastEntry modal
-    document
-      .querySelectorAll(".PopupPastEntry .EntryHeading")
-      .forEach((heading) => {
-        heading.textContent = dateHeading;
-      });
+    if (hasEntryForDate) {
+      // Fetch entry data for the selected date
+      const entryData = await getDayData(formattedDate);
 
-    // Update HRV data in the modal
-    document.querySelector(".PopupPastEntry .hrv p").textContent = 'PNS index: ' + entryData.measurement_data.pns_index + '\nSNS index: ' + entryData.measurement_data.sns_index || "HRV data not available";
+      // Update the date in the PastEntry modal
+      document
+        .querySelectorAll(".PopupPastEntry .EntryHeading")
+        .forEach((heading) => {
+          heading.textContent = selectedDate;
+        });
 
-    // Update activities data in the modal
-    const activitiesList = entryData.activities && entryData.activities.length > 0 ? entryData.activities.join(", ") : "No activities";
-    document.querySelector(".PopupPastEntry .activitiesPast p").textContent = entryData.activities;
+      // Update HRV data in the modal
+      document.querySelector(".PopupPastEntry .hrv p").textContent =
+        'PNS index: ' +
+        entryData.measurement_data.pns_index +
+        '\nSNS index: ' +
+        entryData.measurement_data.sns_index ||
+        "HRV data not available";
 
-    // Update notes data in the modal
-    document.querySelector(".PopupPastEntry .notesPast p").textContent = entryData.diary_entry.notes || "No notes";
+      // Update activities data in the modal
+      const activitiesList =
+        entryData.activities && entryData.activities.length > 0
+          ? entryData.activities.join(", ")
+          : "No activities";
+      document.querySelector(
+        ".PopupPastEntry .activitiesPast p"
+      ).textContent = activitiesList;
 
+      // Update notes data in the modal
+      document.querySelector(
+        ".PopupPastEntry .notesPast p"
+      ).textContent = entryData.diary_entry.notes || "No notes";
+
+      // Display the PastEntry modal
+      PastEntry.style.display = "block";
+      calendarWrapper.style.display = "none";
+      overlay.style.display = "block";
+    } else {
+      // Entry not found, handle accordingly
+      alert("No entry found for the selected date.");
+    }
   } catch (error) {
     console.error("Error fetching entry data:", error);
     // Handle error appropriately (e.g., display an error message to the user)
