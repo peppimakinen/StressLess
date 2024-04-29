@@ -1,4 +1,4 @@
-import { fetchData } from "./fetch.js";
+import { fetchData } from "../assets/fetch.js";
 import { showSnackbar } from "../snackbar.js";
 
 // PAGE LOAD
