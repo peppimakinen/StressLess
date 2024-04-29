@@ -95,6 +95,8 @@ li a {
     font-size: 50px;
 }
 
+/* the below part of the page */
+
 .box {
     text-align: center;
 }
@@ -106,6 +108,10 @@ h1 {
     padding: 50px;
 }
 
+.box .createdTag {
+    font-weight: lighter;
+}
+
 #stressSummary {
     font-weight: lighter;
     margin: 20px;
@@ -115,8 +121,6 @@ h1 {
     padding: 50px;
     display: flex;
     flex-direction: row;
-    /* gap: 25%; */
-    /* justify-content: space-around; */
     font-weight: bold;
     font-style: italic;
     font-size: larger;
