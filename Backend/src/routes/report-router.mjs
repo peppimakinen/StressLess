@@ -117,6 +117,12 @@ const reportRouter = express.Router();
  *
  * @apiDescription Fetch weeks that contain reports
  *
+ * @apiSuccess {Int} user_id User ID that owns the report
+ * @apiSuccess {Int} report_id Unique report ID for found report
+ * @apiSuccess {Int} week_number Calendar week number
+ * @apiSuccess {Date} week_start_date yyyy-mm-dd date when selected week started
+ * @apiSuccess {Date} week_end_date yyyy-mm-dd date when selected week ended
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
  *          [
@@ -145,6 +151,27 @@ reportRouter
  * @apiPermission onlyPatients
  *
  * @apiDescription Get a specific weekly report using report ID
+ *
+ * @apiParam {Int} report_id Unique report ID
+ *
+ * @apiSuccess {Int} report_id Unique report ID for found report
+ * @apiSuccess {Int} week_number Calendar week number
+ * @apiSuccess {Date} week_start_date yyyy-mm-dd date when selected week started
+ * @apiSuccess {Date} week_end_date yyyy-mm-dd date when selected week ended
+ * @apiSuccess {Float} red_percentage Red mood color percentage that week
+ * @apiSuccess {Float} green_percentage Green mood color percentage that week
+ * @apiSuccess {Float} yellow_percentage Yellow mood color percentage that week
+ * @apiSuccess {Float} gray_percentage Gray mood color percentage that week
+ * @apiSuccess {Float} monday_si Stress index for monday
+ * @apiSuccess {Float} tuesday_si Stress index for tuesday
+ * @apiSuccess {Float} wednesday_si Stress index for wednesday
+ * @apiSuccess {Float} thursday_si Stress index for thursday
+ * @apiSuccess {Float} friday_si Stress index for friday
+ * @apiSuccess {Float} saturday_si Stress index for saturday
+ * @apiSuccess {Float} sunday_si Stress index for sunday
+ * @apiSuccess {Float} week_si_avg Stress index for the week
+ * @apiSuccess {Float} previous_week_si_avg Stress index for the previous week
+ * @apiSuccess {Date} created_at creation timestamp in yyyy-mm-dd format
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
@@ -193,6 +220,14 @@ reportRouter
  *
  * @apiDescription Retrieve past reports from consenting patients
  *
+ * @apiDescription Fetch weeks that contain reports
+ *
+ * @apiSuccess {Int} user_id User ID that owns the report
+ * @apiSuccess {Int} report_id Unique report ID for found report
+ * @apiSuccess {Int} week_number Calendar week number
+ * @apiSuccess {Date} week_start_date yyyy-mm-dd date when selected week started
+ * @apiSuccess {Date} week_end_date yyyy-mm-dd date when selected week ended
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
 *          [
@@ -230,6 +265,27 @@ reportRouter
  * @apiPermission onlyDoctors
  *
  * @apiDescription Get patients specific week report using patient and report ID's
+ *
+ * @apiParam {Int} report_id Unique report ID
+ *
+ * @apiSuccess {Int} report_id Unique report ID for found report
+ * @apiSuccess {Int} week_number Calendar week number
+ * @apiSuccess {Date} week_start_date yyyy-mm-dd date when selected week started
+ * @apiSuccess {Date} week_end_date yyyy-mm-dd date when selected week ended
+ * @apiSuccess {Float} red_percentage Red mood color percentage that week
+ * @apiSuccess {Float} green_percentage Green mood color percentage that week
+ * @apiSuccess {Float} yellow_percentage Yellow mood color percentage that week
+ * @apiSuccess {Float} gray_percentage Gray mood color percentage that week
+ * @apiSuccess {Float} monday_si Stress index for monday
+ * @apiSuccess {Float} tuesday_si Stress index for tuesday
+ * @apiSuccess {Float} wednesday_si Stress index for wednesday
+ * @apiSuccess {Float} thursday_si Stress index for thursday
+ * @apiSuccess {Float} friday_si Stress index for friday
+ * @apiSuccess {Float} saturday_si Stress index for saturday
+ * @apiSuccess {Float} sunday_si Stress index for sunday
+ * @apiSuccess {Float} week_si_avg Stress index for the week
+ * @apiSuccess {Float} previous_week_si_avg Stress index for the previous week
+ * @apiSuccess {Date} created_at creation timestamp in yyyy-mm-dd format
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
