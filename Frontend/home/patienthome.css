@@ -100,16 +100,18 @@ h1 {
     flex-direction: column;
     overflow: hidden; /* Ensures no spillover */
     padding-bottom: 5vh;
+    position: relative;
 }
 
 .calendarWrapper {
-    width: 90%; /* Responsive width */
-    max-width: 1200px; /* Maximum width can be adjusted based on design preference */
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
     margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px; /* Adjusted padding */
+    padding: 20px;
 }
 
 
@@ -133,9 +135,19 @@ h1 {
     padding-right: 40px;
 }
 
+.infoIcon {
+    position: absolute;
+    top: 50px;
+    right: 35px;
+    transform: translateY(-50%); 
+    width: 40px;
+    height: auto;
+}
+
 header .calendarHeader {
     display: flex;
     padding-top: 10px;
+    align-items: center;
 }
 
 header .calendarHeader span {
