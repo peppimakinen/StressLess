@@ -35,11 +35,12 @@ LoginDoctor.addEventListener("click", async (evt) => {
     const responseData = await fetchData(url, options);
     console.log(responseData);
     localStorage.setItem("token", responseData.token);
-    localStorage.setItem("user_id", responseData.user_id);
+    localStorage.setItem("user_id", responseData.user.user_id);
+    localStorage.setItem("user_name", responseData.user.full_name);
+    localStorage.setItem("user_email", responseData.user.username);
     showSnackbar('Green', 'Kirjaudutaan sisään!');
-    //console.log(responseData.user.surveyCompleted)
     setTimeout(() => {
-      window.location.href = '../settings/profileD.html';
+      window.location.href = '../settingsD/profileD.html';
     }, 3000);  // 3000 millisekuntia = 3 sekuntia '
 
   } catch (error) {
