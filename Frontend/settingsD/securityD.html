@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link rel="stylesheet" href="profileD.css">
+    <link rel="stylesheet" href="securityD.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -18,7 +18,7 @@
     <ul class="navigation">
         <li class="home"><img src="../assets/imgLogo.png" alt="Logo"></li>
         <li class="textNav"><a href="../patientSelection/patientSelection.html">Asiakkaat</a></li>
-        <li class="textNav"><a href="profileD.html">Asetukset</a></li>
+        <li class="textNav"><a href="../settingsD/profileD.html">Asetukset</a></li>
         <li style="float: right" class="logoutNav"><a href="../login/logindoctor.html">Kirjaudu ulos</a></li>
     </ul>
 
@@ -42,34 +42,18 @@
         </div>
         <div class="divider"></div> <!-- Tässä on väliviiva -->
         <div class="right-column">
-            <h1>Tiedot</h1>
-            <div class="profile-content">
-                <div class="profile-list">
-                    <ul class="title">
-                        <li>
-                            <h2>Käyttäjätiedot</h2>
-                        </li>
-                    </ul>
-                    <ul class="links">
-                        <li style="display: flex; align-items: center;">
-                            <img src="../assets/imgProfileIcon.png" alt="profilepic">
-                            <span id="name">nimi</span>
-                        </li>
-                        <li style="display: flex; align-items: center;">
-                            <img src="../assets/ImgEmailIcon.png" alt="emailpic">
-                            <span id="email">sposti</span>
-                        </li>
-                        <li class="blocks"><a href="https://kubioscloud.auth.eu-west-1.amazoncognito.com/login?response_type=code&client_id=1h4rmoi5s66u2cliaqcpuejgpg&redirect_uri=https://analysis.kubioscloud.com/v2/portal/login&scope=openid%20profile%20email%20phone">Vaihda salasana</a></li>
-                    </ul>
-                </div>
-            </div>
-
+            <h1>Tietosuoja- ja turvallisuusasetukset</h1>
+            <p class="teksti">
+                Tietojen Jakaminen: Hallitse tietojen jakamista kolmansien osapuolien kanssa. Voit määrittää, mitä tietoja jaetaan ja kenelle ne jaetaan.<br><br>
+                Käyttöoikeudet: Tarkastele ja hallitse sovelluksen käyttöoikeuksia, kuten pääsyä kameraan, mikrofoniin ja sijaintitietoihin. Voit myös tarkastella kolmansien osapuolien palveluiden integraatioita ja niiden käyttämiä tietoja.<br><br>
+                Tietosuojakäytännöt: Tutustu tietosuojakäytäntöihimme ja ymmärrä, miten käsittelemme ja suojaamme henkilötietojasi. Tietosuojakäytännöissämme kerromme, mitä tietoja keräämme, miten niitä käytetään ja miten niitä suojataan.<br><br>
+                Evästeiden Hallinta: Hallitse evästeiden käyttöä ja hyväksyntää. Evästeet ovat pieniä tekstitiedostoja, jotka tallentuvat laitteellesi ja auttavat meitä tarjoamaan paremman käyttökokemuksen.
+            </p>
+            
         </div>
     </div>
 
 
 </body>
-
-<script type="module" src="profileD.js"></script>
 
 </html>

@@ -1,0 +1,255 @@
+:root {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url(../assets/imgBg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* navigation */
+.navigation {
+    list-style-type: none;
+    margin: 0;
+    width: 100%;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 30px;
+    overflow: hidden;
+    background-color: #fffaff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navigation li a,
+.settings-list li a {
+    display: block;
+    text-align: center;
+    padding: 14px 26px;
+    text-decoration: none;
+}
+
+.navigation .home img {
+    width: 66px;
+    height: auto; /* maintains aspect ratio */
+}
+
+.navigation .textNav a {
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 20px;
+}
+
+.navigation .textNav a:hover {
+    color: #818181;
+}
+
+.navigation .logoutNav a {
+    background-color: #313e50;
+    color: #fffaff;
+    border-radius: 30px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500; /* 400-700 */
+    font-size: 20px;
+}
+
+.navigation .logoutNav a:hover {
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
+}
+
+
+h1 {
+    margin-left: 40px;
+    padding-top: 55px;
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 60px;
+}
+
+
+.profile {
+    list-style-type: none;
+    padding-left: 90px;
+    align-items: center;
+}
+
+.profile li {
+    display: flex; 
+    align-items: center; 
+}
+
+
+.profile-container {
+    margin-top: 40px;
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+}
+
+
+.divider {
+    border-left: 1px solid #1e1b18; 
+    height: 500px; 
+    margin:  10px; 
+    margin-top: 30px;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    padding-left: 40px;
+}
+
+.mainpic {
+    width: 270px; 
+    height: 250px;
+    margin-bottom: 20px;
+}
+
+
+.settings-list {
+    background-color: #fffaff;
+    border-radius: 20px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: 25px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+.settings-list .title {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+
+.settings-list .title img {
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+.settings-list .title h2 {
+    text-align: center;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700; /* 400-700 */
+    font-size: 25px;
+    padding-bottom: 5px;
+}
+
+.settings-list ul {
+    padding: 0;
+    margin: 0;
+}
+
+.settings-list ul li {
+    list-style: none;
+}
+
+.settings-list ul li a {
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 400; /* 400-700 */
+    font-size: 20px;
+}
+
+.settings-list ul li a:hover {
+    text-decoration: hover;
+    color: #818181;
+}
+
+
+.right-column {
+    width: 60%;
+}
+
+
+.blocks {
+    list-style-type: none;
+    margin-top: 50px;
+}
+
+
+.blocks li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fffaff;
+    margin-bottom: 20px;
+    padding: 10px;
+    height: 70px;
+    color: #1e1b18;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+    border-radius: 15px;
+}
+
+.blocks p {
+    background-color:#313e50;
+    color: white;
+    border: none;
+    padding: 12px 12px;
+    border-radius: 30px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+/* responsive shit */
+@media screen and (max-width: 1200px) {
+    .profile-content {
+        display: flex;
+        flex-direction: column;
+    }
+    .divider {
+        height: 600px;
+        margin-bottom: 20px;
+    }
+    .right-column {
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 825px) {
+    .blocks li {
+        height: 85px;
+    }
+}
