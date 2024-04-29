@@ -136,6 +136,7 @@ h1 {
     width: 80%;
     margin-left: auto;
     margin-right: 25px;
+    margin-bottom: 20px;
     padding-bottom: 10px;
 }
 
@@ -152,13 +153,12 @@ h1 {
 }
 
 .settings-list .title h2 {
-    margin: 0;
-    margin: 10px 0;
     text-align: center;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 700; /* 400-700 */
     font-size: 25px;
+    padding-bottom: 5px;
 }
 
 .settings-list ul {
@@ -168,7 +168,6 @@ h1 {
 
 .settings-list ul li {
     list-style: none;
-    margin-bottom: 5px;
 }
 
 .settings-list ul li a {

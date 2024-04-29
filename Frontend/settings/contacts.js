@@ -1,36 +1,45 @@
 import { fetchData } from "../assets/fetch";
 
-async function displayDoctorInfo() {
-    const url = 'http://127.0.0.1:3000/api/users/create-pair'; 
+function showProfile() {
+    const doc_name = localStorage.getItem('full_name');
+    const nameSpan = document.getElementById("doctorName");
+    nameSpan.textContent = doc_name || "No name available";
+
+    const doc_email = localStorage.getItem('username');
+    const emailSpan = document.getElementById("doctorEmail");
+    emailSpan.textContent = doc_email || "No email available";
+}
+
+
+
+async function getOwnDoctor() {
+    const url = `http://127.0.0.1:3000/api/auth/me`;
     const token = localStorage.getItem("token");
 
     const options = {
-        method: 'POST',
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
-        }
+        },
     };
-
+    
     try {
-        const response = await fetchData(url, options);
-        if (response.ok) {
-            const data = await response.json();
-            if (data) {
-                // Update the DOM with the doctor's name and email
-                document.getElementById('doctorName').textContent = data.doctor_username;
-            } else {
-                // Hide the list or display a default message if no doctor info
-                document.getElementById('doctorInfo').style.display = 'none';
-            }
+        const responseData = await fetchData(url, options); // Assuming fetchData returns JSON directly
+        console.log(responseData);
+        if (responseData && responseData.stressLessUser) {
+            const fullName = responseData.stressLessUser.chosen_doctor[0].full_name;
+            localStorage.setItem("full_name", fullName);
+            const docEmail = responseData.stressLessUser.chosen_doctor[0].username;
+            localStorage.setItem("username", docEmail);
         } else {
-            throw new Error('Failed to fetch doctor info');
+            console.log('No doctor info');
         }
     } catch (error) {
-        console.error('Error fetching doctor info:', error);
-        document.getElementById('doctorInfo').textContent = 'Lääkäriä ei löydy';
+        console.error('Error finding doctor:', error);
+        alert("Entries could not be retrieved.");
     }
 }
 
-// Call this function on page load or after form submission
-document.addEventListener('DOMContentLoaded', displayDoctorInfo);
+showProfile();
+getOwnDoctor();

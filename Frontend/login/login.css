@@ -131,6 +131,7 @@ input[type="submit"]:focus {
     bottom: 30px;
     font-size: 17px;
     margin-right: 2000px;
+    border-radius: 20px;
   }
   #snackbar-target.show {
   visibility: visible;

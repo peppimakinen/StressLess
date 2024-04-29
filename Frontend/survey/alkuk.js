@@ -135,7 +135,9 @@ async function getDoctor() {
         if (response.ok && responseData) { // Check both that fetch was ok and responseData is truthy
             console.log('Doctor found:', responseData);
             const doctorPair = responseData.found_doctor.username;
+            const doctorName = responseData.found_doctor.full_name;
             localStorage.setItem("Paired_doc_name", doctorPair);
+            localStorage.setItem("doc_name", doctorName);
             console.log(doctorPair);
             document.getElementById('popup2').style.display = 'block';
             document.getElementById('overlay').style.display = 'block';
@@ -148,7 +150,7 @@ async function getDoctor() {
         }
     } catch (error) {
         console.error('Error finding doctor:', error);
-        alert('An error occurred while trying to find the doctor. Please try again.');
+        showCustomAlert('Virhe etsiessä lääkäriä, yritä uudelleen.');
     }
 }
 
@@ -160,7 +162,7 @@ async function pairDoctor() {
     const token = localStorage.getItem("token");
 
     if (!doctorUsername) {
-        alert("No doctor username found in storage. Please try again.");
+        showCustomAlert("Lääkäriä ei löytynyt.");
         return;
     }
 
@@ -261,17 +263,15 @@ survey.addEventListener('click', async (evt) => {
         }, 3000);  // 3000 millisekuntia = 3 sekuntia
     } catch (error) {
         console.error('Error submitting form data:', error);
-        alert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
+        showCustomAlert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
     }
 });
 
 
-
-// checkbox
-// Select the form and the checkbox element
+// lähetään alkukartoituse lääkärin yhdistämisen jälkeen
 const doctorForm2 = document.querySelector('.doctor_form2');
 
-if (doctorForm2 ) {
+if (doctorForm2) {
     doctorForm2.addEventListener('submit', async function(event) {
         event.preventDefault();  // Prevent the default form submission
         console.log('Submit button clicked');
@@ -324,6 +324,7 @@ if (doctorForm2 ) {
 
         console.log('Survey submitted successfully');
         showCustomAlert('Alkukartoitus on nyt suoritettu. Sinut uudelleenohjataan kalenterisivulle.');
+        pairDoctor()
         // Aseta uudelleenohjaus tapahtumaan 3 sekunnin kuluttua
         setTimeout(() => {
             window.location.href = '../home/patienthome.html';
