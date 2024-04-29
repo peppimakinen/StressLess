@@ -83,9 +83,24 @@ p {
     box-shadow: 0 2px 2px #313E50;
 }
 
+.submit-info {
+    background-color: #313E50;
+    width: 300px;
+    padding: 20px;
+    color: #fffaff;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 100;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 30px;
+    margin-bottom: 100px;
+} 
 
-
-input[type="submit"] {
+/* input[type="submit"] */
+#yes,
+#no,
+.submitdoc {
     background-color: #313E50;
     width: 300px;
     padding: 20px;
@@ -101,9 +116,6 @@ input[type="submit"] {
     margin-bottom: 100px;
 }
 
-#redirect {
-    align-items: center;
-}
 
 #question18 {
     width: 400px;

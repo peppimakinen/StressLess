@@ -185,6 +185,7 @@ async function pairDoctor() {
             showSnackbar('#9BCF53','Lääkäri yhdistetty onnistuneesti.');
         } else {
             showCustomAlert('Lääkäriä ei pystytty yhdistämään.');
+            preventDefault()
             return null;
         }
     } catch (error) {
