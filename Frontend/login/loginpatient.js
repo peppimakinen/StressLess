@@ -39,16 +39,25 @@ LoginPatient.addEventListener("click", async (evt) => {
     localStorage.setItem("user_name", responseData.user.full_name);
     localStorage.setItem("user_level", responseData.user.user_level);
     localStorage.setItem("user_id", responseData.user.user_id);
-    showSnackbar('Green', 'Kirjaudutaan sisään!');
-    //console.log(responseData.user.surveyCompleted)
-    setTimeout(() => {
-      window.location.href = '../survey/alkukartoitus.html';
-    }, 3000);  // 3000 millisekuntia = 3 sekuntia '
-
+    
+    // Redirect based on survey completion status
+    if (responseData.user.surveyCompleted) {
+      showSnackbar('Green', 'Kirjaudutaan sisään!');
+      setTimeout(() => {
+        window.location.href = '../home/patienthome.html';
+      }, 3000);  // 3000 milliseconds = 3 seconds
+    } else {
+      showSnackbar('Green', 'Kirjaudutaan sisään!');
+      setTimeout(() => {
+        window.location.href = '../survey/alkukartoitus.html';
+      }, 3000);  // 3000 milliseconds = 3 seconds
+    }
+  
   } catch (error) {
     console.error(error);
     alert("Error logging in");
   }
+  
 });
 
 // Function to clear local storage
