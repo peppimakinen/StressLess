@@ -6,6 +6,7 @@ import { getMonthData } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
 import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
 import { convertToYYYYMMDD } from "./convertday.js";
+import { showSnackbar } from "../snackbar.js";
 
 // RENDERING CALENDAR
 // get new date, current year and month
@@ -130,6 +131,7 @@ const createEntry = document.querySelector('.submitNewEntry');
 createEntry.addEventListener('click', async (evt) => {
   evt.preventDefault();
   console.log('Lets create a new diary entry');
+  showSnackbar("Green","Uusi merkintä luotu");
 
   gatherNewData();
   hideAllPopups();
@@ -140,6 +142,7 @@ const editEntry = document.querySelector('.submitEditEntry');
 editEntry.addEventListener('click', async (evt) => {
   evt.preventDefault();
   console.log('Let\'s edit the diary entry');
+  showSnackbar("Green","Merkinnän muokkaus onnistui");
 
   gatherEditData();
   hideAllPopups();

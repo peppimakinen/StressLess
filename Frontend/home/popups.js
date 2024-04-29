@@ -2,6 +2,7 @@ import { populateActivitiesDropdown } from "./activities.js";
 import { convertToYYYYMMDD, convertToDDMMYYYY } from "./convertday.js";
 import { checkHRVDataForDate, hasEntry } from "./checkdata.js";
 import { getDayData } from "./getdata.js";
+import { showSnackbar } from "../snackbar.js";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
@@ -42,12 +43,12 @@ export async function showNewEntryPopup(date) {
       populateActivitiesDropdown('ActivitiesNew');
     } else {
       // HRV data not found, show an alert
-      alert("No HRV data was found for the selected date.");
+      showSnackbar("Red","HRV dataa ei löytynyt.");
     }
   } catch (error) {
     console.error("Error checking HRV data:", error);
     // Handle error appropriately
-    alert("An error occurred while checking HRV data. Please try again later.");
+    showSnackbar("Red","HRV dataa ei löytynyt.");
   }
 }
 
