@@ -64,7 +64,7 @@ window.addEventListener('load', async (evt) => {
 
     // Data for the pie chart (percentages)
     const dataPie = {
-        colors: ['Red', 'Green', 'Grey', 'Yellow'],
+        colors: ['#FF8585', '#9BCF53', '#313E50', '#FFF67E'],
         percentages: [moodRed, moodGreen, moodGrey, moodYellow] 
     };
 
@@ -119,29 +119,29 @@ window.addEventListener('load', async (evt) => {
 
     // Data for the bar chart (percentages for each day of the week)
     const dataBar = {
-        days: ['Maanantai', 'Tiistai', 'Keskiviikko', 'Torstai', 'Perjantai', 'Lauantai', 'Sunnuntai'],
+        days: ['Ma', 'Ti', 'Ke', 'To', 'Pe', 'La', 'Su'],
         percentages: [monday, tuesday, wednesday, thursday, friday, saturday, sunday] 
     };
 
     // Bar chart properties
     const barWidth = 10;
     const barSpacing = 30
-    const chartHeight = canvasBar.height - 40;
+    const chartHeight = canvasBar.height - 30;
 
     // Draw the bars
     ctxBar.fillStyle = 'black';
     dataBar.percentages.forEach((percentage, index) => {
         const barHeight = (percentage / 10) * chartHeight;
-        const x = (barWidth + barSpacing) * index + 15;
+        const x = (barWidth + barSpacing) * index + 20;
         const y = chartHeight - barHeight;
         ctxBar.fillRect(x, y, barWidth, barHeight);
     });
 
     // Draw the labels
     ctxBar.fillStyle = 'black';
-    ctxBar.font = '7px tahoma';
+    ctxBar.font = '14px tahoma';
     dataBar.days.forEach((day, index) => {
-        const x = (barWidth + barSpacing) * index;
+        const x = (barWidth + barSpacing) * index + 15;
         const y = chartHeight + 20;
         ctxBar.fillText(day, x, y);
         });
@@ -157,7 +157,7 @@ window.addEventListener('load', async (evt) => {
         ctxBar.moveTo(10, yPos); // Start at the left of the chart
         ctxBar.lineTo(canvasBar.width, yPos); // Draw a line to the right of the chart
         ctxBar.stroke();
-        ctxBar.fillText(i.toString(), 5, yPos - 5); // Draw scale label
+        ctxBar.fillText(i.toString(), 0, yPos - 5); // Draw scale label
     }
 
         } catch (error) {
