@@ -16,6 +16,8 @@
 
 <body>
     <h1>Alkukartoitus</h1>
+    <p>Tervetuloa alkukartoitukseen! Vastaathan ainakin kaikkiin <br>
+        pakollisiin (*) merkillä merkittyihin kysymyksiin.</p>
 
     <div id="questions">
         <form class="answer-form-all">
@@ -75,11 +77,23 @@
                 </li>
                 <li>
                     <label for="question9">Vaikuttaako nämä tunteet päivittäiseen <br>elämään/arkeen/opintoihin kuinka vahvasti?</label>
-                    <input type="text" id="question9" name="question9" placeholder="Kirjoita tähän..." />
+                    <select id="question9" name="question9">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Paljon">Paljon</option>
+                        <option value="Jonkun verran">Jonkun verran</option>
+                        <option value="Vähän">Vähän</option>
+                        <option value="Ei">Ei vaikuta</option>
+                    </select>
                 </li>
                 <li>
                     <label for="question10">Kuinka usein koet näitä tunteita viikossa?</label>
-                    <input type="text" id="question10" name="question10" placeholder="Kirjoita tähän..." />
+                    <select id="question10" name="question10">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Paljon">Paljon</option>
+                        <option value="Jonkun verran">Jonkun verran</option>
+                        <option value="Vähän">Vähän</option>
+                        <option value="Ei">En koe</option>
+                    </select>
                 </li>
                 <li>
                     <label for="question11">Vaikuttaako kokemasi stressi tulevaisuuden näkymääsi?</label>
@@ -126,7 +140,9 @@
                     <input type="text" id="question15" name="question15" placeholder="Kirjoita tähän..." required />
                 </li>
                 <li>
-                    <label for="question16">Miten sykkeesi käyttäytyy rasituksen alaisena?</label>
+                    <label for="question16">Miten sykkeesi käyttäytyy rasituksen alaisena? <br>
+                    (esim. nouseeko ja laskeeko sykkeesi tasaisesti vai <br>
+                    hyppiikö syke korkealta matalalle rasituksessa?)</label>
                     <input type="text" id="question16" name="question16" placeholder="Kirjoita tähän..."/>
                 </li>
                 <li>
