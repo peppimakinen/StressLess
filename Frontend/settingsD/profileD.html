@@ -59,8 +59,24 @@
                             <img src="../assets/ImgEmailIcon.png" alt="emailpic">
                             <span id="email">sposti</span>
                         </li>
-                        <li class="blocks"><a href="https://kubioscloud.auth.eu-west-1.amazoncognito.com/login?response_type=code&client_id=1h4rmoi5s66u2cliaqcpuejgpg&redirect_uri=https://analysis.kubioscloud.com/v2/portal/login&scope=openid%20profile%20email%20phone">Vaihda salasana</a></li>
                     </ul>
+                    <div id="passwordModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form id="passwordForm">
+                                <label for="newPassword">Uusi salasana:</label>
+                                <p>3-128 merkkiä</p>
+                                <input type="password" id="newPassword" name="new_password" placeholder="Uusi salasana..." required>
+                                <button type="submit" id="nappi">Vahvista</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <ul class="blocks">
+                        <li><a href="#" id="changePasswordLink">Vaihda salasana</a></li>
+                    </ul>
+                    <div id="snackbar-target"></div>
+                    
                 </div>
             </div>
 
