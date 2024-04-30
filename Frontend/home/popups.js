@@ -8,6 +8,7 @@ import { showSnackbar } from "../snackbar.js";
 const NewEntry = document.querySelector(".FormPopupNew");
 const PastEntry = document.querySelector(".PopupPastEntry");
 const EditEntry = document.querySelector(".FormPopupEdit");
+const InfoPopup = document.querySelector(".InfoPopup");
 const calendarWrapper = document.querySelector(".calendarBackground");
 const overlay = document.getElementById("overlay");
 
@@ -28,7 +29,7 @@ export async function showNewEntryPopup(date) {
 
     if (hrvDataFound) {
       // HRV data found, display the FormPopupNew modal
-      NewEntry.style.display = "block";
+      NewEntry.style.display = "flex";
       calendarWrapper.style.display = "none";
       overlay.style.display = "block";
 
@@ -99,7 +100,7 @@ export async function showPastEntryPopup(date, monthData) {
       ).textContent = entryData.diary_entry.notes || "No notes";
 
       // Display the PastEntry modal
-      PastEntry.style.display = "block";
+      PastEntry.style.display = "flex";
       calendarWrapper.style.display = "none";
       overlay.style.display = "block";
     } else {
@@ -114,7 +115,7 @@ export async function showPastEntryPopup(date, monthData) {
 
 // Function to show EditEntry popup
 export function showEditEntryPopup() {
-  EditEntry.style.display = "block";
+  EditEntry.style.display = "flex";
   PastEntry.style.display = "none";
   // Update the date in the FormPopupEdit modal
   document.querySelector(".FormPopupEdit .EntryHeading").textContent =
@@ -123,12 +124,19 @@ export function showEditEntryPopup() {
   populateActivitiesDropdown('ActivitiesEdit');
 }
 
+export function showInfoPopup() {
+  InfoPopup.style.display = "block";
+  overlay.style.display = "block";
+  calendarWrapper.style.display = "none";
+}
+
 
 // Function to hide all popups
 export function hideAllPopups() {
   NewEntry.style.display = "none";
   PastEntry.style.display = "none";
   EditEntry.style.display = "none";
+  InfoPopup.style.display = "none";
   calendarWrapper.style.display = "block";
   overlay.style.display = "none";
 }

@@ -4,7 +4,7 @@ import { gatherNewData } from "./newentry.js";
 import { gatherEditData } from "./editentry.js";
 import { getMonthData } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
-import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
+import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, showInfoPopup, hideAllPopups } from "./popups.js";
 import { convertToYYYYMMDD } from "./convertday.js";
 import { showSnackbar } from "../snackbar.js";
 
@@ -117,7 +117,13 @@ editIcon.addEventListener("click", () => {
     }
 });
 
-
+// event listener for info icon
+const info = document.querySelector('.infoIcon');
+info.addEventListener('click', async (evt) => {
+  evt.preventDefault();
+  console.log('clicked info!');
+  showInfoPopup();
+})
 
 // event listener for closePopup buttons
 const closePopups = document.querySelectorAll(".closePopup");

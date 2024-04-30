@@ -22,6 +22,7 @@ body {
     background-image: url(../assets/imgBg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 /* navigation */
@@ -142,6 +143,7 @@ h1 {
     transform: translateY(-50%); 
     width: 40px;
     height: auto;
+    z-index: 3;
 }
 
 header .calendarHeader {
@@ -268,6 +270,45 @@ header .calendarHeader span {
     border-radius: 50px;
     width: 60%;
     z-index: 2;
+}
+
+.InfoPopup {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: auto;
+    margin-top: 50px;
+    padding: 50px;
+    border-radius: 50px;
+    width: 60%;
+    z-index: 2;
+    overflow: auto;
+    width: 80%;
+    max-height: 90%;
+}
+
+.InfoPopup h4 {
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 700;
+    font-size: 28px;
+    color: #1E1B18;
+    padding-top: 10px;
+}
+
+.InfoPopup p {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    color: #1E1B18;
+    padding: 20px;
 }
 
 .EntryHeading {
