@@ -295,6 +295,24 @@ p {
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
   }
 
+  textarea {
+    width: 300px;
+    padding: 13px;
+    background-color: #E1F6FA;
+    border: none;
+    border-radius: 10px;
+    color: #1E1B18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    box-shadow: 0 2px 2px #313E50;
+    margin-top: 10px;
+    overflow-y: hidden; /* Prevent vertical scrollbar from appearing */
+    resize: none; /* Prevent manual resizing */
+}
+
+
+
 /* responsive styles */
 @media screen and (max-width: 825px) {
     .answer-form-all input[type="date"],

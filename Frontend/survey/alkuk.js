@@ -1,6 +1,7 @@
 import { fetchData } from '../assets/fetch.js';
 import { showSnackbar } from "../snackbar.js";
 
+
 // ENTERIN TOIMIMATTOMUUS KIITOS
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.answer-form-all');
