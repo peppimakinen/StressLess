@@ -13,7 +13,9 @@ const authRouter = express.Router();
 /**
  * @apiDefine all No authentication needed.
  */
-
+/**
+ * @apiDefine admin Authentication done withing request using password.
+ */
 /**
  * @apiDefine onlyPatients Only signed in users with patient token.
  */

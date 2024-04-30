@@ -55,8 +55,8 @@ const surveyRouter = express.Router();
  *     }
  */
 /**
- * @apiDefine SurveyMissingListError
- * @apiError SurveyMissingListError There is no list in request for activities
+ * @apiDefine MissingActivitiesListError
+ * @apiError MissingActivitiesListError There is no list in request for activities
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 400 Bad Request
  *     {
@@ -105,8 +105,8 @@ const surveyRouter = express.Router();
  *     }
  */
 /**
- * @apiDefine SurveyInvalidActivityError
- * @apiError SurveyMissingListError Activity list item lenght is too long
+ * @apiDefine InvalidActivityError
+ * @apiError InvalidActivityError Activity list item lenght is too long
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 400 Bad Request
  *     {
@@ -208,10 +208,10 @@ surveyRouter
  *       }
  *
  * @apiUse SurveyRequestEmpty
- * @apiUse SurveyMissingListError
+ * @apiUse MissingActivitiesListError
  * @apiUse SurveyMissingQuestion
  * @apiUse TooManyActivitiesListsError
- * @apiUse SurveyInvalidActivityError
+ * @apiUse InvalidActivityError
  * @apiUse InvalidSurveyAnswerError
  * @apiUse EmptyActivitiesListError
  * @apiUse ExistingSurveyError

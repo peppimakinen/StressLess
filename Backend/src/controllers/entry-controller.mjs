@@ -504,7 +504,7 @@ const validateyActivitiesList = (req) => {
   const activitiesList = req.body.activities;
   // Make sure activity list exists in the request
   if (!Array.isArray(activitiesList)) {
-    throw customError('Activities list missing', 400);
+    throw customError('"Missing a list for activities"', 400);
   } else {
     // Check that each activity item is valid
     const invalidListItems = checkActivities(activitiesList);
