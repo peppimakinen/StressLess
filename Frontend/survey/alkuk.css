@@ -194,7 +194,7 @@ p {
 .doctor_form input[type="text"],
 .doctor_form input[type="email"],
 .doctor_form2 input[type="text"] {
-    width: 300px;
+    width: 400px;
     padding: 13px;
     background-color: #E1F6FA;
     border: none;
@@ -296,7 +296,7 @@ p {
   }
 
   textarea {
-    width: 300px;
+    width: 600px;
     padding: 13px;
     background-color: #E1F6FA;
     border: none;
@@ -318,7 +318,8 @@ p {
     .answer-form-all input[type="date"],
     .answer-form-all input[type="text"],
     .answer-form-all input[type="number"],
-    .answer-form-all select {
+    .answer-form-all select,
+    textarea {
         width: 300px;
     }
     #question14 {
