@@ -1,3 +1,4 @@
+import { showSnackbar } from "../snackbar.js";
 import { fetchData } from "./fetch.js";
 
 // PAGE LOAD
@@ -42,7 +43,7 @@ LoginUser.addEventListener("click", async (evt) => {
     );
   } catch (error) {
     console.error(error);
-    alert("Error logging in");
+    showSnackbar("Red", "Error logging in");
   }
 });
 
