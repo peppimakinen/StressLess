@@ -1,4 +1,4 @@
-import { convertToYYYYMMDD } from "./convertday";
+import { convertToYYYYMMDD } from "./convertday.js";
 
 // function to send POST request using fetch
 async function putData(url, options = {}) {
