@@ -186,6 +186,13 @@ const getLatestReportDateByUserId = async (userId) => {
   }
 };
 
+/**
+ * Get Stress index for specific date
+ * @async
+ * @param {Date} endDate
+ * @param {Int} userId
+ * @return {Object} Result
+ */
 const getStressIndexByDates = async (endDate, userId) => {
   try {
     const sql = `
@@ -204,11 +211,11 @@ const getStressIndexByDates = async (endDate, userId) => {
 };
 
 export {
+  getLatestReportDateByUserId,
   getFirstEntryDateByUserId,
+  getAvailableReportDates,
   getStressIndexByDates,
   getReportData,
-  getLatestReportDateByUserId,
   addWeekReport,
-  getAvailableReportDates,
   getReport,
 };
