@@ -117,6 +117,11 @@ input[type="submit"]:focus {
     outline: none;
 }
 
+#KubiosLink {
+    text-align: center;
+
+}
+
 #snackbar-target {
     visibility: hidden;
     min-width: 250px;
