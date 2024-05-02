@@ -55,7 +55,7 @@ LoginPatient.addEventListener("click", async (evt) => {
   
   } catch (error) {
     console.error(error);
-    alert("Error logging in");
+    showSnackbar("Red","Error logging in");
   }
   
 });
