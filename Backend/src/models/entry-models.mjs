@@ -1,7 +1,12 @@
-/* eslint-disable camelcase */
 import promisePool from '../utils/database.mjs';
 
-
+/**
+ * Get specific entry using entry date
+ * @async
+ * @param {Int} userId
+ * @param {Date} date Date of entry
+ * @return {Object} Search result. Empty list is not returned
+ */
 const getEntryUsingDate = async (userId, date) => {
   try {
     const sql = `
@@ -26,12 +31,20 @@ const getEntryUsingDate = async (userId, date) => {
     }
     // return all found entries
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.error('getEntryUsingDate', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Update a specific entry using entry ID
+ * @async
+ * @param {List} params List containing entry date, color and notes
+ * @param {Int} entryId Entry ID for a specific entry
+ * @return {Object} result
+ */
 const updateEntry = async (params, entryId) => {
   try {
     const sql = `
@@ -39,15 +52,25 @@ const updateEntry = async (params, entryId) => {
         set entry_date=?, mood_color=?, notes=?
       WHERE 
         entry_id=?;`;
+    // Add entry ID to params list
     params.push(entryId);
     const rows = await promisePool.query(sql, params);
     return rows;
+  // Handle errors
   } catch (error) {
     console.error('updateEntry', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get all entries with limited HRV data for a specific month and user ID
+ * @async
+ * @param {Int} year year between 2020-2030
+ * @param {Int} month
+ * @param {Int} userId
+ * @return {List} List with search results. Empty list is also returned
+ */
 const getMonthlyPatientEntries = async (year, month, userId) => {
   try {
     const sql = `
@@ -81,12 +104,21 @@ const getMonthlyPatientEntries = async (year, month, userId) => {
     const [rows] = await promisePool.query(sql, params);
     // return all found entries
     return rows;
+  // Handle errors
   } catch (error) {
     console.error('getEntriesFromSpecificMonth', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get all entries with full hrv data for a specific month and user ID
+ * @async
+ * @param {Int} year year between 2020-2030
+ * @param {Int} month
+ * @param {Int} patienId Patient ID is the same as user ID
+ * @return {List} List with search results. Empty list is also returned
+ */
 const getMonthlyEntriesForDoctor = async (year, month, patienId) => {
   try {
     const sql = `
@@ -137,12 +169,21 @@ const getMonthlyEntriesForDoctor = async (year, month, patienId) => {
     const [rows] = await promisePool.query(sql, params);
     // return all found entries
     return rows;
+  // Handle errors
   } catch (error) {
     console.error('getEntriesFromSpecificMonthForDoctor', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get all activities that are linked to a specific entry with date
+ * @async
+ * @param {Int} entryId
+ * @param {Int} userId
+ * @param {Date} entryDate
+ * @return {List} List with search results. Empty list is also returned
+ */
 const getActivitiesForEntry = async (entryId, userId, entryDate) => {
   try {
     const sql = `
@@ -162,12 +203,21 @@ const getActivitiesForEntry = async (entryId, userId, entryDate) => {
     const [rows] = await promisePool.query(sql, params);
     // return all found entries
     return rows;
+  // Handle errors
   } catch (error) {
     console.error('getActivitiesForEntry', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get limited HRV values that are linked to a specific entry with entry ID
+ * @async
+ * @param {Int} entryId
+ * @param {Int} userId
+ * @param {Date} date
+ * @return {Object} Result. Empty list is not returned
+ */
 const getMeasurementsForPatient = async (entryId, userId, date) => {
   try {
     const sql = `
@@ -194,21 +244,30 @@ const getMeasurementsForPatient = async (entryId, userId, date) => {
     `;
     const params = [userId, entryId, date];
     const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
+    // if nothing is found, return a error
     if (rows.length === 0) {
       return {
         error: 404,
         message: `No measurements found with entry_id=${entryId}`,
       };
     }
-    // return all found entries
+    // return first item from result
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.error('getMeasurementsForPatient', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get all HRV values that are linked to a specific entry with entry ID
+ * @async
+ * @param {Int} entryId
+ * @param {Int} userId
+ * @param {Date} date
+ * @return {Object} result. Empty list is not returned
+ */
 const getMeasurementsForDoctor = async (entryId, userId, date) => {
   try {
     const sql = `
@@ -252,60 +311,96 @@ const getMeasurementsForDoctor = async (entryId, userId, date) => {
     `;
     const params = [userId, entryId, date];
     const [rows] = await promisePool.query(sql, params);
-    // if nothing is found with the user id, result array is empty []
+    // if nothing is found, return a error
     if (rows.length === 0) {
       return {
         error: 404,
         message: `No measurements found with entry_id=${entryId}`,
       };
     }
-    // return all found entries
+    // Return first item from result
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.error('getMeasurementsForDoctor', error);
     return {error: 500, message: 'db error'};
   }
 };
+
+/**
+ * Add new entry data to DiaryEntries table
+ * @async
+ * @param {List} params data for columns
+ * @return {Object} results
+ */
 const addEntry = async (params) => {
   const sql = `INSERT INTO DiaryEntries (user_id, entry_date, mood_color, notes)
   VALUES (?, ?, ?, ?)`;
   try {
     const rows = await promisePool.query(sql, params);
+    // Return result
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.log('addEntry', error);
     return {error: 500, message: 'Failed to add a new DiaryEntry'};
   }
 };
 
+/**
+ * Delete all activities linked to a specific entry
+ * @async
+ * @param {Int} entryId
+ * @return {Object} results
+ */
 const deleteExistingActivities = async (entryId) => {
   const sql = `DELETE FROM CompletedActivities WHERE e_id=?; `;
   try {
     const rows = await promisePool.query(sql, entryId);
     return rows[0];
   } catch (error) {
-    console.log('deleteExistingEntries', error);
+    console.error('deleteExistingEntries', error);
     return {error: 500, message: 'Failed to delete activities'};
   };
 };
 
+/**
+ * Take a list of activities and add them seperatly to CompletedActivities
+ * @async
+ * @param {Int} entryId
+ * @param {List} activitiesList List of completed activities on specific date
+ * @return {List} insertedRows
+ */
 const addAllActivities = async (entryId, activitiesList) => {
   const sql = `INSERT INTO CompletedActivities (e_id, activity_name)
     VALUES (?, ?)`;
+  // Initialize a list to save result data
   const insertedRows = [];
+  // Enter a try block
   try {
+    // Iterate over every list item / activity
     for (const activity of activitiesList) {
+      // Insert activity to db
       const params = [entryId, activity];
       const [rows] = await promisePool.query(sql, params);
+      // Save result to list
       insertedRows.push(rows);
     }
+    // Return saved data from all operations
     return insertedRows;
+  // Handle errors
   } catch (error) {
-    console.log('addAllActivities error:', error);
-    return {error: 500, message: 'Failed to add all activities'};
+    console.error('addAllActivities error:', error);
+    return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Take a list of HRV values and add them to a specific diary entry
+ * @async
+ * @param {List} params All needed HRV values from kubios in the correct order
+ * @return {Object} results
+ */
 const addMeasurement = async (params) => {
   const sql = `
   INSERT INTO Measurements (
@@ -319,12 +414,20 @@ const addMeasurement = async (params) => {
   try {
     const rows = await promisePool.query(sql, params);
     return rows[0];
+  // Handle errors
   } catch (error) {
-    console.log('addMeasurement', error);
-    return {error: 500, message: 'Failed to add a new set of Measurements'};
+    console.error('addMeasurement', error);
+    return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Update measurements that are linked to specific entry ID
+ * @async
+ * @param {List} params All needed HRV values from kubios in the correct order
+ * @param {int} entryId
+ * @return {Object} results
+ */
 const updateEntryMeasurements = async (params, entryId) => {
   const sql = `
     UPDATE Measurements m
@@ -344,25 +447,39 @@ const updateEntryMeasurements = async (params, entryId) => {
     params.push(entryId);
     const rows = await promisePool.query(sql, params);
     return rows[0];
+  // Handle errors
   } catch (error) {
-    console.log('updateEntryMeasurements', error);
-    return {error: 500, message: 'Failed to update Measurements'};
+    console.error('updateEntryMeasurements', error);
+    return {error: 500, message: 'db error'};
   }
 };
 
-
+/**
+ * Use DM table to connect a set of measurements to one specific entry
+ * @async
+ * @param {int} entryId
+ * @param {Int} measurementId
+ * @return {Object} results
+ */
 const connectMeasurementToEntry = async (entryId, measurementId) => {
   const sql = `INSERT INTO DM (m_id, e_id) VALUES (?, ?)`;
   const params = [measurementId, entryId];
   try {
     const rows = await promisePool.query(sql, params);
     return rows[0];
+  // Handle errors
   } catch (error) {
     console.log('connectMeasurementToEntry', error);
-    return {error: 500, message: 'Failed to connect measurement to entry'};
+    return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get count for specific users all entries
+ * @async
+ * @param {int} userId
+ * @return {Object} results
+ */
 const getEntryCount = async (userId) => {
   try {
     const sql = `
@@ -372,6 +489,7 @@ const getEntryCount = async (userId) => {
     WHERE user_id=?;`;
     const [rows] = await promisePool.query(sql, userId);
     return rows[0];
+  // Handle errors
   } catch (error) {
     return {error: 500, message: 'db error'};
   };
@@ -379,18 +497,18 @@ const getEntryCount = async (userId) => {
 
 
 export {
-  addEntry,
-  updateEntry,
-  getEntryCount,
-  getEntryUsingDate,
-  addAllActivities,
-  deleteExistingActivities,
-  addMeasurement,
+  getMonthlyEntriesForDoctor,
   getMeasurementsForPatient,
   connectMeasurementToEntry,
-  updateEntryMeasurements,
+  deleteExistingActivities,
   getMonthlyPatientEntries,
-  getMonthlyEntriesForDoctor,
-  getActivitiesForEntry,
   getMeasurementsForDoctor,
+  updateEntryMeasurements,
+  getActivitiesForEntry,
+  getEntryUsingDate,
+  addAllActivities,
+  addMeasurement,
+  getEntryCount,
+  updateEntry,
+  addEntry,
 };
