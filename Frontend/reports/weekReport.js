@@ -66,7 +66,7 @@ window.addEventListener('load', async (evt) => {
 
     // Data for the pie chart (percentages)
     const dataPie = {
-        colors: ['#FF8585', '#9BCF53', '#313E50', '#FFF67E'],
+        colors: ['#FF8585', '#9BCF53', '#D9D9D9', '#FFF67E'],
         percentages: [moodRed, moodGreen, moodGrey, moodYellow] 
     };
 
@@ -88,24 +88,19 @@ window.addEventListener('load', async (evt) => {
         ctxPie.arc(x, y, radius, angle, endAngle);
         ctxPie.fillStyle = dataPie.colors[index];
         ctxPie.fill();
-
-        //draw the label
-        // const textAngle = angle + sliceAngle / 2;
-        // const textX = x + radius * Math.cos(textAngle);
-        // const textY = y + radius * Math.sin(textAngle);
-        // ctx.font = '14px Arial';
-        // ctx.fillStyle = 'black';
-       // ctx.fillText(data.colors[index], textX, textY);
-
+        // Add a black outline
+        ctxPie.strokeStyle = 'black';
+        ctxPie.stroke(); // Draw the outline
         angle = endAngle;
     });
 
-    //labels for colors in pieChart
-    // data.colors.forEach((color, index) => {
-    //     ctx.fillStyle = color;
-    //     ctx.fillRect(20, 20 + index * 30, 15, 15);
-    //     ctx.fillStyle = 'black';
-    //     ctx.fillText(color, 40, 32 + index * 30);
+    // labels for colors in pieChart
+    // const labels = ['Punainen', 'Vihreä', 'Harmaa', 'Keltainen']
+    // dataPie.colors.forEach((color, index) => {
+    //     ctxPie.fillStyle = color;
+    //     ctxPie.fillRect(20, 20 + index * 30, 15, 15);
+    //     ctxPie.fillStyle = 'black';
+    //     ctxPie.fillText(labels[index], 40, 32 + index * 30);
     // });
 
     //bar-chart
@@ -126,8 +121,8 @@ window.addEventListener('load', async (evt) => {
     };
 
     // Bar chart properties
-    const barWidth = 10;
-    const barSpacing = 30
+    const barWidth = 15;
+    const barSpacing = 40
     const chartHeight = canvasBar.height - 30;
 
     // Draw the bars
@@ -135,8 +130,9 @@ window.addEventListener('load', async (evt) => {
     dataBar.percentages.forEach((percentage, index) => {
         const barHeight = (percentage / 10) * chartHeight;
         const x = (barWidth + barSpacing) * index + 20;
-        const y = chartHeight - barHeight;
+        const y = (chartHeight - barHeight);
         ctxBar.fillRect(x, y, barWidth, barHeight);
+        console.log(x, y, barHeight, chartHeight)
     });
 
     // Draw the labels
