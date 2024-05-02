@@ -1,5 +1,11 @@
 import promisePool from '../utils/database.mjs';
 
+/**
+ * Get weeks that containe reports
+ * @async
+ * @param {int} userId
+ * @return {List} Found reports with report ID. Returns a error if list is empty
+ */
 const getAvailableReportDates = async (userId) => {
   try {
     const sql = `
@@ -16,11 +22,18 @@ const getAvailableReportDates = async (userId) => {
     }
     return rows;
   } catch (error) {
-    console.error('getAllReportsWithUserId', error);
+    console.error('getAvailableReportDates', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get specific report with report ID
+ * @async
+ * @param {Int} userId
+ * @param {Int} reportId
+ * @return {Object} Result. Returns a error if result is empty
+ */
 const getReport = async (userId, reportId) => {
   try {
     const sql = `
@@ -54,11 +67,17 @@ const getReport = async (userId, reportId) => {
     }
     return rows[0];
   } catch (error) {
-    console.error('getAllReportsWithUserId', error);
+    console.error('getReport', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get the date for first entry for specific user ID
+ * @async
+ * @param {Int} userId
+ * @return {Object} Result. Returns a error if result is empty
+ */
 const getFirstEntryDateByUserId = async (userId) => {
   try {
     const sql = `
@@ -77,11 +96,19 @@ const getFirstEntryDateByUserId = async (userId) => {
     }
     return rows[0];
   } catch (error) {
-    console.error('getFirstEntryDate', error);
+    console.error('getFirstEntryDateByUserId', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Get data from DiaryEntries and Measurements between two dates
+ * @async
+ * @param {Int} userId
+ * @param {Date} startDate
+ * @param {endDate} endDate
+ * @return {List} Result. Returns a empty list if result is null
+ */
 const getReportData = async (userId, startDate, endDate) => {
   try {
     const sql = `
@@ -102,11 +129,17 @@ const getReportData = async (userId, startDate, endDate) => {
     const [rows] = await promisePool.query(sql, params);
     return rows;
   } catch (error) {
-    console.error('getAnalysisData', error);
+    console.error('getReportData', error);
     return {error: 500, message: 'db error'};
   }
 };
 
+/**
+ * Insert a new report to WeeklyReports
+ * @async
+ * @param {List} params List containing data for each column in order
+ * @return {List} Result.
+ */
 const addWeekReport = async (params) => {
   try {
     const sql = `
@@ -126,6 +159,12 @@ const addWeekReport = async (params) => {
   }
 };
 
+/**
+ * Get latest weekly report dates
+ * @async
+ * @param {Int} userId
+ * @return {Object} Result
+ */
 const getLatestReportDateByUserId = async (userId) => {
   try {
     const sql = `
@@ -147,6 +186,13 @@ const getLatestReportDateByUserId = async (userId) => {
   }
 };
 
+/**
+ * Get Stress index for specific date
+ * @async
+ * @param {Date} endDate
+ * @param {Int} userId
+ * @return {Object} Result
+ */
 const getStressIndexByDates = async (endDate, userId) => {
   try {
     const sql = `
@@ -165,11 +211,11 @@ const getStressIndexByDates = async (endDate, userId) => {
 };
 
 export {
+  getLatestReportDateByUserId,
   getFirstEntryDateByUserId,
+  getAvailableReportDates,
   getStressIndexByDates,
   getReportData,
-  getLatestReportDateByUserId,
   addWeekReport,
-  getAvailableReportDates,
   getReport,
 };

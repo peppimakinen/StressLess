@@ -53,4 +53,12 @@ LoginDoctor.addEventListener("click", async (evt) => {
 function clearLocalStorage() {
   localStorage.removeItem('token');
   localStorage.removeItem('user_id');
-}
+  localStorage.removeItem("user_email");
+  localStorage.removeItem("user_name");
+  localStorage.removeItem("user_level");
+  localStorage.removeItem("Paired_doc_Name");
+  localStorage.removeItem("doc_name");
+  localStorage.removeItem("full_name");
+  localStorage.removeItem("entry_count");
+  localStorage.removeItem("username");
+};

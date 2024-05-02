@@ -70,9 +70,13 @@ async function getDayData(entry_date) {
 }
 
 async function getPatientDay(entry_date) {
+  // Extracting the client parameter value from the URL
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const client = urlParams.get('client');
+
   console.log('Get patient day: ' + entry_date);
-  const patient_id = localStorage.getItem("patient_id");
-  const url = `http://127.0.0.1:3000/api/doctor/daily/${entry_date}/${patient_id}`;
+  const url = `http://127.0.0.1:3000/api/entries/doctor/daily/${entry_date}/${client}`;
   let token = localStorage.getItem("token");
 
   const options = {

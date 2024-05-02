@@ -91,7 +91,7 @@ li a {
 
 
 /* below */
-li {
+.box li {
     list-style: none;
     font-style: none;
     text-align: left;

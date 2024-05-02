@@ -9,6 +9,7 @@ import {
   getOwnPatients,
   insertNewPair,
   insertDoctor,
+  deletePair,
 } from '../models/user-model.mjs';
 import {
   deleteSelfFromDoctorPatientAsPatient,
@@ -247,7 +248,29 @@ const changeDoctorPassword = async (req, res, next) => {
   }
 };
 
+
+/**
+ * Handle doctor DELETE request to remove patient from self
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const removePatientFromSelf = async (req, res, next) => {
+  const patientId = req.params.patient_id;
+  const doctorId = req.user.user_id;
+  // Delete established pair with these ID's
+  const result = await deletePair(doctorId, patientId);
+  // Handle errors
+  if (result.error) {
+    return next(customError(result.message, result.error));
+  }
+  // Return ok message, if operation ok
+  return res.json({message: 'Pair removed'});
+};
+
 export {
+  removePatientFromSelf,
   changeDoctorPassword,
   getPatients,
   deleteSelf,
