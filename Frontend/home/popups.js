@@ -41,15 +41,15 @@ export async function showNewEntryPopup(date) {
         });
 
       // Populate the dropdown menu with activities
-      populateActivitiesDropdown('ActivitiesNew');
+      populateActivitiesDropdown("ActivitiesNew");
     } else {
       // HRV data not found, show an alert
-      showSnackbar("Red","HRV dataa ei löytynyt.");
+      showSnackbar("Red", "HRV dataa ei löytynyt.");
     }
   } catch (error) {
     console.error("Error checking HRV data:", error);
     // Handle error appropriately
-    showSnackbar("Red","HRV dataa ei löytynyt.");
+    showSnackbar("Red", "HRV dataa ei löytynyt.");
   }
 }
 
@@ -78,26 +78,26 @@ export async function showPastEntryPopup(date, monthData) {
         });
 
       // Update HRV data in the modal
-      document.querySelector(".PopupPastEntry .hrv p").textContent =
-        'PNS index: ' +
-        entryData.measurement_data.pns_index +
-        '\nSNS index: ' +
-        entryData.measurement_data.sns_index ||
-        "HRV data not available";
+      document.querySelector(".PopupPastEntry .hrv #sns").textContent =
+        "SNS-indeksi: " + entryData.measurement_data.sns_index;
+
+      document.querySelector(".PopupPastEntry .hrv #pns").textContent =
+        "PNS-indeksi: " + entryData.measurement_data.pns_index;
+
+      document.querySelector(".PopupPastEntry .hrv #stress").textContent =
+        "Stressi-indeksi: " + entryData.measurement_data.stress_index;
 
       // Update activities data in the modal
       const activitiesList =
         entryData.activities && entryData.activities.length > 0
           ? entryData.activities.join(", ")
           : "No activities";
-      document.querySelector(
-        ".PopupPastEntry .activitiesPast p"
-      ).textContent = activitiesList;
+      document.querySelector(".PopupPastEntry .activitiesPast p").textContent =
+        activitiesList;
 
       // Update notes data in the modal
-      document.querySelector(
-        ".PopupPastEntry .notesPast p"
-      ).textContent = entryData.diary_entry.notes || "No notes";
+      document.querySelector(".PopupPastEntry .notesPast p").textContent =
+        entryData.diary_entry.notes || "No notes";
 
       // Display the PastEntry modal
       PastEntry.style.display = "flex";
@@ -121,7 +121,7 @@ export function showEditEntryPopup() {
   document.querySelector(".FormPopupEdit .EntryHeading").textContent =
     selectedDate;
   // Populate the dropdown menu with activities
-  populateActivitiesDropdown('ActivitiesEdit');
+  populateActivitiesDropdown("ActivitiesEdit");
 }
 
 export function showInfoPopup() {
@@ -129,7 +129,6 @@ export function showInfoPopup() {
   overlay.style.display = "block";
   calendarWrapper.style.display = "none";
 }
-
 
 // Function to hide all popups
 export function hideAllPopups() {
