@@ -1,13 +1,15 @@
 import { fetchData } from "../assets/fetch";
 import { showSnackbar } from "../snackbar";
 
-function initialPageReload() {
-    if (!sessionStorage.getItem('reloaded')) {
-        sessionStorage.setItem('reloaded', 'true');
-        window.location.reload();
-    }
+
+// Check if the URL parameter `redirected` is not set
+if (!window.location.search.includes('redirected=true')) {
+    setTimeout(() => {
+        // Append `redirected=true` to the URL
+        window.location.href = '../settings/contacts.html?redirected=true';
+    }, 500);
 }
-initialPageReload();
+
 
 
 function showProfile() {
@@ -48,9 +50,9 @@ async function getOwnDoctor() {
     } catch (error) {
         showSnackbar("Grey","Lääkäriä ei ole yhdistetty");
     }
-}
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
-    showProfile();
-    getOwnDoctor();
+    document.addEventListener('DOMContentLoaded', function() {
+        showProfile();
+        getOwnDoctor();
 });
