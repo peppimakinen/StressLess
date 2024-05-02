@@ -153,6 +153,29 @@ const updateDoctorPasswordWithId = async (userId, newPasswordHash) => {
     throw customError('deleteSelfFromDoctorPatient error', 500);
   }
 };
+/**
+ * Delete pair using patient and doctor ID's
+ * @async
+ * @param {Int} doctorId
+ * @param {Int} patientId
+ * @return {object} Result
+ */
+const deletePair = async (doctorId, patientId) => {
+  try {
+    const sql = `DELETE FROM DoctorPatient WHERE doctor_id=? AND patient_id=?`;
+    const [rows] = await promisePool.query(sql, [doctorId, patientId]);
+    // Check if any rows were affected
+    if (rows.affectedRows === 0) {
+      // Return a 500 error
+      return {error: 500, message: 'No affected rows because pair was not found'};
+    }
+    return rows;
+  // Handle errors
+  } catch (error) {
+    console.error('Error in deletePair:', error);
+    return {error: 500, message: 'db error'};
+  }
+};
 
 const getOwnDoctor = async (userId) => {
   try {
@@ -233,4 +256,5 @@ export {
   getOwnDoctor,
   getOwnPatients,
   getDoctorPatientPair,
+  deletePair,
 };

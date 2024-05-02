@@ -292,6 +292,7 @@ surveyRouter
  *         ]
  *       }
  *
+ * @apiUse ForbiddenDoctorRequest
  * @apiUse PatientAccessingDoctorEndpointError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError

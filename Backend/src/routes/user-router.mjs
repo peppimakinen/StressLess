@@ -2,11 +2,13 @@ import {authenticateToken} from '../middlewares/authentication.mjs';
 import {body, param} from 'express-validator';
 import express from 'express';
 import {
+  verifyRightToViewPatientsData,
   validationErrorHandler,
   onlyForPatientHandler,
   onlyForDoctorHandler,
 } from '../middlewares/error-handler.mjs';
 import {
+  removePatientFromSelf,
   changeDoctorPassword,
   getPatients,
   postDoctor,
@@ -110,6 +112,18 @@ const userRouter = express.Router();
  *       "error": {
  *         "message": "Username or email already taken",
  *         "status": 409
+ *       }
+ *     }
+ */
+/**
+ * @apiDefine DeletePairError
+ * @apiError DeletePairError Pair was not found from db and couldnt be deleted
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal server error
+ *     {
+ *       "error": {
+ *         "message": "No affected rows because pair was not found",
+ *         "status": 500
  *       }
  *     }
  */
@@ -294,6 +308,42 @@ userRouter
     body('new_password').isLength({min: 3, max: 128}),
     validationErrorHandler,
     changeDoctorPassword,
+  );
+
+/**
+ * @api {delete} api/users/doctor/delete-patient/:patient_id Delete pair as doctor
+ * @apiVersion 1.0.0
+ * @apiName removePatientFromSelf
+ * @apiGroup Users
+ * @apiPermission onlyDoctor
+ *
+ * @apiDescription Delete patient from own Patients list
+ *
+ * @apiParam {Int} patient_id user ID of the selected patient
+ *
+ * @apiSuccess {string} Message Message indicating succesfull operation
+ *
+ * @apiSuccessExample Success-Response:
+ *    HTTP/1.1 200 OK
+ *       {
+ *          "memssage":"Pair removed"
+ *       }
+ *
+ * @apiUse DeletePairError
+ * @apiUse ForbiddenDoctorRequest
+ * @apiUse PatientAccessingDoctorEndpointError
+ * @apiUse InvalidTokenError
+ * @apiUse TokenMissingError
+ */
+userRouter
+  .route('/doctor/delete-patient/:patient_id')
+  .delete(
+    authenticateToken,
+    onlyForDoctorHandler,
+    param('patient_id').isInt(),
+    validationErrorHandler,
+    verifyRightToViewPatientsData,
+    removePatientFromSelf,
   );
 
 /**

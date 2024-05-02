@@ -134,6 +134,12 @@ const getReportData = async (userId, startDate, endDate) => {
   }
 };
 
+/**
+ * Insert a new report to WeeklyReports
+ * @async
+ * @param {List} params List containing data for each column in order
+ * @return {List} Result.
+ */
 const addWeekReport = async (params) => {
   try {
     const sql = `
@@ -153,6 +159,12 @@ const addWeekReport = async (params) => {
   }
 };
 
+/**
+ * Get latest weekly report dates
+ * @async
+ * @param {Int} userId
+ * @return {Object} Result
+ */
 const getLatestReportDateByUserId = async (userId) => {
   try {
     const sql = `
