@@ -68,6 +68,7 @@ body {
 .LoginHeading {
     text-align: center;
     padding-top: 20px;
+    margin-bottom: 10px;
     color: #1E1B18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
