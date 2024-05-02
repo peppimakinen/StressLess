@@ -51,6 +51,43 @@ document.getElementById('passwordForm').addEventListener('submit', async functio
     }
 });
 
+//tilin poisto
+document.querySelector('.pic a').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.getElementById('deleteModal').style.display = 'block';
+  });
+  
+  document.querySelector('.close2').addEventListener('click', function() {
+    document.getElementById('deleteModal').style.display = 'none';
+  });
+  
+  document.getElementById('confirmDeletion').addEventListener('click', async function() {
+    const userInput = document.getElementById('deleteConfirm').value;
+    if (userInput === 'Poista tili') {
+      try {
+        const response = await fetch('http://127.0.0.1:3000/api/users', {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        if (response.ok) {
+            showSnackbar("Green","Tili poistettu onnistuneesti");
+            setTimeout(() => {
+                window.location.href = '../login/logindoctor.html';
+            }, 3000);
+        } else {
+          throw new Error('Failed to delete account');
+        }
+      } catch (error) {
+        showSnackbar("Red", error.message);
+      }
+    } else {
+        showSnackbar("Red", "Poistaminen epäonnistui: väärä teksti");
+    }
+    document.getElementById('deleteModal').style.display = 'none';
+  });
 
 showProfile()
 

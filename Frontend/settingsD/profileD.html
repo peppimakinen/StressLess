@@ -42,13 +42,11 @@
         </div>
         <div class="divider"></div> <!-- Tässä on väliviiva -->
         <div class="right-column">
-            <h1>Tiedot</h1>
+            <h1>Profiili</h1>
             <div class="profile-content">
                 <div class="profile-list">
                     <ul class="title">
-                        <li>
-                            <h2>Käyttäjätiedot</h2>
-                        </li>
+                        <li><h2>Käyttäjätiedot</h2></li>
                     </ul>
                     <ul class="links">
                         <li style="display: flex; align-items: center;">
@@ -60,21 +58,38 @@
                             <span id="email">sposti</span>
                         </li>
                     </ul>
+                    <ul class="buttons">
+                        <li id="passw"><a href="#" id="changePasswordLink">Vaihda salasana</a></li>
+                        <li class="pic">
+                            <img src="../assets/ImgDeleteIcon.png" alt="Delete Icon">
+                            <a href="#">Poista Käyttäjä</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
                     <div id="passwordModal" class="modal">
                         <div class="modal-content">
                             <span class="close">&times;</span>
                             <form id="passwordForm">
-                                <label for="newPassword">Uusi salasana:</label>
-                                <p>3-128 merkkiä</p>
+                                <h2>Uusi salasana</h2>
+                                <p>Täytyy sisältää 3-128 merkkiä</p>
                                 <input type="password" id="newPassword" name="new_password" placeholder="Uusi salasana..." required>
                                 <button type="submit" id="nappi">Vahvista</button>
                             </form>
                         </div>
                     </div>
                     
-                    <ul class="blocks">
-                        <li><a href="#" id="changePasswordLink">Vaihda salasana</a></li>
-                    </ul>
+                    
+                    <div id="deleteModal" class="modal2">
+                        <div class="modal-content2">
+                          <span class="close2">&times;</span>
+                          <h2>Oletko varma, että haluat poistaa tilin?</h2>
+                          <p>Kirjoita "Poista tili" poistaaksesi tili:</p>
+                          <input type="text" id="deleteConfirm" placeholder="Type here..."/>
+                          <button id="confirmDeletion">Vahvista</button>
+                        </div>    
+                    </div>
                     <div id="snackbar-target"></div>
                     
                 </div>
