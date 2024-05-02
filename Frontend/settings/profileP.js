@@ -1,5 +1,5 @@
-import { fetchData } from "../assets/fetch";
-import { showSnackbar } from "../snackbar";
+import { fetchData } from "../assets/fetch.js";
+import { showSnackbar } from "../snackbar.js";
 
 function initialPageReload() {
   if (!sessionStorage.getItem('reloaded')) {
