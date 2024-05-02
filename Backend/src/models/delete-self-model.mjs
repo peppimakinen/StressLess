@@ -159,13 +159,14 @@ const deleteSelfFromUsers = async (userId) => {
   }
 };
 
+
 export {
-  deleteSelfFromWeeklyReports,
-  deleteSelfEntryLinkedData,
-  deleteSelfSurveyLinkedData,
-  deleteSelfFromSurveys,
   deleteSelfFromDoctorPatientAsPatient,
-  deleteSelfFromDiaryEntries,
   deleteSelfFromDoctorPatientAsDoctor,
+  deleteSelfFromWeeklyReports,
+  deleteSelfSurveyLinkedData,
+  deleteSelfFromDiaryEntries,
+  deleteSelfEntryLinkedData,
+  deleteSelfFromSurveys,
   deleteSelfFromUsers,
 };
