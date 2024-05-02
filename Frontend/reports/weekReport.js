@@ -17,28 +17,30 @@ window.addEventListener('load', async (evt) => {
         };
         const reportData = await fetchData(url, options);
         console.log(reportData);
-        console.log(reportData[0]['report_id']);
-        //get the report_id that is neede to get a specific report
-        const reportId = reportData[0]['report_id'];
+        // Iterate over each object in the reportData array
+        reportData.forEach(async (report) => {
+            // Get the report_id for each report object
+            const reportId = report['report_id'];
+            console.log(reportId)
 
-        //get the specific report by using report_id
-        const url2 = `http://127.0.0.1:3000/api/reports/${reportId}`;
-        let token2 = localStorage.getItem("token");
-        const options2 = {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token2,
-            },
-        };
-        const specificReportData = await fetchData(url2, options2); 
-        console.log(specificReportData);
+            // Get the specific report by using report_id
+            const url2 = `http://127.0.0.1:3000/api/reports/${reportId}`;
+            let token2 = localStorage.getItem("token");
+            const options2 = {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + token2,
+                },
+            };
+            const specificReportData = await fetchData(url2, options2); 
+            console.log(specificReportData);
 
-        //stressindex summary comparing last week
-        const stressIndexNow = specificReportData.week_si_avg;
-        const stressIndexPrev = specificReportData.previous_week_si_avg;
-        const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
-        const createdTag = document.querySelector('.createdTag');
-        createdTag.textContent = uploadDate
+            // Stress index summary comparing last week
+            const stressIndexNow = specificReportData.week_si_avg;
+            const stressIndexPrev = specificReportData.previous_week_si_avg;
+            const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
+            const createdTag = document.querySelector('.createdTag');
+            createdTag.textContent = uploadDate;
 
         if ( stressIndexNow >= (stressIndexPrev || null) ) {
             const summary = document.querySelector('#stressSummary');
@@ -105,12 +107,12 @@ window.addEventListener('load', async (evt) => {
 
     //bar-chart
     const monday = specificReportData.monday_si;
-    const tuesday = specificReportData.tuesday_sig;
-    const wednesday = specificReportData.wednesday_sig;
-    const thursday = specificReportData.thursday_sig;
-    const friday = specificReportData.friday_sig;
-    const saturday = specificReportData.saturday_sig;
-    const sunday = specificReportData.sunday_sig;
+    const tuesday = specificReportData.tuesday_si;
+    const wednesday = specificReportData.wednesday_si;
+    const thursday = specificReportData.thursday_si;
+    const friday = specificReportData.friday_si;
+    const saturday = specificReportData.saturday_si;
+    const sunday = specificReportData.sunday_si;
     const canvasBar = document.getElementById('barChart');
     const ctxBar = canvasBar.getContext('2d');
 
@@ -123,16 +125,17 @@ window.addEventListener('load', async (evt) => {
     // Bar chart properties
     const barWidth = 15;
     const barSpacing = 40
-    const chartHeight = canvasBar.height - 30;
+    const chartHeight = canvasBar.height - 50;
+    console.log(dataBar.percentages)
+    const maxScaleValueh = 20; // Maximum scale value (assuming percentage data)
 
     // Draw the bars
     ctxBar.fillStyle = 'black';
     dataBar.percentages.forEach((percentage, index) => {
-        const barHeight = (percentage / 10) * chartHeight;
+        const barHeight = (percentage / maxScaleValueh) * chartHeight; // Adjust calculation for bar height;
         const x = (barWidth + barSpacing) * index + 20;
         const y = (chartHeight - barHeight);
         ctxBar.fillRect(x, y, barWidth, barHeight);
-        console.log(x, y, barHeight, chartHeight)
     });
 
     // Draw the labels
@@ -148,7 +151,6 @@ window.addEventListener('load', async (evt) => {
 //scales
     // Draw the horizontal scale
     const scaleIntervalh = 2; // Interval between scale ticks
-    const maxScaleValueh = 10; // Maximum scale value (assuming percentage data)
     ctxBar.lineWidth = 0.1; // Set the width of the horizontal lines
     for (let i = 0; i <= maxScaleValueh; i += scaleIntervalh) {
         const yPos = chartHeight - (i / maxScaleValueh) * chartHeight;
@@ -158,7 +160,8 @@ window.addEventListener('load', async (evt) => {
         ctxBar.fillText(i.toString(), 0, yPos - 5); // Draw scale label
     }
 
-        } catch (error) {
-            console.error('Error fetching report:', error);
-            };
-    });
+});
+} catch (error) {
+    console.error('Error fetching report:', error);
+}
+});
