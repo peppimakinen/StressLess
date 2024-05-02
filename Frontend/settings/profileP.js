@@ -1,6 +1,14 @@
 import { fetchData } from "../assets/fetch";
 import { showSnackbar } from "../snackbar";
 
+function initialPageReload() {
+  if (!sessionStorage.getItem('reloaded')) {
+      sessionStorage.setItem('reloaded', 'true');
+      window.location.reload();
+  }
+}
+initialPageReload();
+
 function showProfile() {
     const user_name = localStorage.getItem('user_name');
     const nameSpan = document.getElementById("name");
@@ -18,31 +26,37 @@ function showProfile() {
 
 
 async function getEntryCount() {
-    const url = `http://127.0.0.1:3000/api/auth/me`;
-    const token = localStorage.getItem("token");
+  const url = `http://127.0.0.1:3000/api/auth/me`;
+  const token = localStorage.getItem("token");
 
-    const options = {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-        },
-    };
-    
-    try {
-        const responseData = await fetchData(url, options); // Assuming fetchData returns JSON directly
-        console.log(responseData);
-        if (responseData && responseData.stressLessUser) {
-            const entryCount = responseData.stressLessUser.entry_count || 0;
-            localStorage.setItem("entry_count", entryCount);
-        } else {
-            console.log('No entries found');
-        }
-    } catch (error) {
-        console.error('Error finding entries:', error);
-        showSnackbar("Red","Merkintöjen määrää ei löytynyt.");
-    }
+  const options = {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      },
+  };
+  
+  console.log("Fetching entry count...");
+  try {
+      const responseData = await fetchData(url, options);
+      console.log("Data received:", responseData);
+      if (responseData && responseData.stressLessUser) {
+          const entryCount = responseData.stressLessUser.entry_count || 0;
+          console.log("Entry count fetched:", entryCount);
+          localStorage.setItem("entry_count", entryCount);
+          document.getElementById("count").textContent = entryCount;
+      } else {
+          console.log('No entries found');
+          document.getElementById("count").textContent = "0";
+      }
+  } catch (error) {
+      console.error('Error finding entries:', error);
+      showSnackbar("Red","Merkintöjen määrää ei löytynyt.");
+  }
 }
+
+
 
 
 //tilin poisto
@@ -84,6 +98,7 @@ document.querySelector('.pic a').addEventListener('click', function(event) {
   });
   
   
-
-showProfile();
-getEntryCount();
+  document.addEventListener('DOMContentLoaded', function() {
+    showProfile();
+    getEntryCount();
+});
