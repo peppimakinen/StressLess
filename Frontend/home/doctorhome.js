@@ -1,7 +1,8 @@
 import { renderCalendar } from "./calendar.js";
 import { getPatientMonth } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
-import { showPastEntryPopup, hideAllPopups } from "./popups.js";
+import { showPastEntryPopup, hideAllPopups } from "./doctormodal.js";
+import { showSnackbar } from "../snackbar.js";
 
 // RENDERING CALENDAR
 // get new date, current year and month
@@ -19,6 +20,7 @@ let monthData = {};
 const initializeCalendar = async () => {
   // Fetch month data
   monthData = await getPatientMonth(currYear, currMonth + 1);
+  console.log(monthData);
   renderCalendar(currYear, currMonth, monthData);
 };
 
@@ -34,7 +36,12 @@ const updateCalendar = async (icon) => {
     date = new Date();
   }
   // Update the calendar with the new month data
-  renderCalendar(currYear, currMonth, await getPatientMonth(currYear, currMonth + 1));
+  // Fetch fresh month data for the updated month
+  const monthData = await getPatientMonth(currYear, currMonth + 1);
+  console.log(monthData)
+
+  // Update the calendar with the new month data
+  renderCalendar(currYear, currMonth, monthData);
 };
 
 // event listeners for previous and next buttons
@@ -53,7 +60,7 @@ window.addEventListener("load", () => {
 // MODAL HANDLING
 // event listener for calendar days
 const calendar = document.querySelector(".calendar");
-calendar.addEventListener("click", (event) => {
+calendar.addEventListener("click", async (event) => {
   if (
     event.target.tagName === "LI" &&
     event.target.parentElement.classList.contains("days")
@@ -69,17 +76,18 @@ calendar.addEventListener("click", (event) => {
 
     const formattedDay = currentDate.getDate().toString().padStart(2, "0");
     const formattedMonth = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-    const selectedDate = `${formattedDay}.${formattedMonth}.${currentDate.getFullYear()}`;
+    const selectedDate = `${currentDate.getFullYear()}-${formattedMonth}-${formattedDay}`;
 
     console.log("Clicked date:", selectedDate);
 
     // Check if there's an entry for the clicked date
-    const hasEntryForDate = hasEntry(monthData, currYear, currMonth + 1, clickedDate);
+    const monthData = await getPatientMonth(currYear, currMonth + 1);
+    const hasEntryForDate = hasEntry(monthData, selectedDate);
     console.log("Has entry for date:", hasEntryForDate);
 
     // Open the appropriate modal based on whether there's an entry for the clicked date
     if (hasEntryForDate) {
-      showPastEntryPopup(selectedDate);
+      showPastEntryPopup(monthData, selectedDate);
     } else {
       showSnackbar("Red","Ei tehtyä merkintää");
     }

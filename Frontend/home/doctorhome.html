@@ -49,72 +49,7 @@
 
     <div id="overlay"></div>
 
-
     <div class="popupContainer">
-        <!-- Modal for creating a new entry -->
-        <div class="FormPopupNew" style="display: none;">
-            <span class="closePopup">&times;</span>
-            <h3 class="EntryHeading">Selected date here</h3>
-            <form class="EntryFormNew">
-                <div class="moodAndActivities">
-                    <div class="moodNew">
-                        <label>Valitse värikoodi</label>
-                        <div class="moodButtons">
-                            <input type="button" name="mood" class="moodBtn" id="redBtn">
-                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
-                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
-                        </div>
-                    </div>
-                    <div class="activitiesNew">
-                        <label for="ActivitiesNew">Aktiviteetit</label>
-                        <select name="ActivitiesNew" id="ActivitiesNew">
-                            <option value="" disabled selected>Valitse...</option>
-                            <!-- Options will be dynamically populated by JavaScript -->
-                        </select>
-                    </div>
-                </div>
-                <div class="notesAndSubmit">
-                    <div class="notesNew">
-                        <label for="NotesNew">Muistiinpanot</label>
-                        <input type="text" name="NotesNew" placeholder="Kirjoita tähän..." id="NotesNew" />
-                    </div>
-                    <input name="SubmitNew" type="submit" value="Lähetä" class="submitNewEntry" />
-                </div>
-            </form>
-        </div>
-
-        <!-- Modal for editing a past entry -->
-        <div class="FormPopupEdit" style="display: none;">
-            <span class="closePopup">&times;</span>
-            <h3 class="EntryHeading">Selected date here</h3>
-            <form class="EntryFormEdit">
-                <div class="moodAndActivities">
-                    <div class="moodEdit">
-                        <label>Valitse värikoodi</label>
-                        <div class="moodButtons">
-                            <input type="button" name="mood" class="moodBtn" id="redBtn">
-                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
-                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
-                        </div>
-                    </div>
-                    <div class="activitiesEdit">
-                        <label for="ActivitiesEdit">Aktiviteetit</label>
-                        <select name="ActivitiesEdit" id="ActivitiesEdit">
-                            <option value="" disabled selected>Valitse...</option>
-                            <!-- Options will be dynamically populated by JavaScript -->
-                        </select>
-                    </div>
-                </div>
-                <div class="notesAndSubmit">
-                    <div class="notesEdit">
-                        <label for="NotesEdit">Muistiinpanot</label>
-                        <input type="text" name="NotesEdit" placeholder="Kirjoita tähän..." id="NotesNew" />
-                    </div>
-                    <input name="SubmitEdit" type="submit" value="Lähetä" class="submitEditEntry" />
-                </div>
-            </form>
-        </div>
-
         <!-- Modal for viewing a past entry -->
         <div class="PopupPastEntry" style="display: none;">
             <img src="../assets/imgEditIcon.png" alt="edit Image" class="editIcon" />
@@ -123,7 +58,17 @@
             <div class="hrvAndActivities">
                 <div class="hrv">
                     <h4>HRV</h4>
-                    <p>HRV data here</p>
+                    <p id="stress">Stress here</p>
+                    <p id="sns">SNS here</p>
+                    <p id="pns">PNS here</p>
+                    <p id="rmssd">RMSSD here</p>
+                    <p id="sdnn">SDNN here</p>
+                    <p id="rr">Mean RR here</p>
+                    <p id="lf">LF power here</p>
+                    <p id="hf">HF power here</p>
+                    <p id="lf_nu">LF n.u. here</p>
+                    <p id="hf_nu">HF n.u. here</p>
+                    <p id="total">LF/HF ratio here</p>
                 </div>
                 <div class="activitiesPast">
                     <h4>Aktiviteetit</h4>
