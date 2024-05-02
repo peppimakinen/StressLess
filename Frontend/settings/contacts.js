@@ -1,6 +1,15 @@
 import { fetchData } from "../assets/fetch";
 import { showSnackbar } from "../snackbar";
 
+function initialPageReload() {
+    if (!sessionStorage.getItem('reloaded')) {
+        sessionStorage.setItem('reloaded', 'true');
+        window.location.reload();
+    }
+}
+initialPageReload();
+
+
 function showProfile() {
     const doc_name = localStorage.getItem('full_name');
     const nameSpan = document.getElementById("doctorName");
@@ -41,5 +50,7 @@ async function getOwnDoctor() {
     }
 }
 
-showProfile();
-getOwnDoctor();
+document.addEventListener('DOMContentLoaded', function() {
+    showProfile();
+    getOwnDoctor();
+});

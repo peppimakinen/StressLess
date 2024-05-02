@@ -117,7 +117,10 @@ p {
 }
 
 
-#question18 {
+#question18,
+#question19,
+#question20,
+#question21 {
     width: 400px;
 }
 
