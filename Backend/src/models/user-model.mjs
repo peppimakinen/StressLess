@@ -1,41 +1,67 @@
 /* eslint-disable max-len */
 import promisePool from '../utils/database.mjs';
 
-// create new user in db
+/**
+ * Insert a new patient user
+ * @async
+ * @param {Object} user User object from request
+ * @return {Object} Result. Empty result is returned as error
+ */
 const insertUser = async (user) => {
   try {
     const sql =
       'INSERT INTO Users (username, password, user_level, full_name) VALUES (?, ?, ?, ?)';
     const params = [user.username, user.password, user.user_level, user.full_name];
     const [result] = await promisePool.query(sql, params);
+    // Return ok if no errors
     return {message: 'new user created', user_id: result.insertId};
   } catch (error) {
     console.error('insertUser', error);
+    // Check if error came from non-unique username
     if (error.errno == 1062) {
       return {error: 409, message: 'Username or email address taken'};
+    // Else return a generic internal error
     } else {
       return {error: 500, message: 'db error'};
     }
   }
 };
 
-// create new user in db
+/**
+ * Insert a new doctor user
+ * @async
+ * @param {String} username
+ * @param {String} password
+ * @param {String} fullname
+ * @param {String} userLevel
+ * @return {Object} Result. Empty result is returned as error
+ */
 const insertDoctor = async (username, password, fullname, userLevel) => {
   try {
     const sql =
       'INSERT INTO Users (username, password, full_name, user_level) VALUES (?, ?, ?, ?)';
     const params = [username, password, fullname, userLevel];
     const [result] = await promisePool.query(sql, params);
+    // Return ok result
     return {message: 'new user created', user_id: result.insertId};
   } catch (error) {
     console.error('insertDoctor', error);
+    // Check if error came from non-unique username
     if (error.errno == 1062) {
       return {error: 409, message: 'Username or email address taken'};
+    // Else return a generic internal error
     } else {
       return {error: 500, message: 'db error'};
     }
   }
 };
+
+/**
+ * Select a user with username
+ * @async
+ * @param {String} username
+ * @return {Object} Result. Empty result is returned as error
+ */
 const selectUserByUsername = async (username) => {
   try {
     const sql = 'SELECT * FROM Users WHERE username=?';
@@ -52,6 +78,12 @@ const selectUserByUsername = async (username) => {
   }
 };
 
+/**
+ * Select a user with email
+ * @async
+ * @param {String} email
+ * @return {Object} Result. Empty result is returned as error
+ */
 const selectUserByEmail = async (email) => {
   try {
     const sql = 'SELECT * FROM Users WHERE username=?';
@@ -70,6 +102,12 @@ const selectUserByEmail = async (email) => {
   }
 };
 
+/**
+ * Select survey for a user existing user
+ * @async
+ * @param {Int} id
+ * @return {Object} Result. Empty result is returned as error
+ */
 const checkSurveyExistance = async (id) => {
   try {
     const sql = 'SELECT * FROM Surveys WHERE u_id=?';
@@ -79,10 +117,9 @@ const checkSurveyExistance = async (id) => {
     if (rows.length === 0) {
       return {error: 404, message: 'user not found'};
     }
-    // console.log('Survey query result: ', rows[0]);
     return rows[0];
   } catch (error) {
-    console.error('selectUserByEmail', error);
+    console.error('checkSurveyExistance', error);
     return {error: 500, message: 'db error'};
   }
 };
@@ -113,7 +150,13 @@ const selectDoctorByEmail = async (email) => {
   }
 };
 
-
+/**
+ * Insert a new pair into DoctorPatient
+ * @async
+ * @param {Int} patientId
+ * @param {Int} doctorId
+ * @return {Object} Result
+ */
 const insertNewPair = async (patientId, doctorId) => {
   try {
     const sql = 'INSERT INTO DoctorPatient (patient_id, doctor_id) VALUES (?,?)';
@@ -125,7 +168,13 @@ const insertNewPair = async (patientId, doctorId) => {
   }
 };
 
-
+/**
+ * Check for a existing pair
+ * @async
+ * @param {Int} patientId
+ * @param {Int} doctorId
+ * @return {Boolean}
+ */
 const pairExistsAlready = async (patientId, doctorId) => {
   try {
     const sql = 'SELECT pair_id FROM DoctorPatient WHERE patient_id=? and doctor_id=?';
@@ -143,16 +192,24 @@ const pairExistsAlready = async (patientId, doctorId) => {
   }
 };
 
+/**
+ * Change password for a doctor user
+ * @async
+ * @param {Int} userId
+ * @param {string} newPasswordHash
+ * @return {Object} Result
+ */
 const updateDoctorPasswordWithId = async (userId, newPasswordHash) => {
   try {
     const sql = `UPDATE Users SET password=? WHERE user_id=? AND user_level='doctor'`;
     const [rows] = await promisePool.query(sql, [newPasswordHash, userId]);
     return rows;
   } catch (error) {
-    console.error('Error in deleteSelfFromDoctorPatient:', error);
-    throw customError('deleteSelfFromDoctorPatient error', 500);
+    console.error('Error in updateDoctorPasswordWithId:', error);
+    throw customError('db error', 500);
   }
 };
+
 /**
  * Delete pair using patient and doctor ID's
  * @async
@@ -177,6 +234,12 @@ const deletePair = async (doctorId, patientId) => {
   }
 };
 
+/**
+ * Get selected doctor for patient user
+ * @async
+ * @param {Int} userId
+ * @return {Object} Result
+ */
 const getOwnDoctor = async (userId) => {
   try {
     const sql = `
@@ -199,6 +262,12 @@ const getOwnDoctor = async (userId) => {
   };
 };
 
+/**
+ * Get a list of patients that have selected a specific doctor
+ * @async
+ * @param {Int} userId
+ * @return {List} Result. Empty search is returned as a error
+ */
 const getOwnPatients = async (userId) => {
   try {
     const sql = `
@@ -227,6 +296,13 @@ const getOwnPatients = async (userId) => {
   };
 };
 
+/**
+ * Check for a existing pair using doctor and patient ID's
+ * @async
+ * @param {Int} patientId
+ * @param {Int} doctorId
+ * @return {List} Result. Empty search is returned as a error
+ */
 const getDoctorPatientPair = async (patientId, doctorId) => {
   try {
     const sql = `SELECT * FROM DoctorPatient WHERE patient_id=? AND doctor_id=?;`;
@@ -247,14 +323,14 @@ export {
   updateDoctorPasswordWithId,
   selectUserByUsername,
   checkSurveyExistance,
-  insertUser,
-  selectUserByEmail,
-  insertDoctor,
-  selectDoctorByEmail,
-  pairExistsAlready,
-  insertNewPair,
-  getOwnDoctor,
-  getOwnPatients,
   getDoctorPatientPair,
+  selectDoctorByEmail,
+  selectUserByEmail,
+  pairExistsAlready,
+  getOwnPatients,
+  insertNewPair,
+  insertDoctor,
+  getOwnDoctor,
+  insertUser,
   deletePair,
 };
