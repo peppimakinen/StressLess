@@ -26,7 +26,7 @@ const entryRouter = express.Router();
  *     HTTP/1.1 400 Bad Request
  *     {
  *       "error": {
- *         "message": "Invalid mood color",
+ *         "message": "Invalid entry_date color",
  *         "status": 400
  *         "errors": [
  *             {
@@ -241,7 +241,7 @@ entryRouter
  * @apiParam {Int} Month Month number with leading zero if needed.
  * @apiParam {Int} Year Year between 2020-2030
  *
- * @apiSuccess {Dictionary} Key-value pairs for each date in the selected month, with entry data if available
+ * @apiSuccess {Dictionary} Dates Key-value pairs for each date in the selected month, with entry data if available
  *
  * @apiSuccessExample Success-Response containing entries:
  *    HTTP/1.1 200 OK
@@ -303,6 +303,52 @@ entryRouter
     getMonth,
   );
 
+/**
+ * @api {put} api/entries/daily/:entry_date
+ * @apiVersion 1.0.0
+ * @apiName getMonth
+ * @apiGroup Entries
+ * @apiPermission onlyPatients
+ *
+ * @apiDescription Get entry for a specific date
+ *
+ * @apiParam {Date} Date Date in yyyy-mm-dd format
+ *
+ * @apiSuccess {Dictionary} Diary_entry contains all data for entry from DiaryEntries table
+ * @apiSuccess {Dictionary} Measurement_data contains limited ammount of data for entry from Measurements table
+ * @apiSuccess {List} Activities List of activities associated with the entry
+ *
+ * @apiSuccessExample Success-Response containing entries:
+ *    HTTP/1.1 200 OK
+ *        {
+ *          "diary_entry": {
+ *                "entry_id": 1,
+ *                "user_id": 2,
+ *                "entry_date": "2024-02-14",
+ *                "mood_color": "9BCF53",
+ *                "notes": "Ok day"
+ *          },
+ *          "measurement_data": {
+ *                "measurement_id": 1,
+ *                "kubios_result_id": "f51asdf1a-d42d-234-8f3r-a78asdf4e",
+ *                "measurement_date": "2024-02-14",
+ *                "mean_hr_bpm": "71.09",
+ *                "sns_index": "0.62",
+ *                "pns_index": "-0.94",
+ *                "stress_index": "10.67"
+ *          },
+ *          "activities": [
+ *                "listItem1",
+ *                "listItem2"
+ *                ]
+ *          }
+ *
+ * @apiUse InvalidEntrySyntax
+ * @apiUse OnlyForPatientsError
+ * @apiUse SurveyNotCompletedError
+ * @apiUse InvalidTokenError
+ * @apiUse TokenMissingError
+ */
 entryRouter
   .route('/daily/:entry_date')
   .get(
