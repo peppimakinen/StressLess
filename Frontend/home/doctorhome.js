@@ -1,10 +1,7 @@
-import { fetchData } from "../assets/fetch.js";
 import { renderCalendar } from "./calendar.js";
-import { gatherNewData } from "./newentry.js";
-import { gatherEditData } from "./editentry.js";
-import { getMonthData } from "./getdata.js";
+import { getPatientMonth } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
-import { showNewEntryPopup, showPastEntryPopup, showEditEntryPopup, hideAllPopups } from "./popups.js";
+import { showPastEntryPopup, hideAllPopups } from "./popups.js";
 
 // RENDERING CALENDAR
 // get new date, current year and month
@@ -21,7 +18,7 @@ let monthData = {};
 // function to render calendar when page is loaded
 const initializeCalendar = async () => {
   // Fetch month data
-  monthData = await getMonthData(currYear, currMonth + 1);
+  monthData = await getPatientMonth(currYear, currMonth + 1);
   renderCalendar(currYear, currMonth, monthData);
 };
 
@@ -37,7 +34,7 @@ const updateCalendar = async (icon) => {
     date = new Date();
   }
   // Update the calendar with the new month data
-  renderCalendar(currYear, currMonth, await getMonthData(currYear, currMonth + 1));
+  renderCalendar(currYear, currMonth, await getPatientMonth(currYear, currMonth + 1));
 };
 
 // event listeners for previous and next buttons
@@ -84,53 +81,13 @@ calendar.addEventListener("click", (event) => {
     if (hasEntryForDate) {
       showPastEntryPopup(selectedDate);
     } else {
-      showNewEntryPopup(selectedDate);
+      showSnackbar("Red","Ei tehtyä merkintää");
     }
   }
 });
-
-
-
-// event listener for edit icon
-const editIcon = document.querySelector(".editIcon");
-editIcon.addEventListener("click", () => {
-    // Extract the date information from the PastEntry modal
-    const dateHeading = document.querySelector(".PopupPastEntry .EntryHeading");
-    if (dateHeading) {
-        const date = dateHeading.textContent;
-        console.log("Date extracted:", date);
-        // Call showEditEntryPopup with the extracted date
-        showEditEntryPopup(date);
-    } else {
-        console.error("Date heading not found or empty.");
-    }
-});
-
-
 
 // event listener for closePopup buttons
 const closePopups = document.querySelectorAll(".closePopup");
 closePopups.forEach((button) => {
   button.addEventListener("click", hideAllPopups);
-});
-
-
-// CREATE NEW ENTRY
-const createEntry = document.querySelector('.submitNewEntry');
-createEntry.addEventListener('click', async (evt) => {
-  evt.preventDefault();
-  console.log('Lets create a new diary entry');
-
-  gatherNewData();
-  hideAllPopups();
-});
-
-// EDIT AN ENTRY
-const editEntry = document.querySelector('.submitEditEntry');
-editEntry.addEventListener('click', async (evt) => {
-  evt.preventDefault();
-  console.log('Let\'s edit the diary entry');
-
-  gatherEditData();
-  hideAllPopups();
 });
