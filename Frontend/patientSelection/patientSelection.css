@@ -89,13 +89,14 @@ li a {
     padding-bottom: 5vh;
 }
 
-.header {
+h1 {
     display: block;
     padding: 10px;
-    font-size: xx-large;
+    font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: bold;
-    margin-left: 40px;
+    font-size: 50px;
+    margin-left: 50px;
 }
 
 .delete {
@@ -110,7 +111,10 @@ li a {
 .clients li {
     background-color: #fffaff;
     border-radius: 22px;
-    padding: 10px;
+    padding: 5px;
+    padding-left: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
     list-style: none;
     display: flex;
     font-size: xx-large;
