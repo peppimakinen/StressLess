@@ -138,10 +138,11 @@ h1 {
 
 .infoIcon {
     position: absolute;
+    cursor: pointer;
     top: 50px;
     right: 35px;
     transform: translateY(-50%); 
-    width: 40px;
+    width: 48px;
     height: auto;
     z-index: 3;
 }
