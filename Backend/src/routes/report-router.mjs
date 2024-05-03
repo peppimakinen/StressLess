@@ -6,8 +6,8 @@ import express from 'express';
 import {
   getAvailablePatientReports,
   getPatientsReport,
-  getAvailableWeeks,
   getSpecificReport,
+  getAvailableWeeks,
 } from '../controllers/report-controller.mjs';
 import {
   onlyForPatientWhoCompletedSurvey,
