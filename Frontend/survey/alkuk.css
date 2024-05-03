@@ -68,6 +68,8 @@ p {
     font-family: 'Nunito', sans-serif;
     font-weight: 500;
     font-size: 20px;
+    padding-left: 400px;
+    padding-right: 400px;
 }
 
 .answer-form-all input[type="date"],
@@ -130,7 +132,7 @@ p {
 #question14 {
     display: block;
     align-items: center;
-    margin-left: 290px;
+    margin-left: 450px;
 }
 
 #overlay {
@@ -330,18 +332,24 @@ p {
     #question14 {
         display: block;
         align-items: center;
-        margin-left: 270px;
+        margin-left: 460px;
+    }
+}
+
+@media screen and (max-width: 1512px) {
+    #question14 {
+        margin-right: 460px;
     }
 }
 
 @media screen and (max-width: 1112px) {
     #question14 {
-        margin-right: 300px;
+        margin-right: 460px;
     }
 }
 
 @media screen and (max-width: 720px) {
     #question14 {
-        margin-right: 210px;
+        margin-right: 460px;
     }
 }
