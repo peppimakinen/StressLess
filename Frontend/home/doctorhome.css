@@ -274,20 +274,8 @@ header .calendarHeader span {
     display: none;
 }
 
+.PopupPastEntry,
 .PopupSurvey {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    background-color: #fffaff;
-    margin: auto;
-    margin-top: 50px;
-    padding: 50px;
-    border-radius: 50px;
-}
-
-.PopupPastEntry {
     display: none;
     position: absolute;
     top: 46%;

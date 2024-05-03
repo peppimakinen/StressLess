@@ -106,7 +106,7 @@ export async function showPastEntryPopup(monthData, date) {
 // Function to hide all popups
 export function hideAllPopups() {
   PastEntry.style.display = "none";
-  //   InfoPopup.style.display = "none";
+  survey.style.display = "none";
   calendarWrapper.style.display = "block";
   overlay.style.display = "none";
 }
