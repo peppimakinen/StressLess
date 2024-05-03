@@ -201,6 +201,14 @@ surveyRouter
  * @apiParam {String} Answer Patient users answer to that specific question
  * @apiParam {List} Activities List containing atleast 1 activity
  *
+ * @apiParamExample {json} Request-Example:
+ *       {
+ *          "Do you feel stressed ofter": "No not really",
+ *          ...
+ *          "Do you want to expand on your current situation": "Yes, I feel ..",
+ *          "What are activities that help you manage stress": ["Meditation", "Hiking"]
+ *       }
+ *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
  *       {
@@ -259,13 +267,15 @@ surveyRouter
   );
 
 /**
- * @api {get} api/survey/doctor/:ID Get patients survey
+ * @api {get} api/survey/doctor/:patient_id Get patients survey
  * @apiVersion 1.0.0
  * @apiName getPatientSurvey
  * @apiGroup Survey
- * @apiPermission onlyDoctor
+ * @apiPermission onlyDoctors
  *
  * @apiDescription Get own patients survey
+ *
+ * @apiParam {Int} Patient_id Patients user ID
  *
  * @apiSuccess {List} questions List of questions and answers
  * @apiSuccess {String} question Question text from survey

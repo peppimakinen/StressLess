@@ -216,7 +216,7 @@ userRouter
  * @apiSuccessExample Success-Response:
  *       HTTP/1.1 200 OK
  *           {
- *                "message": "user@email.com is now sharing their data with Marko Anttila the doctor"
+ *               "message": "user@email.com is now sharing their data with Marko Anttila the doctor"
  *            }
  *
  * @apiUse InvalidSearchError
@@ -287,7 +287,13 @@ userRouter
  *
  * @apiDescription Change password for a doctor user
  *
- * @apiSuccess {List} List patients sharing data
+ * @apiSuccess {String} Message Message for succesfull operation
+ *
+ * @apiParamExample {json} Request-Example:
+ *    HTTP/1.1 200 OK
+ *        {
+ *              "new_password": "NewSecret",
+ *         }
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK

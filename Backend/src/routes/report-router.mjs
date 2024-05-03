@@ -144,7 +144,7 @@ reportRouter
   .route('/available-weeks')
   .get(authenticateToken, onlyForPatientWhoCompletedSurvey, getAvailableWeeks);
 /**
- * @api {get} api/reports/report_id Get report
+ * @api {get} api/reports/:report_id Get report
  * @apiVersion 1.0.0
  * @apiName getSpecificReport
  * @apiGroup Reports
@@ -212,7 +212,7 @@ reportRouter
     getSpecificReport,
   );
 /**
- * @api {get} api/reports/doctor/available-weeks/patient_id Get patients available week reports
+ * @api {get} api/reports/doctor/available-weeks/:patient_id Get patients available week reports
  * @apiVersion 1.0.0
  * @apiName getAvailablePatientReports
  * @apiGroup Reports
@@ -258,7 +258,7 @@ reportRouter
     getAvailablePatientReports,
   );
 /**
- * @api {get} api/reports/doctor/specific-report/report_id/patient_id Get patients specific week report
+ * @api {get} api/reports/doctor/specific-report/:report_id/:patient_id Get patients specific week report
  * @apiVersion 1.0.0
  * @apiName getPatientsReport
  * @apiGroup Reports

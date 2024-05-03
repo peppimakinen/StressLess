@@ -26,7 +26,7 @@ const entryRouter = express.Router();
  *     HTTP/1.1 400 Bad Request
  *     {
  *       "error": {
- *         "message": "Invalid entry_date color",
+ *         "message": "Invalid entry_date",
  *         "status": 400
  *         "errors": [
  *             {
@@ -219,6 +219,7 @@ entryRouter
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
   .put(
     authenticateToken,
@@ -230,7 +231,7 @@ entryRouter
     putEntry,
   );
 /**
- * @api {put} api/entries/monthly?month=__&year=__ Get month with entries
+ * @api {get} api/entries/monthly?month=__&year=__ Get month with entries
  * @apiVersion 1.0.0
  * @apiName getMonth
  * @apiGroup Entries
@@ -288,6 +289,7 @@ entryRouter
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 entryRouter
   .route('/monthly')
@@ -304,7 +306,7 @@ entryRouter
   );
 
 /**
- * @api {put} api/entries/daily/:entry_date
+ * @api {get} api/entries/daily/:entry_date Get specific entry
  * @apiVersion 1.0.0
  * @apiName getMonth
  * @apiGroup Entries
@@ -312,10 +314,10 @@ entryRouter
  *
  * @apiDescription Get entry for a specific date
  *
- * @apiParam {Date} Date Date in yyyy-mm-dd format
+ * @apiParam {Date} Entry_date Date in yyyy-mm-dd format
  *
  * @apiSuccess {Dictionary} Diary_entry contains all data for entry from DiaryEntries table
- * @apiSuccess {Dictionary} Measurement_data contains limited ammount of data for entry from Measurements table
+ * @apiSuccess {Dictionary} Measurement_data contains limited amount of data for entry from Measurements table
  * @apiSuccess {List} Activities List of activities associated with the entry
  *
  * @apiSuccessExample Success-Response containing entries:
@@ -348,6 +350,7 @@ entryRouter
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 entryRouter
   .route('/daily/:entry_date')
@@ -358,6 +361,71 @@ entryRouter
     validationErrorHandler,
     getDay,
   );
+
+/**
+ * @api {get} api/entries/doctor/daily/:entry_date/:patient_id Get specific entry from patient
+ * @apiVersion 1.0.0
+ * @apiName getPatientDay
+ * @apiGroup Entries
+ * @apiPermission onlyDoctors
+ *
+ * @apiDescription Get patients specific entry
+ *
+ * @apiParam {Date} entry_date Date in yyyy-mm-dd format
+ * @apiParam {Int} Patient_id Patients user ID
+ *
+ * @apiSuccess {Dictionary} Diary_entry contains all data for entry from DiaryEntries table
+ * @apiSuccess {Dictionary} Measurement_data contains all Measurements table data
+ * @apiSuccess {List} Activities List of activities associated with the entry
+ *
+ * @apiSuccessExample Success-Response containing entries:
+ *    HTTP/1.1 200 OK
+ *        {
+ *          "diary_entry": {
+ *                "entry_id": 1,
+ *                "user_id": 2,
+ *                "entry_date": "2024-02-14",
+ *                "mood_color": "9BCF53",
+ *                "notes": "Ok day"
+ *          },
+ *          "measurement_data": {
+ *                "measurement_id": 6,
+ *                "kubios_result_id": "26e680b8-31d6-44e8-ae41-0ab2670eedc1",
+ *                "measurement_date": "2024-04-12",
+ *                "artefact_level": "GOOD",
+ *                "lf_power": "104.45",
+ *                "lf_power_nu": "82.35",
+ *                "hf_power": "22.38",
+ *                "hf_power_nu": "17.65",
+ *                "tot_power": "144.13",
+ *                "mean_hr_bpm": "61.91",
+ *                "mean_rr_ms": "969.20",
+ *                "rmssd_ms": "7.95",
+ *                "sd1_ms": "5.64",
+ *                "sd2_ms": "14.49",
+ *                "sdnn_ms": "10.97",
+ *                "sns_index": "2.96",
+ *                "pns_index": "-0.77",
+ *                "stress_index": "29.61",
+ *                "respiratory_rate": "14.91",
+ *                "user_readiness": "48.45",
+ *                "user_recovery": "48.45",
+ *                "user_happiness": 2,
+ *                "result_type": "readiness",
+ *          },
+ *          "activities": [
+ *                "listItem1",
+ *                "listItem2"
+ *                ]
+ *          }
+ *
+ * @apiUse ForbiddenDoctorRequest
+ * @apiUse InvalidEntrySyntax
+ * @apiUse PatientAccessingDoctorEndpointError
+ * @apiUse InvalidTokenError
+ * @apiUse TokenMissingError
+ * @apiUse dbError
+ */
 entryRouter
   .route('/doctor/daily/:entry_date/:patient_id')
   .get(
@@ -370,6 +438,85 @@ entryRouter
     getPatientDay,
   );
 
+/**
+ * @api {get} api/entries/doctor/monthly/:patient_id?month=__&year=__ Get patients month with entries
+ * @apiVersion 1.0.0
+ * @apiName getPatientMonth
+ * @apiGroup Entries
+ * @apiPermission onlyDoctors
+ *
+ * @apiDescription Retrieve patients monthly data, including more detailed HRV values.
+ *
+ * @apiParam {Int} Month Month number with leading zero if needed.
+ * @apiParam {Int} Year Year between 2020-2030
+ * @apiParam {Int} Patient_id User ID of the patient
+ *
+ * @apiSuccess {Dictionary} Dates Key-value pairs for each date in the selected month, with entry data if available
+ *
+ * @apiSuccessExample Success-Response containing entries:
+ *    HTTP/1.1 200 OK
+ *         {
+ *             "2024-02-01": {},
+ *             "2024-02-02": {},
+ *             "2024-02-03": {},
+ *              ...
+ *             "2024-02-14": {
+ *                    "user_id": 1,
+ *                    "entry_id": 6,
+ *                    "entry_date": "2024-02-14",
+ *                    "mood_color": "FFF67E",
+ *                    "notes": "Entry for week 7",
+ *                    "measurement_id": 6,
+ *                    "kubios_result_id": "26e680b8-31d6-44e8-ae41-0ab2670eedc1",
+ *                    "measurement_date": "2024-04-12",
+ *                    "artefact_level": "GOOD",
+ *                    "lf_power": "104.45",
+ *                    "lf_power_nu": "82.35",
+ *                    "hf_power": "22.38",
+ *                    "hf_power_nu": "17.65",
+ *                    "tot_power": "144.13",
+ *                    "mean_hr_bpm": "61.91",
+ *                    "mean_rr_ms": "969.20",
+ *                    "rmssd_ms": "7.95",
+ *                    "sd1_ms": "5.64",
+ *                    "sd2_ms": "14.49",
+ *                    "sdnn_ms": "10.97",
+ *                    "sns_index": "2.96",
+ *                    "pns_index": "-0.77",
+ *                    "stress_index": "29.61",
+ *                    "respiratory_rate": "14.91",
+ *                    "user_readiness": "48.45",
+ *                    "user_recovery": "48.45",
+ *                    "user_happiness": null,
+ *                    "result_type": "readiness",
+ *                    "all_activities": [
+ *                               "Hiking",
+ *                               "Swimming",
+ *                               "Meditation"
+ *                     ]
+ *              },
+ *               ...
+ *              "2024-02-29": {}
+ *          }
+ *
+ * @apiSuccessExample Success-Response not containing entries:
+ *    HTTP/1.1 200 OK
+ *         {
+ *             "2024-02-01": {},
+ *             "2024-02-02": {},
+ *             "2024-02-03": {},
+ *               ...
+ *              "2024-02-29": {}
+ *          }
+ *
+ * @apiUse ForbiddenDoctorRequest
+ * @apiUse InvalidUrlParameterForEntriesError
+ * @apiUse YearNotInReachError
+ * @apiUse PatientAccessingDoctorEndpointError
+ * @apiUse InvalidTokenError
+ * @apiUse TokenMissingError
+ * @apiUse dbError
+ */
 entryRouter.route('/doctor/monthly/:patient_id').get(
   authenticateToken,
   onlyForDoctorHandler,
