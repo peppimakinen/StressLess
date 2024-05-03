@@ -40,7 +40,7 @@ LoginDoctor.addEventListener("click", async (evt) => {
     localStorage.setItem("user_email", responseData.user.username);
     showSnackbar('Green', 'Kirjaudutaan sisään!');
     setTimeout(() => {
-      window.location.href = '../settingsD/profileD.html';
+      window.location.href = '../patientSelection/patientSelection.html';
     }, 3000);  // 3000 millisekuntia = 3 sekuntia '
 
   } catch (error) {
@@ -56,9 +56,10 @@ function clearLocalStorage() {
   localStorage.removeItem("user_email");
   localStorage.removeItem("user_name");
   localStorage.removeItem("user_level");
-  localStorage.removeItem("Paired_doc_Name");
+  localStorage.removeItem("Paired_doc_name");
   localStorage.removeItem("doc_name");
   localStorage.removeItem("full_name");
   localStorage.removeItem("entry_count");
   localStorage.removeItem("username");
+  localStorage.removeItem("patient_id");
 };
