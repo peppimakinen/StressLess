@@ -9,7 +9,7 @@ import {
 } from '../models/report-model.mjs';
 
 /**
- * Get all available week reports. Check for updates if none are found
+ * Update list of report dates and return them
  * @async
  * @param {Request} req
  * @param {Response} res
