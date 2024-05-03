@@ -32,6 +32,9 @@ window.addEventListener('load', async (evt) => {
                 reportsDiv.classList.add('reports');
                 const reportLink = document.createElement('a');
                 reportLink.href = `weekReport.html?week=${week.week_number}`;
+                reportLink.addEventListener('click', function(event) {
+                    localStorage.setItem('selectedReportId', week.report_id);
+                });
                 reportLink.textContent = 'Näytä raportti';
                 reportsDiv.appendChild(reportLink);
                 weekItem.appendChild(dateDiv);

@@ -3,58 +3,43 @@ import {convertToDDMMYYYY} from './convertDay.js';
 
 
 
-window.addEventListener('load', async (evt) => {
+window.addEventListener('load', async function(evt) {
     evt.preventDefault();
     try {
-        //get all the weeks related to the user
-        const url = "http://127.0.0.1:3000/api/reports/available-weeks";
-        let token = localStorage.getItem("token");
+        const selectedReportId = localStorage.getItem('selectedReportId');
+        
+        // Get the specific report by using report_id
+        const url = `http://127.0.0.1:3000/api/reports/${selectedReportId}`;
+        const token = localStorage.getItem("token");
         const options = {
             method: "GET",
             headers: {
                 Authorization: "Bearer " + token,
             },
         };
-        const reportData = await fetchData(url, options);
-        console.log(reportData);
-        // Iterate over each object in the reportData array
-        reportData.forEach(async (report) => {
-            // Get the report_id for each report object
-            const reportId = report['report_id'];
-            console.log(reportId)
+        const specificReportData = await fetchData(url, options);
+        console.log(specificReportData);
 
-            // Get the specific report by using report_id
-            const url2 = `http://127.0.0.1:3000/api/reports/${reportId}`;
-            let token2 = localStorage.getItem("token");
-            const options2 = {
-                method: "GET",
-                headers: {
-                    Authorization: "Bearer " + token2,
-                },
-            };
-            const specificReportData = await fetchData(url2, options2); 
-            console.log(specificReportData);
+        // Stress index summary comparing last week
+        const stressIndexNow = specificReportData.week_si_avg;
+        const stressIndexPrev = specificReportData.previous_week_si_avg;
+        const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
+        const createdTag = document.querySelector('.createdTag');
+        createdTag.textContent = uploadDate;
 
-            // Stress index summary comparing last week
-            const stressIndexNow = specificReportData.week_si_avg;
-            const stressIndexPrev = specificReportData.previous_week_si_avg;
-            const uploadDate = `Raporttisi luotu: ${convertToDDMMYYYY(specificReportData.created_at)}`;
-            const createdTag = document.querySelector('.createdTag');
-            createdTag.textContent = uploadDate;
-
-        if ( stressIndexNow >= (stressIndexPrev || null) ) {
-            const summary = document.querySelector('#stressSummary');
-            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla enemmän verrattuna viime viikkoon. On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin.`;
-        } if ( stressIndexNow == stressIndexPrev) {
-            const summary = document.querySelector('#stressSummary');
-            summary.textContent = `Mitatun stressi-indexisi perusteella stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna.`;
-        } if ( stressIndexNow <= stressIndexPrev ) {
-            const summary = document.querySelector('#stressSummary');
-            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa!`;
-        } else {
+        if (stressIndexPrev === null) {
             const summary = document.querySelector('#stressSummary');
             summary.textContent = `Tietokannassa ei ole tarpeeksi tarkkaa tietoa antamaan yhteenvetoa tämän viikon stressitasosta verrattuna aiempaan viikkoon mitatun stressi-indexisi perusteella.`;
-        }
+        } else if ( stressIndexNow >= stressIndexPrev ) {
+            const summary = document.querySelector('#stressSummary');
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla enemmän verrattuna viime viikkoon. On hyvä kerrata tapoja, jotka ovat tehokkaimmin alentaneet stressiäsi aikaisemmin.`;
+        } else if ( stressIndexNow == stressIndexPrev) {
+            const summary = document.querySelector('#stressSummary');
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressitasossa ei havaittu merkittäviä muutoksia viime viikkoon verrattuna.`;
+        } else if ( stressIndexNow <= stressIndexPrev ) {
+            const summary = document.querySelector('#stressSummary');
+            summary.textContent = `Mitatun stressi-indexisi perusteella stressasit tällä viikolla vähemmän edelliseen viikkoon verrattuna, hienoa! Kannattaa kiinnittää huomioita niihin tapoihin, joita olet tällä viikolla tehnyt stressisi lieventämiseksi. Niistä voi olla hyötyä myös jatkossa!`;
+        } 
     
 //trials for diagrams
 
@@ -126,7 +111,7 @@ window.addEventListener('load', async (evt) => {
     const barWidth = 15;
     const barSpacing = 40
     const chartHeight = canvasBar.height - 50;
-    console.log(dataBar.percentages)
+    // console.log(dataBar.percentages)
     const maxScaleValueh = 20; // Maximum scale value (assuming percentage data)
 
     // Draw the bars
@@ -158,9 +143,7 @@ window.addEventListener('load', async (evt) => {
         ctxBar.lineTo(canvasBar.width, yPos); // Draw a line to the right of the chart
         ctxBar.stroke();
         ctxBar.fillText(i.toString(), 0, yPos - 5); // Draw scale label
-    }
-
-});
+    };
 } catch (error) {
     console.error('Error fetching report:', error);
 }
