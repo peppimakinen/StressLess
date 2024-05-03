@@ -1,6 +1,4 @@
-import { fetchData } from "../assets/fetch.js";
 import { convertToYYYYMMDD } from "./convertday.js";
-import { getMonthData } from "./getdata.js";
 
 // url variable
 const url = "http://127.0.0.1:3000/api/entries";
@@ -103,6 +101,7 @@ async function gatherNewData() {
 
   // get notes data from input
   const notes = document.querySelector(".notesNew input").value;
+
 
   // Get token from localStorage
   const token = localStorage.getItem("token");
