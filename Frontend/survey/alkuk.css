@@ -130,7 +130,7 @@ p {
 #question14 {
     display: block;
     align-items: center;
-    margin-left: 65px;
+    margin-left: 290px;
 }
 
 #overlay {
@@ -331,7 +331,13 @@ p {
     #question14 {
         display: block;
         align-items: center;
-        margin-left: 200px;
+        margin-left: 270px;
+    }
+}
+
+@media screen and (max-width: 1112px) {
+    #question14 {
+        margin-right: 300px;
     }
 }
 
