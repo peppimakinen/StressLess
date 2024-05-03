@@ -56,6 +56,18 @@ const authRouter = express.Router();
  */
 
 /**
+ * @apiDefine dbError
+ * @apiError dbError Internal database error
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 500 Internal Error
+ *     {
+ *       "error": {
+ *         "message": "db error",
+ *         "status": 500
+ *       }
+ *     }
+ */
+/**
  * @apiDefine TokenMissingError
  * @apiError TokenMissingError Token missing
  * @apiErrorExample Error-Response:
@@ -125,7 +137,7 @@ const authRouter = express.Router();
  * @apiSuccess {String} full_name First and last name from Kubios Cloud
  * @apiSuccess {String} user_level Indicate that user is patient
  * @apiSuccess {String} created_at User creation timestamp (ISO 8601 format)
- * @apiSuccess {Boolean} Flag indicating survey completion status
+ * @apiSuccess {Boolean} surveyCompleted Flag for survey completion
  * @apiSuccess {String} token Token for the user authentication
 
  *
@@ -184,7 +196,6 @@ authRouter
  * @apiSuccess {String} full_name First and last name
  * @apiSuccess {String} user_level Indicate that user is doctor
  * @apiSuccess {String} created_at User creation timestamp (ISO 8601 format)
- * @apiSuccess {Boolean} Flag indicating survey completion status
  * @apiSuccess {String} token Token for the user authentication
  *
  * @apiSuccessExample Success-Response:
@@ -206,6 +217,7 @@ authRouter
  *
  * @apiUse UnauthorizedDoctorError
  * @apiUse LoginValidationError
+ * @apiUse dbError
  */
 authRouter
   .post(
@@ -231,7 +243,7 @@ authRouter
  * @apiSuccess {String} full_name First and last name from Kubios Cloud
  * @apiSuccess {String} user_level Indicate if user is Doctor or Patient
  * @apiSuccess {String} created_at User creation timestamp (ISO 8601 format)
- * @apiSuccess {Boolean} Flag indicating survey completion status
+ * @apiSuccess {Boolean} surveyCompleted Flag for survey completion status
  * @apiSuccess {Int} iat Token Initialization time
  * @apiSuccess {Int} exp Token expiration time
  * @apiSuccess {Int} entry_count Number of diary entries
@@ -283,6 +295,7 @@ authRouter
  *
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 authRouter.get('/me', authenticateToken, getMe);
 
