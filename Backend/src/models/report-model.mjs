@@ -160,33 +160,6 @@ const addWeekReport = async (params) => {
 };
 
 /**
- * Get latest weekly report dates
- * @async
- * @param {Int} userId
- * @return {Object} Result
- */
-const getLatestReportDateByUserId = async (userId) => {
-  try {
-    const sql = `
-        SELECT
-            report_id,
-            user_id,
-            DATE_FORMAT(week_start_date, '%Y-%m-%d') AS week_start_date,
-            DATE_FORMAT(week_end_date, '%Y-%m-%d') AS week_end_date
-        FROM WeeklyReports
-        WHERE user_id=?
-        ORDER BY week_end_date DESC
-        LIMIT 1;
-        `;
-    const [rows] = await promisePool.query(sql, userId);
-    return rows;
-  } catch (error) {
-    console.error('getLatestReportDate', error);
-    return {error: 500, message: 'db error'};
-  }
-};
-
-/**
  * Get Stress index for specific date
  * @async
  * @param {Date} endDate
@@ -211,7 +184,6 @@ const getStressIndexByDates = async (endDate, userId) => {
 };
 
 export {
-  getLatestReportDateByUserId,
   getFirstEntryDateByUserId,
   getAvailableReportDates,
   getStressIndexByDates,

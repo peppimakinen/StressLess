@@ -1,6 +1,5 @@
 import {customError} from '../middlewares/error-handler.mjs';
 import {
-  getLatestReportDateByUserId,
   getFirstEntryDateByUserId,
   getAvailableReportDates,
   getStressIndexByDates,
@@ -83,6 +82,7 @@ const findMissingWeeks = async (userId, reportWeeks) => {
   }
   // console.log('All weeks containing reports:', reportWeeks);
   // console.log('Weeks that do not have reports:', weeksFromStart);
+  console.log('Missing weeks have been searched');
   return weeksFromStart;
 };
 
@@ -276,7 +276,7 @@ const deleteWeeksWithoutData = async (weeks, userId) => {
     }
   }
   // Return all weeks that contain the necessary data for the report
-  console.log('All empty weeks have been checked, data found in:', weeks);
+  console.log('All empty weeks have been deleted, data found in:', weeks);
   return weeks;
 };
 
