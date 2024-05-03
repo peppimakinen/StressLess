@@ -1,15 +1,13 @@
+import {customError} from '../middlewares/error-handler.mjs';
 import {
-  addWeekReport,
-  getReportData,
   getLatestReportDateByUserId,
   getFirstEntryDateByUserId,
   getAvailableReportDates,
   getStressIndexByDates,
+  addWeekReport,
+  getReportData,
   getReport,
 } from '../models/report-model.mjs';
-import {customError} from '../middlewares/error-handler.mjs';
-
-/* eslint-disable require-jsdoc */
 
 /**
  * Get all available week reports. Check for updates if none are found
@@ -20,42 +18,72 @@ import {customError} from '../middlewares/error-handler.mjs';
  */
 const getAvailableWeeks = async (req, res, next) => {
   try {
-    console.log('Entered getAvailableWeeks');
     const userId = req.user.user_id;
-    // Get date object for current date
-    const currentDate = getCurrentDate();
-    // Get date object for the latest sunday
-    const latestSunday = getLastSunday(currentDate);
-    // Get the latest date object from weekly reports
-    const latestReportDates = await getLatestReportDates(userId);
-    // Check if user has no report
-    if (!latestReportDates) {
-      // Try to generate reports using existing entries
-      await generateFirstReports(latestSunday, userId);
-      // If reports are found
-    } else {
-      const latestReportEndDate = latestReportDates.end;
-      // Check weeks between last report to latest sunday
-      const weeksFromLastReport = getWeeksBetweenSundays(
-        latestReportEndDate,
-        latestSunday,
-      );
-      // Attempt to update weekly reports talbe if there are missing weeks
-      if (Object.keys(weeksFromLastReport).length > 0) {
-        await updateWeeklyReportsTable(weeksFromLastReport, userId);
-      }
+    // Fetch existing report dates from database
+    const reports = await getAvailableReportDates(userId);
+    // Check for db error
+    if (reports.error === 500) {
+      throw customError(reports.message, reports.error);
     }
-    // Fetch report dates from database
-    const result = await getAvailableReportDates(userId);
+    // Get weeks between last sunday and first entry
+    const missingWeeks = await findMissingWeeks(userId, reports);
+    // Check if there is any new data for these weeks
+    const weeksWithData = await deleteWeeksWithoutData(missingWeeks, userId);
+    // Check if there is atleast 1 week with new data
+    if (Object.keys(weeksWithData).length > 0) {
+      // Generate new report for each week with data
+      await generateReportForEachWeek(weeksWithData, userId);
+    }
+    // Get all report dates
+    const upToDateList = await getAvailableReportDates(userId);
     // Check for error
-    if (result.error) {
-      throw customError(result.message, result.error);
+    if (upToDateList.error) {
+      throw customError(upToDateList.message, upToDateList.error);
     }
-    return res.json(result);
-    // Handle errors
+    // Sort the list from smallest week number to highest
+    const sortedReports = sortByWeekNumber(upToDateList);
+    // Return ok result
+    return res.json(sortedReports);
+  // Handle errors
   } catch (error) {
+    console.log('getAvailableWeeks catch error');
     next(customError(error.message, error.status));
   }
+};
+
+/**
+ * Get a specific report using report ID from URL parameters
+ * @async
+ * @param {Int} userId
+ * @param {List} reportWeeks Weeks with reports in a list or error object
+ * @throws customError
+ * @return {List} Weeks that do not have a report in them
+ */
+const findMissingWeeks = async (userId, reportWeeks) => {
+  // Get laitest sunday
+  const latestSunday = getLastSunday(getCurrentDate());
+  // Fetch date for the first entry
+  const firstEntryDate = await getFirstEntryDate(userId);
+  // Revert to previous sunday
+  const firstSunday = revertDateTimeToPreviousSunday(firstEntryDate);
+  // Get all weeks between first sunday and latest sunday
+  const weeksFromStart = getWeeksBetweenSundays(firstSunday, latestSunday);
+  // console.log('first entry to last sunday weeks:', weeksFromStart);
+  // Check if there is atleast one week with a report
+  if (reportWeeks.length > 0) {
+    // Iterate over weeks with reports if true
+    for (const week of reportWeeks) {
+      // Create a search key
+      const searchKey = 'week_' + week.week_number;
+      // Delete week with a existing report from weeks to be checked
+      if (weeksFromStart.hasOwnProperty(searchKey)) {
+        delete weeksFromStart[searchKey];
+      }
+    }
+  }
+  // console.log('All weeks containing reports:', reportWeeks);
+  // console.log('Weeks that do not have reports:', weeksFromStart);
+  return weeksFromStart;
 };
 
 /**
@@ -67,7 +95,6 @@ const getAvailableWeeks = async (req, res, next) => {
  */
 const getSpecificReport = async (req, res, next) => {
   try {
-    console.log('Entered getSpecificReport');
     const userId = req.user.user_id;
     const reportId = req.params.report_id;
     // Fetch report from database
@@ -134,55 +161,6 @@ const getPatientsReport = async (req, res, next) => {
   } catch (error) {
     console.log('getPatientsReport', error);
     next(customError(error.message, error.status));
-  }
-};
-
-/**
- * Check if there is a need to generate reports based on new entries
- * @async
- * @param {dict} allWeeks all weeks between two dates
- * @param {int} userId
- */
-const updateWeeklyReportsTable = async (allWeeks, userId) => {
-  // Remove all weeks that do not contain entry data
-  const weeksWithData = await deleteWeeksWithoutData(allWeeks, userId);
-  // Check if there is weeks left that contain data
-  if (Object.keys(weeksWithData).length > 0) {
-    // There is a need to generate new report for found weeks
-    console.log('There is a need to update weekly reports table in db');
-    await generateReportForEachWeek(weeksWithData, userId);
-  }
-  console.log('WeeklyReports is up to date');
-};
-
-/**
- * Generate weekly reports from first entry to latest sunday
- * @async
- * @param {dateObj} latestSunday
- * @param {int} userId
- */
-const generateFirstReports = async (latestSunday, userId) => {
-  console.log('Weekly reports table is empty, trying to generate reports...');
-  // Fetch date for the first entry
-  const firstEntryDate = await getFirstEntryDate(userId);
-  // Revert to previous sunday
-  const firstSunday = revertDateTimeToPreviousSunday(firstEntryDate);
-  // Gather all weeks between first sunday and latest sunday
-  const weeksFromFirstEntry = getWeeksBetweenSundays(firstSunday, latestSunday);
-  // Remove all weeks that do not contain data
-  const weeksWithData = await deleteWeeksWithoutData(
-    weeksFromFirstEntry,
-    userId,
-  );
-  // console.log('All weeks from first entry:', weeksFromFirstEntry);
-  // console.log('All weeks from first entry containing data', weeksWithData);
-  // Generate a report for all weeks that contain data
-  const result = await generateReportForEachWeek(weeksWithData, userId);
-  // Handle errors
-  if (result) {
-    return result;
-  } else {
-    throw customError('Could not initialize WeeklyReports table', 500);
   }
 };
 
@@ -266,26 +244,6 @@ const getReportParams = async (monday, sunday, weekNum, userId, entries) => {
 };
 
 /**
- * Gather and calculate all weekly report data for one specific week
- * @param {dateObj} dateObj yyyy-mm-ddT00:00:00:000Z
- * @return {dateObj} Return a object that is the last or current sunday
- */
-const revertDateTimeToPreviousSunday = (dateObj) => {
-  // Check that provided parameter is a valid Date object
-  if (dateObj instanceof Date && !isNaN(dateObj.getTime())) {
-    // Calculate how many days to subtract to reach previous Sunday
-    const daysToPreviousSunday = dateObj.getUTCDay();
-    // Subtract the days to get previous Sunday
-    dateObj.setUTCDate(dateObj.getUTCDate() - daysToPreviousSunday);
-    // Verify the result with isSunday function
-    isSunday(dateObj);
-    return dateObj;
-  }
-  // Throw error because parameter was not a Date object
-  throw customError('Invalid param for revertToPreviousSunday', 500);
-};
-
-/**
  * Delete all weeks that do not contain necessary data for new report
  * @async
  * @param {dict} weeks Contains weeks with data and dates
@@ -293,7 +251,6 @@ const revertDateTimeToPreviousSunday = (dateObj) => {
  * @return {dict} Modified dict that has only the weeks that had data
  */
 const deleteWeeksWithoutData = async (weeks, userId) => {
-  console.log('Iterating over every found week and checking if entries found');
   // Iterate over every week
   for (const week in weeks) {
     if (Object.prototype.hasOwnProperty.call(weeks, week)) {
@@ -308,7 +265,7 @@ const deleteWeeksWithoutData = async (weeks, userId) => {
       if (data.error) {
         throw customError(data.message, data.error);
       }
-      // Check if entry was found
+      // Check if week contains entries
       if (data.length === 0) {
         // Delete from weeks dict if no data was found
         delete weeks[week];
@@ -319,63 +276,10 @@ const deleteWeeksWithoutData = async (weeks, userId) => {
     }
   }
   // Return all weeks that contain the necessary data for the report
-  console.log('All weeks have been checked, data found in:', weeks);
+  console.log('All empty weeks have been checked, data found in:', weeks);
   return weeks;
 };
 
-/**
- * Convert Date object yyyy-mm-ddT00:00:00.000Z --> yyyy-mm-dd
- * @param {dateObj} dateObj
- * @return {string} The same date but in string format
- */
-function convertDateObjToStr(dateObj) {
-  return dateObj.toISOString().slice(0, 10);
-}
-
-/**
- * Change date object time to second before midnight
- * @param {dateObj} dateObj
- * @return {string} The same date object but with time 23:59:59
- */
-function setDateTimeToLastMinute(dateObj) {
-  dateObj.setUTCHours(23);
-  dateObj.setUTCMinutes(59);
-  dateObj.setUTCSeconds(59);
-  return dateObj;
-}
-
-/**
- * Change date object time to just past midnight
- * @param {dateObj} dateObj
- * @return {string} The same date object but with time 00:00:00
- */
-function setDateTimeToFirstMinute(dateObj) {
-  dateObj.setUTCHours(0);
-  dateObj.setUTCMinutes(0);
-  dateObj.setUTCSeconds(0);
-  return dateObj;
-}
-
-/**
- * Check if provided date object is a sunday (Sunday = 0, monday = 1....)
- * @param {dateObj} dateObj
- * @return {boolean}
- */
-function isSunday(dateObj) {
-  // Check that provided parameter is a valid Date object
-  if (dateObj instanceof Date && !isNaN(dateObj.getTime())) {
-    // Check if date object is a sunday
-    if (dateObj.getUTCDay() === 0) {
-      // return true if it is sunday
-      return true;
-      // Throw a error
-    } else {
-      throw customError('Provided isSunday object is not a sunday', 500);
-    }
-  }
-  // Throw error because parameter was not a Date object
-  throw customError('Parameter for isSunday is not a date object', 500);
-}
 
 /**
  * Get all weeks with week number, start and end -dates between given parameters
@@ -420,110 +324,19 @@ function getWeeksBetweenSundays(startDateObj, endDateObj) {
 }
 
 /**
- * Get first entry date as a date object
- * @async
- * @param {int} userId
- * @return {dateObj}
- */
-const getFirstEntryDate = async (userId) => {
-  // Fetch latest report
-  const latestEntry = await getFirstEntryDateByUserId(userId);
-  if (latestEntry.error) {
-    throw customError(latestEntry.message, latestEntry.error);
-  }
-  // Convert to date object and set time
-  const latestEntryObj = convertToDateObj(latestEntry.entry_date);
-  const latestEntryTimeDateObj = setDateTimeToLastMinute(latestEntryObj);
-  // Return found first entry date as a date object
-  return latestEntryTimeDateObj;
-};
-
-/**
- * Get start/end date objects for the latest report
- * @async
- * @param {int} userId
- * @return {dict}
- */
-const getLatestReportDates = async (userId) => {
-  // Fetch latest report using user ID
-  const latestReport = await getLatestReportDateByUserId(userId);
-  // Check if no reports was found
-  if (latestReport.length === 0) {
-    // Return false
-    return false;
-  }
-  // Grab date str and convert it to a date object
-  const reportEndDate = latestReport[0].week_end_date;
-  const endDate = setDateTimeToLastMinute(convertToDateObj(reportEndDate));
-  const reportStartDate = latestReport[0].week_start_date;
-  const startDate = setDateTimeToLastMinute(convertToDateObj(reportStartDate));
-  // Return dates
-  return {start: startDate, end: endDate};
-};
-
-/**
- * Convert a date in yyyy-mm-dd format to a date object
- * @param {string} dateStr
- * @return {dateObj}
- */
-const convertToDateObj = (dateStr) => {
-  // Create a Date object from the date string
-  const dateObj = new Date(dateStr);
-  return dateObj;
-};
-
-/**
- * Using current date get the last sunday as date object
- * @param {dateObj} date
- * @return {dateObj}
- */
-const getLastSunday = (date) => {
-  const currentDate = new Date(date);
-  const dayOfWeek = currentDate.getUTCDay();
-  const diff = currentDate.getUTCDate() - dayOfWeek;
-  const lastSunday = new Date(
-    Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), diff),
-  );
-  const lastSundayWithTime = setDateTimeToLastMinute(lastSunday);
-  if (isSunday(lastSundayWithTime)) {
-    return lastSundayWithTime;
-  }
-};
-
-/**
- * Get current date object in Finnish summer time
- * @return {dateObj}
- */
-const getCurrentDate = () => {
-  const currentDate = new Date();
-  // Convert to UTC
-  const utcDate = new Date(
-    Date.UTC(
-      currentDate.getUTCFullYear(),
-      currentDate.getUTCMonth(),
-      currentDate.getUTCDate(),
-      currentDate.getUTCHours(),
-      currentDate.getUTCMinutes(),
-      currentDate.getUTCSeconds(),
-    ),
-  );
-  // Adjust for Finnish timezone (UTC+3 for daylight saving)
-  utcDate.setUTCHours(utcDate.getUTCHours() + 3);
-  return utcDate;
-};
-
-/**
  * Insert a new weekly report to the database
  * @async
  * @param {list} params All report data in a list
  * @return {object} result
  */
 const insertWeekReport = async (params) => {
-  console.log('Inserting a new report to the db');
+  // Insert report to db
   const result = addWeekReport(params);
+  // Check for errors
   if (result.error) {
     throw customError(result.message, result.error);
   }
+  console.log('New report inserted to db');
   return result;
 };
 
@@ -574,15 +387,12 @@ function calculateListAverage(list) {
 }
 
 /**
- * Get date string seven days prior
- * @param {string} dateStr
- * @return {string} result
+ * Sort a list of report dates based on week number
+ * @param {List} reports All report dates
+ * @return {List} Sorted list
  */
-function goSevenDaysBackwards(dateStr) {
-  const date = new Date(dateStr);
-  date.setUTCDate(date.getUTCDate() - 7);
-  const formattedDate = date.toISOString().slice(0, 10);
-  return formattedDate;
+function sortByWeekNumber(reports) {
+  return reports.sort((a, b) => a.week_number - b.week_number);
 }
 
 /**
@@ -664,8 +474,12 @@ function calculateMoodColorPercentages(entries) {
   return pieChartPercentages;
 }
 
-// https://bito.ai/resources/javascript-get-week-number-javascript-explained/
-// Function to get the week number
+/**
+ * Get week number from date
+ * @source https://bito.ai/resources/javascript-get-week-number-javascript-explained/
+ * @param {Date} day
+ * @return {Int} Week number
+ */
 function getWeekNumber(day) {
   // Copy date so don't modify original
   day = new Date(Date.UTC(day.getFullYear(), day.getMonth(), day.getDate()));
@@ -678,11 +492,168 @@ function getWeekNumber(day) {
   const weekNo = Math.ceil(((day - yearStart) / 86400000 + 1) / 7);
   return weekNo;
 }
+
+/**
+ * Get date string seven days prior
+ * @param {string} dateStr
+ * @return {string} result
+ */
+function goSevenDaysBackwards(dateStr) {
+  const date = new Date(dateStr);
+  date.setUTCDate(date.getUTCDate() - 7);
+  const formattedDate = date.toISOString().slice(0, 10);
+  return formattedDate;
+}
+
+/**
+ * Get current date object in Finnish summer time
+ * @return {dateObj}
+ */
+const getCurrentDate = () => {
+  const currentDate = new Date();
+  // Convert to UTC
+  const utcDate = new Date(
+    Date.UTC(
+      currentDate.getUTCFullYear(),
+      currentDate.getUTCMonth(),
+      currentDate.getUTCDate(),
+      currentDate.getUTCHours(),
+      currentDate.getUTCMinutes(),
+      currentDate.getUTCSeconds(),
+    ),
+  );
+  // Adjust for Finnish timezone (UTC+3 for daylight saving)
+  utcDate.setUTCHours(utcDate.getUTCHours() + 3);
+  return utcDate;
+};
+
+/**
+ * Get first entry date as a date object
+ * @async
+ * @param {int} userId
+ * @return {dateObj}
+ */
+const getFirstEntryDate = async (userId) => {
+  // Fetch latest report
+  const latestEntry = await getFirstEntryDateByUserId(userId);
+  if (latestEntry.error) {
+    throw customError(latestEntry.message, latestEntry.error);
+  }
+  // Convert to date object and set time
+  const latestEntryObj = convertToDateObj(latestEntry.entry_date);
+  const latestEntryTimeDateObj = setDateTimeToLastMinute(latestEntryObj);
+  // Return found first entry date as a date object
+  return latestEntryTimeDateObj;
+};
+
+/**
+ * Convert a date in yyyy-mm-dd format to a date object
+ * @param {string} dateStr
+ * @return {dateObj}
+ */
+const convertToDateObj = (dateStr) => {
+  // Create a Date object from the date string
+  const dateObj = new Date(dateStr);
+  return dateObj;
+};
+
+/**
+ * Using current date get the last sunday as date object
+ * @param {dateObj} date
+ * @return {dateObj}
+ */
+const getLastSunday = (date) => {
+  const currentDate = new Date(date);
+  const dayOfWeek = currentDate.getUTCDay();
+  const diff = currentDate.getUTCDate() - dayOfWeek;
+  const lastSunday = new Date(
+    Date.UTC(currentDate.getUTCFullYear(), currentDate.getUTCMonth(), diff),
+  );
+  const lastSundayWithTime = setDateTimeToLastMinute(lastSunday);
+  if (isSunday(lastSundayWithTime)) {
+    return lastSundayWithTime;
+  }
+};
+
+/**
+ * Convert Date object yyyy-mm-ddT00:00:00.000Z --> yyyy-mm-dd
+ * @param {dateObj} dateObj
+ * @return {string} The same date but in string format
+ */
+function convertDateObjToStr(dateObj) {
+  return dateObj.toISOString().slice(0, 10);
+}
+
+/**
+ * Change date object time to second before midnight
+ * @param {dateObj} dateObj
+ * @return {string} The same date object but with time 23:59:59
+ */
+function setDateTimeToLastMinute(dateObj) {
+  dateObj.setUTCHours(23);
+  dateObj.setUTCMinutes(59);
+  dateObj.setUTCSeconds(59);
+  return dateObj;
+}
+
+/**
+ * Change date object time to just past midnight
+ * @param {dateObj} dateObj
+ * @return {string} The same date object but with time 00:00:00
+ */
+function setDateTimeToFirstMinute(dateObj) {
+  dateObj.setUTCHours(0);
+  dateObj.setUTCMinutes(0);
+  dateObj.setUTCSeconds(0);
+  return dateObj;
+}
+
+/**
+ * Check if provided date object is a sunday (Sunday = 0, monday = 1....)
+ * @param {dateObj} dateObj
+ * @return {boolean}
+ */
+function isSunday(dateObj) {
+  // Check that provided parameter is a valid Date object
+  if (dateObj instanceof Date && !isNaN(dateObj.getTime())) {
+    // Check if date object is a sunday
+    if (dateObj.getUTCDay() === 0) {
+      // return true if it is sunday
+      return true;
+      // Throw a error
+    } else {
+      throw customError('Provided isSunday object is not a sunday', 500);
+    }
+  }
+  // Throw error because parameter was not a Date object
+  throw customError('Parameter for isSunday is not a date object', 500);
+}
+
+/**
+ * Gather and calculate all weekly report data for one specific week
+ * @param {dateObj} dateObj yyyy-mm-ddT00:00:00:000Z
+ * @return {dateObj} Return a object that is the last or current sunday
+ */
+const revertDateTimeToPreviousSunday = (dateObj) => {
+  // Check that provided parameter is a valid Date object
+  if (dateObj instanceof Date && !isNaN(dateObj.getTime())) {
+    // Calculate how many days to subtract to reach previous Sunday
+    const daysToPreviousSunday = dateObj.getUTCDay();
+    // Subtract the days to get previous Sunday
+    dateObj.setUTCDate(dateObj.getUTCDate() - daysToPreviousSunday);
+    // Verify the result with isSunday function
+    isSunday(dateObj);
+    return dateObj;
+  }
+  // Throw error because parameter was not a Date object
+  throw customError('Invalid param for revertToPreviousSunday', 500);
+};
+
 export {
-  getAvailableWeeks,
-  getSpecificReport,
-  convertDateObjToStr,
-  getCurrentDate,
   getAvailablePatientReports,
+  convertDateObjToStr,
+  getAvailableWeeks,
   getPatientsReport,
+  getSpecificReport,
+  getCurrentDate,
 };
