@@ -22,6 +22,7 @@ body {
     background-image: url(../assets/imgBg.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    background-attachment: fixed;
 }
 
 /* navigation */
@@ -82,23 +83,20 @@ li a {
     border-radius: 30px;
 }
 
-h1 {
-    padding: 30px;
-    padding-left: 160px;
-}
-
-
 /* Calendar */
 .calendarBackground {
     background-color: #fffaff;
-    margin: 50px; /* Auto for horizontal centering */
+    margin: 50px;
+    /* Auto for horizontal centering */
     border-radius: 22px;
-    padding-top: 20px; /* Adding top padding for visual balance */
+    padding-top: 20px;
+    /* Adding top padding for visual balance */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    overflow: hidden; /* Ensures no spillover */
+    overflow: hidden;
+    /* Ensures no spillover */
     padding-bottom: 5vh;
     position: relative;
 }
@@ -135,13 +133,40 @@ h1 {
     padding-right: 40px;
 }
 
-.infoIcon {
+h1 {
     position: absolute;
-    top: 50px;
+    top: 75px;
+    left: 35px;
+    transform: translateY(-50%);
+    font-family: 'Cabin', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 20px;
+    color: #fffaff;
+    background-color: #313E50;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+h1:hover {
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
+}
+
+h2 {
+    position: absolute;
+    top: 75px;
     right: 35px;
-    transform: translateY(-50%); 
-    width: 40px;
-    height: auto;
+    transform: translateY(-50%);
+    font-family: 'Cabin', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 22px;
 }
 
 header .calendarHeader {
@@ -159,7 +184,8 @@ header .calendarHeader span {
 
 .calendar {
     width: 80vw;
-    min-height: 400px; /* Minimum height to ensure it doesn't get too small */
+    min-height: 400px;
+    /* Minimum height to ensure it doesn't get too small */
     border-spacing: 0;
     border-collapse: collapse;
     background-color: #fffaff;
@@ -248,12 +274,23 @@ header .calendarHeader span {
     display: none;
 }
 
-.FormPopupNew,
-.FormPopupEdit,
+.PopupSurvey {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: auto;
+    margin-top: 50px;
+    padding: 50px;
+    border-radius: 50px;
+}
+
 .PopupPastEntry {
     display: none;
     position: absolute;
-    top: 50%;
+    top: 46%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -267,6 +304,7 @@ header .calendarHeader span {
     padding: 50px;
     border-radius: 50px;
     width: 60%;
+    max-height: 90vh;
     z-index: 2;
 }
 
@@ -295,149 +333,13 @@ header .calendarHeader span {
     color: #5D7283;
 }
 
-.moodAndActivities {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.activitiesNew,
-.activitiesEdit {
-    margin-left: 80px;
-}
-
-.moodNew,
-.moodEdit {
-    margin-top: 20px;
-}
-
-.moodButtons {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 25px;
-}
-
-.moodBtn {
-    border: none;
-    cursor: pointer;
-    border-radius: 70px;
-    width: 90px;
-    height: 90px;
-    margin: 0 10px;
-}
-
-.moodBtn:hover,
-.moodBtn:focus,
-.moodBtn.selected {
-    outline: 3px solid #313E50;
-}
-
-#redBtn {
-    background-color: #FF8585;
-}
-
-#yellowBtn {
-    background-color: #FFF67E;
-}
-
-#greenBtn {
-    background-color: #9BCF53;
-}
-
-input[type="text"] {
-    width: 75%;
-    height: 9vh;
-    padding: 20px 20px;
-    margin-top: 18px;
-    background-color: #E1F6FA;
-    border: none;
-    border-radius: 25px;
-    color: #1E1B18;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-    box-shadow: 0 2px 2px #313E50;
-}
-
-input:focus {
-    outline: none;
-}
-
-.activitiesNew select,
-.activitiesEdit select {
-    width: 20vw;
-    height: 9vh;
-    padding: 20px;
-    margin-top: 18px;
-    background-color: #E1F6FA;
-    border: none;
-    border-radius: 55px;
-    color: #1E1B18;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-    box-shadow: 0 2px 2px #313E50;
-    margin-bottom: 20px;
-}
-
-/* Adjustments for focused state */
-.activitiesNew select:focus {
-    outline: none;
-}
-
-.notesAndSubmit {
-    display: flex;
-    align-items: center;
-    padding-bottom: 20px;
-}
-
-#NotesNew,
-#NotesEdit {
-    height: 140px;
-    width: 400px;
-    margin-bottom: 20px;
-}
-
-input[type="submit"] {
-    background-color: #313E50;
-    width: 20%;
-    padding: 22px;
-    margin-top: 70px;
-    margin-left: 70px;
-    border-radius: 40px;
-    color: #fffaff;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 500;
-    font-size: 18px;
-    border: none;
-    cursor: pointer;
-}
-
-input[type="submit"]:hover {
-    background-color: #5D7283;
-}
-
-.EntryFormNew label,
-.EntryFormEdit label {
-    display: block;
-    font-family: 'Cabin', sans-serif;
-    font-style: italic;
-    font-weight: 700;
-    font-size: 22px;
-    color: #313e50;
-    margin-top: 40px;
-}
-
-/* Past entry popup specific rules */
 .PopupPastEntry h4 {
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 700;
     font-size: 28px;
     color: #1E1B18;
+    margin-top: 20px;
 }
 
 .PopupPastEntry p {
@@ -447,31 +349,13 @@ input[type="submit"]:hover {
     color: #1E1B18;
 }
 
-.editIcon {
-    position: absolute;
-    top: 30px;
-    left: 40px;
-    cursor: pointer;
-    width: 50px;
-    height: auto;
-}
-
-.hrvAndActivities {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin-top: 7vh;
-}
-
-.activitiesPast {
-    margin-left: 10vw;
-}
-
+.hrv,
+.activitiesPast,
 .notesPast {
-    margin-top: 5vh;
-    margin-bottom: 5vh;
+    margin-top: 3vh;
 }
 
+/* snackbar rules */
 #snackbar-target {
     visibility: hidden;
     min-width: 250px;
@@ -488,18 +372,17 @@ input[type="submit"]:hover {
     font-size: 17px;
     margin-right: 2000px;
     border-radius: 20px;
-  }
-  #snackbar-target.show {
-  visibility: visible;
-  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
-  }
+}
+
+#snackbar-target.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
 
 /* responsive styles */
 @media screen and (max-width: 1600px) {
 
-    .FormPopupNew,
-    .FormPopupEdit,
     .PopupPastEntry {
         width: 80%;
     }
@@ -511,6 +394,12 @@ input[type="submit"]:hover {
     }
 }
 
+@media screen and (min-width: 1200px) {
+
+    .PopupPastEntry {
+        width: 60%;
+    }
+}
 
 @media screen and (max-width: 700px) {
     .calendarBackground {

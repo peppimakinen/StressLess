@@ -1,7 +1,7 @@
 import { renderCalendar } from "./calendar.js";
 import { getPatientMonth } from "./getdata.js";
 import { hasEntry } from "./checkdata.js";
-import { showPastEntryPopup, hideAllPopups } from "./doctormodal.js";
+import { showPastEntryPopup, showSurveyPopup, hideAllPopups } from "./doctormodals.js";
 import { showSnackbar } from "../snackbar.js";
 
 // RENDERING CALENDAR
@@ -92,6 +92,12 @@ calendar.addEventListener("click", async (event) => {
       showSnackbar("Red","Ei tehtyä merkintää");
     }
   }
+});
+
+// even listener for survey modal
+const surveyBtn = document.querySelector('.surveyBtn');
+surveyBtn.addEventListener('click', () => {
+  showSurveyPopup();
 });
 
 // event listener for closePopup buttons

@@ -1,11 +1,20 @@
 import { convertToDDMMYYYY } from "./convertday.js";
 import { hasEntry } from "./checkdata.js";
-import { getPatientDay } from "./getdata.js";
+import { getPatientDay, getPatientSurvey } from "./getdata.js";
 
 // get required elements for displaying the modal
 const PastEntry = document.querySelector(".PopupPastEntry");
+const survey = document.querySelector(".PopupSurvey");
 const calendarWrapper = document.querySelector(".calendarBackground");
 const overlay = document.getElementById("overlay");
+
+export async function showSurveyPopup() {
+  survey.style.display = "flex";
+  overlay.style.display = "block";
+  calendarWrapper.style.display = "none";
+
+  getPatientSurvey();
+}
 
 // Function to show PastEntry popup and populate with entry data
 export async function showPastEntryPopup(monthData, date) {
@@ -35,14 +44,38 @@ export async function showPastEntryPopup(monthData, date) {
         });
 
       // Update HRV data in the modal
+      document.querySelector(".PopupPastEntry .hrv #stress").textContent =
+        "Stressi-indeksi: " + entryData.measurement_data.stress_index;
+
       document.querySelector(".PopupPastEntry .hrv #sns").textContent =
         "SNS-indeksi: " + entryData.measurement_data.sns_index;
 
       document.querySelector(".PopupPastEntry .hrv #pns").textContent =
         "PNS-indeksi: " + entryData.measurement_data.pns_index;
 
-      document.querySelector(".PopupPastEntry .hrv #stress").textContent =
-        "Stressi-indeksi: " + entryData.measurement_data.stress_index;
+      document.querySelector(".PopupPastEntry .hrv #rmssd").textContent =
+        "RMSSD: " + entryData.measurement_data.rmssd_ms;
+
+      document.querySelector(".PopupPastEntry .hrv #sdnn").textContent =
+        "SDNN: " + entryData.measurement_data.sdnn_ms;
+
+      document.querySelector(".PopupPastEntry .hrv #rr").textContent =
+        "Mean RR: " + entryData.measurement_data.mean_rr_ms;
+
+      document.querySelector(".PopupPastEntry .hrv #lf").textContent =
+        "LF power: " + entryData.measurement_data.lf_power;
+
+      document.querySelector(".PopupPastEntry .hrv #hf").textContent =
+        "HF power: " + entryData.measurement_data.hf_power;
+
+      document.querySelector(".PopupPastEntry .hrv #lf_nu").textContent =
+        "LF n.u.: " + entryData.measurement_data.lf_power_nu;
+
+      document.querySelector(".PopupPastEntry .hrv #hf_nu").textContent =
+        "HF n.u.: " + entryData.measurement_data.hf_power_nu;
+
+      document.querySelector(".PopupPastEntry .hrv #total").textContent =
+        "LF/HF ratio: " + entryData.measurement_data.tot_power;
 
       // Update activities data in the modal
       const activitiesList =

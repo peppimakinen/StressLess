@@ -24,6 +24,8 @@
 
 
     <div class="calendarBackground">
+        <h1 class="surveyBtn">Alkukartoitus</h1>
+        <!-- <h2>Patient name here</h2> -->
         <div class="calendarWrapper">
             <header>
                 <div class="calendarHeader">
@@ -52,32 +54,40 @@
     <div class="popupContainer">
         <!-- Modal for viewing a past entry -->
         <div class="PopupPastEntry" style="display: none;">
-            <img src="../assets/imgEditIcon.png" alt="edit Image" class="editIcon" />
             <span class="closePopup">&times;</span>
             <h3 class="EntryHeading">Selected date here</h3>
-            <div class="hrvAndActivities">
-                <div class="hrv">
-                    <h4>HRV</h4>
-                    <p id="stress">Stress here</p>
-                    <p id="sns">SNS here</p>
-                    <p id="pns">PNS here</p>
-                    <p id="rmssd">RMSSD here</p>
-                    <p id="sdnn">SDNN here</p>
-                    <p id="rr">Mean RR here</p>
-                    <p id="lf">LF power here</p>
-                    <p id="hf">HF power here</p>
-                    <p id="lf_nu">LF n.u. here</p>
-                    <p id="hf_nu">HF n.u. here</p>
-                    <p id="total">LF/HF ratio here</p>
-                </div>
-                <div class="activitiesPast">
-                    <h4>Aktiviteetit</h4>
-                    <p>Activities here</p>
-                </div>
+            <div class="hrv">
+                <h4>HRV</h4>
+                <p id="stress">Stress here</p>
+                <p id="sns">SNS here</p>
+                <p id="pns">PNS here</p>
+                <p id="rmssd">RMSSD here</p>
+                <p id="sdnn">SDNN here</p>
+                <p id="rr">Mean RR here</p>
+                <p id="lf">LF power here</p>
+                <p id="hf">HF power here</p>
+                <p id="lf_nu">LF n.u. here</p>
+                <p id="hf_nu">HF n.u. here</p>
+                <p id="total">LF/HF ratio here</p>
+            </div>
+            <div class="activitiesPast">
+                <h4>Aktiviteetit</h4>
+                <p>Activities here</p>
             </div>
             <div class="notesPast">
                 <h4>Muistiinpanot</h4>
                 <p>notes here</p>
+            </div>
+        </div>
+
+        <!-- modal for survey -->
+        <div class="PopupSurvey" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected patient here</h3>
+            <div class="hrv">
+                <h5>Question here</h5>
+                <p>Answer here</p>
+                <!-- insert all questions through js? -->
             </div>
         </div>
     </div>
