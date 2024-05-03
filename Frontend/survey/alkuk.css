@@ -247,15 +247,12 @@ p {
     left: 50%; 
     top: 50%; 
     transform: translate(-50%, -50%); 
-    padding: 20px; 
     background-color: white; 
     border: 1px solid black; 
     z-index: 1050; 
     border-radius: 30px;
     padding-bottom: 50px;
     padding-top: 50px;
-    padding-left: 50px;
-    padding-right: 50px;
     box-shadow: 0 0 100px rgba(0, 0, 0, 10);
 }
 
@@ -263,6 +260,8 @@ p {
     color: #1e1b18;
     font-family: 'Nunito', sans-serif;
     font-weight: 400;
+    padding-right: 30px;
+    padding-left: 30px;
     font-size: 25px;
     margin-bottom: 20px;
 }
