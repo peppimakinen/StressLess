@@ -101,6 +101,7 @@ h1 {
 
 .delete {
     gap: 10px;
+    margin: 10px;
 }
 
 /* .clients {
@@ -111,10 +112,8 @@ h1 {
 .clients li {
     background-color: #fffaff;
     border-radius: 22px;
-    padding: 5px;
     padding-left: 20px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 20px;
     list-style: none;
     display: flex;
     font-size: xx-large;
@@ -139,6 +138,7 @@ color: #fffaff;
 .reports {
     right: 5%;
     position: absolute;
+    margin: 15px;
 } 
 
 

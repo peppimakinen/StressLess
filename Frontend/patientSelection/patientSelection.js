@@ -15,7 +15,7 @@ window.addEventListener('load', async (evt) => {
         };
 
         const reportData = await fetchData(url, options); 
-        if (reportData == null ) {
+        if (Object.keys(reportData).length === 0) {
             const clientItem = document.querySelector('.clients');
             clientItem.textContent = "Käyttäjätililläsi ei ole vielä yhtään potilastiliä liitettynä.";
 
@@ -35,6 +35,7 @@ window.addEventListener('load', async (evt) => {
                 clientItem.classList.add('client');
                 clientItem.textContent = client.full_name;
                 console.log(client.full_name)
+                localStorage.setItem('full_name', client.full_name);
 
                 //reports
                 const reportsDiv = document.createElement('div');

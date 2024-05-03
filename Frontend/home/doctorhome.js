@@ -94,7 +94,7 @@ calendar.addEventListener("click", async (event) => {
   }
 });
 
-// even listener for survey modal
+// event listener for survey modal
 const surveyBtn = document.querySelector('.surveyBtn');
 surveyBtn.addEventListener('click', () => {
   showSurveyPopup();
@@ -105,3 +105,9 @@ const closePopups = document.querySelectorAll(".closePopup");
 closePopups.forEach((button) => {
   button.addEventListener("click", hideAllPopups);
 });
+
+//username
+const username = localStorage.getItem('full_name');
+console.log(username)
+const show_name = document.querySelector("#username")
+show_name.textContent= username;

@@ -133,7 +133,7 @@ li a {
     padding-right: 40px;
 }
 
-h1 {
+h1.surveyBtn {
     position: absolute;
     top: 75px;
     left: 35px;
@@ -152,10 +152,45 @@ h1 {
     z-index: 3;
 }
 
-h1:hover {
+h1.surveyBtn:hover {
     color: #fffaff;
     background-color: #28303a;
     border-radius: 30px;
+}
+
+h1.weekReportBtn {
+    position: absolute;
+    top: 75px;
+    left: 205px;
+    transform: translateY(-50%);
+    font-family: 'Cabin', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 20px;
+    background-color: #313E50;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    z-index: 3;
+}
+
+a {
+    color: #f2f2f2;
+    text-decoration: none; /* Remove underline */
+}
+
+h3 {
+    position: absolute;
+    top: 45px;
+    right: 105px;
+    padding: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 30px;
+    z-index: 3;
+    font-size: x-large;
 }
 
 h2 {
