@@ -133,7 +133,7 @@ li a {
     padding-right: 40px;
 }
 
-h1.surveyBtn {
+.surveyBtn {
     position: absolute;
     top: 75px;
     left: 35px;
@@ -152,13 +152,13 @@ h1.surveyBtn {
     z-index: 3;
 }
 
-h1.surveyBtn:hover {
+.surveyBtn:hover {
     color: #fffaff;
     background-color: #28303a;
     border-radius: 30px;
 }
 
-h1.weekReportBtn {
+.weekReportBtn {
     position: absolute;
     top: 75px;
     left: 205px;
@@ -176,21 +176,26 @@ h1.weekReportBtn {
     z-index: 3;
 }
 
+.weekReportBtn:hover {
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
+}
+
 a {
     color: #f2f2f2;
-    text-decoration: none; /* Remove underline */
+    text-decoration: none;
+    /* Remove underline */
 }
 
 h6 {
     position: absolute;
-    top: 45px;
-    right: 105px;
-    padding: 15px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 30px;
-    z-index: 3;
-    font-size: x-large;
+    top: 55px;
+    right: 30px;
+    font-family: 'Cabin', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 24px;
 }
 
 h2 {
@@ -421,6 +426,32 @@ header .calendarHeader span {
 
     .PopupPastEntry {
         width: 60%;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .weekReportBtn {
+        font-size: 17px;
+        left: 165px
+    }
+
+    .surveyBtn {
+        font-size: 17px;
+        left: 20px;
+    }
+}
+
+@media screen and (max-width: 1040px) {
+    .weekReportBtn {
+        font-size: 17px;
+        left: 20px;
+        top: 110px
+    }
+
+    .surveyBtn {
+        font-size: 17px;
+        left: 20px;
+        top: 45px;
     }
 }
 

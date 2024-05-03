@@ -150,3 +150,9 @@ window.addEventListener('load', async function(evt) {
     console.error('Error fetching report:', error);
 }
 });
+
+// go back button
+const goBack = document.querySelector('.backIcon');
+goBack.addEventListener('click', () => {
+    window.location.href = "../reports/weekReportAllD.html";
+})
