@@ -5,10 +5,11 @@ window.addEventListener('load', async (evt) => {
     evt.preventDefault();
     try {
         //weekreports
-        const username = localStorage.getItem('full_name');
+        const user_id = localStorage.getItem('userId');
+        console.log(user_id)
 
 
-        const url = "http://127.0.0.1:3000/api/reports/available-weeks/1";
+        const url = `http://127.0.0.1:3000/api/reports/doctor/available-weeks/${user_id}`;
         let token = localStorage.getItem("token");
 
         const options = {
@@ -35,7 +36,7 @@ window.addEventListener('load', async (evt) => {
                 const reportsDiv = document.createElement('div');
                 reportsDiv.classList.add('reports');
                 const reportLink = document.createElement('a');
-                reportLink.href = `weekReport.html?week=${week.week_number}`;
+                reportLink.href = `weekReportD.html?week=${week.week_number}`;
                 reportLink.addEventListener('click', function(event) {
                     localStorage.setItem('selectedReportId', week.report_id);
                 });

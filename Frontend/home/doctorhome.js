@@ -111,3 +111,11 @@ const username = localStorage.getItem('full_name');
 console.log(username)
 const show_name = document.querySelector("#username")
 show_name.textContent= username;
+
+//user_id
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const client = urlParams.get('client');
+localStorage.setItem('userId', client);
+console.log(client)
+
