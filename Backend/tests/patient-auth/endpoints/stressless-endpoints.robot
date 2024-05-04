@@ -68,7 +68,7 @@ Authenticate as Patient
     Set Suite Variable    &{headers}
     Set Suite Variable    ${initialToken}
 
-Delete self
+Delete self as patient
     ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${headers}
     Status Should Be    200
 
@@ -159,5 +159,15 @@ Search for the newly created doctor test suite user
 
 Create a doctor patient pair
     ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
-     ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
-   
+    ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
+
+Authenticate as test doctor
+    ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret
+    ${response}    POST    url=http://127.0.0.1:3000/api/auth/doctor-login    json=${body}
+    ${doctorToken}    Set Variable    ${response.json()}[token]
+    &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
+    Set Suite Variable    &{doctorHeaders}
+
+Delete self as doctor
+    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${doctorHeaders}
+    Status Should Be    200
