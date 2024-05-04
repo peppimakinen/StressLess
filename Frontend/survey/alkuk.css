@@ -135,6 +135,44 @@ p {
     margin-left: 450px;
 }
 
+/* Basic styling for the activities list container */
+/* Centering the activities list container using flexbox */
+#activitiesListContainer {
+    display: flex;       
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 8px;
+    width: 100%;
+}
+
+/* Ensure the list takes up the full width of its container for alignment */
+#activitiesList {
+    width: 100%;            /* List occupies full width of its container */
+    padding: 0;             /* Remove default padding */
+}
+
+
+/* Styling for each list item */
+#activitiesList li {
+    background-color: #FFFAFF;
+    padding: 4px 16px; 
+    margin: 8px auto; 
+    border-radius: 4px; 
+    box-shadow: 0 3px 3px rgba(0,0,0,0.1); 
+    list-style-type: none; 
+    font-size: 16px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 400;
+    color: #1E1B18;
+    border: 1px solid #ddd;
+    width: fit-content;
+    display: block;
+}
+
+
+
 #overlay {
     position: fixed;
     top: 0;

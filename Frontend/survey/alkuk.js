@@ -22,37 +22,51 @@ document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('submitButton').addEventListener('click', function() {
     const inputField = document.getElementById('question14');
     const activity = inputField.value.trim();
-    const questionText = document.getElementById('activityLabel').textContent.trim(); // Make sure the label is correctly associated
-
     if (activity !== '') {
         let activities = [];
 
-        // Check if there's already an existing hidden input for activities
+        // Check for an existing hidden input for activities
         const existingInput = document.querySelector('input[name="activities"]');
         if (existingInput) {
             activities = JSON.parse(existingInput.value);
             existingInput.remove();  // Remove it to replace later
         }
 
+        // Add the new activity to the array
         activities.push(activity);
 
+        // Create or update the hidden input to store all activities
         const activityInput = document.createElement('input');
         activityInput.type = 'hidden';
         activityInput.name = 'activities';
         activityInput.value = JSON.stringify(activities);
-
         const form = document.querySelector('.answer-form-all');
         form.appendChild(activityInput);
 
+        // Clear the input field after adding the activity
         inputField.value = '';
 
-        const activitiesString = `Mitä aktiviteetteja hyödynnät stressin lievennyksessä?: ${JSON.stringify(activities)}`;
-        console.log(activitiesString);
-        showSnackbar('green', 'Aktiviteetti lisätty, voit halutessasi lisätä useamman')
+        // Display the activities list
+        updateActivitiesList(activities);
+
+        showSnackbar('green', 'Aktiviteetti lisätty, voit halutessasi lisätä useamman');
     } else {
         showCustomAlert('Lisää aktiviteettejä ennen alkukartoituksen lähettämistä.');
     }
 });
+
+// Function to update the displayed list of activities
+function updateActivitiesList(activities) {
+    const listElement = document.getElementById('activitiesList');
+    listElement.innerHTML = ''; // Clear existing list items
+
+    activities.forEach(activity => {
+        const listItem = document.createElement('li');
+        listItem.textContent = activity;
+        listElement.appendChild(listItem);
+    });
+}
+
 
 // POPUP HANDLING
 const popup = document.getElementById('popup');

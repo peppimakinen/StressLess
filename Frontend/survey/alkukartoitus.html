@@ -135,9 +135,12 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
                 </li>
                 <li>
                     <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? *
-                        (Lisää yksi kerrallaan ja kaikki mahdolliset aktiviteettisi, tulet tarvitsemaan 
-                        näitä myöhemmin kalenteria käyttäessä)</label>
+                        (Lisää kaikki aktiviteettisi yksi kerrallaan nappia painamalla. Mitä enemmän aktiviteetteja tallennat nyt, sitä monipuolisemmin voit hyödyntää niitä myöhemmin käyttäessäsi kalenteria.)</label>
                     <textarea id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..." rows="1"></textarea>
+                    <!-- Place this in your HTML where you want the activities list to appear -->
+                    <div id="activitiesListContainer">
+                        <ul id="activitiesList"></ul>
+                    </div>
                     <button id="submitButton" type="button">Lisää aktiviteetti</button>
                 </li>
                 <li>
