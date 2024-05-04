@@ -2,25 +2,47 @@ import bcrypt from 'bcryptjs';
 import 'dotenv/config';
 import {customError} from '../middlewares/error-handler.mjs';
 import {
-  insertDoctor,
+  updateDoctorPasswordWithId,
+  selectUserByUsername,
   selectDoctorByEmail,
-  selectDoctorByName,
   pairExistsAlready,
+  getOwnPatients,
   insertNewPair,
+  insertDoctor,
+  deletePair,
 } from '../models/user-model.mjs';
+import {
+  deleteSelfFromDoctorPatientAsPatient,
+  deleteSelfFromDoctorPatientAsDoctor,
+  deleteSelfFromWeeklyReports,
+  deleteSelfSurveyLinkedData,
+  deleteSelfFromDiaryEntries,
+  deleteSelfEntryLinkedData,
+  deleteSelfFromSurveys,
+  deleteSelfFromUsers,
+} from '../models/delete-self-model.mjs';
 /* eslint-disable camelcase */
 
-
+/**
+ * Create a new Doctor user to stressless - only for system admins
+ * @async
+ * @param {req} req - Request object including system admin password
+ * @param {res} res
+ * @param {next} next
+ */
 const postDoctor = async (req, res, next) => {
   const {username, password, full_name, admin_password} = req.body;
+  // Check if password in request matches the one defined by system admins
   if (admin_password !== process.env.APPLICATION_ADMIN_PASSWORD) {
+    // Block access if passwords do not match
     next(customError('You are not a StressLess application admin', 401));
     return;
   }
-  // Generate salt to hash password
+  // Generate salt to hash the new password
   const salt = await bcrypt.genSalt(10);
   // Apply salt and hash
   const hashedPassword = await bcrypt.hash(password, salt);
+  // Insert new doctor user to db
   const result = await insertDoctor(
     username,
     hashedPassword,
@@ -31,93 +53,228 @@ const postDoctor = async (req, res, next) => {
   if (result.error) {
     // Forward to error handler if result contains an error
     next(customError(result.message, result.error));
-  } else {
-    // Respond with an OK status - User created successfully
-    return res.status(201).json(result);
+    return;
   }
+  // Respond with an OK status - User created successfully
+  return res.status(201).json(result);
 };
 
+/**
+ * Handle GET request to find a doctor using username in the URL
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ * @return {res}
+ */
 const getDoctor = async (req, res, next) => {
-  console.log('Patient user trying to find a doctor via usename or name');
-  const nameOrEmail = req.body.doctor_name_or_email;
+  console.log('Patient user trying to find a doctor via usename');
+  // Get doctor username from the URL
+  const doctorEmail = req.params.doctor_username;
   // Check if there is a doctor with the same email/username address
-  const doctorFoundWithEmail = await selectDoctorByEmail(nameOrEmail);
-  // selectDoctorByEmail returns 404 error if doctor not found
-  if (!doctorFoundWithEmail.error) {
-    delete doctorFoundWithEmail.password;
-    // There was no errors, so a matching doctor was found
-    doctorFoundWithEmail['message'] = 'Doctor found using email address';
-    // Return selected doctor user data
-    return res.json({found_doctor: doctorFoundWithEmail});
+  const result = await selectDoctorByEmail(doctorEmail);
+  // Check for errors - A not found doctor will return a 404 also
+  if (result.error) {
+    return next(customError(result.message, result.error));
   }
-  // Doctor was not found using email, try searching with full name
-  console.log('No results with email adress, searching again with name...');
-  const doctorFoundWithName = await selectDoctorByName(nameOrEmail);
-  // selectDoctorByName returns 404 error if doctor not found
-  if (!doctorFoundWithName.error) {
-    delete doctorFoundWithName.password;
-    // There was no errors, so a matching doctor was found
-    doctorFoundWithName['message'] = 'Doctor found using full name';
-    // Return selected doctor user data
-    return res.json({found_doctor: doctorFoundWithName});
-    // If there was a error, no doctor was found
-  } else {
-    console.log('Doctor was not found with full name');
-    // Return a error message to the client
-    return next(
-      customError(
-        `Could not find doctor using: '${nameOrEmail}' as search input`,
-        404,
-      ),
-    );
-  }
+  // Delete password from result object before sending it in the response
+  delete result.password;
+  // Return doctor user information.
+  return res.json({found_doctor: result});
 };
 
+/**
+ * Handle POST request from a patient to establish a relationship with a doctor
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ * @return {res}
+ */
 const formPair = async (req, res, next) => {
   const doctorEmail = req.body.doctor_username;
   // Check if there is a existing doctor user with provided username
-  console.log('Looking up a doctor user...');
   const doctor = await selectDoctorByEmail(doctorEmail);
   // selectDoctorByEmail returns 404 error if no doctor was found
   if (doctor.error) {
-    return next(
-      customError(
-        `Could not find doctor with the username:'${doctorEmail}'`,
-        400,
-      ),
-    );
+    return next(customError(doctor.message, doctor.error));
   }
   // Doctor was found
   console.log(`Doctor '${doctor.full_name}' found`);
+  // Delete password from doctor result object
   delete doctor.password;
+  // Save patient information to variables
   const patientId = req.user.user_id;
   const patientName = req.user.username;
+  // Save doctor information to variables
   const doctorId = doctor.user_id;
   const doctorName = doctor.username;
+  // Check if there is a existing relationship already between these users
   const existingPair = await pairExistsAlready(patientId, doctorId);
+  // Check for errors
   if (existingPair) {
     const errorMessage = `${patientName} and ${doctorName} are already a pair`;
     return next(customError(errorMessage, 409));
+  } else if (existingPair.error) {
+    return next(customError(existingPair.message, existingPair.error));
   }
+  // Create a new relationship to db
   const result = await insertNewPair(patientId, doctorId);
   // Check for errors
   if (!result.error) {
-    // Return OK response if there was no error in the db
+    // Return OK response if there were no error in the db
     const resultMessage = `${req.user.username} is now sharing their data with
      ${doctor.full_name}`;
     const pairId = resultMessage.insertId;
-    console.log('A pair was found');
     return res.json({message: resultMessage, pair_id: pairId});
     // Tell client that it was a server issue if pair creation failed
   } else {
-    return next(
-      customError('Doctor was found but a pair could not be established', 500),
-    );
+    return next(customError('Doctor was found but there was a db error', 500));
   }
 };
 
+/**
+ * Handle DELETE request from client to delete self
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ * @return {res}
+ */
+const deleteSelf = async (req, res, next) => {
+  try {
+    const userId = req.user.user_id;
+    const userLevel = req.user.user_level;
+    // NOTE: Following functions are in a seperate model and throw customError
+    // Check if request came from a patient user
+    if (userLevel === 'patient') {
+      // If true, proceed to delete all data for patient user
+      await deleteSelfAsPatient(userId);
+      // Check if request came from a doctor user
+    } else if (userLevel === 'doctor') {
+      // If true, proceed to delete all data for doctor user
+      await deleteSelfAsDoctor(userId);
+      // Throw a error, if user level was not recognized
+    } else {
+      throw customError('User level not recognized', 500);
+    }
+    // Return OK response
+    res.status(200).json({message: 'StressLess user deleted'});
+  // Handle errors
+  } catch (error) {
+    console.log('deleteSelf catch block');
+    next(customError(error.message, error.status));
+  }
+};
+
+/**
+ * Delete all data that a patient user might have
+ * NOTE: Functions used are in a seperate model file and throw customError
+ * @async
+ * @param {int} userId
+ */
+const deleteSelfAsPatient = async (userId) => {
+  // Delele all weekly reports
+  await deleteSelfFromWeeklyReports(userId);
+  // Delete all data related to survey
+  await deleteSelfSurveyLinkedData(userId);
+  await deleteSelfFromSurveys(userId);
+  // Delete all data related to diary entries
+  await deleteSelfEntryLinkedData(userId);
+  await deleteSelfFromDiaryEntries(userId);
+  // Delete doctor patient pair
+  await deleteSelfFromDoctorPatientAsPatient(userId);
+  // Delete  user
+  await deleteSelfFromUsers(userId);
+  console.log('All patient user related data deleted');
+  return;
+};
+
+/**
+ * Delete all data that a doctor user might have
+ * NOTE: Functions used are in a seperate model file and throw customError
+ * @async
+ * @param {int} userId
+ */
+const deleteSelfAsDoctor = async (userId) => {
+  // Delete doctor patient pair
+  await deleteSelfFromDoctorPatientAsDoctor(userId);
+  // Delete user
+  await deleteSelfFromUsers(userId);
+  console.log('All doctor user related data deleted');
+  return;
+};
+
+/**
+ * Handle doctor GET request to fetch all patients that share data with them
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const getPatients = async (req, res, next) => {
+  const doctorId = req.user.user_id;
+  // Fetch all patients that have formed a pair with this doctor ID
+  const allPatients = await getOwnPatients(doctorId);
+  // Check for errors
+  if (allPatients.error) {
+    return next(customError(allPatients.message, allPatients.error));
+  }
+  // Return result (empty or populated list)
+  return res.json(allPatients);
+};
+
+/**
+ * Handle doctor PUT request to update password
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const changeDoctorPassword = async (req, res, next) => {
+  const userId = req.user.user_id;
+  const newPassword = req.body.new_password;
+  // Generate salt to hash new password
+  const salt = await bcrypt.genSalt(10);
+  // Apply salt and hash
+  const hashedPassword = await bcrypt.hash(newPassword, salt);
+  const result = await updateDoctorPasswordWithId(userId, hashedPassword);
+  // Check for error in result
+  if (result.error) {
+    return next(customError(result.message, result.error));
+  } else {
+    // Respond with a ok status - User update successful
+    return res.json({message: 'Password updated'});
+  }
+};
+
+
+/**
+ * Handle doctor DELETE request to remove patient from self
+ * @async
+ * @param {req} req
+ * @param {res} res
+ * @param {next} next
+ */
+const removePatientFromSelf = async (req, res, next) => {
+  const patientId = req.params.patient_id;
+  const doctorId = req.user.user_id;
+  // Delete established pair with these ID's
+  const result = await deletePair(doctorId, patientId);
+  // Handle errors
+  if (result.error) {
+    return next(customError(result.message, result.error));
+  }
+  // Return ok message, if operation ok
+  return res.json({message: 'Pair removed'});
+};
+
 export {
-  formPair,
+  removePatientFromSelf,
+  changeDoctorPassword,
+  getPatients,
+  deleteSelf,
   postDoctor,
   getDoctor,
+  formPair,
 };

@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="patienthome.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><a href="../home/patienthome.html"><img src="../assets/imgLogo.png" alt="Logo"></a></li>
+        <li class="textNav"><a href="../home/patienthome.html">Kalenteri</a></li>
+        <li class="textNav"><a href="../reports/weekReportAll.html">Viikkoraportit</a></li>
+        <li class="textNav"><a href="../settings/profileP.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="../login/loginpatient.html">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div class="calendarBackground">
+        <img class="infoIcon" src="../assets/imgInfoIcon.png" alt="info icon">
+        <!-- <p>Miksi olen tällä sivulla?</p> -->
+        <div class="calendarWrapper">
+            <header>
+                <div class="calendarHeader">
+                    <span id="prev" class="chevron-left">&#9664;</span>
+                    <p class="currentDate">Current month / year here</p>
+                    <span id="next" class="chevron-right">&#9654;</span>
+                </div>
+            </header>
+            <div class="calendar">
+                <ul class="weeks">
+                    <li>Ma</li>
+                    <li>Ti</li>
+                    <li>Ke</li>
+                    <li>To</li>
+                    <li>Pe</li>
+                    <li>La</li>
+                    <li>Su</li>
+                </ul>
+                <ul class="days"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="overlay"></div>
+
+
+    <div class="popupContainer">
+        <!-- Modal for creating a new entry -->
+        <div class="FormPopupNew" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <form class="EntryFormNew">
+                <div class="moodAndActivities">
+                    <div class="moodNew">
+                        <label>Mikä väri kuvastaa päivän tunnetilaa?</label>
+                        <div class="moodButtons">
+                            <input type="button" name="mood" class="moodBtn" id="redBtn">
+                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
+                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
+                        </div>
+                    </div>
+                    <div class="activitiesNew">
+                        <label for="ActivitiesNew">Mieluisin päivänaikana suoritettu aktiviteetti?</label>
+                        <select name="ActivitiesNew" id="ActivitiesNew">
+                            <option value="" disabled selected>Valitse...</option>
+                            <!-- Options will be dynamically populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="notesAndSubmit">
+                    <div class="notesNew">
+                        <label for="NotesNew">Muistiinpanot</label>
+                        <input type="text" name="NotesNew" placeholder="Kirjoita tähän..." id="NotesNew" maxlength="280"/>
+                    </div>
+                    <input name="SubmitNew" type="submit" value="Lähetä" class="submitNewEntry" />
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal for editing a past entry -->
+        <div class="FormPopupEdit" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <form class="EntryFormEdit">
+                <div class="moodAndActivities">
+                    <div class="moodEdit">
+                        <label>Mikä väri kuvastaa päivän tunnetilaa?</label>
+                        <div class="moodButtons">
+                            <input type="button" name="mood" class="moodBtn" id="redBtn">
+                            <input type="button" name="mood" class="moodBtn" id="yellowBtn">
+                            <input type="button" name="mood" class="moodBtn" id="greenBtn">
+                        </div>
+                    </div>
+                    <div class="activitiesEdit">
+                        <label for="ActivitiesEdit">Mieluisin päivänaikana suoritettu aktiviteetti?</label>
+                        <select name="ActivitiesEdit" id="ActivitiesEdit">
+                            <option value="" disabled selected>Valitse...</option>
+                            <!-- Options will be dynamically populated by JavaScript -->
+                        </select>
+                    </div>
+                </div>
+                <div class="notesAndSubmit">
+                    <div class="notesEdit">
+                        <label for="NotesEdit">Muistiinpanot</label>
+                        <input type="text" name="NotesEdit" placeholder="Kirjoita tähän..." id="NotesEdit" maxlength="280"/>
+                    </div>
+                    <input name="SubmitEdit" type="submit" value="Lähetä" class="submitEditEntry" />
+                </div>
+            </form>
+        </div>
+
+        <!-- Modal for viewing a past entry -->
+        <div class="PopupPastEntry" style="display: none;">
+            <img src="../assets/imgEditIcon.png" alt="edit Image" class="editIcon" />
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <div class="hrvAndActivities">
+                <div class="hrv">
+                    <h4>HRV</h4>
+                    <p id="sns">SNS here</p>
+                    <p id="pns">PNS here</p>
+                    <p id="stress">Stress here</p>
+                </div>
+                <div class="activitiesPast">
+                    <h4>Päivän aktiviteetti</h4>
+                    <p>Activities here</p>
+                </div>
+            </div>
+            <div class="notesPast">
+                <h4>Muistiinpanot</h4>
+                <p>notes here</p>
+            </div>
+        </div>
+
+        <div class="InfoPopup" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Miten kalenteri toimii:</h3>
+            <p>Voit tehdä uuden päiväkirjamerkinnän klikkaamalla joko nykyistä päivää tai jotakin harmaalla väritetyistä päivistä. Huomaa, että voidaksesi tehdä uuden merkinnän sinun tulee olla suorittanut readiness mittaus Kubios sovelluksessa.</p>
+            <p>Päiväkirjamerkintää tehdessä valittavissa on väri, joka kuvastaa miltä sinusta on tuntunut kyseisenä päivänä. Lisäksi voit valita mikä oli päivän mieluisin aktiviteetti, joka mahdollisesti lievitti kokemaasi stressiä. Voit myös kirjoittaa yleisesti päivästäsi, tunteistasi yms. muistiinpanot kentässä.</p>
+            <p>Kun tallennat merkinnän päivittyy valitsemasi väri kalenteri näkymään. Näin voit tunnistaa millä päivillä on tehtyjä merkintöjä, ja millä ei. Vanhaa merkintää voit tarkastella klikkaamalla päivää, jota haluat tutkia. Aukeavan näkymän kautta voit myös muokata kyseistä merkintää, klikkaamalla oikean yläreunan muokkaa nappia.</p>
+            <h3 class="EntryHeading">HRV eli sykevälivaihtelu datasta:</h3>
+            <h4 class="HRVHeading"> Mittausohjeet</h4>
+            <p>Suositeltavaa on, että suoritat sykemittauksen mahdollisimman rauhallisessa ympäristössä. Mittauksen aikana tulisi hengittää syvään, jotta voidaan varmistaa mahdollisimman tarkka mittaustulos. Hyvä hengitystahti on esimerkiksi kuusi sisään ja uloshengitystä minuutin aikana. Tärkeintä kuitenkin on hengittää sinulle luonnollisella tavalla.</p>
+            <h4 class="HRVHeading"> Stressi-indeksi</h4>
+            <p>Stressi-indeksi kuvaa kehon reaktiota stressaaviin tilanteisiin. Korkea stressi-indeksi voi viitata jatkuvaan stressiin ja sen haittavaikutuksiin terveydelle. Matala indeksi sen sijaan voi olla merkki siitä, että henkilö pystyy hyvin hallitsemaan stressiä ja että hänen kehonsa on tasapainossa.</p>
+            <h4 class="HRVHeading">PNS-indeksi</h4>
+            <p> PNS-indeksi mittaa parasympaattisen hermoston aktiivisuutta. Parasympaattinen hermosto auttaa kehoa rentoutumaan ja palautumaan stressistä.</p>
+            <h4 class="HRVHeading">SNS-indeksi</h4>
+            <p>SNS-indeksi kuvaa sympaattisen hermoston aktiivisuutta. Tämä hermosto valmistelee kehoa toimimaan stressaavissa tilanteissa, laukaisemalla "taistele tai pakene" -reaktion.</p>
+        </div>
+    </div>
+
+    <div id="snackbar-target"></div>
+
+
+    <!-- <div id="app"></div> -->
+    <script type="module" src="./patienthome.js"></script>
+</body>
+
+</html>

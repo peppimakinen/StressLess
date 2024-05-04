@@ -6,3 +6,6 @@ db/create-db-user.sql
 create-db-doctor.json
 playwright-log.txt
 output.xml
+docs
+tests/patient-auth/endpoints/stressless-endpoints-report.html
+tests/patient-auth/endpoints/stressless-endpoints_log.html

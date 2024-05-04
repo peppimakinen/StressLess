@@ -1,7 +1,15 @@
-/* eslint-disable require-jsdoc */
-import {validationResult} from 'express-validator';
 import {getSurveyWithUserId} from '../models/survey-model.mjs';
+import {getDoctorPatientPair} from '../models/user-model.mjs';
+import {validationResult} from 'express-validator';
 
+/**
+ * Throw a new error
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {string} message
+ * @param {int} status
+ * @param {string} errors
+ * @return {Error}
+ */
 const customError = (message, status, errors) => {
   const error = new Error(message);
   error.status = status || 500;
@@ -11,11 +19,26 @@ const customError = (message, status, errors) => {
   return error;
 };
 
+/**
+ * Respond with a error if request directed at a invalid URL
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
 const notFoundHandler = (req, res, next) => {
   const error = customError(`Not Found - ${req.originalUrl}`, 404);
   next(error);
 };
 
+/**
+ * Handle thrown errors
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {Error} err
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ */
 const errorHandler = (err, req, res, next) => {
   res.status(err.status || 500);
   console.log('errorHandler', err.message, err.status, err.errors);
@@ -28,6 +51,14 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
+/**
+ * Throw error if request fails to pass express-validator
+ * @author mattpe <mattpe@metropolia.fi>
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Error}
+ */
 const validationErrorHandler = (req, res, next) => {
   const errors = validationResult(req, {strictParams: ['body']});
   if (!errors.isEmpty()) {
@@ -41,6 +72,13 @@ const validationErrorHandler = (req, res, next) => {
   next();
 };
 
+/**
+ * Check if request is coming from a patient user
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Error}
+ */
 const onlyForPatientHandler = (req, res, next) => {
   const userLevel = req.user.user_level;
   if (userLevel === 'patient') {
@@ -50,12 +88,19 @@ const onlyForPatientHandler = (req, res, next) => {
     console.log('a non-patient user was intercepted');
     const error = customError(
       'This endpoint is only for StressLess patient users',
-      401,
+      403,
     );
     return next(error);
   }
 };
 
+/**
+ * Check if request is coming from doctor user
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {Error}
+ */
 const onlyForDoctorHandler = (req, res, next) => {
   const userLevel = req.user.user_level;
   if (userLevel === 'doctor') {
@@ -65,28 +110,68 @@ const onlyForDoctorHandler = (req, res, next) => {
     console.log('a non-doctor user was intercepted');
     const error = customError(
       'This endpoint is only for StressLess doctor users',
-      401,
+      403,
     );
     return next(error);
   }
 };
 
-const onlyForPatientWhoCompletedSurvey = async (req, res, next) => {
-  if (req.user.user_level !== 'patient') {
-    return next(
-      customError('This endpoint is only for StressLess patient users', 401),
-    );
-  }
-  console.log('Request came from a patient user');
-  const result = await getSurveyWithUserId(req.user.user_id);
+/**
+ * Check if doctor request is for a authorized patient
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {error} customError
+ */
+const verifyRightToViewPatientsData = async (req, res, next) => {
+  const patientId = req.params.patient_id;
+  const doctorId = req.user.user_id;
+  const result = await getDoctorPatientPair(patientId, doctorId);
   if (!result.error) {
-    console.log('Existing survey found');
+    console.log('Doctor user fetching authorized patient data');
     next();
   } else {
     return next(customError(result.message, result.error));
   }
 };
 
+/**
+ * Check if request is coming from a patient user that has completed survey
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {error} customError
+ */
+const onlyForPatientWhoCompletedSurvey = async (req, res, next) => {
+  // Check if user level is anything else than patient
+  if (req.user.user_level !== 'patient') {
+    // Return a error if it is
+    return next(
+      customError('This endpoint is only for StressLess patient users', 401),
+    );
+  }
+  // Request came from a patient
+  console.log('Request came from a patient user');
+  // Search for a survey for requesting patient user ID
+  const result = await getSurveyWithUserId(req.user.user_id);
+  // Check if there was no errors
+  if (!result.error) {
+    // Survey found, continue to next function
+    console.log('Existing survey found');
+    next();
+  // Survey could not be fetched, return a error
+  } else {
+    return next(customError(result.message, result.error));
+  }
+};
+
+/**
+ * Validate survey
+ * @param {Request} req
+ * @param {Response} res
+ * @param {NextFunction} next
+ * @return {error} customError
+ */
 // Validate each key:value pair in a survey
 const validateSurvey = (req, res, next) => {
   console.log('Validating survey key:value pairs...');
@@ -107,7 +192,7 @@ const validateSurvey = (req, res, next) => {
     if (Array.isArray(answer)) {
       foundActivityLists += 1;
       // Make sure a empty list isnt submitted
-      if (answer.lenght === 0) {
+      if (answer.length === 0) {
         return next(customError('Empty activity list cant be submitted', 400));
       }
       // Pass the activities list to different function to check validity
@@ -144,6 +229,11 @@ const validateSurvey = (req, res, next) => {
   }
 };
 
+/**
+ * Validate activities list and its items
+ * @param {List} activitiesList
+ * @return {error} customError
+ */
 const checkActivities = (activitiesList) => {
   // Iterate over every list item
   for (const activity of activitiesList) {
@@ -162,6 +252,12 @@ const checkActivities = (activitiesList) => {
   return activitiesList;
 };
 
+/**
+ * Check if str parameter is larger than given lenght parameter
+ * @param {string} str
+ * @param {Int} strLenght
+ * @return {Boolean}
+ */
 const checkStringLenght = (str, strLenght) => {
   if (str.length > strLenght) {
     return false;
@@ -171,13 +267,14 @@ const checkStringLenght = (str, strLenght) => {
 };
 
 export {
-  customError,
-  notFoundHandler,
-  errorHandler,
+  onlyForPatientWhoCompletedSurvey,
+  verifyRightToViewPatientsData,
   validationErrorHandler,
   onlyForPatientHandler,
   onlyForDoctorHandler,
-  validateSurvey,
+  notFoundHandler,
   checkActivities,
-  onlyForPatientWhoCompletedSurvey,
+  validateSurvey,
+  errorHandler,
+  customError,
 };

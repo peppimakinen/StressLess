@@ -19,7 +19,7 @@ const authenticateToken = (req, res, next) => {
       next();
     } catch (err) {
       // There was a invalid token
-      next(customError('Invalid bearer token', 403));
+      next(customError('Invalid bearer token', 401));
     }
   }
 };
