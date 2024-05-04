@@ -3,6 +3,7 @@ import { convertToYYYYMMDD, convertToDDMMYYYY } from "./convertday.js";
 import { checkHRVDataForDate, hasEntry } from "./checkdata.js";
 import { getDayData } from "./getdata.js";
 import { showSnackbar } from "../snackbar.js";
+import { getMoodColor } from "./editentry.js";
 
 // get required elements for displaying the modals
 const NewEntry = document.querySelector(".FormPopupNew");
@@ -114,14 +115,53 @@ export async function showPastEntryPopup(date, monthData) {
 }
 
 // Function to show EditEntry popup
-export function showEditEntryPopup() {
+export function showEditEntryPopup(selectedDate) {
   EditEntry.style.display = "flex";
   PastEntry.style.display = "none";
   // Update the date in the FormPopupEdit modal
   document.querySelector(".FormPopupEdit .EntryHeading").textContent =
     selectedDate;
-  // Populate the dropdown menu with activities
-  populateActivitiesDropdown("ActivitiesEdit");
+
+  // fetch the data of the entry
+  const entry_date = convertToYYYYMMDD(selectedDate);
+  getDayData(entry_date).then((responseData) => {
+    // populate notes field with previous data
+    document.getElementById("NotesEdit").value = responseData.diary_entry.notes;
+
+    // Populate mood color
+    const moodColor = responseData.diary_entry.mood_color;
+    const moodColorButtons = document.querySelectorAll(".moodBtn");
+    moodColorButtons.forEach((btn) => {
+      if (btn.id === getMoodButtonId(moodColor)) {
+        btn.classList.add("selected");
+      } else {
+        btn.classList.remove("selected");
+      }
+    });
+
+    // Populate activities dropdown
+    populateActivitiesDropdown('ActivitiesEdit').then(() => {
+      // Select the chosen activity
+      const activitiesDropdown = document.getElementById("ActivitiesEdit");
+      const chosenActivity = responseData.activities[0];
+      const optionIndex = [...activitiesDropdown.options].findIndex(option => option.value === chosenActivity);
+      activitiesDropdown.selectedIndex = optionIndex;
+    });
+  });
+}
+
+// Function to get the button ID based on mood color
+function getMoodButtonId(moodColor) {
+  switch (moodColor) {
+    case "FF8585":
+      return "redBtn";
+    case "FFF67E":
+      return "yellowBtn";
+    case "9BCF53":
+      return "greenBtn";
+    default:
+      return ""; // Default or handle error
+  }
 }
 
 export function showInfoPopup() {

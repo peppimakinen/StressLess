@@ -132,4 +132,4 @@ async function putData(url, options = {}) {
     }
   }
 
-export { gatherEditData };
+export { gatherEditData, getMoodColor };
