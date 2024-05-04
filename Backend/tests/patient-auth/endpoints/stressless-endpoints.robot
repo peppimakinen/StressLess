@@ -8,6 +8,7 @@ Library    Collections
 *** Variables ***
 ${Username}    crypt:PcD1tAnbMlsIge3//bWX4nPhyyB0Lu0DPXPDipMgv3tIcWPcfvgM8jV4XFsfW2vEqheWyVv+A2cg0ChpDESQKDWy5Y0k0W3LEgMriR0p
 ${Password}    crypt:tSNi8tTS6pD1IMEy9EfvtwdUdwF3xqzMd/EZMEfhtTw04yQGm3XXaODegPSQ7uIFyRRK8wJj3NrGbvzjp8OZAw==
+${adminPassword}    crypt:1nsLKLJlj1MNasrGLW6PpgDeNNL1IdBEHRUhzLgpKgMOahGrRBD7e/jjlz1cHYePHZBiLjtQ8Vhf27s=
 ${question1}    On a scale from 1 to 5, how stressed are you?
 ${question2}    Does stress affect your sleep?
 ${answer1}  Around a 3
@@ -55,6 +56,17 @@ Get available week reports
     ${response}=    GET    url=http://127.0.0.1:3000/api/reports/available-weeks     headers=${headers}
     RETURN    ${response.json()}
 
+Find doctor
+    [Arguments]    ${doctorUsername}
+    ${result}=    Run Keyword And Continue On Failure    GET    url=http://127.0.0.1:3000/api/users/find-doctor/${doctorUsername}    headers=${headers}
+    IF    '${result}' == 'None'
+        RETURN    True
+    ELSE
+        RETURN    False
+    END
+    
+    Should Be Equal As Strings    ${result}    None
+
 
 *** Test Cases ***
 Authenticate as Patient
@@ -76,22 +88,16 @@ Authenticate as Patient again
     ${response}    POST    url=http://127.0.0.1:3000/api/auth/patient-login    json=${body}
     Log    ${response.json()}
     ${token}    Set Variable    ${response.json()}[token]
-    ${surveyStatus}    Set Variable    ${response.json()}[user][surveyCompleted]
     &{headers}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${token}
 
     Set Suite Variable    &{headers}
     Set Suite Variable    ${token}
-    Set Suite Variable    ${surveyStatus}
 
 Submit survey if necessary
-    IF    ${surveyStatus} == True
-        Log To Console  Survey has been completed
-    ELSE IF    ${surveyStatus} == False
-        ${body}=    Create Dictionary    ${question1}=${answer1}   ${question2}=${answer2}    activities=@{activities}
-        ${response}=    POST    url=http://127.0.0.1:3000/api/survey     headers=${headers}    json=${body}
-        Status Should Be    200
-        Log    Response from correct request: ${response.text}
-    END
+    ${body}=    Create Dictionary    ${question1}=${answer1}   ${question2}=${answer2}    activities=@{activities}
+    ${response}=    POST    url=http://127.0.0.1:3000/api/survey     headers=${headers}    json=${body}
+    Status Should Be    200
+    Log    Response from correct request: ${response.text}
 
 
 Get own survey and activities
@@ -152,25 +158,19 @@ Compaire february reports
     Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
 
 
-Search for a existing doctor user
-    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/andy@gmail.com     headers=${headers}
-    Should Be Equal As Strings    ${result.json()['found_doctor']['full_name']}    andy the doctor
-    ${doctorUsername}=    Set Variable    ${result.json()['found_doctor']['username']}
-    Set Suite Variable    ${doctorUsername}
+Search for a non-existent doctor test suite user
+    ${result}=    Find doctor    robotTestDoctor@gmail.com
+    Should Be Equal As Strings    ${result}    True
 
-Create a pair with found doctor
-    ${result}=    GET    url=http://127.0.0.1:3000/api/auth/me    headers=${headers}
-    ${chosenDoctorList}=    Set Variable    ${result.json()['stressLessUser']['chosen_doctor']}
-    ${listLength}=    Evaluate    len($chosenDoctorList)
-    IF  ${listLength} == 0
-        ${body}=    Create Dictionary    doctor_username=${doctorUsername}
-        ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
-    ELSE
-        Log    User already has doctor, create-pair POST not sent
-    END
-    
+Create test suite doctor user
+    ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret    full_name=Only for testing    patient_level=doctor    admin_password=${adminPassword}
+    ${response}    POST    url=http://127.0.0.1:3000/api/users/create-doctor    json=${body}
 
+Search for the newly created doctor test suite user
+    ${result}=    Find doctor    robotTestDoctor@gmail.com
+    Should Be Equal As Strings    ${result}    False
 
-
-
-
+Create a doctor patient pair
+    ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
+     ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
+   
