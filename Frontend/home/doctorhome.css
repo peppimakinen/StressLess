@@ -314,8 +314,7 @@ header .calendarHeader span {
     display: none;
 }
 
-.PopupPastEntry,
-.PopupSurvey {
+.PopupPastEntry {
     display: none;
     position: absolute;
     top: 46%;
@@ -338,7 +337,8 @@ header .calendarHeader span {
 
 .EntryHeading {
     text-align: center;
-    padding-top: 50px;
+    padding-top: 30px;
+    padding-bottom: 20px;
     color: #1E1B18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
@@ -361,7 +361,8 @@ header .calendarHeader span {
     color: #5D7283;
 }
 
-.PopupPastEntry h4 {
+.PopupPastEntry h4,
+.surveyQuestion h5 {
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 700;
@@ -370,7 +371,8 @@ header .calendarHeader span {
     margin-top: 20px;
 }
 
-.PopupPastEntry p {
+.PopupPastEntry p,
+.surveyQuestion p {
     font-family: 'Nunito', sans-serif;
     font-weight: 300;
     font-size: 20px;
@@ -407,6 +409,32 @@ header .calendarHeader span {
     -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
+
+.surveyQuestion,
+.PopupSurvey {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #fffaff;
+    margin: auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    padding: 50px;
+    border-radius: 50px;
+    width: 60%;
+    z-index: 2;
+    overflow: auto;
+    width: 60%;
+    max-height: fit-content;
+}
+
+
 
 /* responsive styles */
 @media screen and (max-width: 1600px) {

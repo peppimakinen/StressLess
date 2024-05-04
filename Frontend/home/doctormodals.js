@@ -8,13 +8,41 @@ const survey = document.querySelector(".PopupSurvey");
 const calendarWrapper = document.querySelector(".calendarBackground");
 const overlay = document.getElementById("overlay");
 
+
 export async function showSurveyPopup() {
   survey.style.display = "flex";
   overlay.style.display = "block";
   calendarWrapper.style.display = "none";
 
-  getPatientSurvey();
+  try {
+      const surveyData = await getPatientSurvey();
+      if (surveyData) {
+          populateSurveyModal(surveyData); // Populate the modal with data
+      } else {
+          console.log("No survey data received");
+          // Optionally show an error message in the modal
+      }
+  } catch (error) {
+      console.error("Failed to display survey data:", error);
+      showSnackbar("Red", "Error displaying survey data");
+  }
 }
+
+function populateSurveyModal(data) {
+  const surveyContent = document.querySelector('#surveyContent'); // Make sure you have this element in your HTML
+  surveyContent.innerHTML = ''; // Clear previous contents
+
+  if (data && data.questions) {
+      data.questions.forEach(question => {
+          const questionElement = document.createElement('div');
+          questionElement.innerHTML = `<h5>${question.question}</h5><p>${question.answer}</p>`;
+          surveyContent.appendChild(questionElement);
+      });
+  } else {
+      surveyContent.textContent = 'No survey data available.';
+  }
+}
+
 
 // Function to show PastEntry popup and populate with entry data
 export async function showPastEntryPopup(monthData, date) {
