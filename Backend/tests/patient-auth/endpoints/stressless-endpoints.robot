@@ -61,6 +61,20 @@ Authenticate as Patient
     ${body}    Create Dictionary    username=${Username}   password=${Password}
     ${response}    POST    url=http://127.0.0.1:3000/api/auth/patient-login    json=${body}
     Log    ${response.json()}
+    ${initialToken}    Set Variable    ${response.json()}[token]
+    &{headers}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${initialToken}
+
+    Set Suite Variable    &{headers}
+    Set Suite Variable    ${initialToken}
+
+Delete self
+    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${headers}
+    Status Should Be    200
+
+Authenticate as Patient again
+    ${body}    Create Dictionary    username=${Username}   password=${Password}
+    ${response}    POST    url=http://127.0.0.1:3000/api/auth/patient-login    json=${body}
+    Log    ${response.json()}
     ${token}    Set Variable    ${response.json()}[token]
     ${surveyStatus}    Set Variable    ${response.json()}[user][surveyCompleted]
     &{headers}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${token}
@@ -68,7 +82,6 @@ Authenticate as Patient
     Set Suite Variable    &{headers}
     Set Suite Variable    ${token}
     Set Suite Variable    ${surveyStatus}
-
 
 Submit survey if necessary
     IF    ${surveyStatus} == True
@@ -81,7 +94,7 @@ Submit survey if necessary
     END
 
 
-Get survey and activities
+Get own survey and activities
     ${response}=    GET    url=http://127.0.0.1:3000/api/survey     headers=${headers}
     Log    Check if response question/answer pairs match the previously made survey
     Should Be Equal As Strings    ${response.json()}[questions][0][question]   ${question1}
@@ -99,7 +112,7 @@ Get survey and activities
     Should Be True    ${matched}
 
 
-Get self
+Get patient self
     ${response}=    GET    url=http://127.0.0.1:3000/api/auth/me     headers=${headers}
     Should Be Equal As Strings    ${response.json()}[stressLessUser][user_level]    patient
     Should Be True    ${response.json()}[stressLessUser][surveyCompleted]
