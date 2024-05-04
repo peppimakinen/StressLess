@@ -55,9 +55,9 @@ const deleteSelfEntryLinkedData = async (userId) => {
 const deleteSelfSurveyLinkedData = async (userId) => {
   try {
     const sql = `
-      DELETE Questions, SQ
-      FROM Questions
-      LEFT JOIN SQ ON Questions.question_id = SQ.q_id
+      DELETE SQ, Questions
+      FROM SQ
+      LEFT JOIN Questions ON SQ.q_id = Questions.question_id
       LEFT JOIN Surveys ON SQ.s_id = Surveys.survey_id
       WHERE Surveys.u_id=?;`;
     const [rows] = await promisePool.query(sql, [userId]);
