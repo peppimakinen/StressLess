@@ -43,6 +43,9 @@ window.addEventListener('load', async (evt) => {
                 const reportLink = document.createElement('a');
                 //change into the home page of the client
                 reportLink.href = `../home/doctorhome.html?client=${client.user_id}`; 
+                reportLink.addEventListener('click', function(event) {
+                    localStorage.setItem('full_name', client.full_name);
+                });
                 reportLink.textContent = 'Näytä asiakastili';
 
                 reportsDiv.appendChild(reportLink);

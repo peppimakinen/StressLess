@@ -49,7 +49,7 @@ window.addEventListener('load', async (evt) => {
         } else {
             const weekItem = document.querySelector('.weeks');
             weekItem.style.whiteSpace = 'pre-line';
-            weekItem.textContent = "Viikkoraportit ovat erinomainen tapa seurata omaa hyvinvointia ja tarkastella kuluneita viikkoja kokonaisuutena.\nTällä hetkellä sivu on tyhjä, koska sinulla ei ole menneiltä viikoilta päiväkirjamerkintöjä. Uusi raportti generoituu aina viikon vaihtuessa.";
+            weekItem.textContent = "Viikkoraportit ovat erinomainen tapa seurata omaa hyvinvointia ja tarkastella kuluneita viikkoja kokonaisuutena.\nTällä hetkellä sivu on tyhjä, koska asiakkaalla ei ole menneiltä viikoilta päiväkirjamerkintöjä. Uusi raportti generoituu aina viikon vaihtuessa.";
         }
     } catch (error) {
         console.error('Error fetching report:', error);
