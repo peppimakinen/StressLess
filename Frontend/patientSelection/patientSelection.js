@@ -29,6 +29,43 @@ window.addEventListener('load', async (evt) => {
                 const delete_user = document.createElement('li');
                 delete_user.classList.add('delete');
                 delete_user.textContent = 'x';
+                delete_user.addEventListener('click', function(event) {
+                    //function to delete a client
+                    event.preventDefault();
+                    document.getElementById('deleteModal').style.display = 'block';
+                    });
+                
+                    document.querySelector('.close').addEventListener('click', function() {
+                        document.getElementById('deleteModal').style.display = 'none';
+                    });
+                    
+                    document.getElementById('confirmDeletion').addEventListener('click', async function() {
+                        const userInput = document.getElementById('deleteConfirm').value;
+                        if (userInput === 'Poista tili') {
+                        try {
+                            const response = await fetch('http://127.0.0.1:3000/api/users/doctor/patients', {
+                            method: 'DELETE',
+                            headers: {
+                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            }
+                            });
+                            
+                            if (response.ok) {
+                                showSnackbar("Green","Tili poistettu onnistuneesti");
+                                setTimeout(() => {
+                                    window.location.href = './patientSelection.html';
+                                }, 3000);
+                            } else {
+                            throw new Error('Failed to delete account');
+                            }
+                        } catch (error) {
+                            showSnackbar("Red", error.message);
+                        }
+                        } else {
+                            showSnackbar("Red", "Poistaminen epäonnistui: väärä teksti");
+                        }
+                        document.getElementById('deleteModal').style.display = 'none';
+                    });
 
                 //client
                 const clientItem = document.createElement('li');
@@ -49,9 +86,9 @@ window.addEventListener('load', async (evt) => {
                 reportLink.textContent = 'Näytä asiakastili';
 
                 reportsDiv.appendChild(reportLink);
-                delete_user.appendChild(clientItem);
-                delete_user.appendChild(reportsDiv);
+                clients.appendChild(reportsDiv);
                 clients.appendChild(delete_user);
+                clients.appendChild(clientItem);
             });
         }
 
