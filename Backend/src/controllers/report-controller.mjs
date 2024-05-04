@@ -477,6 +477,7 @@ function calculateMoodColorPercentages(entries) {
 /**
  * Get week number from date
  * @source https://bito.ai/resources/javascript-get-week-number-javascript-explained/
+ * Sourced function changed by ChatGPT to fix Azure bug
  * @param {Date} day
  * @return {Int} Week number
  */
