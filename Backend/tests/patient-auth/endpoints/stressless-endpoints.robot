@@ -25,22 +25,24 @@ ${answer2}  It doesn't
 &{entry6}    entry_date=2024-02-14    mood_color=FFF67E    notes=Third entry for week 7    activities=@{activities}
 @{week7Entries}    &{entry4}    &{entry5}    &{entry6}
 
-
+${azureUrl}    https://hyte-server-aleksi.northeurope.cloudapp.azure.com
+${localUrl}    http://127.0.0.1:3000
+${baseUrl}    ${azureUrl}
 
 *** Keywords ***
 Send Post Requests For Each entry
     [Arguments]    @{allEntries}
     FOR    ${entry}    IN    @{allEntries}
-        ${containsData}=    GET   http://127.0.0.1:3000/api/kubios/check/${entry.entry_date}    headers=${headers}    json=${entry}
+        ${containsData}=    GET   ${baseUrl}/api/kubios/check/${entry.entry_date}    headers=${headers}    json=${entry}
         IF    ${containsData.json()['kubiosDataFound']}
-            ${response}=    POST   http://127.0.0.1:3000/api/entries    headers=${headers}    json=${entry}
+            ${response}=    POST   ${baseUrl}/api/entries    headers=${headers}    json=${entry}
         END
     END
 
 
 Check if month empty
     [Arguments]    ${monthNum}    ${yearNum}
-    ${response}=    GET    url=http://127.0.0.1:3000/api/entries/monthly?month=${monthNum}&year=${yearNum}     headers=${headers}
+    ${response}=    GET    url=${baseUrl}/api/entries/monthly?month=${monthNum}&year=${yearNum}     headers=${headers}
     Log    ${response.json()}
     ${emptyMonth}    Set Variable  True
     FOR    ${date}    IN    @{response.json().keys()}
@@ -53,14 +55,14 @@ Check if month empty
 
 
 Get available week reports
-    ${response}=    GET    url=http://127.0.0.1:3000/api/reports/available-weeks     headers=${headers}
+    ${response}=    GET    url=${baseUrl}/api/reports/available-weeks     headers=${headers}
     RETURN    ${response.json()}
 
 
 *** Test Cases ***
 Authenticate as Patient
     ${body}    Create Dictionary    username=${Username}   password=${Password}
-    ${response}    POST    url=http://127.0.0.1:3000/api/auth/patient-login    json=${body}
+    ${response}    POST    url=${baseUrl}/api/auth/patient-login    json=${body}
     Log    ${response.json()}
     ${initialToken}    Set Variable    ${response.json()}[token]
     &{headers}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${initialToken}
@@ -70,13 +72,13 @@ Authenticate as Patient
 
 
 Delete self as patient
-    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${headers}
+    ${response}    DELETE    url=${baseUrl}/api/users    headers=${headers}
     Status Should Be    200
 
 
 Authenticate as Patient again
     ${body}    Create Dictionary    username=${Username}   password=${Password}
-    ${response}    POST    url=http://127.0.0.1:3000/api/auth/patient-login    json=${body}
+    ${response}    POST    url=${baseUrl}/api/auth/patient-login    json=${body}
     Log    ${response.json()}
     ${token}    Set Variable    ${response.json()}[token]
     &{headers}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${token}
@@ -87,13 +89,13 @@ Authenticate as Patient again
 
 Submit survey if necessary
     ${body}=    Create Dictionary    ${question1}=${answer1}   ${question2}=${answer2}    activities=@{activities}
-    ${response}=    POST    url=http://127.0.0.1:3000/api/survey     headers=${headers}    json=${body}
+    ${response}=    POST    url=${baseUrl}/api/survey     headers=${headers}    json=${body}
     Status Should Be    200
     Log    Response from correct request: ${response.text}
 
 
 Get own survey and activities
-    ${response}=    GET    url=http://127.0.0.1:3000/api/survey     headers=${headers}
+    ${response}=    GET    url=${baseUrl}/api/survey     headers=${headers}
     Log    Check if response question/answer pairs match the previously made survey
     Should Be Equal As Strings    ${response.json()}[questions][0][question]   ${question1}
     Should Be Equal As Strings    ${response.json()}[questions][1][question]    ${question2}
@@ -104,14 +106,14 @@ Get own survey and activities
     ${matched}=    Evaluate    ${response_activities} == ${activities}
     Should Be True    ${matched}
 
-    ${response}=    GET    url=http://127.0.0.1:3000/api/survey/activities     headers=${headers}
+    ${response}=    GET    url=${baseUrl}/api/survey/activities     headers=${headers}
     ${response_only_activities}=    Set Variable    ${response.json()}[activities]
     ${matched}=    Evaluate    ${response_only_activities} == ${activities}
     Should Be True    ${matched}
 
 
 Get patient self
-    ${response}=    GET    url=http://127.0.0.1:3000/api/auth/me     headers=${headers}
+    ${response}=    GET    url=${baseUrl}/api/auth/me     headers=${headers}
     Should Be Equal As Strings    ${response.json()}[stressLessUser][user_level]    patient
     Should Be True    ${response.json()}[stressLessUser][surveyCompleted]
 
@@ -130,6 +132,7 @@ Post new entries if february empty
 
 Get available february week reports
     ${availableReports}=    Get available week reports
+    Log To Console    ${availableReports}
     Should Be Equal As Strings    ${availableReports[0]['week_number']}    6
     Should Be Equal As Strings    ${availableReports[1]['week_number']}    7
     ${week6reportId}=    Set Variable    ${availableReports[0]['report_id']}
@@ -139,64 +142,64 @@ Get available february week reports
 
 
 Compaire february reports
-    ${week6report}=    GET    url=http://127.0.0.1:3000/api/reports/${week6reportId}     headers=${headers}
+    ${week6report}=    GET    url=${baseUrl}/api/reports/${week6reportId}     headers=${headers}
     Should Be Equal As Numbers    ${week6report.json()['week_si_avg']}    4.28
     Should Be Equal As Strings    ${week6report.json()['previous_week_si_avg']}    None
     Should Be Equal As Numbers    ${week6report.json()['gray_percentage']}    57.14
 
-    ${week7report}=    GET    url=http://127.0.0.1:3000/api/reports/${week7reportId}     headers=${headers}
+    ${week7report}=    GET    url=${baseUrl}/api/reports/${week7reportId}     headers=${headers}
     Should Be Equal As Numbers    ${week7report.json()['yellow_percentage']}    28.57
     Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
     Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
 
 
 Search for a non-existent doctor test suite user
-    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=404
+    ${result}=    GET    url=${baseUrl}/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=404
 
 
 Create test suite doctor user
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret    full_name=Only for testing    patient_level=doctor    admin_password=${adminPassword}
-    ${response}    POST    url=http://127.0.0.1:3000/api/users/create-doctor    json=${body}
+    ${response}    POST    url=${baseUrl}/api/users/create-doctor    json=${body}
 
 
 Search for the newly created doctor test suite user
-    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=200
+    ${result}=    GET    url=${baseUrl}/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=200
 
 
 Share data to test doctor user as a patient
     ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
-    ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
+    ${response}=    POST    url=${baseUrl}/api/users/create-pair     headers=${headers}    json=${body}
 
 
 Authenticate as test doctor
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret
-    ${response}    POST    url=http://127.0.0.1:3000/api/auth/doctor-login    json=${body}
+    ${response}    POST    url=${baseUrl}/api/auth/doctor-login    json=${body}
     ${doctorToken}    Set Variable    ${response.json()}[token]
     &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
     Set Suite Variable    &{doctorHeaders}
 
 
 Get own patients as doctor
-    ${result}=    GET    url=http://127.0.0.1:3000/api/users/doctor/patients   headers=${doctorHeaders}    expected_status=200
+    ${result}=    GET    url=${baseUrl}/api/users/doctor/patients   headers=${doctorHeaders}    expected_status=200
     Should Be Equal As Strings    ${result.json()[0]}[username]    aleksi.kivilehto@metropolia.fi
     ${patientsId}    Set Variable  ${result.json()[0]}[user_id]
     Set Suite Variable    ${patientsId}
 
 
 Compaire patients february reports
-    ${week6report}=    GET    url=http://127.0.0.1:3000/api/reports/doctor/specific-report/${week6reportId}/${patientsId}     headers=${doctorHeaders}
+    ${week6report}=    GET    url=${baseUrl}/api/reports/doctor/specific-report/${week6reportId}/${patientsId}     headers=${doctorHeaders}
     Should Be Equal As Numbers    ${week6report.json()['week_si_avg']}    4.28
     Should Be Equal As Strings    ${week6report.json()['previous_week_si_avg']}    None
     Should Be Equal As Numbers    ${week6report.json()['gray_percentage']}    57.14
 
-    ${week7report}=    GET    url=http://127.0.0.1:3000/api/reports/doctor/specific-report/${week7reportId}/${patientsId}    headers=${doctorHeaders}
+    ${week7report}=    GET    url=${baseUrl}/api/reports/doctor/specific-report/${week7reportId}/${patientsId}    headers=${doctorHeaders}
     Should Be Equal As Numbers    ${week7report.json()['yellow_percentage']}    28.57
     Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
     Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
 
 
 Make sure doctor sees the correct survey from patient
-    ${response}=    GET    url=http://127.0.0.1:3000/api/survey/doctor/${patientsId}     headers=${doctorHeaders}
+    ${response}=    GET    url=${baseUrl}/api/survey/doctor/${patientsId}     headers=${doctorHeaders}
     Should Be Equal As Strings    ${response.json()}[questions][0][question]   ${question1}
     Should Be Equal As Strings    ${response.json()}[questions][1][question]    ${question2}
     Should Be Equal As Strings    ${response.json()}[questions][0][answer]   ${answer1}
@@ -209,16 +212,16 @@ Make sure doctor sees the correct survey from patient
 
 Change password for as a doctor
     ${body}    Create Dictionary    new_password=newTestSecret
-    ${response}    PUT    url=http://127.0.0.1:3000/api/users/doctor/change-password    json=${body}    headers=${doctorHeaders}    expected_status=200
+    ${response}    PUT    url=${baseUrl}/api/users/doctor/change-password    json=${body}    headers=${doctorHeaders}    expected_status=200
 
 
 Authenticate as test doctor with new password
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=newTestSecret
-    ${response}    POST    url=http://127.0.0.1:3000/api/auth/doctor-login    json=${body}
+    ${response}    POST    url=${baseUrl}/api/auth/doctor-login    json=${body}
     ${doctorToken}    Set Variable    ${response.json()}[token]
     &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
     Set Suite Variable    &{doctorHeaders}
 
 
 Delete self as doctor
-    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${doctorHeaders}    expected_status=200
+    ${response}    DELETE    url=${baseUrl}/api/users    headers=${doctorHeaders}    expected_status=200
