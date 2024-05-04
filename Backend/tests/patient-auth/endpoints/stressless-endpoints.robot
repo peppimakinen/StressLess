@@ -163,7 +163,7 @@ Search for the newly created doctor test suite user
     ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=200
 
 
-Create a doctor patient pair
+Share data to test doctor user as a patient
     ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
     ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
 
@@ -193,6 +193,31 @@ Compaire patients february reports
     Should Be Equal As Numbers    ${week7report.json()['yellow_percentage']}    28.57
     Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
     Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
+
+
+Make sure doctor sees the correct survey from patient
+    ${response}=    GET    url=http://127.0.0.1:3000/api/survey/doctor/${patientsId}     headers=${doctorHeaders}
+    Should Be Equal As Strings    ${response.json()}[questions][0][question]   ${question1}
+    Should Be Equal As Strings    ${response.json()}[questions][1][question]    ${question2}
+    Should Be Equal As Strings    ${response.json()}[questions][0][answer]   ${answer1}
+    Should Be Equal As Strings    ${response.json()}[questions][1][answer]    ${answer2}
+
+    ${response_activities}=    Set Variable    ${response.json()}[activities]
+    ${matched}=    Evaluate    ${response_activities} == ${activities}
+    Should Be True    ${matched}
+
+
+Change password for as a doctor
+    ${body}    Create Dictionary    new_password=newTestSecret
+    ${response}    PUT    url=http://127.0.0.1:3000/api/users/doctor/change-password    json=${body}    headers=${doctorHeaders}    expected_status=200
+
+
+Authenticate as test doctor with new password
+    ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=newTestSecret
+    ${response}    POST    url=http://127.0.0.1:3000/api/auth/doctor-login    json=${body}
+    ${doctorToken}    Set Variable    ${response.json()}[token]
+    &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
+    Set Suite Variable    &{doctorHeaders}
 
 
 Delete self as doctor
