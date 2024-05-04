@@ -168,6 +168,12 @@ Authenticate as test doctor
     &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
     Set Suite Variable    &{doctorHeaders}
 
+Get own patients as doctor
+    ${result}=    GET    url=http://127.0.0.1:3000/api/users/doctor/patients   headers=${doctorHeaders}    expected_status=200
+    Should Be Equal As Strings    ${result.json()[0]}[username]    aleksi.kivilehto@metropolia.fi
+    ${patientsId}    Set Variable  ${result.json()[0]}[user_id]
+    Set Suite Variable    ${patientsId}
+
 Delete self as doctor
     ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${doctorHeaders}
     Status Should Be    200
