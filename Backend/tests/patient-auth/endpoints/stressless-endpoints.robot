@@ -56,17 +56,6 @@ Get available week reports
     ${response}=    GET    url=http://127.0.0.1:3000/api/reports/available-weeks     headers=${headers}
     RETURN    ${response.json()}
 
-Find doctor
-    [Arguments]    ${doctorUsername}
-    ${result}=    Run Keyword And Continue On Failure    GET    url=http://127.0.0.1:3000/api/users/find-doctor/${doctorUsername}    headers=${headers}
-    IF    '${result}' == 'None'
-        RETURN    True
-    ELSE
-        RETURN    False
-    END
-    
-    Should Be Equal As Strings    ${result}    None
-
 
 *** Test Cases ***
 Authenticate as Patient
@@ -159,16 +148,14 @@ Compaire february reports
 
 
 Search for a non-existent doctor test suite user
-    ${result}=    Find doctor    robotTestDoctor@gmail.com
-    Should Be Equal As Strings    ${result}    True
+    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=404
 
 Create test suite doctor user
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret    full_name=Only for testing    patient_level=doctor    admin_password=${adminPassword}
     ${response}    POST    url=http://127.0.0.1:3000/api/users/create-doctor    json=${body}
 
 Search for the newly created doctor test suite user
-    ${result}=    Find doctor    robotTestDoctor@gmail.com
-    Should Be Equal As Strings    ${result}    False
+    ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=200
 
 Create a doctor patient pair
     ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
