@@ -275,6 +275,7 @@ survey.addEventListener('click', async (evt) => {
         showCustomAlert('Alkukartoitus on nyt suoritettu. Sinut uudelleenohjataan kalenterisivulle.');
         // Aseta uudelleenohjaus tapahtumaan 3 sekunnin kuluttua
         setTimeout(() => {
+            sessionStorage.setItem('fromSurveyPage', true);
             window.location.href = '../home/patienthome.html';
         }, 3000);  // 3000 millisekuntia = 3 sekuntia
     } catch (error) {
@@ -343,6 +344,7 @@ if (doctorForm2) {
         pairDoctor()
         // Aseta uudelleenohjaus tapahtumaan 3 sekunnin kuluttua
         setTimeout(() => {
+            sessionStorage.setItem('fromSurveyPage', true);
             window.location.href = '../home/patienthome.html';
         }, 3000);  // 3000 millisekuntia = 3 sekuntia
     } catch (error) {

@@ -57,6 +57,15 @@ prevNextIcon.forEach((icon) => {
 // render calendar when page is loaded
 window.addEventListener("load", () => {
   initializeCalendar();
+
+  // Check if the user has come from the survey page
+  const fromSurveyPage = sessionStorage.getItem('fromSurveyPage');
+  if (fromSurveyPage) {
+      // Call the showInfoPopup() function
+      showInfoPopup();
+      // Clear the flag
+      sessionStorage.removeItem('fromSurveyPage');
+  }
 });
 
 
