@@ -15,7 +15,7 @@ LoginPatient.addEventListener("click", async (evt) => {
   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
-  const url = "http://127.0.0.1:3000/api/auth/patientlogin";
+  const url = "http://127.0.0.1:3000/api/auth/patient-login";
 
   const data = {
     username: LoginEmail.value,
