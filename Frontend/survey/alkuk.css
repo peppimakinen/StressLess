@@ -130,9 +130,8 @@ p {
 }
 
 #question14 {
-    display: block;
+    display: absolute;
     align-items: center;
-    margin-left: 450px;
 }
 
 /* Basic styling for the activities list container */
@@ -367,27 +366,5 @@ p {
     textarea {
         width: 300px;
     }
-    #question14 {
-        display: block;
-        align-items: center;
-        margin-left: 460px;
-    }
 }
 
-@media screen and (max-width: 1512px) {
-    #question14 {
-        margin-right: 460px;
-    }
-}
-
-@media screen and (max-width: 1112px) {
-    #question14 {
-        margin-right: 460px;
-    }
-}
-
-@media screen and (max-width: 720px) {
-    #question14 {
-        margin-right: 460px;
-    }
-}
