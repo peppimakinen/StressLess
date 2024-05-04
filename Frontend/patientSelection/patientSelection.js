@@ -1,11 +1,11 @@
 import { fetchData } from "../assets/fetch.js";
+import { showSnackbar } from "../snackbar.js";
 
 // Function to handle click event on "Näytä raportti" links
-window.addEventListener('load', async (evt) => {
-    evt.preventDefault();
+window.addEventListener('load', async () => {
     try {
         const url = "http://127.0.0.1:3000/api/users/doctor/patients";
-        let token = localStorage.getItem("token");
+        const token = localStorage.getItem("token");
 
         const options = {
             method: "GET",
@@ -15,88 +15,78 @@ window.addEventListener('load', async (evt) => {
         };
 
         const reportData = await fetchData(url, options); 
+        const clientsList = document.querySelector('.clients');
+
         if (Object.keys(reportData).length === 0) {
-            const clientItem = document.querySelector('.clients');
-            clientItem.textContent = "Käyttäjätililläsi ei ole vielä yhtään potilastiliä liitettynä.";
-
+            clientsList.textContent = "Käyttäjätililläsi ei ole vielä yhtään potilastiliä liitettynä.";
         } else {
-            console.log(reportData);
-
-            const clients = document.querySelector('.clients');
-        // Iterate over the reportData to populate the client numbers
             reportData.forEach((client, index) => {
-                //delete
-                const delete_user = document.createElement('li');
-                delete_user.classList.add('delete');
-                delete_user.textContent = 'x';
-                delete_user.addEventListener('click', function(event) {
-                    //function to delete a client
+                // Create delete button
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('delete');
+                deleteButton.textContent = 'X';
+
+                // Attach the client's user ID as a data attribute to the delete button
+                deleteButton.dataset.userId = client.user_id;
+
+                // Event listener for delete button
+                deleteButton.addEventListener('click', async function(event) {
                     event.preventDefault();
-                    document.getElementById('deleteModal').style.display = 'block';
-                    });
-                
-                    document.querySelector('.close').addEventListener('click', function() {
-                        document.getElementById('deleteModal').style.display = 'none';
-                    });
-                    
+                    const userId = event.target.dataset.userId; // Extract the user ID from the clicked delete button
+                    document.getElementById('deleteModal').style.display = 'block'; // Display confirmation modal
+
+                    // Event listener for confirm deletion button
                     document.getElementById('confirmDeletion').addEventListener('click', async function() {
                         const userInput = document.getElementById('deleteConfirm').value;
                         if (userInput === 'Poista tili') {
-                        try {
-                            const response = await fetch('http://127.0.0.1:3000/api/users/doctor/patients', {
-                            method: 'DELETE',
-                            headers: {
-                                'Authorization': `Bearer ${localStorage.getItem('token')}`
+                            try {
+                                const response = await fetch(`http://127.0.0.1:3000/api/users/doctor/delete-patient/${userId}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                    }
+                                });
+                                
+                                if (response.ok) {
+                                    showSnackbar("Green","Tili poistettu onnistuneesti");
+                                    setTimeout(() => {
+                                        window.location.href = './patientSelection.html';
+                                    }, 3000);
+                                } else {
+                                    throw new Error('Failed to delete account');
+                                }
+                            } catch (error) {
+                                showSnackbar("Red", error.message);
                             }
-                            });
-                            
-                            if (response.ok) {
-                                showSnackbar("Green","Tili poistettu onnistuneesti");
-                                setTimeout(() => {
-                                    window.location.href = './patientSelection.html';
-                                }, 3000);
-                            } else {
-                            throw new Error('Failed to delete account');
-                            }
-                        } catch (error) {
-                            showSnackbar("Red", error.message);
-                        }
                         } else {
                             showSnackbar("Red", "Poistaminen epäonnistui: väärä teksti");
                         }
                         document.getElementById('deleteModal').style.display = 'none';
                     });
+                });
 
-                //client
+                // Create client list item
                 const clientItem = document.createElement('li');
                 clientItem.classList.add('client');
                 clientItem.textContent = client.full_name;
-                console.log(client.full_name)
-                localStorage.setItem('full_name', client.full_name);
 
-                //reports
+                // Create reports link
                 const reportsDiv = document.createElement('div');
                 reportsDiv.classList.add('reports');
                 const reportLink = document.createElement('a');
-                //change into the home page of the client
-                reportLink.href = `../home/doctorhome.html?client=${client.user_id}`; 
-                reportLink.addEventListener('click', function(event) {
-                    localStorage.setItem('full_name', client.full_name);
-                });
+                reportLink.href = `../home/doctorhome.html?client=${client.user_id}`;
                 reportLink.textContent = 'Näytä asiakastili';
 
                 reportsDiv.appendChild(reportLink);
-                clients.appendChild(reportsDiv);
-                clients.appendChild(delete_user);
-                clients.appendChild(clientItem);
+
+                // Append elements to clients list
+                clientsList.appendChild(clientItem);
+                clientsList.appendChild(reportsDiv);
+                clientsList.appendChild(deleteButton);
             });
         }
-
 
     } catch (error) {
         console.error('Error fetching report:', error);
     }
 });
-
-            
-            
