@@ -68,9 +68,11 @@ Authenticate as Patient
     Set Suite Variable    &{headers}
     Set Suite Variable    ${initialToken}
 
+
 Delete self as patient
     ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${headers}
     Status Should Be    200
+
 
 Authenticate as Patient again
     ${body}    Create Dictionary    username=${Username}   password=${Password}
@@ -81,6 +83,7 @@ Authenticate as Patient again
 
     Set Suite Variable    &{headers}
     Set Suite Variable    ${token}
+
 
 Submit survey if necessary
     ${body}=    Create Dictionary    ${question1}=${answer1}   ${question2}=${answer2}    activities=@{activities}
@@ -150,16 +153,20 @@ Compaire february reports
 Search for a non-existent doctor test suite user
     ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=404
 
+
 Create test suite doctor user
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret    full_name=Only for testing    patient_level=doctor    admin_password=${adminPassword}
     ${response}    POST    url=http://127.0.0.1:3000/api/users/create-doctor    json=${body}
 
+
 Search for the newly created doctor test suite user
     ${result}=    GET    url=http://127.0.0.1:3000/api/users/find-doctor/robotTestDoctor@gmail.com    headers=${headers}    expected_status=200
+
 
 Create a doctor patient pair
     ${body}=    Create Dictionary    doctor_username=robotTestDoctor@gmail.com
     ${response}=    POST    url=http://127.0.0.1:3000/api/users/create-pair     headers=${headers}    json=${body}
+
 
 Authenticate as test doctor
     ${body}    Create Dictionary    username=robotTestDoctor@gmail.com   password=testSecret
@@ -168,6 +175,25 @@ Authenticate as test doctor
     &{doctorHeaders}    Create Dictionary    Content-Type=application/json   Authorization=Bearer ${doctorToken}
     Set Suite Variable    &{doctorHeaders}
 
+
+Get own patients as doctor
+    ${result}=    GET    url=http://127.0.0.1:3000/api/users/doctor/patients   headers=${doctorHeaders}    expected_status=200
+    Should Be Equal As Strings    ${result.json()[0]}[username]    aleksi.kivilehto@metropolia.fi
+    ${patientsId}    Set Variable  ${result.json()[0]}[user_id]
+    Set Suite Variable    ${patientsId}
+
+
+Compaire patients february reports
+    ${week6report}=    GET    url=http://127.0.0.1:3000/api/reports/doctor/specific-report/${week6reportId}/${patientsId}     headers=${doctorHeaders}
+    Should Be Equal As Numbers    ${week6report.json()['week_si_avg']}    4.28
+    Should Be Equal As Strings    ${week6report.json()['previous_week_si_avg']}    None
+    Should Be Equal As Numbers    ${week6report.json()['gray_percentage']}    57.14
+
+    ${week7report}=    GET    url=http://127.0.0.1:3000/api/reports/doctor/specific-report/${week7reportId}/${patientsId}    headers=${doctorHeaders}
+    Should Be Equal As Numbers    ${week7report.json()['yellow_percentage']}    28.57
+    Should Be Equal As Numbers    ${week7report.json()['week_si_avg']}    4.27
+    Should Be Equal As Strings    ${week7report.json()['previous_week_si_avg']}    4.28
+
+
 Delete self as doctor
-    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${doctorHeaders}
-    Status Should Be    200
+    ${response}    DELETE    url=http://127.0.0.1:3000/api/users    headers=${doctorHeaders}    expected_status=200
