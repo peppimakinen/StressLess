@@ -33,6 +33,9 @@ window.addEventListener('DOMContentLoaded', async () => {
                 const reportLink = document.createElement('a');
                 reportLink.href = `../home/doctorhome.html?client=${client.user_id}`;
                 reportLink.textContent = 'Näytä asiakastili';
+                reportLink.addEventListener('click', function(event) {
+                    localStorage.setItem('full_name', client.full_name);
+                });
 
                 // Create delete button element
                 const deleteButton = document.createElement('button');
