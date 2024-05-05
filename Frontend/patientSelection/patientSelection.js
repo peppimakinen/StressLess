@@ -21,12 +21,23 @@ window.addEventListener('load', async () => {
             clientsList.textContent = "Käyttäjätililläsi ei ole vielä yhtään potilastiliä liitettynä.";
         } else {
             reportData.forEach((client, index) => {
-                // Create delete button
+                // Create client item container
+                const clientContainer = document.createElement('li');
+                clientContainer.classList.add('client-container');
+
+                const clientName = document.createElement('span');
+                clientName.classList.add('client-name');
+                clientName.textContent = client.full_name;
+
+                // Create reports link element
+                const reportLink = document.createElement('a');
+                reportLink.href = `../home/doctorhome.html?client=${client.user_id}`;
+                reportLink.textContent = 'Näytä asiakastili';
+
+                // Create delete button element
                 const deleteButton = document.createElement('button');
                 deleteButton.classList.add('delete');
                 deleteButton.textContent = 'X';
-
-                // Attach the client's user ID as a data attribute to the delete button
                 deleteButton.dataset.userId = client.user_id;
 
                 // Event listener for delete button
@@ -34,6 +45,14 @@ window.addEventListener('load', async () => {
                     event.preventDefault();
                     const userId = event.target.dataset.userId; // Extract the user ID from the clicked delete button
                     document.getElementById('deleteModal').style.display = 'block'; // Display confirmation modal
+
+                    // Get the close span element
+                    const closeModalButton = document.querySelector('.close');
+
+                    // Add event listener to the close button
+                    closeModalButton.addEventListener('click', function() {
+                        document.getElementById('deleteModal').style.display = 'none'; // Hide the modal
+                    });
 
                     // Event listener for confirm deletion button
                     document.getElementById('confirmDeletion').addEventListener('click', async function() {
@@ -73,16 +92,16 @@ window.addEventListener('load', async () => {
                 // Create reports link
                 const reportsDiv = document.createElement('div');
                 reportsDiv.classList.add('reports');
-                const reportLink = document.createElement('a');
                 reportLink.href = `../home/doctorhome.html?client=${client.user_id}`;
                 reportLink.textContent = 'Näytä asiakastili';
 
-                reportsDiv.appendChild(reportLink);
+                // Append elements to client item container
+                clientContainer.appendChild(deleteButton);
+                clientContainer.appendChild(clientName);
+                clientContainer.appendChild(reportLink);
 
-                // Append elements to clients list
-                clientsList.appendChild(clientItem);
-                clientsList.appendChild(reportsDiv);
-                clientsList.appendChild(deleteButton);
+                // Append client item container to clients list
+                clientsList.appendChild(clientContainer);
             });
         }
 

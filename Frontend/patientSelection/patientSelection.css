@@ -100,50 +100,56 @@ h1 {
 }
 
 
-.clients li {
+.clients .client-container {
+    display: flex;
+    align-items: center; /* Vertically center its children */
+    justify-content: space-between; /* Align child elements with space between */
     background-color: #fffaff;
     border-radius: 22px;
-    display: flex;
     margin-top: 20px;
     list-style: none;
-    font-size: xx-large;
     padding: 20px;
+    position: relative; /* Add relative positioning */
 }
 
-.clients a {
-    background-color: #313e50;
-    color: #fffaff;
+.clients .client-container {
+    background-color:#fffaff;
+    color: #313e50;
     border-radius: 30px;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
     font-weight: 500; 
     font-size: 20px;
     padding: 20px;
+    text-decoration: none; /* Remove underline */
 }
     
-.clients a:hover {
+
+.clients .client-container a {
     color: #fffaff;
     background-color: #28303a;
     border-radius: 30px;
-    }
-
-li.client {
-    display: flex;
-    flex-direction: row;
+}
+/* Hover effect for reports link */
+.clients .client-container a:hover {
+    color: #fffaff;
+    background-color: #818181;
+    border-radius: 30px;
 }
 
-li.delete {
+/* Style the delete button */
+.clients .client-container button.delete {
     cursor: pointer;
-    position: absolute;
-    background-color: rgba(255, 0, 0, 0);
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    padding: 0;
+    margin-right: 10px; /* Add margin for spacing between reports link and delete button */
 }
 
-.reports {
-    position: absolute;
-    right: 3%;
-    margin-top: 50px;
-}  
-
+.client-name {
+    font-size: xx-large;
+}
 
 /* modal */
 .modal {
