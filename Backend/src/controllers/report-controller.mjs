@@ -477,19 +477,22 @@ function calculateMoodColorPercentages(entries) {
 /**
  * Get week number from date
  * @source https://bito.ai/resources/javascript-get-week-number-javascript-explained/
+ * Sourced function changed by ChatGPT to fix Azure bug
  * @param {Date} day
  * @return {Int} Week number
  */
 function getWeekNumber(day) {
-  // Copy date so don't modify original
-  day = new Date(Date.UTC(day.getFullYear(), day.getMonth(), day.getDate()));
-  // Set to nearest Thursday: current date + 4 - current day number
-  // Make Sunday's day number 7
-  day.setUTCDate(day.getUTCDate() + 4 - (day.getUTCDay() || 7));
-  // Get first day of year
-  const yearStart = new Date(Date.UTC(day.getUTCFullYear(), 0, 1));
-  // Calculate full weeks to nearest Thursday
-  const weekNo = Math.ceil(((day - yearStart) / 86400000 + 1) / 7);
+  // Copy the date so as not to modify the original
+  const copiedDay = new Date(day.getTime());
+  // Set the day of the week to Sunday (0)
+  copiedDay.setUTCHours(0, 0, 0, 0);
+  copiedDay.setUTCDate(copiedDay.getUTCDate() - copiedDay.getUTCDay());
+  // Get the first day of the year
+  const yearStart = new Date(Date.UTC(copiedDay.getUTCFullYear(), 0, 1));
+  // Calculate the difference in milliseconds between the start of the year and the provided date
+  const diffMilliseconds = copiedDay - yearStart;
+  // Calculate the number of weeks
+  const weekNo = Math.ceil((diffMilliseconds / (7 * 24 * 60 * 60 * 1000)) + 1);
   return weekNo;
 }
 
