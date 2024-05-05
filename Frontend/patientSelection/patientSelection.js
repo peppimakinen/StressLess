@@ -2,7 +2,7 @@ import { fetchData } from "../assets/fetch.js";
 import { showSnackbar } from "../snackbar.js";
 
 // Function to handle click event on "Näytä raportti" links
-window.addEventListener('load', async () => {
+window.addEventListener('DOMContentLoaded', async () => {
     try {
         const url = "http://127.0.0.1:3000/api/users/doctor/patients";
         const token = localStorage.getItem("token");
@@ -49,10 +49,12 @@ window.addEventListener('load', async () => {
                     // Get the close span element
                     const closeModalButton = document.querySelector('.close');
 
-                    // Add event listener to the close button
-                    closeModalButton.addEventListener('click', function() {
-                        document.getElementById('deleteModal').style.display = 'none'; // Hide the modal
-                    });
+                    // Add event listener to the close button if it exists
+                    if (closeModalButton) {
+                        closeModalButton.addEventListener('click', function() {
+                            document.getElementById('deleteModal').style.display = 'none'; // Hide the modal
+                        });
+                    }
 
                     // Event listener for confirm deletion button
                     document.getElementById('confirmDeletion').addEventListener('click', async function() {
@@ -67,10 +69,11 @@ window.addEventListener('load', async () => {
                                 });
                                 
                                 if (response.ok) {
-                                    showSnackbar("Green","Tili poistettu onnistuneesti");
+                                    showSnackbar("Green", "Tili poistettu onnistuneesti");
                                     setTimeout(() => {
                                         window.location.href = './patientSelection.html';
-                                    }, 3000);
+                                    }, 3000); // Adjust the delay time as needed
+                                    clientsList.removeChild(clientContainer); // Remove deleted client from the list
                                 } else {
                                     throw new Error('Failed to delete account');
                                 }
