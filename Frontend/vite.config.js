@@ -7,7 +7,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         // List your html files here, e.g:
-        main: resolve(__dirname, 'landing/landing.html'),
+        main: resolve(__dirname, 'landing/index.html'),
         patienthome: resolve(__dirname, 'home/patienthome.html'),
         doctorhome: resolve(__dirname, 'home/doctorhome.html'),
         doctorlanding: resolve(__dirname, 'landing/doctorlanding.html'),

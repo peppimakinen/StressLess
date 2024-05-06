@@ -15,11 +15,11 @@ if (!window.location.search.includes('redirected=true')) {
 function showProfile() {
     const doc_name = localStorage.getItem('full_name');
     const nameSpan = document.getElementById("doctorName");
-    nameSpan.textContent = doc_name || "No name available";
+    nameSpan.textContent = doc_name || "Ei yhdistettyä lääkäriä";
 
     const doc_email = localStorage.getItem('username');
     const emailSpan = document.getElementById("doctorEmail");
-    emailSpan.textContent = doc_email || "No email available";
+    emailSpan.textContent = doc_email || "Ei yhdistettyä lääkäriä";
 }
 
 
