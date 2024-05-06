@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  <script type="module" crossorigin src="/assets/profileP-BYdkUzit.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/fetch-CGUiTqyx.js">
+  <link rel="modulepreload" crossorigin href="/assets/snackbar-BNtgsuzo.js">
+  <link rel="stylesheet" crossorigin href="/assets/profileP-ColaidFp.css">
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><a href="../home/patienthome.html"><img src="/assets/imgLogo-J2-FDGAm.png" alt="Logo"></a></li>
+        <li class="textNav"><a href="../home/patienthome.html">Kalenteri</a></li>
+        <li class="textNav"><a href="../reports/weekReportAll.html">Viikkoraportit</a></li>
+        <li class="textNav"><a href="../settings/profileP.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="../login/loginpatient.html">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div class="profile-container">
+        <div class="left-column">
+            <img class="mainpic" src="/assets/imgProfileIcon-D___3Gqs.png" alt="settings Image">
+            <div class="settings-list">
+                <ul class="title">
+                    <li><img src="/assets/imgSettingsIcon-kvjlB5NX.png" alt="settings Image"></li>
+                    <li>
+                        <h2>Asetukset</h2>
+                    </li>
+                </ul>
+                <ul class="links">
+                    <li><a href="profileP.html">Profiili</a></li>
+                    <li><a href="notif.html">Ilmoitukset</a></li>
+                    <li><a href="contacts.html">Yhteystiedot</a></li>
+                    <li><a href="security.html">Tietosuoja</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div> <!-- Tässä on väliviiva -->
+        <div class="right-column">
+            <h1>Profiili</h1>
+            <div class="profile-content">
+                <div class="profile-list">
+                    <ul class="title">
+                        <li>
+                            <h2>Käyttäjätiedot</h2>
+                        </li>
+                    </ul>
+                    <ul class="links">
+                        <ul class="links">
+                            <li style="display: flex; align-items: center;">
+                                <img src="/assets/imgProfileIcon-D___3Gqs.png" alt="profilepic">
+                                <span id="name">nimi</span>
+                            </li>
+                            <li style="display: flex; align-items: center;">
+                                <img src="/assets/ImgEmailIcon-BEw-jR1p.png" alt="emailpic">
+                                <span id="email">sposti</span>
+                            </li>
+                        </ul>
+                </div>
+
+                <div id="snackbar-target"></div>
+
+                <div class="blocks">
+                    <ul class="entries">
+                        <li><span id="entriesCount"><a>Päiväkirjamerkintöjen määrä:</a><a id="count"></a></span></li>
+                    </ul>
+                    <ul class="buttons">
+                        <li><a href="https://kubioscloud.auth.eu-west-1.amazoncognito.com/forgotPassword?response_type=code&client_id=1h4rmoi5s66u2cliaqcpuejgpg&redirect_uri=https://analysis.kubioscloud.com/v2/portal/login&scope=openid%20profile%20email%20phone">Vaihda salasana</a></li>
+                        <li class="pic"><img src="/assets/ImgDeleteIcon-Cz9j-tw1.png"><a href="">Poista Käyttäjä</a></li>
+                    </ul>
+                    <div id="deleteModal" class="modal">
+                        <div class="modal-content">
+                          <span class="close">&times;</span>
+                          <h2>Oletko varma, että haluat poistaa tilin?</h2>
+                          <p>Kirjoita "Poista tili" poistaaksesi tili:</p>
+                          <input type="text" id="deleteConfirm" placeholder="Type here..."/>
+                          <button id="confirmDeletion">Hyväksy</button>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+
+</html>

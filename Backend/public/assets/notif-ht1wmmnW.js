@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";document.querySelectorAll(".toggle-button").forEach(e=>{e.addEventListener("click",()=>{e.classList.toggle("on"),e.classList.toggle("off"),e.textContent=e.classList.contains("on")?"PÄÄLLÄ":"POIS"})});

@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css                */const n=document.getElementById("forstudents");n.addEventListener("click",()=>{window.location.href="../landing/studentlanding.html"});const t=document.getElementById("fordoctors");t.addEventListener("click",()=>{window.location.href="../landing/doctorlanding.html"});
