@@ -317,7 +317,7 @@ header .calendarHeader span {
 .PopupPastEntry {
     display: none;
     position: absolute;
-    top: 46%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
@@ -327,18 +327,17 @@ header .calendarHeader span {
     text-align: center;
     background-color: #fffaff;
     margin: auto;
-    margin-top: 50px;
-    padding: 50px;
+    padding-right: 50px;
+    padding-left: 50px;
+    padding-bottom: 20px;
     border-radius: 50px;
-    width: 60%;
-    max-height: 90vh;
+    width: 70%;
     z-index: 2;
 }
 
 .EntryHeading {
     text-align: center;
-    padding-top: 30px;
-    padding-bottom: 20px;
+    padding-top: 20px;
     color: #1E1B18;
     font-family: 'Cabin', sans-serif;
     font-style: italic;
@@ -368,7 +367,7 @@ header .calendarHeader span {
     font-weight: 700;
     font-size: 28px;
     color: #1E1B18;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .PopupPastEntry p,
