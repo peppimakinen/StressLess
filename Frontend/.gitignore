@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 tests_notingit
+testhuoh
 dist
 dist-ssr
 *.local
