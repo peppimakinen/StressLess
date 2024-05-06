@@ -1,1 +1,0 @@
-function a(e,t){const s=document.getElementById("snackbar-target");s.className="show",s.innerText=t,s.style.backgroundColor=e,setTimeout(function(){s.className=s.className.replace("show","")},3e3),s.classList.contains("show")||(s.classList.add("show"),setTimeout(function(){s.classList.remove("show")},3e3))}export{a as s};
