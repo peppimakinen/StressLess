@@ -179,7 +179,6 @@ h1 {
 }
 
 .settings-list ul li a:hover {
-    text-decoration: hover;
     color: #818181;
 }
 
@@ -283,9 +282,9 @@ h1 {
 
 
 .buttons li:hover {
-        color: #fffaff;
-        background-color: #28303a;
-        border-radius: 30px;
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
 }
 
 #passw {

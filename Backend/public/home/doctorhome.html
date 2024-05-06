@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite App</title>
+  <script type="module" crossorigin src="/assets/doctorhome-BKDHD-q1.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/fetch-CGUiTqyx.js">
+  <link rel="modulepreload" crossorigin href="/assets/checkdata-2EjErbRn.js">
+  <link rel="modulepreload" crossorigin href="/assets/snackbar-BNtgsuzo.js">
+  <link rel="stylesheet" crossorigin href="/assets/doctorhome-0H_5ZhH8.css">
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><img src="/assets/imgLogo-J2-FDGAm.png" alt="Logo"></li>
+        <li class="textNav"><a href="../patientSelection/patientSelection.html">Asiakkaat</a></li>
+        <li class="textNav"><a href="../settingsD/profileD.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="../login/logindoctor.html">Kirjaudu ulos</a></li>
+    </ul>
+
+
+    <div class="calendarBackground">
+        <div class="btnContainer">
+            <h1 class="surveyBtn">Alkukartoitus</h1>
+            <h1 class="weekReportBtn"><a href="../reports/weekReportAllD.html">Viikkoraportit</a></h1>
+        </div>
+        <h6 id="username">Asiakkaan nimi</h6>
+        <div class="calendarWrapper">
+            <header>
+                <div class="calendarHeader">
+                    <span id="prev" class="chevron-left">&#9664;</span>
+                    <p class="currentDate">Current month / year here</p>
+                    <span id="next" class="chevron-right">&#9654;</span>
+                </div>
+            </header>
+            <div class="calendar">
+                <ul class="weeks">
+                    <li>Ma</li>
+                    <li>Ti</li>
+                    <li>ke</li>
+                    <li>To</li>
+                    <li>Pe</li>
+                    <li>La</li>
+                    <li>Su</li>
+                </ul>
+                <ul class="days"></ul>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="overlay"></div>
+
+    <div class="popupContainer">
+        <!-- Modal for viewing a past entry -->
+        <div class="PopupPastEntry" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Selected date here</h3>
+            <div class="hrv">
+                <h4>HRV</h4>
+                <p id="stress">Stress here</p>
+                <p id="sns">SNS here</p>
+                <p id="pns">PNS here</p>
+                <p id="rmssd">RMSSD here</p>
+                <p id="sdnn">SDNN here</p>
+                <p id="rr">Mean RR here</p>
+                <p id="lf">LF power here</p>
+                <p id="hf">HF power here</p>
+                <p id="lf_nu">LF n.u. here</p>
+                <p id="hf_nu">HF n.u. here</p>
+                <p id="total">LF/HF ratio here</p>
+            </div>
+            <div class="activitiesPast">
+                <h4>Aktiviteetit</h4>
+                <p>Activities here</p>
+            </div>
+            <div class="notesPast">
+                <h4>Muistiinpanot</h4>
+                <p>notes here</p>
+            </div>
+        </div>
+
+        <!-- modal for survey -->
+        <div class="PopupSurvey" style="display: none;">
+            <span class="closePopup">&times;</span>
+            <h3 class="EntryHeading">Potilaan alkukartoitus</h3>
+            <div id="surveyContent"> <!-- This div will hold the dynamically added survey data -->
+                <!-- Survey data will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+    </div>
+
+    <div id="snackbar-target"></div>
+
+    <!-- <div id="app"></div> -->
+</body>
+
+</html>
