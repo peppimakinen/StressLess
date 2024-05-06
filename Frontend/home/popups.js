@@ -13,11 +13,17 @@ const InfoPopup = document.querySelector(".InfoPopup");
 const calendarWrapper = document.querySelector(".calendarBackground");
 const overlay = document.getElementById("overlay");
 
+// clear new entry notes input field (bug fix)
+function clearInputField() {
+  document.getElementById("NotesNew").value = "";
+}
+
 // selected date variable
 let selectedDate = "";
 
 // Function to show NewEntry popup
 export async function showNewEntryPopup(date) {
+  clearInputField();
   selectedDate = date;
 
   // Convert the selected date to the yyyy-mm-dd format
