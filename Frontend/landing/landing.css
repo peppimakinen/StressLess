@@ -64,7 +64,7 @@ header h1 {
 
 /* main content rules */
 .maincontent {
-    margin-top: 80px;
+    margin-top: 40px;
     margin-left: 44px;
     width: 70%;
 }
@@ -146,15 +146,15 @@ h2 {
     transform: scaleX(-1);
     height: 400px;
     position: absolute;
-    bottom: 30px;
-    right: 40px;
+    bottom: 20px;
+    right: 30px;
 }
 
 /* responsive styles */
 @media screen and (min-width: 1200px) {
 
     .maincontent {
-        margin-top: 110px;
+        margin-top: 60px;
         margin-left: 150px;
         width: 50%;
     }
@@ -162,7 +162,7 @@ h2 {
     .human, 
     .student,
     .doctor {
-        bottom: 60px;
-        right: 160px;
+        bottom: 20px;
+        right: 100px;
     }
 }
