@@ -7,5 +7,5 @@ Kubios.addEventListener('click', () => {
 // redirect to patient login page
 const patientLogin = document.getElementById('gotopatientlogin');
 patientLogin.addEventListener('click', () => {
-    window.location.href = '../login/loginpatient.html';
+    window.location.href = './login/loginpatient.html';
 })
