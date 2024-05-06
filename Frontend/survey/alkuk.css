@@ -148,8 +148,8 @@ p {
 
 /* Ensure the list takes up the full width of its container for alignment */
 #activitiesList {
-    width: 100%;            /* List occupies full width of its container */
-    padding: 0;             /* Remove default padding */
+    width: 100%;
+    padding: 0;
 }
 
 
@@ -192,7 +192,19 @@ p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 10);
     display: none;
     padding: 20px;
+    max-width: 500px;
 }
+
+#popuplabel {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #1e1b18;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+}
+
 
 #popup2 {
     position: fixed;
@@ -204,7 +216,7 @@ p {
     box-shadow: 0 0 10px rgba(0, 0, 0, 10);
     display: none;
     padding: 40px;
-    max-width: 400px;
+    max-width: 450px;
 }
 
 
