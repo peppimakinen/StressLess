@@ -3,7 +3,7 @@ import { fetchData } from "../assets/fetch.js";
 // PATIENT SIDE
 async function getMonthData(year, month) {
   console.log("Fetching monthly entries for year:", year, "and month:", month);
-  const url = `http://127.0.0.1:3000/api/entries/monthly?year=${year}&month=${month}`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/monthly?year=${year}&month=${month}`;
   let token = localStorage.getItem("token");
 
   const options = {
@@ -24,7 +24,7 @@ async function getMonthData(year, month) {
 
 async function getDayData(entry_date) {
   console.log('GetDayData: ' + entry_date);
-  const url = `http://127.0.0.1:3000/api/entries/daily/${entry_date}`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/daily/${entry_date}`;
   let token = localStorage.getItem("token");
 
   const options = {
@@ -52,7 +52,7 @@ async function getPatientMonth (year, month) {
   const client = urlParams.get('client');
   
   console.log("Fetching patient entries for year:", year, "and month:", month);
-  const url = `http://127.0.0.1:3000/api/entries/doctor/monthly/${client}?year=${year}&month=${month}`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/doctor/monthly/${client}?year=${year}&month=${month}`;
   let token = localStorage.getItem("token");
 
   const options = {
@@ -78,7 +78,7 @@ async function getPatientDay(entry_date) {
   const client = urlParams.get('client');
 
   console.log('Get patient day: ' + entry_date);
-  const url = `http://127.0.0.1:3000/api/entries/doctor/daily/${entry_date}/${client}`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/doctor/daily/${entry_date}/${client}`;
   let token = localStorage.getItem("token");
 
   const options = {
@@ -104,7 +104,7 @@ async function getPatientSurvey() {
   const urlParams = new URLSearchParams(queryString);
   const client = urlParams.get('client');
 
-  const url = `http://127.0.0.1:3000/api/survey/doctor/${client}`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/doctor/${client}`;
   let token = localStorage.getItem("token");
 
   const options = {

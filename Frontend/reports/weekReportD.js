@@ -11,7 +11,7 @@ window.addEventListener('load', async function(evt) {
         console.log(selectedPatientId, selectedReportId)
         
         // Get the specific report by using report_id
-        const url = `http://127.0.0.1:3000/api/reports/doctor/specific-report/${selectedReportId}/${selectedPatientId}/`;
+        const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/specific-report/${selectedReportId}/${selectedPatientId}/`;
         const token = localStorage.getItem("token");
         const options = {
             method: "GET",

@@ -18,7 +18,7 @@ async function checkHRVDataForDate(date) {
     }
   
     // Construct the URL for checking HRV data
-    const url = `http://127.0.0.1:3000/api/kubios/check/${date}`;
+    const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/${date}`;
   
     // Define request options with the Bearer token included in the headers
     const options = {

@@ -3,7 +3,7 @@ import {reportRouter} from "../routes/report-router"
 
 async function getReport(userId, reportId) {
     console.log("Fetching report for user:", userId);
-    const url = `http://127.0.0.1:3000/api/reports/${reportId}`;
+    const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/${reportId}`;
     let token = localStorage.getItem("token");
 
     const options = {

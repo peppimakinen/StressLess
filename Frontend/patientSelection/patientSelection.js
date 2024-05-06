@@ -4,7 +4,7 @@ import { showSnackbar } from "../snackbar.js";
 // Function to handle click event on "Näytä raportti" links
 window.addEventListener('DOMContentLoaded', async () => {
     try {
-        const url = "http://127.0.0.1:3000/api/users/doctor/patients";
+        const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/patients";
         const token = localStorage.getItem("token");
 
         const options = {
@@ -64,7 +64,7 @@ window.addEventListener('DOMContentLoaded', async () => {
                         const userInput = document.getElementById('deleteConfirm').value;
                         if (userInput === 'Poista tili') {
                             try {
-                                const response = await fetch(`http://127.0.0.1:3000/api/users/doctor/delete-patient/${userId}`, {
+                                const response = await fetch(`https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/delete-patient/${userId}`, {
                                     method: 'DELETE',
                                     headers: {
                                         'Authorization': `Bearer ${localStorage.getItem('token')}`

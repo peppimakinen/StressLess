@@ -25,7 +25,7 @@ function showProfile() {
 
 
 async function getOwnDoctor() {
-    const url = `http://127.0.0.1:3000/api/auth/me`;
+    const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/me`;
     const token = localStorage.getItem("token");
 
     const options = {

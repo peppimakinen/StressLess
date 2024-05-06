@@ -14,7 +14,7 @@ async function fetchActivities() {
     };
 
     const response = await fetch(
-      "http://127.0.0.1:3000/api/survey/activities",
+      "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/activities",
       {
         headers: headers,
       }

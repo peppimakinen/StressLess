@@ -16,7 +16,7 @@ LoginUser.addEventListener("click", async (evt) => {
   const LoginEmail = LoginForm.querySelector('input[name="LoginEmail"]');
   const LoginPassword = LoginForm.querySelector('input[name="LoginPassword"]');
 
-  const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
+  const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctorlogin";
 
   const data = {
     email: LoginEmail.value,
@@ -54,7 +54,7 @@ LoginUser.addEventListener("click", async (evt) => {
 
 //   LoginForm.addEventListener("submit", async (evt) => {
 //     evt.preventDefault();
-//     const url = "http://127.0.0.1:3000/api/auth/doctorlogin";
+//     const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctorlogin";
 
 //     const data = {
 //       email: LoginEmail.value,
@@ -100,7 +100,7 @@ createDoctor.addEventListener("click", async (evt) => {
   );
   const RegisterName = NewUserForm.querySelector("input[name=RegisterName");
 
-  const url = "http://127.0.0.1:3000/api/users/createDoctor";
+  const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/createDoctor";
 
   const data = {
     username: RegisterEmail.value,
@@ -141,7 +141,7 @@ createDoctor.addEventListener("click", async (evt) => {
 //   NewUserForm.addEventListener("submit", async (evt) => {
 //     evt.preventDefault();
 
-//     const url = "http://127.0.0.1:3000/api/users/createDoctor";
+//     const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/createDoctor";
 
 //     const data = {
 //       name: RegisterName.value,

@@ -130,7 +130,7 @@ async function getDoctor() {
     const doctorEmailInput = document.getElementById('doctor_email');
     const doctorEmail = doctorEmailInput.value.trim();
 
-    const url = `http://127.0.0.1:3000/api/users/find-doctor/${doctorEmail}`;
+    const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/find-doctor/${doctorEmail}`;
     const token = localStorage.getItem("token");
 
     const options = {
@@ -173,7 +173,7 @@ async function getDoctor() {
 
 async function pairDoctor() {
     const doctorUsername = localStorage.getItem("Paired_doc_name");
-    const url = 'http://127.0.0.1:3000/api/users/create-pair';
+    const url = 'https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/create-pair';
     const token = localStorage.getItem("token");
 
     if (!doctorUsername) {
@@ -227,7 +227,7 @@ survey.addEventListener('click', async (evt) => {
     evt.preventDefault();
     console.log('Nyt palautetaan vastauslomake');
 
-    const url = "http://127.0.0.1:3000/api/survey";
+    const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey";
     const form = document.querySelector('.answer-form-all');
 
     if (!form.checkValidity()) {
@@ -295,7 +295,7 @@ if (doctorForm2) {
         
         console.log('Nyt palautetaan vastauslomake');
 
-    const url = "http://127.0.0.1:3000/api/survey";
+    const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey";
     const form = document.querySelector('.answer-form-all');
 
     if (!form.checkValidity()) {

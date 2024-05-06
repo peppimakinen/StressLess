@@ -26,7 +26,7 @@ function showProfile() {
 
 
 async function getEntryCount() {
-  const url = `http://127.0.0.1:3000/api/auth/me`;
+  const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/me`;
   const token = localStorage.getItem("token");
 
   const options = {
@@ -73,7 +73,7 @@ document.querySelector('.pic a').addEventListener('click', function(event) {
     const userInput = document.getElementById('deleteConfirm').value;
     if (userInput === 'Poista tili') {
       try {
-        const response = await fetch('http://127.0.0.1:3000/api/users', {
+        const response = await fetch('https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users', {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

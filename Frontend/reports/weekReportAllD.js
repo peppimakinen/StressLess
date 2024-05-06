@@ -9,7 +9,7 @@ window.addEventListener('load', async (evt) => {
         console.log(user_id)
 
 
-        const url = `http://127.0.0.1:3000/api/reports/doctor/available-weeks/${user_id}`;
+        const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/available-weeks/${user_id}`;
         let token = localStorage.getItem("token");
 
         const options = {

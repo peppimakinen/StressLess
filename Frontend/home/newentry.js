@@ -1,13 +1,13 @@
 import { convertToYYYYMMDD } from "./convertday.js";
 
 // url variable
-const url = "http://127.0.0.1:3000/api/entries";
+const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries";
 
 // function to send POST request using fetch
 async function postData(url, options = {}) {
   try {
     // Define request settings
-    const response = await fetch("http://127.0.0.1:3000/api/entries", options);
+    const response = await fetch("https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries", options);
 
     // Check if response status is okay
     if (!response.ok) {
@@ -134,7 +134,7 @@ async function gatherNewData() {
 
   try {
     // Send POST request
-    await postNewEntry("http://127.0.0.1:3000/api/entries", options);
+    await postNewEntry("https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries", options);
   } catch (error) {
     console.error("Error submitting new entry:", error);
     // Handle error appropriately (e.g., display an error message to the user)

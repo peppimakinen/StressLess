@@ -25,7 +25,7 @@ document.getElementById('passwordForm').addEventListener('submit', async functio
     event.preventDefault();
     const newPassword = document.getElementById('newPassword').value;
 
-    const url = 'http://127.0.0.1:3000/api/users/doctor/change-password';
+    const url = 'https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/change-password';
     const token = localStorage.getItem("token");
 
     const options = {
@@ -65,7 +65,7 @@ document.querySelector('.pic a').addEventListener('click', function(event) {
     const userInput = document.getElementById('deleteConfirm').value;
     if (userInput === 'Poista tili') {
       try {
-        const response = await fetch('http://127.0.0.1:3000/api/users', {
+        const response = await fetch('https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users', {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

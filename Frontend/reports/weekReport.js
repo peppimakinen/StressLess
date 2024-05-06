@@ -9,7 +9,7 @@ window.addEventListener('load', async function(evt) {
         const selectedReportId = localStorage.getItem('selectedReportId');
         
         // Get the specific report by using report_id
-        const url = `http://127.0.0.1:3000/api/reports/${selectedReportId}`;
+        const url = `https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/${selectedReportId}`;
         const token = localStorage.getItem("token");
         const options = {
             method: "GET",

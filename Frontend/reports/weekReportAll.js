@@ -4,7 +4,7 @@ import { convertToDDMMYYYY } from "./convertDay.js"
 window.addEventListener('load', async (evt) => {
     evt.preventDefault();
     try {
-        const url = "http://127.0.0.1:3000/api/reports/available-weeks";
+        const url = "https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/available-weeks";
         let token = localStorage.getItem("token");
 
         const options = {

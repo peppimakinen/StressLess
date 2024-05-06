@@ -4,7 +4,7 @@ import { convertToYYYYMMDD } from "./convertday.js";
 async function putData(url, options = {}) {
     try {
       // Define request settings
-      const response = await fetch("http://127.0.0.1:3000/api/entries", options);
+      const response = await fetch("https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries", options);
   
       // Check if response status is okay
       if (!response.ok) {
@@ -125,7 +125,7 @@ async function putData(url, options = {}) {
   
     try {
       // Send POST request
-      await putEditEntry("http://127.0.0.1:3000/api/entries", options);
+      await putEditEntry("https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries", options);
     } catch (error) {
       console.error("Error submitting entry edits:", error);
       // Handle error appropriately (e.g., display an error message to the user)
