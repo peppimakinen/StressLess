@@ -146,6 +146,7 @@ const userRouter = express.Router();
  *
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 
 userRouter
@@ -188,6 +189,7 @@ userRouter
  * @apiUse DoctorNotFoundError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 
 userRouter
@@ -224,6 +226,7 @@ userRouter
  * @apiUse OnlyForPatientsError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 userRouter
   .route('/create-pair')
@@ -268,6 +271,7 @@ userRouter
  * @apiUse NoPatientsError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 
 userRouter
@@ -305,6 +309,7 @@ userRouter
  * @apiUse OnlyForDoctorsError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 userRouter
   .route('/doctor/change-password')
@@ -340,6 +345,7 @@ userRouter
  * @apiUse PatientAccessingDoctorEndpointError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 userRouter
   .route('/doctor/delete-patient/:patient_id')
@@ -388,6 +394,7 @@ userRouter
  *
  * @apiUse DuplicateDoctorError
  * @apiUse UserNotAdminError
+ * @apiUse dbError
  */
 userRouter
   .route('/create-doctor')

@@ -19,7 +19,7 @@ import {
 const reportRouter = express.Router();
 /**
  * @apiDefine NoEntryDataForReportsError
- * @apiError NoEntryDataForReportsError No user data, can't calculate report.
+ * @apiError NoEntryDataForReportsError No user data to calculate report
  * @apiErrorExample Error-Response:
  *     HTTP/1.1 404 Not Found
  *     {
@@ -139,6 +139,7 @@ const reportRouter = express.Router();
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 reportRouter
   .route('/available-weeks')
@@ -201,6 +202,7 @@ reportRouter
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 reportRouter
   .route('/:report_id')
@@ -218,9 +220,9 @@ reportRouter
  * @apiGroup Reports
  * @apiPermission onlyDoctors
  *
- * @apiDescription Retrieve past reports from consenting patients
- *
- * @apiDescription Fetch weeks that contain reports
+ * @apiDescription Retrieve generated reports from patients
+ * 
+ * @apiParam {Int} patient_id Patients user ID
  *
  * @apiSuccess {Int} user_id User ID that owns the report
  * @apiSuccess {Int} report_id Unique report ID for found report
@@ -246,6 +248,7 @@ reportRouter
  * @apiUse InvalidReportIdError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 reportRouter
   .route('/doctor/available-weeks/:patient_id')
@@ -267,6 +270,7 @@ reportRouter
  * @apiDescription Get patients specific week report using patient and report ID's
  *
  * @apiParam {Int} report_id Unique report ID
+ * @apiParam {Int} patient_id Patients user ID
  *
  * @apiSuccess {Int} report_id Unique report ID for found report
  * @apiSuccess {Int} week_number Calendar week number
@@ -316,6 +320,7 @@ reportRouter
  * @apiUse InvalidReportIdError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 reportRouter
   .route('/doctor/specific-report/:report_id/:patient_id')

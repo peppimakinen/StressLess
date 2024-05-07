@@ -52,7 +52,7 @@ const kubiosRouter = express.Router();
  *
  * @apiDescription Check if specific date contains kubios data
  *
- * @apiParam {Date} Date Date in yyyy-mm-dd format
+ * @apiParam {Date} date Date in yyyy-mm-dd format
  *
  * @apiSuccess {Boolean} kubiosDataFound Boolean for HRV data presence
  *
