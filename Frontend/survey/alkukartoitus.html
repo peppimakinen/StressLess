@@ -67,8 +67,8 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
                         stressaantunut tai ahdistunut? *
                     (0 on pienin ja 5 suurin)</label>
                     <select id="question7" name="question7" required>
-                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
-                        <option value="1">0</option>
+                        <option value="" disabled selected hidden>Valitse yksi...</option>
+                        <option value="0">0</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -136,8 +136,7 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
                 <li>
                     <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? *
                         (Lisää kaikki aktiviteettisi yksi kerrallaan nappia painamalla. Mitä enemmän aktiviteetteja tallennat nyt, sitä monipuolisemmin voit hyödyntää niitä myöhemmin käyttäessäsi kalenteria.)</label>
-                    <textarea id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..." rows="1"></textarea>
-                    <!-- Place this in your HTML where you want the activities list to appear -->
+                    <textarea id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..." rows="1" maxlength="75"></textarea>                    
                     <div id="activitiesListContainer">
                         <ul id="activitiesList"></ul>
                     </div>
@@ -204,7 +203,7 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
                     <br>
                 </li>
             </ul>
-            <label for="question22">Käytätkö sovellusta YTHS:n lääkärin kanssa? *</label>
+            <label>Käytätkö sovellusta YTHS:n lääkärin kanssa? *</label>
             <p>Alkukartoitus on nyt suoritettu ja tallentuu automaattisesti, kun painat <br>
                 jompaa kumpaa näistä napeista. Halutessasi voit yhdistää <br>
                 lääkärin painamalla "Kyllä" nappia. "En" nappi uudelleenohjaa <br>
@@ -225,7 +224,7 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
             </form>            
         </div>
 
-        <div id="overlay"></div>
+        <div id="overlay2"></div>
 
         <div id="customAlert">
             <p id="alertMessage">Sähköpostiosoitetta ei löytynyt</p>
@@ -239,7 +238,7 @@ Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää
             <span class="closePopup2" id="closePopup2">&times;</span>
             <form class="doctor_form2">
                 <h2><span id="doctor">lääkäri</span> löytyi!</h2>
-                <label for="doctor" id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
+                <label id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
                         päiväkirjamerkinnät tämän lääkärin kanssa?</label>
                 <input name="redirect" id="redirect" type="submit" value="Jaa tiedot" class="submit-info"/>
             </form>
