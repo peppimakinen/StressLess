@@ -132,7 +132,6 @@ Post new entries if february empty
 
 Get available february week reports
     ${availableReports}=    Get available week reports
-    Log To Console    ${availableReports}
     Should Be Equal As Strings    ${availableReports[0]['week_number']}    6
     Should Be Equal As Strings    ${availableReports[1]['week_number']}    7
     ${week6reportId}=    Set Variable    ${availableReports[0]['report_id']}
@@ -181,7 +180,7 @@ Authenticate as test doctor
 
 Get own patients as doctor
     ${result}=    GET    url=${baseUrl}/api/users/doctor/patients   headers=${doctorHeaders}    expected_status=200
-    Should Be Equal As Strings    ${result.json()[0]}[username]    aleksi.kivilehto@metropolia.fi
+    Should Be Equal As Strings    ${result.json()[0]}[username]    ${Username}
     ${patientsId}    Set Variable  ${result.json()[0]}[user_id]
     Set Suite Variable    ${patientsId}
 
