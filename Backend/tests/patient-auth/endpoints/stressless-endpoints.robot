@@ -27,7 +27,7 @@ ${answer2}  It doesn't
 
 ${azureUrl}    https://hyte-server-aleksi.northeurope.cloudapp.azure.com
 ${localUrl}    http://127.0.0.1:3000
-${baseUrl}    ${localUrl}
+${baseUrl}    ${azureUrl}
 
 *** Keywords ***
 Send Post Requests For Each entry
