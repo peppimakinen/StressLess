@@ -144,8 +144,8 @@ const entryRouter = express.Router();
  * @apiParamExample {json} Request-Example:
  *    {
  *      "entry_date": "2024-01-01",
- *      "mood_color": ""
- *      "activities": ['Meditation', 'Listening to music']
+ *      "mood_color": "",
+ *      "activities": ["Meditation", "Listening to music"],
  *      "notes": "Started a baking class today!"
  *    }
  *
@@ -163,9 +163,11 @@ const entryRouter = express.Router();
  * @apiUse NoKubiosDataError
  * @apiUse InvalidEntrySyntax
  * @apiUse InvalidMoodColorError
+ * @apiUse SurveyNotCompletedError
  * @apiUse OnlyForPatientsError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 entryRouter
   .route('/')
@@ -195,8 +197,8 @@ entryRouter
  * @apiParamExample {json} Request-Example:
  *    {
  *      "entry_date": "2024-01-01",
- *      "mood_color": ""
- *      "activities": ['Meditation', 'Listening to music']
+ *      "mood_color": "",
+ *      "activities": ["Meditation", "Listening to music"],
  *      "notes": "Started a baking class today!"
  *    }
  *
@@ -242,7 +244,7 @@ entryRouter
  * @apiParam {Int} Month Month number with leading zero if needed.
  * @apiParam {Int} Year Year between 2020-2030
  *
- * @apiSuccess {Dictionary} Dates Key-value pairs for each date in the selected month, with entry data if available
+ * @apiSuccess {Object} Dates Key-value pairs for each date in the selected month, with entry data if available
  *
  * @apiSuccessExample Success-Response containing entries:
  *    HTTP/1.1 200 OK
@@ -308,7 +310,7 @@ entryRouter
 /**
  * @api {get} api/entries/daily/:entry_date Get specific entry
  * @apiVersion 1.0.0
- * @apiName getMonth
+ * @apiName getDay
  * @apiGroup Entries
  * @apiPermission onlyPatients
  *

@@ -134,7 +134,7 @@ const authRouter = express.Router();
  * @apiSuccess {Object} user User info.
  * @apiSuccess {Int} user_id Unique user ID
  * @apiSuccess {String} username Email address that acts as a username
- * @apiSuccess {String} full_name First and last name from Kubios Cloud
+ * @apiSuccess {String} full_name First and last
  * @apiSuccess {String} user_level Indicate that user is patient
  * @apiSuccess {String} created_at User creation timestamp (ISO 8601 format)
  * @apiSuccess {Boolean} surveyCompleted Flag for survey completion
@@ -161,6 +161,7 @@ const authRouter = express.Router();
  *
  * @apiUse UnauthorizedPatientError
  * @apiUse LoginValidationError
+ * @apiUse dbError
  */
 authRouter
   .post(

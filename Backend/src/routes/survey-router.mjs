@@ -179,6 +179,7 @@ const surveyRouter = express.Router();
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 surveyRouter
   .route('/')
@@ -225,6 +226,8 @@ surveyRouter
  * @apiUse ExistingSurveyError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse OnlyForPatientsError
+ * @apiUse dbError
  */
   .post(
     authenticateToken,
@@ -257,6 +260,7 @@ surveyRouter
  * @apiUse SurveyNotCompletedError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 surveyRouter
   .route('/activities')
@@ -306,6 +310,7 @@ surveyRouter
  * @apiUse PatientAccessingDoctorEndpointError
  * @apiUse InvalidTokenError
  * @apiUse TokenMissingError
+ * @apiUse dbError
  */
 surveyRouter
   .route('/doctor/:patient_id')

@@ -1,0 +1,1992 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.0 (Python 3.12.1 on win32)" generated="2024-05-07T09:39:06.820219" rpa="false" schemaversion="5">
+<suite id="s1" name="Stressless-Endpoints" source="C:\Users\aleks\Desktop\Koulu\web-sovelluskehitys\StressLess\StressLess\Backend\tests\stressless-endpoints.robot">
+<test id="s1-t1" name="Authenticate as Patient" line="63">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:08.036897" level="INFO">${body} = {'username': '***', 'password': '***'}</msg>
+<var>${body}</var>
+<arg>username=${Username}</arg>
+<arg>password=${Password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:08.036897" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/patient-login 
+ path_url=/api/auth/patient-login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '78', 'Content-Type': 'application/json'} 
+ body=b'{"username": "***", "password": "***"}' 
+ </msg>
+<msg time="2024-05-07T09:39:09.041716" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/patient-login 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:09 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2073', 'ETag': 'W/"819-aFShGEJ9d7NYQ0RFHSO12Da+kpA"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Logged in successfully with StressLess and Kubios","user":{"user_id":27,"username":"***","full_name":"Aleksi Kivilehto","user_level":"patient","created_at":"2024-05-07T06:37:23.000Z","surveyCompleted":true},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozNzoyMy4wMDBaIiwic3VydmV5Q29tcGxldGVkIjp0cnVlLCJ0b2tlbiI6ImV5SnJhV1FpT2lKUVZFUlJVR1pMYmpVMmJYQjVSVTlwY0hWeE9HUkZVREJQZVhsSk1XaDFXbFF3TVZKVmVrZFhVU3RSUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKaGRGOW9ZWE5vSWpvaVZuVm9URGgzYm1wemNUVmxlRlJ1UTJoMldrNXRaeUlzSW5OMVlpSTZJbVZrTWpnNE1tVTVMV1F3WVRBdE5EZ3pNaTA0TTJReExUYzBObUV5T1RJek1UZGtOQ0lzSW1WdFlXbHNYM1psY21sbWFXVmtJanAwY25WbExDSnBjM01pT2lKb2RIUndjenBjTDF3dlkyOW5ibWwwYnkxcFpIQXVaWFV0ZDJWemRDMHhMbUZ0WVhwdmJtRjNjeTVqYjIxY0wyVjFMWGRsYzNRdE1WOTFVVzFCWnpRMWVIa2lMQ0pqYjJkdWFYUnZPblZ6WlhKdVlXMWxJam9pWldReU9EZ3laVGt0WkRCaE1DMDBPRE15TFRnelpERXROelEyWVRJNU1qTXhOMlEwSWl3aVoybDJaVzVmYm1GdFpTSTZJa0ZzWld0emFTSXNJbUYxWkNJNklqYzBOVGN4Y0dSb2RXTTNkblpoYXpSMGJEUTFkWFJ6T0hVNElpd2laWFpsYm5SZmFXUWlPaUpqWkdFek0yVXlNaTA1TVRWakxUUXpOemN0WVRjMk5pMDRaV0kxTXpreFlUWTBNRGdpTENKMGIydGxibDkxYzJVaU9pSnBaQ0lzSW1GMWRHaGZkR2x0WlNJNk1UY3hOVEEyTXprME9Td2laWGh3SWpveE56RTFNRFkzTlRRNUxDSnBZWFFpT2pFM01UVXdOak01TkRrc0ltWmhiV2xzZVY5dVlXMWxJam9pUzJsMmFXeGxhSFJ2SWl3aVpXMWhhV3dpT2lKaGJHVnJjMmt1YTJsMmFXeGxhSFJ2UUcxbGRISnZjRzlzYVdFdVpta2lmUS5tSTUwNk9tWG1rNXhvTV96TXNGZkJIZS12N1VSZTBfM25qcTg4RW1ULUNNUWJMenh5a1Vfa19ld1Noa0tJaXN4YW5vdjV3Vk1kQlN3b2FJYXZYUUk0ZUhwblp0ekdKaGFsOE51MlFaNWFEcmNwMHB3REJwOXJnRUwzellxS2Q2VTQzUFByd2ItNHZPdjNwZllmVlBnSW5aaFllVWNRdEJvbjB6N1BEZmRNQWhVdnByS1ZVMm9tcnFEWjAxZEExTm9BQXRSM3d4Qmx3d09UNW5waWFMaWF1Mi1wT29Wc1lxdF94UHdpb3g3c3Z1ZHBuakhhcGN3ekxLOVA4M1pIdXpLeEdoN2ZkQnRpdFVIMWs0Qzg2aEtSWkNyb0JyOXlnQlhHYnVMVmU2QkF3YkNhdkkybWhYdnB4OVVkSTNjeVo2Q2JDVkxSZWN6X2lwOGxGY2FobDV3MlEiLCJpYXQiOjE3MTUwNjM5NDksImV4cCI6MTcxNTA2NzU0OX0.B4nYsTSKus3nGWhDnj8lyksMKfa9CY353dKcXjHnb_4"} 
+ </msg>
+<msg time="2024-05-07T09:39:09.041716" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/auth/patient-login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:08.036897" elapsed="1.004819"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">{'message': 'Logged in successfully with StressLess and Kubios', 'user': {'user_id': 27, 'username': '***', 'full_name': 'Aleksi Kivilehto', 'user_level': 'patient', 'created_at': '2024-05-07T06:37:23.000Z', 'surveyCompleted': True}, 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozNzoyMy4wMDBaIiwic3VydmV5Q29tcGxldGVkIjp0cnVlLCJ0b2tlbiI6ImV5SnJhV1FpT2lKUVZFUlJVR1pMYmpVMmJYQjVSVTlwY0hWeE9HUkZVREJQZVhsSk1XaDFXbFF3TVZKVmVrZFhVU3RSUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKaGRGOW9ZWE5vSWpvaVZuVm9URGgzYm1wemNUVmxlRlJ1UTJoMldrNXRaeUlzSW5OMVlpSTZJbVZrTWpnNE1tVTVMV1F3WVRBdE5EZ3pNaTA0TTJReExUYzBObUV5T1RJek1UZGtOQ0lzSW1WdFlXbHNYM1psY21sbWFXVmtJanAwY25WbExDSnBjM01pT2lKb2RIUndjenBjTDF3dlkyOW5ibWwwYnkxcFpIQXVaWFV0ZDJWemRDMHhMbUZ0WVhwdmJtRjNjeTVqYjIxY0wyVjFMWGRsYzNRdE1WOTFVVzFCWnpRMWVIa2lMQ0pqYjJkdWFYUnZPblZ6WlhKdVlXMWxJam9pWldReU9EZ3laVGt0WkRCaE1DMDBPRE15TFRnelpERXROelEyWVRJNU1qTXhOMlEwSWl3aVoybDJaVzVmYm1GdFpTSTZJa0ZzWld0emFTSXNJbUYxWkNJNklqYzBOVGN4Y0dSb2RXTTNkblpoYXpSMGJEUTFkWFJ6T0hVNElpd2laWFpsYm5SZmFXUWlPaUpqWkdFek0yVXlNaTA1TVRWakxUUXpOemN0WVRjMk5pMDRaV0kxTXpreFlUWTBNRGdpTENKMGIydGxibDkxYzJVaU9pSnBaQ0lzSW1GMWRHaGZkR2x0WlNJNk1UY3hOVEEyTXprME9Td2laWGh3SWpveE56RTFNRFkzTlRRNUxDSnBZWFFpT2pFM01UVXdOak01TkRrc0ltWmhiV2xzZVY5dVlXMWxJam9pUzJsMmFXeGxhSFJ2SWl3aVpXMWhhV3dpT2lKaGJHVnJjMmt1YTJsMmFXeGxhSFJ2UUcxbGRISnZjRzlzYVdFdVpta2lmUS5tSTUwNk9tWG1rNXhvTV96TXNGZkJIZS12N1VSZTBfM25qcTg4RW1ULUNNUWJMenh5a1Vfa19ld1Noa0tJaXN4YW5vdjV3Vk1kQlN3b2FJYXZYUUk0ZUhwblp0ekdKaGFsOE51MlFaNWFEcmNwMHB3REJwOXJnRUwzellxS2Q2VTQzUFByd2ItNHZPdjNwZllmVlBnSW5aaFllVWNRdEJvbjB6N1BEZmRNQWhVdnByS1ZVMm9tcnFEWjAxZEExTm9BQXRSM3d4Qmx3d09UNW5waWFMaWF1Mi1wT29Wc1lxdF94UHdpb3g3c3Z1ZHBuakhhcGN3ekxLOVA4M1pIdXpLeEdoN2ZkQnRpdFVIMWs0Qzg2aEtSWkNyb0JyOXlnQlhHYnVMVmU2QkF3YkNhdkkybWhYdnB4OVVkSTNjeVo2Q2JDVkxSZWN6X2lwOGxGY2FobDV3MlEiLCJpYXQiOjE3MTUwNjM5NDksImV4cCI6MTcxNTA2NzU0OX0.B4nYsTSKus3nGWhDnj8lyksMKfa9CY353dKcXjHnb_4'}</msg>
+<arg>${response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.041716" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">${initialToken} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F...</msg>
+<var>${initialToken}</var>
+<arg>${response.json()}[token]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.041716" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2...</msg>
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${initialToken}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.041716" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2...</msg>
+<arg>&amp;{headers}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.041716" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.041716" level="INFO">${initialToken} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F...</msg>
+<arg>${initialToken}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.041716" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:08.036897" elapsed="1.004819"/>
+</test>
+<test id="s1-t2" name="Delete self as patient" line="74">
+<kw name="DELETE" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:09.451192" level="INFO">DELETE Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users 
+ path_url=/api/users 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyNywidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozNzoyMy4wMDBaIiwic3VydmV5Q29tcGxldGVkIjp0cnVlLCJ0b2tlbiI6ImV5SnJhV1FpT2lKUVZFUlJVR1pMYmpVMmJYQjVSVTlwY0hWeE9HUkZVREJQZVhsSk1XaDFXbFF3TVZKVmVrZFhVU3RSUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKaGRGOW9ZWE5vSWpvaVZuVm9URGgzYm1wemNUVmxlRlJ1UTJoMldrNXRaeUlzSW5OMVlpSTZJbVZrTWpnNE1tVTVMV1F3WVRBdE5EZ3pNaTA0TTJReExUYzBObUV5T1RJek1UZGtOQ0lzSW1WdFlXbHNYM1psY21sbWFXVmtJanAwY25WbExDSnBjM01pT2lKb2RIUndjenBjTDF3dlkyOW5ibWwwYnkxcFpIQXVaWFV0ZDJWemRDMHhMbUZ0WVhwdmJtRjNjeTVqYjIxY0wyVjFMWGRsYzNRdE1WOTFVVzFCWnpRMWVIa2lMQ0pqYjJkdWFYUnZPblZ6WlhKdVlXMWxJam9pWldReU9EZ3laVGt0WkRCaE1DMDBPRE15TFRnelpERXROelEyWVRJNU1qTXhOMlEwSWl3aVoybDJaVzVmYm1GdFpTSTZJa0ZzWld0emFTSXNJbUYxWkNJNklqYzBOVGN4Y0dSb2RXTTNkblpoYXpSMGJEUTFkWFJ6T0hVNElpd2laWFpsYm5SZmFXUWlPaUpqWkdFek0yVXlNaTA1TVRWakxUUXpOemN0WVRjMk5pMDRaV0kxTXpreFlUWTBNRGdpTENKMGIydGxibDkxYzJVaU9pSnBaQ0lzSW1GMWRHaGZkR2x0WlNJNk1UY3hOVEEyTXprME9Td2laWGh3SWpveE56RTFNRFkzTlRRNUxDSnBZWFFpT2pFM01UVXdOak01TkRrc0ltWmhiV2xzZVY5dVlXMWxJam9pUzJsMmFXeGxhSFJ2SWl3aVpXMWhhV3dpT2lKaGJHVnJjMmt1YTJsMmFXeGxhSFJ2UUcxbGRISnZjRzlzYVdFdVpta2lmUS5tSTUwNk9tWG1rNXhvTV96TXNGZkJIZS12N1VSZTBfM25qcTg4RW1ULUNNUWJMenh5a1Vfa19ld1Noa0tJaXN4YW5vdjV3Vk1kQlN3b2FJYXZYUUk0ZUhwblp0ekdKaGFsOE51MlFaNWFEcmNwMHB3REJwOXJnRUwzellxS2Q2VTQzUFByd2ItNHZPdjNwZllmVlBnSW5aaFllVWNRdEJvbjB6N1BEZmRNQWhVdnByS1ZVMm9tcnFEWjAxZEExTm9BQXRSM3d4Qmx3d09UNW5waWFMaWF1Mi1wT29Wc1lxdF94UHdpb3g3c3Z1ZHBuakhhcGN3ekxLOVA4M1pIdXpLeEdoN2ZkQnRpdFVIMWs0Qzg2aEtSWkNyb0JyOXlnQlhHYnVMVmU2QkF3YkNhdkkybWhYdnB4OVVkSTNjeVo2Q2JDVkxSZWN6X2lwOGxGY2FobDV3MlEiLCJpYXQiOjE3MTUwNjM5NDksImV4cCI6MTcxNTA2NzU0OX0.B4nYsTSKus3nGWhDnj8lyksMKfa9CY353dKcXjHnb_4', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:09.451192" level="INFO">DELETE Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:09 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '37', 'ETag': 'W/"25-H8eGsPUjsPGUGgmr2ej01mvdjz0"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"StressLess user deleted"} 
+ </msg>
+<msg time="2024-05-07T09:39:09.451192" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/users</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a DELETE request.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.073023" elapsed="0.378169"/>
+</kw>
+<kw name="Status Should Be" owner="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.451192" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:09.073023" elapsed="0.378169"/>
+</test>
+<test id="s1-t3" name="Authenticate as Patient again" line="79">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:09.467284" level="INFO">${body} = {'username': '***', 'password': '***'}</msg>
+<var>${body}</var>
+<arg>username=${Username}</arg>
+<arg>password=${Password}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.467284" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/patient-login 
+ path_url=/api/auth/patient-login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '78', 'Content-Type': 'application/json'} 
+ body=b'{"username": "***", "password": "***"}' 
+ </msg>
+<msg time="2024-05-07T09:39:10.440138" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/patient-login 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:10 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '2075', 'ETag': 'W/"81b-qBLyrEc8pt+Py7fK+FUkWA8NUaY"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Logged in successfully with StressLess and Kubios","user":{"user_id":29,"username":"***","full_name":"Aleksi Kivilehto","user_level":"patient","created_at":"2024-05-07T06:39:10.000Z","surveyCompleted":false},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ"} 
+ </msg>
+<msg time="2024-05-07T09:39:10.440138" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/auth/patient-login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:09.467284" elapsed="0.972854"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">{'message': 'Logged in successfully with StressLess and Kubios', 'user': {'user_id': 29, 'username': '***', 'full_name': 'Aleksi Kivilehto', 'user_level': 'patient', 'created_at': '2024-05-07T06:39:10.000Z', 'surveyCompleted': False}, 'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'}</msg>
+<arg>${response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.440138" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F...</msg>
+<var>${token}</var>
+<arg>${response.json()}[token]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.440138" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2...</msg>
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.440138" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2...</msg>
+<arg>&amp;{headers}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.440138" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.440138" level="INFO">${token} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F...</msg>
+<arg>${token}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.440138" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:09.467284" elapsed="0.972854"/>
+</test>
+<test id="s1-t4" name="Submit survey if necessary" line="90">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.471882" level="INFO">${body} = {'On a scale from 1 to 5, how stressed are you?': 'Around a 3', 'Does stress affect your sleep?': "It doesn't", 'activities': ['Hiking', 'Swimming', 'Meditation']}</msg>
+<var>${body}</var>
+<arg>${question1}=${answer1}</arg>
+<arg>${question2}=${answer2}</arg>
+<arg>activities=@{activities}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.471882" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:10.817553" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey 
+ path_url=/api/survey 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '163'} 
+ body=b'{"On a scale from 1 to 5, how stressed are you?": "Around a 3", "Does stress affect your sleep?": "It doesn\'t", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:10.817553" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:11 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '41', 'ETag': 'W/"29-WvhRWEPnaqHDbFKIGvV77qGZOHc"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Survey posted successfully!"} 
+ </msg>
+<msg time="2024-05-07T09:39:10.817553" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/survey</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.471882" elapsed="0.345671"/>
+</kw>
+<kw name="Status Should Be" owner="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.817553" elapsed="0.000000"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-05-07T09:39:10.817553" level="INFO">Response from correct request: {"message":"Survey posted successfully!"}</msg>
+<arg>Response from correct request: ${response.text}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.817553" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:10.465779" elapsed="0.351774"/>
+</test>
+<test id="s1-t5" name="Get own survey and activities" line="97">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:11.147536" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey 
+ path_url=/api/survey 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:11.147536" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:11 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '214', 'ETag': 'W/"d6-INLqKUhXt2NOP9Iu6yK6MhCI7k4"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"questions":[{"question":"On a scale from 1 to 5, how stressed are you?","answer":"Around a 3"},{"question":"Does stress affect your sleep?","answer":"It doesn't"}],"activities":["Hiking","Swimming","Meditation"]} 
+ </msg>
+<msg time="2024-05-07T09:39:11.147536" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/survey</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:10.833147" elapsed="0.314389"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-05-07T09:39:11.147536" level="INFO">Check if response question/answer pairs match the previously made survey</msg>
+<arg>Check if response question/answer pairs match the previously made survey</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.147536" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][0][question]</arg>
+<arg>${question1}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.147536" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][1][question]</arg>
+<arg>${question2}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.163064" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][0][answer]</arg>
+<arg>${answer1}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.163064" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][1][answer]</arg>
+<arg>${answer2}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.163064" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:11.163064" level="INFO">${response_activities} = ['Hiking', 'Swimming', 'Meditation']</msg>
+<var>${response_activities}</var>
+<arg>${response.json()}[activities]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.163064" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-05-07T09:39:11.167585" level="INFO">${matched} = True</msg>
+<var>${matched}</var>
+<arg>${response_activities} == ${activities}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.163064" elapsed="0.004521"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${matched}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.167585" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:11.477581" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/activities 
+ path_url=/api/survey/activities 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:11.477581" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/activities 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:11 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '49', 'ETag': 'W/"31-q/2HXb6I7RlJE+T+ehgxEIDjsPQ"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"activities":["Hiking","Swimming","Meditation"]} 
+ </msg>
+<msg time="2024-05-07T09:39:11.477581" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/survey/activities</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.167585" elapsed="0.309996"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:11.477581" level="INFO">${response_only_activities} = ['Hiking', 'Swimming', 'Meditation']</msg>
+<var>${response_only_activities}</var>
+<arg>${response.json()}[activities]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.477581" elapsed="0.000000"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-05-07T09:39:11.477581" level="INFO">${matched} = True</msg>
+<var>${matched}</var>
+<arg>${response_only_activities} == ${activities}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.477581" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${matched}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.477581" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:10.833147" elapsed="0.644434"/>
+</test>
+<test id="s1-t6" name="Get patient self" line="115">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:12.043343" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/me 
+ path_url=/api/auth/me 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:12.043343" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/me 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:12 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '412', 'ETag': 'W/"19c-/+MTdmRzLRmJbA6gL66dFyGumFw"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"stressLessUser":{"user_id":29,"username":"***","full_name":"Aleksi Kivilehto","user_level":"patient","created_at":"2024-05-07T06:39:10.000Z","surveyCompleted":true,"iat":1715063950,"exp":1715067550,"entry_count":0,"chosen_doctor":[]},"kubiosUser":{"email":"***","family_name":"Kivilehto","given_name":"Aleksi","sub":"ed2882e9-d0a0-4832-83d1-746a292317d4"}} 
+ </msg>
+<msg time="2024-05-07T09:39:12.043343" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/auth/me</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:11.510602" elapsed="0.532741"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[stressLessUser][user_level]</arg>
+<arg>patient</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.043343" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${response.json()}[stressLessUser][surveyCompleted]</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.043343" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:11.493357" elapsed="0.549986"/>
+</test>
+<test id="s1-t7" name="Post new entries if february empty" line="121">
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.069525" level="INFO">${month} = 2</msg>
+<var>${month}</var>
+<arg>2</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.069525" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.069525" level="INFO">${year} = 2024</msg>
+<var>${year}</var>
+<arg>2024</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.069525" elapsed="0.000000"/>
+</kw>
+<kw name="Check if month empty">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:12.389633" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/monthly?month=2&amp;year=2024 
+ path_url=/api/entries/monthly?month=2&amp;year=2024 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:12.389633" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries/monthly?month=2&amp;year=2024 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:12 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '465', 'ETag': 'W/"1d1-YbY38d0vXoayEGGBlWO3nnGbUDE"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"2024-02-01":{},"2024-02-02":{},"2024-02-03":{},"2024-02-04":{},"2024-02-05":{},"2024-02-06":{},"2024-02-07":{},"2024-02-08":{},"2024-02-09":{},"2024-02-10":{},"2024-02-11":{},"2024-02-12":{},"2024-02-13":{},"2024-02-14":{},"2024-02-15":{},"2024-02-16":{},"2024-02-17":{},"2024-02-18":{},"2024-02-19":{},"2024-02-20":{},"2024-02-21":{},"2024-02-22":{},"2024-02-23":{},"2024-02-24":{},"2024-02-25":{},"2024-02-26":{},"2024-02-27":{},"2024-02-28":{},"2024-02-29":{}} 
+ </msg>
+<msg time="2024-05-07T09:39:12.389633" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/entries/monthly?month=${monthNum}&amp;year=${yearNum}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.069525" elapsed="0.320108"/>
+</kw>
+<kw name="Log" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.389633" level="INFO">{'2024-02-01': {}, '2024-02-02': {}, '2024-02-03': {}, '2024-02-04': {}, '2024-02-05': {}, '2024-02-06': {}, '2024-02-07': {}, '2024-02-08': {}, '2024-02-09': {}, '2024-02-10': {}, '2024-02-11': {}, '2024-02-12': {}, '2024-02-13': {}, '2024-02-14': {}, '2024-02-15': {}, '2024-02-16': {}, '2024-02-17': {}, '2024-02-18': {}, '2024-02-19': {}, '2024-02-20': {}, '2024-02-21': {}, '2024-02-22': {}, '2024-02-23': {}, '2024-02-24': {}, '2024-02-25': {}, '2024-02-26': {}, '2024-02-27': {}, '2024-02-28': {}, '2024-02-29': {}}</msg>
+<arg>${response.json()}</arg>
+<doc>Logs the given message with the given level.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.389633" level="INFO">${emptyMonth} = True</msg>
+<var>${emptyMonth}</var>
+<arg>True</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</kw>
+<for flavor="IN">
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.389633" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-01</var>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.389633" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-02</var>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.015613"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-03</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-04</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-05</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-06</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-07</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-08</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-09</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-10</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-11</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-12</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-13</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-14</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-15</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-16</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-17</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-18</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-19</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-20</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-21</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-22</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-23</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-24</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-25</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.405246" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.015618"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-26</var>
+<status status="PASS" start="2024-05-07T09:39:12.405246" elapsed="0.015618"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.420864" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-27</var>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.420864" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-28</var>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</iter>
+<iter>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:12.420864" level="INFO">${entry} = {}</msg>
+<var>${entry}</var>
+<arg>${response.json()['${date}']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<if>
+<branch type="IF" condition="'entry_id' in ${entry}">
+<kw name="Set Variable" owner="BuiltIn">
+<var>${emptyMonth}</var>
+<arg>False</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</if>
+<var name="${date}">2024-02-29</var>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</iter>
+<var>${date}</var>
+<value>@{response.json().keys()}</value>
+<status status="PASS" start="2024-05-07T09:39:12.389633" elapsed="0.031231"/>
+</for>
+<return>
+<value>${emptyMonth}</value>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.000000"/>
+</return>
+<msg time="2024-05-07T09:39:12.420864" level="INFO">${isEmpty} = True</msg>
+<var>${isEmpty}</var>
+<arg>${month}</arg>
+<arg>${year}</arg>
+<status status="PASS" start="2024-05-07T09:39:12.069525" elapsed="0.351339"/>
+</kw>
+<if>
+<branch type="IF" condition="${isEmpty}">
+<kw name="Send Post Requests For Each entry">
+<for flavor="IN">
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:12.859767" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-09 
+ path_url=/api/kubios/check/2024-02-09 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-09", "mood_color": "9BCF53", "notes": "First entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:12.859767" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-09 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:13 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:12.859767" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="0.438903"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:14.037079" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-09", "mood_color": "9BCF53", "notes": "First entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:14.037079" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:14 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-KzOFtalM5RFeSG762vO3u+rRVmM"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=126"} 
+ </msg>
+<msg time="2024-05-07T09:39:14.037079" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:12.871848" elapsed="1.165231"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:12.859767" elapsed="1.177312"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.859767" elapsed="1.177312"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-09', 'mood_color': '9BCF53', 'notes': 'First entry for week 6', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="1.616215"/>
+</iter>
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:15.227960" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-10 
+ path_url=/api/kubios/check/2024-02-10 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '140'} 
+ body=b'{"entry_date": "2024-02-10", "mood_color": "FFF67E", "notes": "Second entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:15.227960" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-10 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:15 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:15.227960" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:14.037079" elapsed="1.190881"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:16.406718" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '140'} 
+ body=b'{"entry_date": "2024-02-10", "mood_color": "FFF67E", "notes": "Second entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:16.406718" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:16 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-oNkYPIYHrfLg8NmcgROxuLWOvdY"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=127"} 
+ </msg>
+<msg time="2024-05-07T09:39:16.406718" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:15.227960" elapsed="1.178758"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:15.227960" elapsed="1.178758"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:15.227960" elapsed="1.178758"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-10', 'mood_color': 'FFF67E', 'notes': 'Second entry for week 6', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:14.037079" elapsed="2.369639"/>
+</iter>
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:17.585069" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-11 
+ path_url=/api/kubios/check/2024-02-11 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-11", "mood_color": "FF8585", "notes": "Third entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:17.585069" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-11 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:17 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:17.585069" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:16.406718" elapsed="1.178351"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:18.789235" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-11", "mood_color": "FF8585", "notes": "Third entry for week 6", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:18.791890" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:19 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-6chzbN3O8/6Be/8NQNhme/WQeQc"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=128"} 
+ </msg>
+<msg time="2024-05-07T09:39:18.791890" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:17.585069" elapsed="1.206821"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:17.585069" elapsed="1.206821"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:17.585069" elapsed="1.206821"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-11', 'mood_color': 'FF8585', 'notes': 'Third entry for week 6', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:16.406718" elapsed="2.385172"/>
+</iter>
+<var>${entry}</var>
+<value>@{allEntries}</value>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="6.371026"/>
+</for>
+<arg>@{week6Entries}</arg>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="6.371026"/>
+</kw>
+<kw name="Send Post Requests For Each entry">
+<for flavor="IN">
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:19.969085" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-12 
+ path_url=/api/kubios/check/2024-02-12 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-12", "mood_color": "FF8585", "notes": "First entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:19.969085" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-12 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:20 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:19.969085" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:18.791890" elapsed="1.177195"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:21.162003" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-12", "mood_color": "FF8585", "notes": "First entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:21.162003" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:21 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-X8v21Lxvsxe7apqF37BJkqkQ0Og"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=129"} 
+ </msg>
+<msg time="2024-05-07T09:39:21.162003" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:19.969085" elapsed="1.192918"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:19.969085" elapsed="1.192918"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:19.969085" elapsed="1.192918"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-12', 'mood_color': 'FF8585', 'notes': 'First entry for week 7', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:18.791890" elapsed="2.370113"/>
+</iter>
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:22.339973" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-13 
+ path_url=/api/kubios/check/2024-02-13 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '140'} 
+ body=b'{"entry_date": "2024-02-13", "mood_color": "FFF67E", "notes": "Second entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:22.339973" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-13 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:22 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:22.339973" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:21.162003" elapsed="1.177970"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:23.563599" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '140'} 
+ body=b'{"entry_date": "2024-02-13", "mood_color": "FFF67E", "notes": "Second entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:23.563599" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:23 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-YIdI1/xzTCI7tamXnVWHGUj+eQc"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=130"} 
+ </msg>
+<msg time="2024-05-07T09:39:23.563599" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:22.339973" elapsed="1.223626"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:22.339973" elapsed="1.223626"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:22.339973" elapsed="1.223626"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-13', 'mood_color': 'FFF67E', 'notes': 'Second entry for week 7', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:21.162003" elapsed="2.401596"/>
+</iter>
+<iter>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:24.760939" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-14 
+ path_url=/api/kubios/check/2024-02-14 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-14", "mood_color": "FFF67E", "notes": "Third entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:24.760939" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/kubios/check/2024-02-14 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:25 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '24', 'ETag': 'W/"18-of5x8pNOhOHNGkkQvDaxVpuKD3w"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"kubiosDataFound":true} 
+ </msg>
+<msg time="2024-05-07T09:39:24.760939" level="INFO">${containsData} = &lt;Response [200]&gt;</msg>
+<var>${containsData}</var>
+<arg>${baseUrl}/api/kubios/check/${entry.entry_date}</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:23.563599" elapsed="1.197340"/>
+</kw>
+<if>
+<branch type="IF" condition="${containsData.json()['kubiosDataFound']}">
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:25.988898" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ path_url=/api/entries 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '139'} 
+ body=b'{"entry_date": "2024-02-14", "mood_color": "FFF67E", "notes": "Third entry for week 7", "activities": ["Hiking", "Swimming", "Meditation"]}' 
+ </msg>
+<msg time="2024-05-07T09:39:25.988898" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/entries 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:26 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-gUcxWGDE68t7e0BiSW/srDIp8No"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"New entry_id=131"} 
+ </msg>
+<msg time="2024-05-07T09:39:26.004428" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>${baseUrl}/api/entries</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${entry}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:24.760939" elapsed="1.243489"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:24.760939" elapsed="1.243489"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:24.760939" elapsed="1.243489"/>
+</if>
+<var name="${entry}">{'entry_date': '2024-02-14', 'mood_color': 'FFF67E', 'notes': 'Third entry for week 7', 'activities': ['Hiking', 'Swimming', 'Meditation']}</var>
+<status status="PASS" start="2024-05-07T09:39:23.563599" elapsed="2.440829"/>
+</iter>
+<var>${entry}</var>
+<value>@{allEntries}</value>
+<status status="PASS" start="2024-05-07T09:39:18.791890" elapsed="7.212538"/>
+</for>
+<arg>@{week7Entries}</arg>
+<status status="PASS" start="2024-05-07T09:39:18.791890" elapsed="7.212538"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="13.583564"/>
+</branch>
+<branch type="ELSE">
+<kw name="Should Not Be True" owner="BuiltIn">
+<arg>${isEmpty}</arg>
+<doc>Fails if the given condition is true.</doc>
+<status status="NOT RUN" start="2024-05-07T09:39:26.004428" elapsed="0.000000"/>
+</kw>
+<status status="NOT RUN" start="2024-05-07T09:39:26.004428" elapsed="0.000000"/>
+</branch>
+<status status="PASS" start="2024-05-07T09:39:12.420864" elapsed="13.583564"/>
+</if>
+<status status="PASS" start="2024-05-07T09:39:12.069525" elapsed="13.934903"/>
+</test>
+<test id="s1-t8" name="Get available february week reports" line="133">
+<kw name="Get available week reports">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:27.151037" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/available-weeks 
+ path_url=/api/reports/available-weeks 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:27.166748" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/available-weeks 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:27 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '213', 'ETag': 'W/"d5-gT4hmE3Qs+59EIFCl9BrViO6kyw"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body=[{"user_id":29,"report_id":44,"week_number":6,"week_start_date":"2024-02-05","week_end_date":"2024-02-11"},{"user_id":29,"report_id":45,"week_number":7,"week_start_date":"2024-02-12","week_end_date":"2024-02-18"}] 
+ </msg>
+<msg time="2024-05-07T09:39:27.166748" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/reports/available-weeks</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:26.067351" elapsed="1.099397"/>
+</kw>
+<return>
+<value>${response.json()}</value>
+<status status="PASS" start="2024-05-07T09:39:27.166748" elapsed="0.000000"/>
+</return>
+<msg time="2024-05-07T09:39:27.166748" level="INFO">${availableReports} = [{'user_id': 29, 'report_id': 44, 'week_number': 6, 'week_start_date': '2024-02-05', 'week_end_date': '2024-02-11'}, {'user_id': 29, 'report_id': 45, 'week_number': 7, 'week_start_date': '2024-02-12',...</msg>
+<var>${availableReports}</var>
+<status status="PASS" start="2024-05-07T09:39:26.067351" elapsed="1.099397"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.166748" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${availableReports[0]['week_number']}</arg>
+<arg>6</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.166748" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.166748" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${availableReports[1]['week_number']}</arg>
+<arg>7</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.166748" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.182368" level="INFO">${week6reportId} = 44</msg>
+<var>${week6reportId}</var>
+<arg>${availableReports[0]['report_id']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.166748" elapsed="0.015620"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.182368" level="INFO">${week7reportId} = 45</msg>
+<var>${week7reportId}</var>
+<arg>${availableReports[1]['report_id']}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.182368" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.182368" level="INFO">${week6reportId} = 44</msg>
+<arg>${week6reportId}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.182368" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:27.182368" level="INFO">${week7reportId} = 45</msg>
+<arg>${week7reportId}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.182368" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:26.067351" elapsed="1.115017"/>
+</test>
+<test id="s1-t9" name="Compaire february reports" line="143">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:28.330079" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/44 
+ path_url=/api/reports/44 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:28.330079" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/44 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:28 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '428', 'ETag': 'W/"1ac-Ahh8HH9lCzils+T679pdecNnD5Y"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"user_id":29,"report_id":44,"week_number":6,"week_start_date":"2024-02-05","week_end_date":"2024-02-11","red_percentage":"14.29","green_percentage":"14.29","yellow_percentage":"14.29","gray_percentage":"57.14","monday_si":"0.00","tuesday_si":"0.00","wednesday_si":"0.00","thursday_si":"0.00","friday_si":"8.92","saturday_si":"11.69","sunday_si":"9.36","week_si_avg":"4.28","previous_week_si_avg":null,"created_at":"2024-05-07"} 
+ </msg>
+<msg time="2024-05-07T09:39:28.330079" level="INFO">${week6report} = &lt;Response [200]&gt;</msg>
+<var>${week6report}</var>
+<arg>url=${baseUrl}/api/reports/${week6reportId}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:27.260681" elapsed="1.069398"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week6report.json()['week_si_avg']}</arg>
+<arg>4.28</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:28.330079" elapsed="0.016708"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-05-07T09:39:28.346787" level="INFO">Argument types are:
+&lt;class 'NoneType'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${week6report.json()['previous_week_si_avg']}</arg>
+<arg>None</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:28.346787" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week6report.json()['gray_percentage']}</arg>
+<arg>57.14</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:28.346787" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:29.418977" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/45 
+ path_url=/api/reports/45 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:29.418977" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/45 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:29 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '429', 'ETag': 'W/"1ad-QrSiEEAOfjdFVH90oVEdhIrgcYA"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"user_id":29,"report_id":45,"week_number":7,"week_start_date":"2024-02-12","week_end_date":"2024-02-18","red_percentage":"14.29","green_percentage":"0.00","yellow_percentage":"28.57","gray_percentage":"57.14","monday_si":"9.86","tuesday_si":"9.33","wednesday_si":"10.67","thursday_si":"0.00","friday_si":"0.00","saturday_si":"0.00","sunday_si":"0.00","week_si_avg":"4.27","previous_week_si_avg":"4.28","created_at":"2024-05-07"} 
+ </msg>
+<msg time="2024-05-07T09:39:29.418977" level="INFO">${week7report} = &lt;Response [200]&gt;</msg>
+<var>${week7report}</var>
+<arg>url=${baseUrl}/api/reports/${week7reportId}</arg>
+<arg>headers=${headers}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:28.346787" elapsed="1.072190"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week7report.json()['yellow_percentage']}</arg>
+<arg>28.57</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:29.420453" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week7report.json()['week_si_avg']}</arg>
+<arg>4.27</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:29.420453" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${week7report.json()['previous_week_si_avg']}</arg>
+<arg>4.28</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:29.420453" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:27.244947" elapsed="2.175506"/>
+</test>
+<test id="s1-t10" name="Search for a non-existent doctor test suite user" line="155">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:30.568051" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/find-doctor/robotTestDoctor@gmail.com 
+ path_url=/api/users/find-doctor/robotTestDoctor@gmail.com 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:30.568051" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/find-doctor/robotTestDoctor@gmail.com 
+ status=404, reason=Not Found 
+ headers={'Date': 'Tue, 07 May 2024 06:39:30 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '84', 'ETag': 'W/"54-mGebALMnvYWdFsXGHpl0yimMJGw"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"error":{"message":"No doctor was found using the provided username","status":404}} 
+ </msg>
+<msg time="2024-05-07T09:39:30.568051" level="INFO">${result} = &lt;Response [404]&gt;</msg>
+<var>${result}</var>
+<arg>url=${baseUrl}/api/users/find-doctor/robotTestDoctor@gmail.com</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=404</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:29.517773" elapsed="1.050278"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:29.498481" elapsed="1.069570"/>
+</test>
+<test id="s1-t11" name="Create test suite doctor user" line="159">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:30.646964" level="INFO">${body} = {'username': 'robotTestDoctor@gmail.com', 'password': 'testSecret', 'full_name': 'Only for testing', 'patient_level': 'doctor', 'admin_password': '***'}</msg>
+<var>${body}</var>
+<arg>username=robotTestDoctor@gmail.com</arg>
+<arg>password=testSecret</arg>
+<arg>full_name=Only for testing</arg>
+<arg>patient_level=doctor</arg>
+<arg>admin_password=${adminPassword}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:30.646964" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:31.828530" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/create-doctor 
+ path_url=/api/users/create-doctor 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '160', 'Content-Type': 'application/json'} 
+ body=b'{"username": "robotTestDoctor@gmail.com", "password": "testSecret", "full_name": "Only for testing", "patient_level": "doctor", "admin_password": "***"}' 
+ </msg>
+<msg time="2024-05-07T09:39:31.828530" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/create-doctor 
+ status=201, reason=Created 
+ headers={'Date': 'Tue, 07 May 2024 06:39:32 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '43', 'ETag': 'W/"2b-oC3+CeCq5zFiBP6vWhMddpTz03M"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"new user created","user_id":30} 
+ </msg>
+<msg time="2024-05-07T09:39:31.828530" level="INFO">${response} = &lt;Response [201]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/users/create-doctor</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:30.646964" elapsed="1.181566"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:30.631295" elapsed="1.197235"/>
+</test>
+<test id="s1-t12" name="Search for the newly created doctor test suite user" line="164">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:32.965484" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/find-doctor/robotTestDoctor@gmail.com 
+ path_url=/api/users/find-doctor/robotTestDoctor@gmail.com 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:32.965484" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/find-doctor/robotTestDoctor@gmail.com 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:33 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '163', 'ETag': 'W/"a3-NjBcgBbA1ezAcpjCPMVfA9N2TJ0"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"found_doctor":{"user_id":30,"username":"robotTestDoctor@gmail.com","full_name":"Only for testing","user_level":"doctor","created_at":"2024-05-07T06:39:32.000Z"}} 
+ </msg>
+<msg time="2024-05-07T09:39:32.965484" level="INFO">${result} = &lt;Response [200]&gt;</msg>
+<var>${result}</var>
+<arg>url=${baseUrl}/api/users/find-doctor/robotTestDoctor@gmail.com</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:31.903384" elapsed="1.062100"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:31.892257" elapsed="1.073227"/>
+</test>
+<test id="s1-t13" name="Share data to test doctor user as a patient" line="168">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:33.043191" level="INFO">${body} = {'doctor_username': 'robotTestDoctor@gmail.com'}</msg>
+<var>${body}</var>
+<arg>doctor_username=robotTestDoctor@gmail.com</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:33.043191" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:34.111373" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/create-pair 
+ path_url=/api/users/create-pair 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyOSwidXNlcm5hbWUiOiJhbGVrc2kua2l2aWxlaHRvQG1ldHJvcG9saWEuZmkiLCJmdWxsX25hbWUiOiJBbGVrc2kgS2l2aWxlaHRvIiwidXNlcl9sZXZlbCI6InBhdGllbnQiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOToxMC4wMDBaIiwic3VydmV5Q29tcGxldGVkIjpmYWxzZSwidG9rZW4iOiJleUpyYVdRaU9pSlFWRVJSVUdaTGJqVTJiWEI1UlU5cGNIVnhPR1JGVURCUGVYbEpNV2gxV2xRd01WSlZla2RYVVN0UlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SmhkRjlvWVhOb0lqb2lNSEpXTUdveFYxSXhZWE5DYzJoYU5uUm5OVWc1WnlJc0luTjFZaUk2SW1Wa01qZzRNbVU1TFdRd1lUQXRORGd6TWkwNE0yUXhMVGMwTm1FeU9USXpNVGRrTkNJc0ltVnRZV2xzWDNabGNtbG1hV1ZrSWpwMGNuVmxMQ0pwYzNNaU9pSm9kSFJ3Y3pwY0wxd3ZZMjluYm1sMGJ5MXBaSEF1WlhVdGQyVnpkQzB4TG1GdFlYcHZibUYzY3k1amIyMWNMMlYxTFhkbGMzUXRNVjkxVVcxQlp6UTFlSGtpTENKamIyZHVhWFJ2T25WelpYSnVZVzFsSWpvaVpXUXlPRGd5WlRrdFpEQmhNQzAwT0RNeUxUZ3paREV0TnpRMllUSTVNak14TjJRMElpd2laMmwyWlc1ZmJtRnRaU0k2SWtGc1pXdHphU0lzSW1GMVpDSTZJamMwTlRjeGNHUm9kV00zZG5aaGF6UjBiRFExZFhSek9IVTRJaXdpWlhabGJuUmZhV1FpT2lJMU1UTTFZMkl4TmkxaE9HVmhMVFJsWkRRdFlXVXpOaTB3WTJReVpHVTJaak5sWldRaUxDSjBiMnRsYmw5MWMyVWlPaUpwWkNJc0ltRjFkR2hmZEdsdFpTSTZNVGN4TlRBMk16azFNQ3dpWlhod0lqb3hOekUxTURZM05UVXdMQ0pwWVhRaU9qRTNNVFV3TmpNNU5UQXNJbVpoYldsc2VWOXVZVzFsSWpvaVMybDJhV3hsYUhSdklpd2laVzFoYVd3aU9pSmhiR1ZyYzJrdWEybDJhV3hsYUhSdlFHMWxkSEp2Y0c5c2FXRXVabWtpZlEuVC1nb0pmeFJvNWNFTDVsVWhvdDBNOHlvc3RLWks1ZU82QjFJY0lhSk1jcTJfYVpqVW1WYTJrVS1uQ2VkRGhycGJrNWNUTlZWRHI2a3lyYXZfZVRFWXNNLWFTTEFYcFRVbThCRkgtc2VNT1BjSlU4NDRTYkU1Y0pWZHJJRTVVelBCanEyaGlpZGRDQ3VvNFRFUDZ3cGZ0Tks0cWVYbkN2LTdNVTZ1eEZaMTEwS3l0T0FQN2ZocG4tZHFwbjNQMjN2aDhoc1E5ZkJEaHZ2UnY2RzZDYUZLbDFxSG95UU9wQUV1dXc1SDB1RHNCZXYwV2wyVjlRdjhSZV91YzJuT2FOdm1pNlZJV2J4T1BVYnVXZjlsektNVXp1Y3VlcEtjWFREUUJQTUoxWnNObVJUSGxuRFpnVjVodzVXcU9UM1VIR3RkWlc2ZERONnpwNWFQUmdUWG9xX1pRIiwiaWF0IjoxNzE1MDYzOTUwLCJleHAiOjE3MTUwNjc1NTB9.-M1WhuE40X1BGBV8JhRh0RQdoeEPUph-96wodrHeJjQ', 'Content-Length': '48'} 
+ body=b'{"doctor_username": "robotTestDoctor@gmail.com"}' 
+ </msg>
+<msg time="2024-05-07T09:39:34.111373" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/create-pair 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:34 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '98', 'ETag': 'W/"62-2Y+OONZRmfTGb7qPRckkLtsg3Ac"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"*** is now sharing their data with\n     Only for testing"} 
+ </msg>
+<msg time="2024-05-07T09:39:34.111373" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/users/create-pair</arg>
+<arg>headers=${headers}</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:33.043191" elapsed="1.068182"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:33.026510" elapsed="1.084863"/>
+</test>
+<test id="s1-t14" name="Authenticate as test doctor" line="173">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:34.175346" level="INFO">${body} = {'username': 'robotTestDoctor@gmail.com', 'password': 'testSecret'}</msg>
+<var>${body}</var>
+<arg>username=robotTestDoctor@gmail.com</arg>
+<arg>password=testSecret</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:34.175346" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:35.358065" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctor-login 
+ path_url=/api/auth/doctor-login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '67', 'Content-Type': 'application/json'} 
+ body=b'{"username": "robotTestDoctor@gmail.com", "password": "testSecret"}' 
+ </msg>
+<msg time="2024-05-07T09:39:35.358065" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctor-login 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:35 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '522', 'ETag': 'W/"20a-G4u0jLZ8Xxh1j3BN/jYwQvV01Fg"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Logged in successfully","user":{"user_id":30,"username":"robotTestDoctor@gmail.com","full_name":"Only for testing","user_level":"doctor","created_at":"2024-05-07T06:39:32.000Z"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo"} 
+ </msg>
+<msg time="2024-05-07T09:39:35.358065" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/auth/doctor-login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:34.175346" elapsed="1.182719"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:35.358065" level="INFO">${doctorToken} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjA...</msg>
+<var>${doctorToken}</var>
+<arg>${response.json()}[token]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:35.358065" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:35.358065" level="INFO">&amp;{doctorHeaders} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGlu...</msg>
+<var>&amp;{doctorHeaders}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${doctorToken}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:35.358065" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:35.358065" level="INFO">&amp;{doctorHeaders} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGlu...</msg>
+<arg>&amp;{doctorHeaders}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:35.358065" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:34.175346" elapsed="1.182719"/>
+</test>
+<test id="s1-t15" name="Get own patients as doctor" line="181">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:36.494074" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/patients 
+ path_url=/api/users/doctor/patients 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:36.509688" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/patients 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:36 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '167', 'ETag': 'W/"a7-9dAEZS36dQ8Pawggn4F27Upgdj4"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body=[{"user_id":29,"username":"***","full_name":"Aleksi Kivilehto","user_level":"patient","created_at":"2024-05-07T06:39:10.000Z","pair_id":15}] 
+ </msg>
+<msg time="2024-05-07T09:39:36.509688" level="INFO">${result} = &lt;Response [200]&gt;</msg>
+<var>${result}</var>
+<arg>url=${baseUrl}/api/users/doctor/patients</arg>
+<arg>headers=${doctorHeaders}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:35.437873" elapsed="1.071815"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${result.json()[0]}[username]</arg>
+<arg>${Username}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:36.509688" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:36.509688" level="INFO">${patientsId} = 29</msg>
+<var>${patientsId}</var>
+<arg>${result.json()[0]}[user_id]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:36.509688" elapsed="0.000000"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:36.509688" level="INFO">${patientsId} = 29</msg>
+<arg>${patientsId}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:36.509688" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:35.433421" elapsed="1.076267"/>
+</test>
+<test id="s1-t16" name="Compaire patients february reports" line="188">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:37.637959" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/specific-report/44/29 
+ path_url=/api/reports/doctor/specific-report/44/29 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:37.637959" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/specific-report/44/29 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:37 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '428', 'ETag': 'W/"1ac-Ahh8HH9lCzils+T679pdecNnD5Y"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"user_id":29,"report_id":44,"week_number":6,"week_start_date":"2024-02-05","week_end_date":"2024-02-11","red_percentage":"14.29","green_percentage":"14.29","yellow_percentage":"14.29","gray_percentage":"57.14","monday_si":"0.00","tuesday_si":"0.00","wednesday_si":"0.00","thursday_si":"0.00","friday_si":"8.92","saturday_si":"11.69","sunday_si":"9.36","week_si_avg":"4.28","previous_week_si_avg":null,"created_at":"2024-05-07"} 
+ </msg>
+<msg time="2024-05-07T09:39:37.637959" level="INFO">${week6report} = &lt;Response [200]&gt;</msg>
+<var>${week6report}</var>
+<arg>url=${baseUrl}/api/reports/doctor/specific-report/${week6reportId}/${patientsId}</arg>
+<arg>headers=${doctorHeaders}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:36.588483" elapsed="1.049476"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week6report.json()['week_si_avg']}</arg>
+<arg>4.28</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:37.643976" elapsed="0.000627"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<msg time="2024-05-07T09:39:37.644603" level="INFO">Argument types are:
+&lt;class 'NoneType'&gt;
+&lt;class 'str'&gt;</msg>
+<arg>${week6report.json()['previous_week_si_avg']}</arg>
+<arg>None</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:37.644603" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week6report.json()['gray_percentage']}</arg>
+<arg>57.14</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:37.644603" elapsed="0.000000"/>
+</kw>
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:38.716033" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/specific-report/45/29 
+ path_url=/api/reports/doctor/specific-report/45/29 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:38.716033" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/reports/doctor/specific-report/45/29 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:39 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '429', 'ETag': 'W/"1ad-QrSiEEAOfjdFVH90oVEdhIrgcYA"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"user_id":29,"report_id":45,"week_number":7,"week_start_date":"2024-02-12","week_end_date":"2024-02-18","red_percentage":"14.29","green_percentage":"0.00","yellow_percentage":"28.57","gray_percentage":"57.14","monday_si":"9.86","tuesday_si":"9.33","wednesday_si":"10.67","thursday_si":"0.00","friday_si":"0.00","saturday_si":"0.00","sunday_si":"0.00","week_si_avg":"4.27","previous_week_si_avg":"4.28","created_at":"2024-05-07"} 
+ </msg>
+<msg time="2024-05-07T09:39:38.716033" level="INFO">${week7report} = &lt;Response [200]&gt;</msg>
+<var>${week7report}</var>
+<arg>url=${baseUrl}/api/reports/doctor/specific-report/${week7reportId}/${patientsId}</arg>
+<arg>headers=${doctorHeaders}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:37.644603" elapsed="1.071430"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week7report.json()['yellow_percentage']}</arg>
+<arg>28.57</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:38.716033" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Numbers" owner="BuiltIn">
+<arg>${week7report.json()['week_si_avg']}</arg>
+<arg>4.27</arg>
+<doc>Fails if objects are unequal after converting them to real numbers.</doc>
+<status status="PASS" start="2024-05-07T09:39:38.716033" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${week7report.json()['previous_week_si_avg']}</arg>
+<arg>4.28</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:38.716033" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:36.572857" elapsed="2.143176"/>
+</test>
+<test id="s1-t17" name="Make sure doctor sees the correct survey from patient" line="200">
+<kw name="GET" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:39.850353" level="INFO">GET Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/doctor/29 
+ path_url=/api/survey/doctor/29 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:39.850353" level="INFO">GET Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/survey/doctor/29 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:40 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '214', 'ETag': 'W/"d6-INLqKUhXt2NOP9Iu6yK6MhCI7k4"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"questions":[{"question":"On a scale from 1 to 5, how stressed are you?","answer":"Around a 3"},{"question":"Does stress affect your sleep?","answer":"It doesn't"}],"activities":["Hiking","Swimming","Meditation"]} 
+ </msg>
+<msg time="2024-05-07T09:39:39.850353" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/survey/doctor/${patientsId}</arg>
+<arg>headers=${doctorHeaders}</arg>
+<doc>Sends a GET request.</doc>
+<status status="PASS" start="2024-05-07T09:39:38.796273" elapsed="1.054080"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][0][question]</arg>
+<arg>${question1}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.866030" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][1][question]</arg>
+<arg>${question2}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.866030" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][0][answer]</arg>
+<arg>${answer1}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.866030" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Strings" owner="BuiltIn">
+<arg>${response.json()}[questions][1][answer]</arg>
+<arg>${answer2}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.866030" elapsed="0.000000"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:39.881644" level="INFO">${response_activities} = ['Hiking', 'Swimming', 'Meditation']</msg>
+<var>${response_activities}</var>
+<arg>${response.json()}[activities]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.866030" elapsed="0.015614"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2024-05-07T09:39:39.881644" level="INFO">${matched} = True</msg>
+<var>${matched}</var>
+<arg>${response_activities} == ${activities}</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.881644" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be True" owner="BuiltIn">
+<arg>${matched}</arg>
+<doc>Fails if the given condition is not true.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.885943" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:38.779601" elapsed="1.106342"/>
+</test>
+<test id="s1-t18" name="Change password for as a doctor" line="212">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:39.944930" level="INFO">${body} = {'new_password': 'newTestSecret'}</msg>
+<var>${body}</var>
+<arg>new_password=newTestSecret</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.944930" elapsed="0.000000"/>
+</kw>
+<kw name="PUT" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:41.123795" level="INFO">PUT Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/change-password 
+ path_url=/api/users/doctor/change-password 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTc1LCJleHAiOjE3MTUwNjc1NzV9.594rd8MteZ5oImGcT0g-WX0h2DrnQtV7hlj33NfB5yo', 'Content-Length': '33'} 
+ body=b'{"new_password": "newTestSecret"}' 
+ </msg>
+<msg time="2024-05-07T09:39:41.123795" level="INFO">PUT Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users/doctor/change-password 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:41 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '30', 'ETag': 'W/"1e-lakmr+DKqfX/l24uCPnpB/kr9GQ"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Password updated"} 
+ </msg>
+<msg time="2024-05-07T09:39:41.123795" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/users/doctor/change-password</arg>
+<arg>json=${body}</arg>
+<arg>headers=${doctorHeaders}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a PUT request.</doc>
+<status status="PASS" start="2024-05-07T09:39:39.944930" elapsed="1.178865"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:39.944930" elapsed="1.194301"/>
+</test>
+<test id="s1-t19" name="Authenticate as test doctor with new password" line="217">
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:41.202524" level="INFO">${body} = {'username': 'robotTestDoctor@gmail.com', 'password': 'newTestSecret'}</msg>
+<var>${body}</var>
+<arg>username=robotTestDoctor@gmail.com</arg>
+<arg>password=newTestSecret</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:41.202524" elapsed="0.000000"/>
+</kw>
+<kw name="POST" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:42.382250" level="INFO">POST Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctor-login 
+ path_url=/api/auth/doctor-login 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Length': '70', 'Content-Type': 'application/json'} 
+ body=b'{"username": "robotTestDoctor@gmail.com", "password": "newTestSecret"}' 
+ </msg>
+<msg time="2024-05-07T09:39:42.382250" level="INFO">POST Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/auth/doctor-login 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:42 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '522', 'ETag': 'W/"20a-TTrxZAqg7vyIXUaQ5W/a5R6NMfM"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"Logged in successfully","user":{"user_id":30,"username":"robotTestDoctor@gmail.com","full_name":"Only for testing","user_level":"doctor","created_at":"2024-05-07T06:39:32.000Z"},"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTgyLCJleHAiOjE3MTUwNjc1ODJ9.qIp56wQXl8pQu4scj89mChcB8f72qqGfGgI2Auk0pwE"} 
+ </msg>
+<msg time="2024-05-07T09:39:42.382250" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/auth/doctor-login</arg>
+<arg>json=${body}</arg>
+<doc>Sends a POST request.</doc>
+<status status="PASS" start="2024-05-07T09:39:41.202524" elapsed="1.179726"/>
+</kw>
+<kw name="Set Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:42.382250" level="INFO">${doctorToken} = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjA...</msg>
+<var>${doctorToken}</var>
+<arg>${response.json()}[token]</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<status status="PASS" start="2024-05-07T09:39:42.382250" elapsed="0.000000"/>
+</kw>
+<kw name="Create Dictionary" owner="BuiltIn">
+<msg time="2024-05-07T09:39:42.382250" level="INFO">&amp;{doctorHeaders} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGlu...</msg>
+<var>&amp;{doctorHeaders}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${doctorToken}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<status status="PASS" start="2024-05-07T09:39:42.382250" elapsed="0.015549"/>
+</kw>
+<kw name="Set Suite Variable" owner="BuiltIn">
+<msg time="2024-05-07T09:39:42.398894" level="INFO">&amp;{doctorHeaders} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGlu...</msg>
+<arg>&amp;{doctorHeaders}</arg>
+<doc>Makes a variable available everywhere within the scope of the current suite.</doc>
+<status status="PASS" start="2024-05-07T09:39:42.398894" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:41.187910" elapsed="1.210984"/>
+</test>
+<test id="s1-t20" name="Delete self as doctor" line="225">
+<kw name="DELETE" owner="RequestsLibrary">
+<msg time="2024-05-07T09:39:43.527910" level="INFO">DELETE Request : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users 
+ path_url=/api/users 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozMCwidXNlcm5hbWUiOiJyb2JvdFRlc3REb2N0b3JAZ21haWwuY29tIiwiZnVsbF9uYW1lIjoiT25seSBmb3IgdGVzdGluZyIsInVzZXJfbGV2ZWwiOiJkb2N0b3IiLCJjcmVhdGVkX2F0IjoiMjAyNC0wNS0wN1QwNjozOTozMi4wMDBaIiwiaWF0IjoxNzE1MDYzOTgyLCJleHAiOjE3MTUwNjc1ODJ9.qIp56wQXl8pQu4scj89mChcB8f72qqGfGgI2Auk0pwE', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg time="2024-05-07T09:39:43.527910" level="INFO">DELETE Response : url=https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api/users 
+ status=200, reason=OK 
+ headers={'Date': 'Tue, 07 May 2024 06:39:43 GMT', 'Server': 'Apache/2.4.52 (Ubuntu)', 'X-Powered-By': 'Express', 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json; charset=utf-8', 'Content-Length': '37', 'ETag': 'W/"25-H8eGsPUjsPGUGgmr2ej01mvdjz0"', 'Keep-Alive': 'timeout=5, max=100', 'Connection': 'Keep-Alive'} 
+ body={"message":"StressLess user deleted"} 
+ </msg>
+<msg time="2024-05-07T09:39:43.527910" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<var>${response}</var>
+<arg>url=${baseUrl}/api/users</arg>
+<arg>headers=${doctorHeaders}</arg>
+<arg>expected_status=200</arg>
+<doc>Sends a DELETE request.</doc>
+<status status="PASS" start="2024-05-07T09:39:42.461477" elapsed="1.066433"/>
+</kw>
+<status status="PASS" start="2024-05-07T09:39:42.461477" elapsed="1.066433"/>
+</test>
+<status status="PASS" start="2024-05-07T09:39:06.820219" elapsed="36.770255"/>
+</suite>
+<statistics>
+<total>
+<stat pass="20" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="20" fail="0" skip="0" id="s1" name="Stressless-Endpoints">Stressless-Endpoints</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
