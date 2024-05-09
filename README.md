@@ -37,6 +37,7 @@ Grey - #D9D9D9
 Kuva 1. Sovelluksen database.
 
 **Sovelluksen user interface:**
+
 Landing sivu ja kirjautuminen:
 ![Screenshot 2024-05-09 234629](https://github.com/peppimakinen/StressLess/assets/111729213/9a81261f-b95b-4a85-93a8-7af56451086a)
 Kuva 2. Landing page.
