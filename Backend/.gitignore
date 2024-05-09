@@ -3,3 +3,5 @@ node_modules
 db/create-db-user.sql
 .env
 .docs
+create-db-doctor.json
+docs

@@ -1,13 +1,41 @@
 <!doctype html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="landing.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/main.js"></script>
-  </body>
+    <title>StressLess</title>
+</head>
+
+<body>
+
+    <header>
+        <img src="./assets/imgLogoOneLine.png" alt="Big logo" class="bigLogo" />
+        <div class="slogan">
+            <img src="./assets/imgStars.png" alt="stars" class="stars" />
+            <h1>Slay More</h1>
+            <img src="./assets/imgStars.png" alt="stars" class="stars" />
+        </div>
+    </header>
+
+    <div class="maincontent">
+        <h2>Stressin hallinta työkalu niin opiskelijoille kuin <br> terveysalan ammattialisillekin</h2>
+        <p>Tervetuloa StressLess -sovellukseen, KubiosHRV sovelluksen sykevälivaihtelun analyysi teknologiaa hyödyntävään ratkaisuumme, joka auttaa opiskelijoita navigoimaan stressin ja optimoimaan hyvinvointinsa. Sovelluksemme ei ole vain yksi työkalu muiden joukossa - se on kattava tukijärjestelmä, joka on räätälöity opiskelijoiden ja terveydenhuollon ammattilaisten ainutlaatuisiin tarpeisiin.</p>
+        <div class="btncontainer">
+            <button class="btn" id="forstudents">Opiskelijoille</button>
+            <button class="btn" id="fordoctors">Alan ammattilaisille</button>
+        </div>
+    </div>
+
+    <img src="./assets/imgHuman.png" alt="just a little guy" class="human" />
+    <!-- <div id="app"></div> -->
+    <script type="module" src="landing.js"></script>
+</body>
 </html>

@@ -58,25 +58,32 @@ CREATE table Measurements (
     kubios_result_id VARCHAR(100),
     measurement_date date,
     artefact_level VARCHAR(50),
-    lf_power DECIMAL(5, 2),
-    lf_power_nu DECIMAL(5, 2),
-    hf_power DECIMAL(5, 2),
-    hf_power_nu DECIMAL(5, 2),
-    tot_power DECIMAL(5, 2),
-    mean_hr_bpm DECIMAL(5, 2),
-    mean_rr_ms DECIMAL(5, 2),
-    rmssd_ms DECIMAL(5, 2),
-    sd1_ms DECIMAL(5, 2),
-    sd2_ms DECIMAL(6, 2),
-    sdnn_ms DECIMAL(6, 2),
-    sns_index DECIMAL(6, 2),
-    pns_index DECIMAL(6, 2),
-    stress_index DECIMAL(6, 2),
-    respiratory_rate DECIMAL(6, 2),
-    user_readiness DECIMAL(6, 2),
-    user_recovery DECIMAL(6, 2),
-    user_happines INT,
+    lf_power DECIMAL(8, 2),
+    lf_power_nu DECIMAL(8, 2),
+    hf_power DECIMAL(8, 2),
+    hf_power_nu DECIMAL(8, 2),
+    tot_power DECIMAL(8, 2),
+    mean_hr_bpm DECIMAL(8, 2),
+    mean_rr_ms DECIMAL(8, 2),
+    rmssd_ms DECIMAL(8, 2),
+    sd1_ms DECIMAL(8, 2),
+    sd2_ms DECIMAL(8, 2),
+    sdnn_ms DECIMAL(8, 2),
+    sns_index DECIMAL(8, 2),
+    pns_index DECIMAL(8, 2),
+    stress_index DECIMAL(8, 2),
+    respiratory_rate DECIMAL(8, 2),
+    user_readiness DECIMAL(8, 2),
+    user_recovery DECIMAL(8, 2),
+    user_happiness INT,
     result_type VARCHAR(50)
+);
+
+CREATE TABLE CompletedActivities (
+    activity_id INT AUTO_INCREMENT PRIMARY KEY,
+    e_id INT NOT NULL,
+    activity_name VARCHAR(75),
+    FOREIGN KEY (e_id) REFERENCES DiaryEntries(entry_id)
 );
 
 CREATE table DM (
@@ -85,4 +92,27 @@ CREATE table DM (
     e_id INT NOT NULL,
     FOREIGN KEY (m_id) REFERENCES Measurements(measurement_id),
     FOREIGN KEY (e_id) REFERENCES DiaryEntries(entry_id)
+);
+
+CREATE TABLE WeeklyReports (
+    report_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    week_number INT NOT NULL,
+    week_start_date date NOT NULL,
+    week_end_date date NOT NULL,
+    red_percentage DECIMAL(8, 2) NOT NULL,
+    green_percentage DECIMAL(8, 2) NOT NULL,
+    yellow_percentage DECIMAL(8, 2) NOT NULL,
+    gray_percentage DECIMAL(8, 2) NOT NULL,
+    monday_si DECIMAL(8, 2) NOT NULL,
+    tuesday_si DECIMAL(8, 2) NOT NULL,
+    wednesday_si DECIMAL(8, 2) NOT NULL,
+    thursday_si DECIMAL(8, 2) NOT NULL,
+    friday_si DECIMAL(8, 2) NOT NULL,
+    saturday_si DECIMAL(8, 2) NOT NULL,
+    sunday_si DECIMAL(8, 2) NOT NULL,
+    week_si_avg DECIMAL(8, 2) NOT NULL,
+    previous_week_si_avg DECIMAL(8, 2),
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );

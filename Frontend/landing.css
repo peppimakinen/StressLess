@@ -1,0 +1,168 @@
+:root {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+body {
+    min-width: 320px;
+    min-height: 100vh;
+    margin: 0;
+    background-image: url(./assets/imgBg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* header styles */
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 60px;
+}
+
+header h1 {
+    font-family: 'Cabin', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 40px;
+    color: #1e1b18;
+    margin-top: 20px;
+    padding-left: 11px;
+    padding-right: 13px;
+}
+
+.slogan {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.stars {
+    height: 48px;
+    width: auto;
+}
+
+.bigLogo {
+    width: 700px;
+    height: auto;
+    cursor: pointer;
+}
+
+/* main content rules */
+.maincontent {
+    margin-top: 40px;
+    margin-left: 44px;
+    width: 70%;
+}
+
+h2 {
+    font-family: 'Cabin', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    font-size: 33px;
+    color: #1e1b18;
+    margin-bottom: 20px;
+}
+
+.maincontent p {
+    font-family: 'Nunito', sans-serif;
+    font-size: 21px;
+    color: #1e1b18;
+    margin-bottom: 20px;
+}
+
+/* button rules */
+.btncontainer {
+    display: flex;
+    margin-top: 50px;
+}
+
+.btn,
+.tologin,
+.tokubios {
+    background-color: #313e50;
+    color: #fffaff;
+    border-radius: 30px;
+    font-family: 'Cabin', sans-serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    z-index: 2;
+}
+
+#forstudents {
+    width: 220px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 50px;
+}
+
+#fordoctors,
+#gotokubios {
+    width: 260px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 50px;
+}
+
+#gotopatientlogin,
+#gotodoctorlogin {
+    width: 250px;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+.btn:hover,
+.tologin:hover,
+.tokubios:hover {
+    color: #fffaff;
+    background-color: #28303a;
+    border-radius: 30px;
+    border: none;
+}
+
+/* just a little guy */
+.human,
+.student,
+.doctor {
+    transform: scaleX(-1);
+    height: 400px;
+    position: absolute;
+    bottom: 0;
+    right: 30px;
+}
+
+/* responsive styles */
+@media screen and (min-width: 1200px) {
+
+    .maincontent {
+        margin-top: 60px;
+        margin-left: 150px;
+        width: 50%;
+    }
+
+    .human, 
+    .student,
+    .doctor {
+        bottom: 0;
+        right: 50px;
+    }
+}

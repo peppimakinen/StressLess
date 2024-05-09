@@ -15,11 +15,11 @@ const authenticateToken = (req, res, next) => {
     try {
       req.user = jwt.verify(token, process.env.JWT_SECRET);
       // There was a correct token
-      console.log(`Passed token validation, user_level=${req.user.user_level}`);
+      console.log(`Passed token validation`);
       next();
     } catch (err) {
       // There was a invalid token
-      next(customError('Invalid bearer token', 403));
+      next(customError('Invalid bearer token', 401));
     }
   }
 };

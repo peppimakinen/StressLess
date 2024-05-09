@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="profileD.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StressLess</title>
+</head>
+
+<body>
+    <ul class="navigation">
+        <li class="home"><img src="../assets/imgLogo.png" alt="Logo"></li>
+        <li class="textNav"><a href="../patientSelection/patientSelection.html">Asiakkaat</a></li>
+        <li class="textNav"><a href="profileD.html">Asetukset</a></li>
+        <li style="float: right" class="logoutNav"><a href="../login/logindoctor.html">Kirjaudu ulos</a></li>
+    </ul>
+
+    <div class="profile-container">
+        <div class="left-column">
+            <img class="mainpic" src="../assets/imgProfileIcon.png" alt="settings Image">
+            <div class="settings-list">
+                <ul class="title">
+                    <li><img src="../assets/imgSettingsIcon.png" alt="settings Image"></li>
+                    <li>
+                        <h2>Asetukset</h2>
+                    </li>
+                </ul>
+                <ul class="links">
+                    <li><a href="profileD.html">Profiili</a></li>
+                    <li><a href="notifD.html">Ilmoitukset</a></li>
+                    <li><a href="contactsD.html">Yhteystiedot</a></li>
+                    <li><a href="securityD.html">Tietosuoja</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="divider"></div> <!-- Tässä on väliviiva -->
+        <div class="right-column">
+            <h1>Profiili</h1>
+            <div class="profile-content">
+                <div class="profile-list">
+                    <ul class="title">
+                        <li><h2>Käyttäjätiedot</h2></li>
+                    </ul>
+                    <ul class="links">
+                        <li style="display: flex; align-items: center;">
+                            <img src="../assets/imgProfileIcon.png" alt="profilepic">
+                            <span id="name">nimi</span>
+                        </li>
+                        <li style="display: flex; align-items: center;">
+                            <img src="../assets/ImgEmailIcon.png" alt="emailpic">
+                            <span id="email">sposti</span>
+                        </li>
+                    </ul>
+                    <ul class="buttons">
+                        <li id="passw"><a href="#" id="changePasswordLink">Vaihda salasana</a></li>
+                        <li class="pic">
+                            <img src="../assets/ImgDeleteIcon.png" alt="Delete Icon">
+                            <a href="#">Poista Käyttäjä</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+                    <div id="passwordModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            <form id="passwordForm">
+                                <h2>Uusi salasana</h2>
+                                <p>Täytyy sisältää 3-128 merkkiä</p>
+                                <input type="password" id="newPassword" name="new_password" placeholder="Uusi salasana..." required>
+                                <button type="submit" id="nappi">Vahvista</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    
+                    <div id="deleteModal" class="modal2">
+                        <div class="modal-content2">
+                          <span class="close2">&times;</span>
+                          <h2>Oletko varma, että haluat poistaa tilin?</h2>
+                          <p>Kirjoita "Poista tili" poistaaksesi tili:</p>
+                          <input type="text" id="deleteConfirm" placeholder="Type here..."/>
+                          <button id="confirmDeletion">Vahvista</button>
+                        </div>    
+                    </div>
+                    <div id="snackbar-target"></div>
+                    
+                </div>
+            </div>
+
+<script type="module" src="profileD.js"></script>
+
+</body>
+
+
+</html>

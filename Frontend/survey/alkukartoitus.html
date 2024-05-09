@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="stylesheet" href="alkuk.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap"
+        rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StressLess</title>
+</head>
+
+<body>
+    <h1>Alkukartoitus</h1>
+    <p>Tervetuloa alkukartoitukseen! Vastaathan ainakin kaikkiin
+        pakollisiin (*) merkillä merkittyihin kysymyksiin. <br><br>
+    
+Alkukartoitus on suunniteltu keräämään tietoa sinusta kahdesta syystä: varmistamaan, että mahdollinen lääkäri saa tarvitsemansa tiedot, ja auttamaan sinua päiväkirjamerkintöjen tekemisessä. Kartoituksen aikana saat mahdollisuuden lisätä erilaisia aktiviteetteja, joita voit myöhemmin hyödyntää päiväkirjamerkintöjä luodessasi tai muokatessasi. Mitä useamman aktiviteetin lisäät, sitä laajemmat valinnat sinulla on käytettävissäsi päiväkirjamerkintöjä tehdessäsi.
+<br><br>
+Lisäksi alkukartoituksen päätteeksi sinulle tarjotaan mahdollisuus yhdistää profiilisi YTHS-lääkäriin. Tämän myötä kyseinen lääkäri pääsee tarkastelemaan alkukartoitustasi, päiväkirjamerkintöjäsi sekä viikkoraporttejasi. Huomaathan, että lääkärin lisääminen profiiliisi ei ole pakollista. Tämä antaa sinulle vapauden päättää, haluatko jakaa tietosi terveydenhuollon ammattilaisen kanssa.</p>
+
+    <div id="questions">
+        <form class="answer-form-all">
+            <ul class="blocks">
+                <li>
+                    <label for="question1">Syntymäaika *</label>
+                    <input type="date" id="question1" name="question1" required /> <!-- added required attribute -->
+                </li>
+                <li>
+                    <label for="question2">Kuinka pitkä olet? (cm) *</label>
+                    <input type="number" id="question2" name="question2" placeholder="Valitse..." required />
+                </li>
+                <li>
+                    <label for="question3">Mikä on painosi? (kg) *</label>
+                    <input type="number" id="question3" name="question3" placeholder="Valitse..." required />
+                </li>
+                <li>
+                    <label for="question4">Mikä on sukupuolesi?</label>
+                    <select id="question4" name="question4">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Nainen">Nainen</option>
+                        <option value="Mies">Mies</option>
+                        <option value="Muunsukupuolinen">Muunsukupuolinen</option>
+                        <option value="En halua sanoa">En halua sanoa</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question5">Koetko olevasi terve?</label>
+                    <select id="question5" name="question5">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Kyllä">Kyllä, olen terve</option>
+                        <option value="En">En, minulla on joitain terveysongelmia</option>
+                        <option value="En osaa sanoa">En osaa sanoa</option>
+                        <option value="En halua vastata">En halua vastata tähän kysymykseen</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question6">Jos et koe olevasi terve, haluatko jakaa terveyshuolia?</label>
+                    <textarea id="question6" name="question6" placeholder="Kirjoita tähän..." rows="1"></textarea>
+                </li>
+                <li>
+                    <label for="question7">Asteikolla 0-5, koetko olevasi
+                        stressaantunut tai ahdistunut? *
+                    (0 on pienin ja 5 suurin)</label>
+                    <select id="question7" name="question7" required>
+                        <option value="" disabled selected hidden>Valitse yksi...</option>
+                        <option value="0">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question8">Mitkä ovat yleisiä stressitekijöitä sinun elämässäsi?</label>
+                    <textarea id="question8" name="question8" placeholder="Kirjoita tähän..." rows="1"></textarea>
+                </li>
+                <li>
+                    <label for="question9">Vaikuttaako nämä tunteet päivittäiseen elämään/arkeen/opintoihin kuinka vahvasti?</label>
+                    <select id="question9" name="question9">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Paljon">Paljon</option>
+                        <option value="Jonkun verran">Jonkun verran</option>
+                        <option value="Vähän">Vähän</option>
+                        <option value="Ei">Ei vaikuta</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question10">Kuinka usein koet näitä tunteita viikossa?</label>
+                    <select id="question10" name="question10">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Paljon">Paljon</option>
+                        <option value="Jonkun verran">Jonkun verran</option>
+                        <option value="Vähän">Vähän</option>
+                        <option value="Ei">En koe</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question11">Vaikuttaako kokemasi stressi tulevaisuuden näkymääsi?</label>
+                    <select id="question11" name="question11">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Kyllä">Kyllä</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="Ei">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question12">Aiheuttaako kokemasi stressi fyysisiä oireita?</label>
+                    <select id="question12" name="question12">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Kyllä">Kyllä</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="Ei">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label for="question13">Vaikuttaako stressi tai ahdistus uneesi?</label>
+                    <select id="question13" name="question13">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Kyllä">Kyllä</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="Ei">Ei</option>
+                    </select>
+                </li>
+                <li>
+                    <label id="activityLabel">Mitä aktiviteetteja hyödynnät stressin lievennyksessä? *
+                        (Lisää kaikki aktiviteettisi yksi kerrallaan nappia painamalla. Mitä enemmän aktiviteetteja tallennat nyt, sitä monipuolisemmin voit hyödyntää niitä myöhemmin käyttäessäsi kalenteria.)</label>
+                    <textarea id="question14" name="question14" aria-labelledby="activityLabel" placeholder="Kirjoita tähän..." required rows="1" maxlength="75"></textarea>                    
+                    <div id="activitiesListContainer">
+                        <ul id="activitiesList"></ul>
+                    </div>
+                    <button id="submitButton" type="button">Lisää aktiviteetti</button>
+                </li>
+                <li>
+                    <label for="question15">Kuinka monta tuntia viikossa käytät urheiluun ja minkä tyyppistä tämä urheilu on? *</label>
+                    <textarea id="question15" name="question15" placeholder="Kirjoita tähän..." required rows="1"></textarea>
+                </li>
+                <li>
+                    <label for="question16">Miten sykkeesi käyttäytyy rasituksen alaisena? 
+                    (esim. nouseeko ja laskeeko sykkeesi tasaisesti vai 
+                    hyppiikö syke korkealta matalalle rasituksessa?)</label>
+                    <textarea id="question16" name="question16" placeholder="Kirjoita tähän..." rows="1"></textarea>
+                </li>
+                <li>
+                    <label for="question17">Tiedätkö, onko sinulla jotain perussairauksia 
+                         tai pitkäaikaisia lääkityksiä, jotka saattavat 
+                          vaikuttaa sydämen toimintaan?</label>
+                    <textarea id="question17" name="question17" placeholder="Kirjoita tähän..." rows="1"></textarea>
+                </li>
+                <li>
+                    <label for="question18">Kuinka usein käytät...</label>
+                    <p>Kofeiinia?</p>
+                    <select id="question18" name="question18">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Päivittäin">Päivittäin</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="En käytä">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Alkoholia?</p>
+                    <select id="question19" name="question19">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Päivittäin">Päivittäin</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="En käytä">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Nikotiinituotteita?</p>
+                    <select id="question20" name="question20">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Päivittäin">Päivittäin</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="En käytä">En käytä</option>
+                    </select>
+                    <br>
+                    <p>Muita päihteitä?</p>
+                    <select id="question21" name="question21">
+                        <option value="placeholder" disabled selected hidden>Valitse yksi...</option>
+                        <option value="Päivittäin">Päivittäin</option>
+                        <option value="Usein">Usein</option>
+                        <option value="Joskus">Joskus</option>
+                        <option value="Harvoin">Harvoin</option>
+                        <option value="En käytä">En käytä</option>
+                    </select>
+                    <br>
+                    <br>
+                </li>
+            </ul>
+            <label>Käytätkö sovellusta YTHS:n lääkärin kanssa? *</label>
+            <p>Alkukartoitus on nyt suoritettu ja tallentuu automaattisesti, kun painat <br>
+                jompaa kumpaa näistä napeista. Halutessasi voit yhdistää <br>
+                lääkärin painamalla "Kyllä" nappia. "En" nappi uudelleenohjaa <br>
+                sinut kalenterinäkymään.</p>
+            <input type="submit" value="Kyllä" id="yes"/>
+            <input type="submit" value="En" id="no"/>
+        </form>
+
+        <div id="overlay"></div>
+
+        <div id="popup">
+            <span class="closePopup" id="closePopup">&times;</span>
+            <form class="doctor_form">
+                <h2>YTHS</h2>
+                <h5 id="popuplabel">Lääkärin sähköpostiosoite</h5>
+                <input type="email" id="doctor_email" name="doctor_email" required placeholder="laakari@yths.fi"><br>
+                <input type="submit" value="Lisää lääkäri" class="submitdoc"/>
+            </form>            
+        </div>
+
+        <div id="overlay2"></div>
+
+        <div id="customAlert">
+            <p id="alertMessage">Sähköpostiosoitetta ei löytynyt</p>
+            <button id="closeAlertButton">OK</button>
+        </div>
+        <div id="customOverlay"></div>
+        
+        <div id="snackbar-target"></div>      
+
+        <div id="popup2">
+            <span class="closePopup2" id="closePopup2">&times;</span>
+            <form class="doctor_form2">
+                <h2><span id="doctor">lääkäri</span> löytyi!</h2>
+                <label id="checkboxtext">Suostutko jakamaan alkukartoituksen ja <br>
+                        päiväkirjamerkinnät tämän lääkärin kanssa?</label>
+                <input name="redirect" id="redirect" type="submit" value="Jaa tiedot" class="submit-info"/>
+            </form>
+        </div>
+    </div>
+
+    
+
+</body>
+
+<script type="module" src="alkuk.js"></script>
+
+</html>
