@@ -8,7 +8,7 @@
 - Sovelluksen URL: https://hyte-server-aleksi.northeurope.cloudapp.azure.com
 - Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
-- Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/release/Frontend/tests
+- Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
 
 **Sovelluksen database:**
 ![databaseStructure](https://github.com/peppimakinen/StressLess/assets/111729213/d89eca6c-f535-42b9-adaa-c8cbb1f8e33f)
