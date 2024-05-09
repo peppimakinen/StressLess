@@ -24,12 +24,13 @@ Red - #FF8585
 Grey - #D9D9D9
 
 
-_StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin._
+### StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin.
 
-Sovelluksen URL: hyte-server-aleksi.northeurope.cloudapp.azure.com
-Api on saatavilla osoitteessa: hyte-server-aleksi.northeurope.cloudapp.azure.com/api
-Api dokumentaatio: hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
-Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/release/Frontend/tests
+**Tärkeitä URLeja:**
+- Sovelluksen URL: hyte-server-aleksi.northeurope.cloudapp.azure.com
+- Api on saatavilla osoitteessa: hyte-server-aleksi.northeurope.cloudapp.azure.com/api
+- Api dokumentaatio: hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
+- Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/release/Frontend/tests
 
 **Sovelluksen database:**
 ![databaseStructure](https://github.com/peppimakinen/StressLess/assets/111729213/d89eca6c-f535-42b9-adaa-c8cbb1f8e33f)
