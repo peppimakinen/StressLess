@@ -5,9 +5,9 @@
 ### StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin.
 
 **Tärkeitä URLeja:**
-- Sovelluksen URL: hyte-server-aleksi.northeurope.cloudapp.azure.com
-- Api on saatavilla osoitteessa: hyte-server-aleksi.northeurope.cloudapp.azure.com/api
-- Api dokumentaatio: hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
+- Sovelluksen URL: https://hyte-server-aleksi.northeurope.cloudapp.azure.com
+- Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
+- Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/release/Frontend/tests
 
 **Sovelluksen database:**
