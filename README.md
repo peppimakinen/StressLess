@@ -24,17 +24,18 @@ Red - #FF8585
 Grey - #D9D9D9
 
 
-StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin.
+_StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin._
 
 Sovelluksen URL: hyte-server-aleksi.northeurope.cloudapp.azure.com
 Api on saatavilla osoitteessa: hyte-server-aleksi.northeurope.cloudapp.azure.com/api
 Api dokumentaatio: hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/release/Frontend/tests
 
-Sovelluksen database:
+**Sovelluksen database:**
 ![databaseStructure](https://github.com/peppimakinen/StressLess/assets/111729213/d89eca6c-f535-42b9-adaa-c8cbb1f8e33f)
 Kuva 1. Sovelluksen database.
 
+**Sovelluksen user interface:**
 Landing sivu ja kirjautuminen:
 ![Screenshot 2024-05-09 234629](https://github.com/peppimakinen/StressLess/assets/111729213/9a81261f-b95b-4a85-93a8-7af56451086a)
 Kuva 2. Landing page.
@@ -139,15 +140,15 @@ Kuva 20. Ilmoitusten asetukset.
 
 - "Ilmoitukset" välilehti on jatkokehitystä varten [kuva 20]. Niissä EI ole toiminnallisuutta. 
 
-Sovelluksen rautalankamalli Figmassa: https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
+**Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
 Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
 
-Tiedossa olevat bugit/ongelmat:
-Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa. Kuitenkin ongelman syy saatiin nopeasti selville (unohtunut “required” kyseisestä kohdasta) ja bugi pystyttiin korjaamaan samana päivänä.
+**Tiedossa olevat bugit/ongelmat:**
+- Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa. Kuitenkin ongelman syy saatiin nopeasti selville (unohtunut “required” kyseisestä kohdasta) ja bugi pystyttiin korjaamaan samana päivänä.
 
 
-Referenssit:
-ChatGPT 3.5. ongelmanratkaisuun ja ratkaisun eri vaihtoehtojen vertailuun.
-Kurssin GitHub-sivustot.
-Sovelluksen taustakuva hankittu: https://pixabay.com/
-Muu kuvamateriaali sovellukseen hankittu: https://blush.design/
+**Referenssit:**
+- ChatGPT 3.5. ongelmanratkaisuun ja ratkaisun eri vaihtoehtojen vertailuun.
+- Kurssin GitHub-sivustot.
+- Sovelluksen taustakuva hankittu: https://pixabay.com/
+- Muu kuvamateriaali sovellukseen hankittu: https://blush.design/
