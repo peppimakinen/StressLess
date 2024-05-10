@@ -2,19 +2,15 @@
 ## Projekti: Terveyssovelluksen kehitys
 #### Aleksi Kivilehto, Peppi Mäkinen, Tinna Rantalainen ja Tytti Vilén
 
-### StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin.
+StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuitiiviseen päiväkirjamerkintöihin perustuvaan kalenteriin.
 
-**Tärkeitä URLeja:**
+## Tärkeitä URLeja
 - Sovelluksen URL: https://hyte-server-aleksi.northeurope.cloudapp.azure.com
 - Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
 
-**Sovelluksen database:**
-![databaseStructure](https://github.com/peppimakinen/StressLess/assets/111729213/d89eca6c-f535-42b9-adaa-c8cbb1f8e33f)
-Kuva 1. Sovelluksen database.
-
-**Sovelluksen user interface:**
+## Sovelluksen käyttöliittymä
 
 Landing sivu ja kirjautuminen:
 ![Screenshot 2024-05-09 234629](https://github.com/peppimakinen/StressLess/assets/111729213/9a81261f-b95b-4a85-93a8-7af56451086a)
@@ -123,11 +119,68 @@ Kuva 20. Ilmoitusten asetukset.
 **Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
 Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
 
-**Tiedossa olevat bugit/ongelmat:**
+
+## Backend
+StressLess API hyödyntää GET, POST, PUT ja DELETE toimintoja. Sen tarkoituksena on hallita sovelluksen käyttäjien tietoa sekä hakea Kubios Cloudista potilaskäyttäjien HRV dataa. 
+
+- Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
+- Api dokumentaatio on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
+
+### Käyttö
+- Kloonaa repositorio laitteellesi
+- Aja `npm i` backend kansion sisällä
+- Asenna kaikki tarvittavat paketit
+- Aja tietokannan luonti skripti backend/db kansiosta
+- Luo oma `.env` tiedosto käyttäen `.env-sample` tiedostoa
+- Käynnistä serveri ajamalla `npm run dev` backend kansion sisällä
+- Luo Apidokumentaatio ajamalla `npm run docs` backend kansion sisällä serverin ollessa pois päältä
+
+### Autentikaatio
+
+Tämän API:n todennus suoritetaan käyttämällä JSON Web Token (JWT) -tekniikkaa Bearer-autentikointiskeemalla. Sisäänkirjautumisen onnistuessa käyttäjälle palautetaan tokeni, joka tulee liittää pyyntöihin.
+
+Nämä tokenit vanhenevat tunnin kuluttua. Kun ne vanhenevat, sinun tulee hankkia uusi token uudelleenautentikoitumalla.
+
+### Avainominaisuudet
+- Tokenissa on määriteltynä käyttäjätaso. Valtaosa saatavilla olevista toiminnoista riippuu käyttäjätasosta.
+- Sisäänkirjautuneen potilaan saatavilla olevat ominaisuudet riippuvat siitä, onko potilas suorittanut alkukartoituksen.
+- Pyyntöjen sisältämä data ja parametrit validoidaan.
+- Potilas voi jakaa valitsemalleen lääkärille tietonsa.
+- Potilas voi luoda, muokata ja hakea päiväkirjamerkintöjä.
+- Päiväkirjamerkintään yhdistetyn HRV analyysin tarkkuus riippuu käyttäjätasosta. Lääkärille näytetään koko analyysi, toisinkuin potilaalle.
+- Viikkoraportit generoituvat automaattisesti joka viikon jälkeen, kun niitä haetaan ensimmäisen kerran.
+- Generoitua viikkoraporttia ei voi muokata sen luomisen jälkeen.
+- Potilaskäyttäjä ei voi käyttää lääkärille tarkoitettuja endpointteja.
+- Lääkärikäyttäjä ei voi käyttää potilaalle tarkoitettuja endpointteja.
+- Lääkärikäyttäjä ei voi hakea potilaan dataa, joka ei sitä jakanut hänelle alkukartoituksen yhteydessä.
+- Lääkärikäyttäjä ei pysty muokata potilaan dataa.
+- Kumpikin käyttäjäryhmä pystyy poistamaan oman tilin.
+
+### Tietokannan rakenne
+![databaseStructure](backend/db/databaseStructure.png)
+Kuva 1. Sovelluksen tietokanta
+
+Users - Sisältää käyttäjän
+Survey - Yhdistää tietyn alkukartoituksen tiettyyn käyttäjään
+SQ - Yhdistää tietyt kysymykset tiettyyn alkukartoitukseen
+Questions - Sisältää kysymykset ja käyttäjän vastaukset niihin kysymyksiin
+DiaryEntries - Sisältää tietyn käyttäjän päiväkirjamerkinnän pohjan
+CompletedActivities - Yhdistää tietyn suoritetun aktiviteetin tiettyyn päiväkirjamerkintään
+DM - Yhdistää haetun Kubios datan tiettyyn päiväkirjamerkintään
+Measurements - Sisältää kaiken Kubios Cloud HRV Readiness analyysi datan
+WeeklyReports - Yhdistää olemassaolevat viikkoraportit tiettyyn käyttäjään
+
+## Jatkokehitysideat
+- Aktiviteettien lisäys ja poistaminen alkukartoituksen jälkeen
+- Päiväkirjamerkinnän poistaminen
+- Oman lääkärin lisäys alkukartoituksen jälkeen
+- Valitun lääkärin poistaminen
+
+## Tiedossa olevat bugit/ongelmat
 - Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa. Kuitenkin ongelman syy saatiin nopeasti selville (unohtunut “required” kyseisestä kohdasta) ja bugi pystyttiin korjaamaan samana päivänä.
+- Ei havaittu bugi, mutta lievä puute: Viikkoraporttien generointia sunnuntain viimmeisinä tunteina ei ole saatu testattua kunnolla, sillä sovelluksen tapa tulkita aikavyöhykkeitä/päivämääriä ja kellojen siirtämistä Azuressa eroaa paikallisesta kehitysympäristöstä. Ongelmaan on puututtu backendissä määrittelemällä manuaalisesti kellonaikoja käytetyille päivämäärille.
 
-
-**Referenssit:**
+## Referenssit
 - ChatGPT 3.5. ongelmanratkaisuun ja ratkaisun eri vaihtoehtojen vertailuun.
 - Kurssin GitHub-sivustot.
 - Sovelluksen taustakuva hankittu: https://pixabay.com/
