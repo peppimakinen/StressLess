@@ -157,7 +157,7 @@ Nämä tokenit vanhenevat tunnin kuluttua. Kun ne vanhenevat, sinun tulee hankki
 - Kumpikin käyttäjäryhmä pystyy poistamaan oman tilin.
 
 ### Tietokannan rakenne
-![databaseStructure](backend/db/databaseStructure.png)
+![databaseStructure](Backend/db/databaseStructure.png)
 Kuva 1. Sovelluksen tietokanta
 
 Users - Sisältää käyttäjän
