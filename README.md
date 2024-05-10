@@ -10,6 +10,9 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
 
+**Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
+Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
+
 ## Sovelluksen käyttöliittymä
 
 Landing sivu ja kirjautuminen:
@@ -116,12 +119,9 @@ Kuva 19. Ilmoitusten asetukset.
 
 - "Ilmoitukset" välilehti on jatkokehitystä varten [kuva 19]. Niissä EI ole toiminnallisuutta. 
 
-**Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
-Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
-
 
 ## Backend
-StressLess API hyödyntää GET, POST, PUT ja DELETE toimintoja. Sen tarkoituksena on hallita sovelluksen käyttäjien tietoa sekä hakea Kubios Cloudista potilaskäyttäjien HRV dataa. 
+StressLess API hyödyntää GET, POST, PUT ja DELETE toimintoja. Sen tarkoituksena on hallita sovelluksen käyttäjien tietoja sekä hakea Kubios Cloudista potilaskäyttäjien HRV dataa. 
 
 - Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
 - Api dokumentaatio on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
@@ -137,7 +137,7 @@ StressLess API hyödyntää GET, POST, PUT ja DELETE toimintoja. Sen tarkoitukse
 
 ### Autentikaatio
 
-Tämän API:n todennus suoritetaan käyttämällä JSON Web Token (JWT) -tekniikkaa Bearer-autentikointiskeemalla. Sisäänkirjautumisen onnistuessa käyttäjälle palautetaan tokeni, joka tulee liittää pyyntöihin.
+Tämän API:n autentikaatio suoritetaan käyttämällä JSON Web Token (JWT) -tekniikkaa Bearer-autentikointiskeemalla. Sisäänkirjautumisen onnistuessa käyttäjälle palautetaan tokeni, joka tulee liittää uusiin palvelimeen kohdistuviin pyyntöihin.
 
 Nämä tokenit vanhenevat tunnin kuluttua. Kun ne vanhenevat, sinun tulee hankkia uusi token uudelleenautentikoitumalla.
 
@@ -169,6 +169,7 @@ Kuva 20. Sovelluksen tietokanta
 - DM - Yhdistää haetun Kubios datan tiettyyn päiväkirjamerkintään
 - Measurements - Sisältää kaiken Kubios Cloud HRV Readiness analyysi datan
 - WeeklyReports - Yhdistää olemassaolevat viikkoraportit tiettyyn käyttäjään
+- DoctorPatient - Yhdistää tietyn potilaan tiettyyn lääkäriin.
 
 ## Jatkokehitysideat
 - Aktiviteettien lisäys ja poistaminen alkukartoituksen jälkeen.
