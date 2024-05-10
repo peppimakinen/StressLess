@@ -160,15 +160,15 @@ Nämä tokenit vanhenevat tunnin kuluttua. Kun ne vanhenevat, sinun tulee hankki
 ![databaseStructure](Backend/db/databaseStructure.png)
 Kuva 1. Sovelluksen tietokanta
 
-Users - Sisältää käyttäjän
-Survey - Yhdistää tietyn alkukartoituksen tiettyyn käyttäjään
-SQ - Yhdistää tietyt kysymykset tiettyyn alkukartoitukseen
-Questions - Sisältää kysymykset ja käyttäjän vastaukset niihin kysymyksiin
-DiaryEntries - Sisältää tietyn käyttäjän päiväkirjamerkinnän pohjan
-CompletedActivities - Yhdistää tietyn suoritetun aktiviteetin tiettyyn päiväkirjamerkintään
-DM - Yhdistää haetun Kubios datan tiettyyn päiväkirjamerkintään
-Measurements - Sisältää kaiken Kubios Cloud HRV Readiness analyysi datan
-WeeklyReports - Yhdistää olemassaolevat viikkoraportit tiettyyn käyttäjään
+- Users - Sisältää käyttäjän
+- Survey - Yhdistää tietyn alkukartoituksen tiettyyn käyttäjään
+- SQ - Yhdistää tietyt kysymykset tiettyyn alkukartoitukseen
+- Questions - Sisältää kysymykset ja käyttäjän vastaukset niihin kysymyksiin
+- DiaryEntries - Sisältää tietyn käyttäjän päiväkirjamerkinnän pohjan
+- CompletedActivities - Yhdistää tietyn suoritetun aktiviteetin tiettyyn päiväkirjamerkintään
+- DM - Yhdistää haetun Kubios datan tiettyyn päiväkirjamerkintään
+- Measurements - Sisältää kaiken Kubios Cloud HRV Readiness analyysi datan
+- WeeklyReports - Yhdistää olemassaolevat viikkoraportit tiettyyn käyttäjään
 
 ## Jatkokehitysideat
 - Aktiviteettien lisäys ja poistaminen alkukartoituksen jälkeen
