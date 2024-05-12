@@ -169,19 +169,20 @@ Kuva 20. Sovelluksen tietokanta
 - DM - Yhdistää haetun Kubios datan tiettyyn päiväkirjamerkintään
 - Measurements - Sisältää kaiken Kubios Cloud HRV Readiness analyysi datan
 - WeeklyReports - Yhdistää olemassaolevat viikkoraportit tiettyyn käyttäjään
-- DoctorPatient - Yhdistää tietyn potilaan tiettyyn lääkäriin.
+- DoctorPatient - Yhdistää tietyn potilaan tiettyyn lääkäriin. Antaa lääkärille luvan katsoa tietyn potilaan tietoja. 
 
 ## Jatkokehitysideat
 - Aktiviteettien lisäys ja poistaminen alkukartoituksen jälkeen.
+- Ominaisuus, että kun aktiviteettejä lisää alkukartoituksessa, niin niitä voisi myös poistaa tai muokata esim kirjotusvirheiden takia
 - Oman alkukartoituksen katsominen tai muokkaaminen potilaana. 
 - Päiväkirjamerkinnän poistaminen.
 - Oman lääkärin lisäys alkukartoituksen jälkeen.
 - Valitun lääkärin poistaminen.
-- "Ilmoitukset" välilehti.
-- Monipuolisempi viikkoraportti lääkärikäyttäjälle
+- "Ilmoitukset" välilehti loppuun.
+- Monipuolisempi viikkoraportti lääkärikäyttäjälle.
 
 ## Tiedossa olevat bugit/ongelmat
-- Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa. Kuitenkin ongelman syy saatiin nopeasti selville (unohtunut “required” kyseisestä kohdasta) ja bugi pystyttiin korjaamaan samana päivänä.
+- Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa.
 - Ei havaittu bugi, mutta lievä puute: Viikkoraporttien generointia sunnuntain viimmeisinä tunteina ei ole saatu testattua kunnolla, sillä sovelluksen tapa tulkita aikavyöhykkeitä/päivämääriä ja kellojen siirtämistä Azuressa eroaa paikallisesta kehitysympäristöstä. Ongelmaan on puututtu backendissä määrittelemällä manuaalisesti kellonaikoja käytetyille päivämäärille.
 
 ## Referenssit
