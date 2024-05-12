@@ -329,13 +329,16 @@ if (doctorForm2) {
 
     console.log(surveyData);
 
+    const authToken = localStorage.getItem("token");
+
+    const activitiesInput = form.querySelector('input[name="activities"]');
+    const activities = activitiesInput ? JSON.parse(activitiesInput.value) : [];
+    
     if (activities.length === 0) {
         console.log('No activities added. Survey will not be submitted.');
         showCustomAlert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
         return; // Exit function if activities list is empty
-    }
-
-    const authToken = localStorage.getItem("token");
+        }
 
     const options = {
         method: 'POST',
