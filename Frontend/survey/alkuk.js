@@ -237,13 +237,22 @@ survey.addEventListener('click', async (evt) => {
 
     console.log('Tiedot valideja, jatketaan');
 
+    const activitiesInput = form.querySelector('input[name="activities"]');
+    const activities = activitiesInput ? JSON.parse(activitiesInput.value) : [];
+
+    if (activities.length === 0) {
+        console.log('No activities added. Survey will not be submitted.');
+        showCustomAlert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
+        return; // Exit function if activities list is empty
+    }
+
     const surveyData = {};
     form.querySelectorAll('input, select').forEach(input => {
         if (!input.name || input.name === 'user_choice' || input.value === "") {
             return;
         }
         if (input.name === 'activities') {
-            surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = JSON.parse(input.value);
+            surveyData['Mitä aktiviteetteja hyödynnät stressin lievennyksessä?'] = activities;
         } else {
             surveyData[input.previousElementSibling.textContent.trim()] = input.value;
         }
@@ -264,7 +273,7 @@ survey.addEventListener('click', async (evt) => {
 
     try {
         const response = await fetchData(url, options);
-        console.log(response)
+        console.log(response);
 
         if (!response.ok) { // Check if the fetch was NOT successful
             console.error('Failed to submit survey:', response);
@@ -283,6 +292,7 @@ survey.addEventListener('click', async (evt) => {
         showCustomAlert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
     }
 });
+
 
 
 // lähetään alkukartoituse lääkärin yhdistämisen jälkeen
