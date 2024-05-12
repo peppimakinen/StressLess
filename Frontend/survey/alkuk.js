@@ -329,6 +329,12 @@ if (doctorForm2) {
 
     console.log(surveyData);
 
+    if (activities.length === 0) {
+        console.log('No activities added. Survey will not be submitted.');
+        showCustomAlert('Tapahtui virhe. Tarkista, että olet vastannut kaikkiin pakollisiin kysymyksiin ja yritä uudelleen.');
+        return; // Exit function if activities list is empty
+    }
+
     const authToken = localStorage.getItem("token");
 
     const options = {
