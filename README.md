@@ -7,12 +7,20 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
 ## Tärkeitä URLeja
 - Sovelluksen URL: https://hyte-server-aleksi.northeurope.cloudapp.azure.com
 - Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
+    - Tällä sivulla ei ole placeholder sivua, mutta tämä on API pyyntöjen URL:in pohja.
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
 
 **Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
 Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
 
+## Testikäyttäjät
+- Sovelluksen potilasnäkymään kirjaudutaan olemissaolevilla Kubios-tunnuksilla.
+- Potilas voi luoda päiväkirjamerkintöjä vain päiville, joilla on suoritettuja Readiness mittauksia.
+- Lääkärikäyttäjän tunnukset löytyvät OMA:sta.
+
+- **Note** Mikäli kirjauduit jo sovellukseen loppuseminaarin aikana, olet suorittanut alkukartoituksen silloin. Sinun täytyy poistaa olemassaoleva tilisi, mikäli haluat täyttää alkukartoituksen uudestaan.
+  
 ## Sovelluksen käyttöliittymä
 
 Landing sivu ja kirjautuminen:
@@ -182,9 +190,11 @@ Kuva 20. Sovelluksen tietokanta
 - Monipuolisempi viikkoraportti lääkärikäyttäjälle.
 
 ## Tiedossa olevat bugit/ongelmat
-- Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa.
+- Sovelluksen näyttötilaisuudessa käyttäjät pystyivät ohittamaan alkukartoituksen “aktiviteetti”-osion, vaikka se on sovelluksen käytölle olennainen osa. **12.5.2024 Ongelma korjattu.**
 - Ei havaittu bugi, mutta lievä puute: Viikkoraporttien generointia sunnuntain viimmeisinä tunteina ei ole saatu testattua kunnolla, sillä sovelluksen tapa tulkita aikavyöhykkeitä/päivämääriä ja kellojen siirtämistä Azuressa eroaa paikallisesta kehitysympäristöstä. Ongelmaan on puututtu backendissä määrittelemällä manuaalisesti kellonaikoja käytetyille päivämäärille.
-
+- Mikäli käyttäjä kirjautuu ulos sovelluksesta, hänet uudelleenohjataan auth sivulle, josta ei pääse pois sivuston sisäise navigaation puuttumisen vuoksi. Käyttäjän pitää siis muistaa sovelluksen kotisivun URL palatakseen sivuston Landing pagelle.
+- HTML dokumentin lataamisen yhteydessä ei tapahdu autentikaatiota, joten mikäli tiedät URL:in tiettyyn näkymään, pystyt myös esikatsella sivuston rakennetta. **Mitään sisältöä tai dataa ei kuitenkaan tässä näytetä, sillä käyttäjä ei ole autentikoitunut oikeaoppisesti**.
+  
 ## Referenssit
 - Backendin kirjautumisen pohja perustuu opettajan malliesimerkkiin
 - Backendin luoma yhteys Kubios Cloudiin on myös pohjautuu opettajan malliesimerkkiin
