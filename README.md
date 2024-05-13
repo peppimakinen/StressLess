@@ -23,7 +23,7 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
   
 ## Sovelluksen käyttöliittymä
 
-Landing sivu ja kirjautuminen:
+####Landing sivu ja kirjautuminen:
 ![Screenshot 2024-05-09 234629](https://github.com/peppimakinen/StressLess/assets/111729213/9a81261f-b95b-4a85-93a8-7af56451086a)
 Kuva 1. Landing page.
 
@@ -38,7 +38,7 @@ Kuva 3. Lääkärin sisäänkirjautumissivu.
 - Mikäli potilas kirjautuu ensimmäisen kerran sovellukseen, sovellus automaattisesti hakee Kubios Cloudista tarvittavat tiedot, ja rekisteröi uuden StressLess käyttäjän järjestelmään.
 - Sovellus tunnistaa, onko sisäänkirjautuva potilas suorittanut alkukartoituksen. Mikäli alkukartoitusta ei ole suoritettu, käyttäjä uudelleenohjataan sinne.
 
-Alkukartoitus:
+####Alkukartoitus:
 ![Screenshot 2024-05-10 000036](https://github.com/peppimakinen/StressLess/assets/111729213/e0512394-cdc5-4e46-8c68-0f6989308aec)
 Kuva 4. Alkukartoitus.
 
@@ -52,7 +52,7 @@ Kuva 6. Lääkärin ilmoitus alkukartoituksessa.
 
 - Potilas voi etsiä lääkäriä käyttäjänimen avulla [kuva 5 ja kuva 6]. Mikäli lääkärikäyttäjä löytyy, käyttäjä voi jakaa tälle omat tietonsa. 
 
-Kalenterinäkymä:
+####Kalenterinäkymä:
 ![Screenshot 2024-05-08 000725](https://github.com/peppimakinen/StressLess/assets/111729213/cda3772d-ddc3-4d06-98b5-b9a0c01770ed)
 Kuva 7. Potilaan kalenterinäkymä.
 
@@ -71,7 +71,7 @@ Kuva 9. Tallennetun päiväkirjamerkinnän katseleminen.
 - Potilas ei voi luoda uutta päiväkirjamerkintää tulevaisuuteen.
 - Potilas voi muokata olemassaolevia päiväkirjamerkintöjä. Muokatun päiväkirjamerkinnän tallentaminen myös päivittää uudet mittausarvot sille päivälle, mikäli uusi mittaus on suoritettu onnistuneesti.
 
-Lääkärin asiakasnäkymä:
+####Lääkärin asiakasnäkymä:
 ![Screenshot 2024-05-09 235140](https://github.com/peppimakinen/StressLess/assets/111729213/c3c419fd-a802-44a7-8f8f-9cdc323208c7)
 Kuva 10. Lääkärin potilasnäkymä.
 
@@ -90,7 +90,7 @@ Kuva 13. Potilaan tekemä alkukartoitus lääkärin näkökulmasta.
 
 - Jos lääkärikäyttäjä valitsee 'Alkukartoitus' -painikkeen, sovellus luo kalenterinäkymän päälle modaalin, joka näyttää valitun potilaan vastaukset alkukartoituksessa [kuva 13]. 
 
-Viikkoraporttien lista:
+####Viikkoraporttien lista:
 ![Screenshot 2024-05-09 234839](https://github.com/peppimakinen/StressLess/assets/111729213/ff94a139-a61d-4d78-be79-1e8e476323c1)
 Kuva 14. Viikkoraporttilista.
 
@@ -98,7 +98,7 @@ Kuva 14. Viikkoraporttilista.
 - Kun viikkoraportti on generoitu, sitä ei voi enään muokata. Tämä siksi, että sovellus on luotu käytettäväksi päivittäin, eikä päiväkirjamerkintöjä lisäillä menneille viikoille jälkikäteen. 
 - Lääkärikäyttäjän viikkoraporttien lista, sekä itse viikkoraportit ovat samat kuin potilaan näkymässä. 
 
-Yksittäinen viikkoraportti:
+####Yksittäinen viikkoraportti:
 ![Screenshot 2024-05-09 234922](https://github.com/peppimakinen/StressLess/assets/111729213/581af4b2-dd4a-40de-b875-a96f2d1b53c9)
 Kuva 15. Viikkoraportti valitulta viikolta.
 
@@ -108,7 +108,7 @@ Kuva 15. Viikkoraportti valitulta viikolta.
     - Pylväsdiagrammin viikonpäivien mitatusta stressi indeksistä
     - Sanallisen kuvauksen siitä, miten stressi indeksin keskiarvo eroaa viime viikon raportin stressi indeksin keskiarvosta.
  
-Asetukset:
+####Asetukset:
 - Kaikilla käyttäjillä on kyky poistaa oma käyttäjätili
 ![Screenshot 2024-05-09 235244](https://github.com/peppimakinen/StressLess/assets/111729213/52fceb44-a981-4cf9-89bc-fbfe318851cb)
 Kuva 16. Lääkärin profiili asetukset.
