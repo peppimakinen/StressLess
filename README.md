@@ -10,9 +10,8 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
     - Tässä osoitteessa ei ole placeholder HTML-sivua, mutta tämä on API pyyntöjen URL:in pohja.
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
-
-**Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
-Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
+- **Sovelluksen rautalankamalli Figmassa:** https://www.figma.com/design/RfTN8sGf2Gm3EorjUcXsC9/StressLess?node-id=0%3A1&t=MIqJtmYkvYciJton-1
+    - Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäjätestien perusteella. Näitä kosmeettisia muutoksia ei päivitetty enää rautalankamalliin, joten visuaalisesti jotkin osiot voivat olla erilaisia käytössä olevaan sovellukseen verrattuna.
 
 ## Testikäyttäjät
 - Sovelluksen potilasnäkymään kirjaudutaan olemissaolevilla Kubios-tunnuksilla.
