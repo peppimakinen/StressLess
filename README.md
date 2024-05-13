@@ -19,7 +19,7 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
 - Lääkärikäyttäjän tunnukset löytyvät OMA:sta.
     - Tälle lääkärikäyttäjälle voi myös jakaa oman potilaskäyttäjän datan, kun suorittaa alkukartoituksen.
  
-- **Note** Mikäli kirjauduit jo sovellukseen loppuseminaarin aikana, olet suorittanut alkukartoituksen silloin. Sinun täytyy poistaa olemassaoleva tilisi, mikäli haluat täyttää alkukartoituksen uudestaan.
+- **Note** Mikäli kirjauduit jo sovellukseen loppuseminaarin aikana, olet suorittanut alkukartoituksen silloin. Sinun täytyy poistaa olemassaoleva tilisi, mikäli haluat täyttää alkukartoituksen uudestaan. Olemassaolevan alkukartoituksen muokkaaminen on nostettu esiin "Jatkokehitysideat"-kohdassa.
   
 ## Sovelluksen käyttöliittymä
 
