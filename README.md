@@ -7,7 +7,7 @@ StressLess on web-sovellus, joka yhdistää Kubios HRV mobiilisovelluksen intuit
 ## Tärkeitä URLeja
 - Sovelluksen URL: https://hyte-server-aleksi.northeurope.cloudapp.azure.com
 - Api on saatavilla osoitteessa: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/api
-    - Tällä sivulla ei ole placeholder sivua, mutta tämä on API pyyntöjen URL:in pohja.
+    - Tässä osoitteessa ei ole placeholder HTML-sivua, mutta tämä on API pyyntöjen URL:in pohja.
 - Api dokumentaatio: https://hyte-server-aleksi.northeurope.cloudapp.azure.com/docs
 - Sovelluksen testikansio: https://github.com/peppimakinen/StressLess/tree/main/tests
 
