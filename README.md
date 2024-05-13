@@ -18,7 +18,8 @@ Sovelluksen ulkomuotoon päädyttiin tekemään kosmeettisia muutoksia käyttäj
 - Sovelluksen potilasnäkymään kirjaudutaan olemissaolevilla Kubios-tunnuksilla.
 - Potilas voi luoda päiväkirjamerkintöjä vain päiville, joilla on suoritettuja Readiness mittauksia.
 - Lääkärikäyttäjän tunnukset löytyvät OMA:sta.
-
+    - Tälle lääkärikäyttäjälle voi myös jakaa oman potilaskäyttäjän datan, kun suorittaa alkukartoituksen.
+ 
 - **Note** Mikäli kirjauduit jo sovellukseen loppuseminaarin aikana, olet suorittanut alkukartoituksen silloin. Sinun täytyy poistaa olemassaoleva tilisi, mikäli haluat täyttää alkukartoituksen uudestaan.
   
 ## Sovelluksen käyttöliittymä
@@ -194,6 +195,7 @@ Kuva 20. Sovelluksen tietokanta
 - Ei havaittu bugi, mutta lievä puute: Viikkoraporttien generointia sunnuntain viimmeisinä tunteina ei ole saatu testattua kunnolla, sillä sovelluksen tapa tulkita aikavyöhykkeitä/päivämääriä ja kellojen siirtämistä Azuressa eroaa paikallisesta kehitysympäristöstä. Ongelmaan on puututtu backendissä määrittelemällä manuaalisesti kellonaikoja käytetyille päivämäärille.
 - Mikäli käyttäjä kirjautuu ulos sovelluksesta, hänet uudelleenohjataan auth sivulle, josta ei pääse pois sivuston sisäise navigaation puuttumisen vuoksi. Käyttäjän pitää siis muistaa sovelluksen kotisivun URL palatakseen sivuston Landing pagelle.
 - HTML dokumentin lataamisen yhteydessä ei tapahdu autentikaatiota, joten mikäli tiedät URL:in tiettyyn näkymään, pystyt myös esikatsella sivuston rakennetta. **Mitään sisältöä tai dataa ei kuitenkaan tässä näytetä, sillä käyttäjä ei ole autentikoitunut oikeaoppisesti**.
+- Mikäli käyttäjällä on useampi viikkoraportti, niin voisi lisätä näkyvän scrollbaarin indikoimaan, että valikkoa voi scrollata alemmas.
   
 ## Referenssit
 - Backendin kirjautumisen pohja perustuu opettajan malliesimerkkiin
