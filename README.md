@@ -196,6 +196,7 @@ Kuva 20. Sovelluksen tietokanta
 - Mikäli käyttäjä kirjautuu ulos sovelluksesta, hänet uudelleenohjataan auth sivulle, josta ei pääse pois sivuston sisäise navigaation puuttumisen vuoksi. Käyttäjän pitää siis muistaa sovelluksen kotisivun URL palatakseen sivuston Landing pagelle.
 - HTML dokumentin lataamisen yhteydessä ei tapahdu autentikaatiota, joten mikäli tiedät URL:in tiettyyn näkymään, pystyt myös esikatsella sivuston rakennetta. **Mitään sisältöä tai dataa ei kuitenkaan tässä näytetä, sillä käyttäjä ei ole autentikoitunut oikeaoppisesti**.
 - Mikäli käyttäjällä on useampi viikkoraportti, niin voisi lisätä näkyvän scrollbaarin indikoimaan, että valikkoa voi scrollata alemmas.
+- Mikäli backendin käyttöönotto ei onnistu, varmista että dotenv-lisäosa on ladattu onnistuneesti. Tähän ongelmaan on törmätty aikasemmin ja se on korjattu, mutta ratkaisun testaus on ollut rajallista sen intensiivisen luonteen vuoksi. 
   
 ## Referenssit
 - Backendin kirjautumisen pohja perustuu opettajan malliesimerkkiin
